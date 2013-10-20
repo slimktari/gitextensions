@@ -29,9 +29,10 @@
     </application>
   </compatibility>
 
-  <asmv3:application>
+  <!-- Declare this application is DPI aware and Per-Monitor DPI ready -->
+  <asmv3:application xmlns:asmv3="urn:schemas-microsoft-com:asm.v3">
     <asmv3:windowsSettings xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">
-      <dpiAware>true</dpiAware>
+      <dpiAware>True/PM</dpiAware>
     </asmv3:windowsSettings>
   </asmv3:application>
 </assembly>

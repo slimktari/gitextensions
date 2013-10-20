@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using GitUI.Properties;
 #if !__MonoCS__
@@ -120,7 +121,7 @@ namespace GitUI
             Font = Settings.Font;
         }
 
-        #region icon
+        #region Icon
 
         protected void RotateApplicationIcon()
         {
@@ -269,6 +270,109 @@ namespace GitUI
             if (!CheckComponent(this))
                 OnRuntimeLoad(e);
         }
+
+        // Catch window message of DPI change.
+        bool insideAdjustDpi = false;
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_DPICHANGED = 0x02e0; // 0x02E0 from WinUser.h
+
+            if (m.Msg == WM_DPICHANGED && IsWindows81OrNewer())
+            {
+                // wParam
+                int dpiNew = m.WParam.ToInt32() & 0xFFFF;
+
+                // lParam
+                NativeMethods.RECT rectNew = (NativeMethods.RECT)Marshal.PtrToStructure(m.LParam, typeof(NativeMethods.RECT));
+
+                if (!insideAdjustDpi)
+                {
+                    insideAdjustDpi = true;
+                    AdjustDpi(dpiNew, rectNew);
+                    insideAdjustDpi = false;
+                }
+                return;
+            }
+
+            base.WndProc(ref m);
+        }
+
+        // Old (previous) DPI
+        private int _dpiOld = 0;
+
+        // Adjust location, size and font size of Controls according to new DPI.
+        private void AdjustDpi(int dpiNew, NativeMethods.RECT rectNew)
+        {
+            if (AutoScaleMode != AutoScaleMode.Dpi)
+                return;
+
+            // Hold initial DPI used at loading this window.
+            if (_dpiOld == 0)
+                _dpiOld = (int)AutoScaleDimensions.Width;
+
+            if (_dpiOld == dpiNew)
+                return;
+
+            // Move this window.
+            Location = new Point(rectNew.Left, rectNew.Top);
+
+            //--------------------------------------------------
+            // Adjust location, size and font size of Controls.
+            //--------------------------------------------------
+            float factor = (float)dpiNew / _dpiOld;
+
+            _dpiOld = dpiNew;
+
+            // Adjust location and size of Controls (except location of this window itself).
+            SuspendLayout();
+            Scale(new SizeF(factor, factor));
+
+            //Size = new Size(rectNew.Right - rectNew.Left, rectNew.Bottom - rectNew.Top);
+
+            // Adjust Font size of Controls.
+            Font = new Font(Font.FontFamily,
+                            Font.Size * factor,
+                            Font.Style);
+
+            // Adjust Font size of Buttons.
+            // (Each Font is individually specified at design time)
+            foreach (Control c in GetChildInControl(this))
+            {
+                c.Font = new Font(c.Font.FontFamily,
+                                  c.Font.Size * factor,
+                                  c.Font.Style);
+            }
+            PerformLayout();
+        }
+
+        // Get child Controls in a specified Control.
+        private IEnumerable<Control> GetChildInControl(Control parent)
+        {
+            var controlList = new List<Control>();
+
+            foreach (Control child in parent.Controls)
+            {
+                if (child.Font != parent.Font)
+                    controlList.Add(child);
+                if (child.Controls.Count != 0)
+                    controlList.AddRange(GetChildInControl(child));
+            }
+
+            return controlList;
+        }
+
+        #region OS Version
+
+        // Check if OS is Windows 8.1 or newer.
+        private bool IsWindows81OrNewer()
+        {
+            Version win81 = new Version(6, 3);
+
+            // To get this value correctly, it is required to include ID of Windows 8.1 in the manifest file.
+            return Environment.OSVersion.Version >= win81;
+        }
+
+        #endregion
 
         private void GitExtensionsFormLoad(object sender, EventArgs e)
         {
