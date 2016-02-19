@@ -3,12 +3,20 @@ using ResourceManager;
 
 namespace TalentsoftTools
 {
-    using System.Windows.Forms;
-
     public class TalentsoftToolsPlugin : GitPluginBase, IGitPluginForRepository
     {
+        public static BoolSetting IsDefaultExitVisualStudio = new BoolSetting("Is default exit Visual Studio", true);
+        public static BoolSetting IsDefaultStashChanges = new BoolSetting("Is default stash changes", true);
+        public static BoolSetting IsDefaultCheckoutBranch = new BoolSetting("Is default checkout branch", true);
+        public static BoolSetting IsDefaultGitClean = new BoolSetting("Is default git clean", true);
+        public static BoolSetting IsDefaultBuildSolution = new BoolSetting("Is default build solution", true);
+        public static BoolSetting IsDefaultRunVisualStudio = new BoolSetting("Is default run VisualStudio", true);
+        public static BoolSetting IsDefaultRunUri = new BoolSetting("Is default execute URI", true);
         public static StringSetting LocalUriWebApplication = new StringSetting("Local URI web application", string.Empty);
-        
+        public static StringSetting DefaultSolutionFileName = new StringSetting("Default solution file (Eg: TalentSoft.sln)", string.Empty);
+        public static StringSetting PathToMsBuild = new StringSetting("Path to MSBuild", string.Empty);
+        public static StringSetting ExcludePatternGitClean = new StringSetting("Pattern exclude files Git Clean", "*.mdf *.ldf");
+
         public TalentsoftToolsPlugin()
         {
             Description = "Talentsoft tools";
@@ -26,7 +34,17 @@ namespace TalentsoftTools
 
         public override System.Collections.Generic.IEnumerable<ISetting> GetSettings()
         {
+            yield return IsDefaultExitVisualStudio;
+            yield return IsDefaultStashChanges;
+            yield return IsDefaultCheckoutBranch;
+            yield return IsDefaultGitClean;
+            yield return IsDefaultBuildSolution;
+            yield return IsDefaultRunVisualStudio;
+            yield return IsDefaultRunUri;
             yield return LocalUriWebApplication;
+            yield return DefaultSolutionFileName;
+            yield return PathToMsBuild;
+            yield return ExcludePatternGitClean;
         }
     }
 }

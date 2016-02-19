@@ -30,6 +30,12 @@
         {
             this.TbcMain = new System.Windows.Forms.TabControl();
             this.TbpProcess = new System.Windows.Forms.TabPage();
+            this.GbxActualInfos = new System.Windows.Forms.GroupBox();
+            this.LblActualRepository = new System.Windows.Forms.Label();
+            this.LblActualRepositoryLabel = new System.Windows.Forms.Label();
+            this.LblActualBranchName = new System.Windows.Forms.Label();
+            this.LblActualBranchNameLabel = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.BgxLogInfo = new System.Windows.Forms.GroupBox();
             this.TbxLogInfo = new System.Windows.Forms.TextBox();
             this.GbxTargetSolution = new System.Windows.Forms.GroupBox();
@@ -42,14 +48,14 @@
             this.RbtIsRemoteTargetBranch = new System.Windows.Forms.RadioButton();
             this.RbtIsLocalTargetBranch = new System.Windows.Forms.RadioButton();
             this.GbxProcess = new System.Windows.Forms.GroupBox();
+            this.CbxLaunchUri = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.CbxIsGitClean = new System.Windows.Forms.CheckBox();
             this.BtnRunProcess = new System.Windows.Forms.Button();
             this.CbxIsExitVisualStudio = new System.Windows.Forms.CheckBox();
             this.CbxIsRunVisualStudio = new System.Windows.Forms.CheckBox();
             this.LblNext1 = new System.Windows.Forms.Label();
-            this.LblNext7 = new System.Windows.Forms.Label();
             this.CbxIsStashChanges = new System.Windows.Forms.CheckBox();
-            this.CbxIsRunScriptNextVersion = new System.Windows.Forms.CheckBox();
             this.LblNext2 = new System.Windows.Forms.Label();
             this.LblNext6 = new System.Windows.Forms.Label();
             this.CbxIsCheckoutBranch = new System.Windows.Forms.CheckBox();
@@ -58,16 +64,20 @@
             this.LblNext4 = new System.Windows.Forms.Label();
             this.TbpLocalsBranches = new System.Windows.Forms.TabPage();
             this.GbxLocalsBranchesActions = new System.Windows.Forms.GroupBox();
+            this.BtnDeleteWithRemote = new System.Windows.Forms.Button();
+            this.BtnDeleteLocalsBranches = new System.Windows.Forms.Button();
             this.DgvLocalsBranches = new System.Windows.Forms.DataGridView();
             this.TbpTools = new System.Windows.Forms.TabPage();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
+            this.GbxActualInfos.SuspendLayout();
             this.BgxLogInfo.SuspendLayout();
             this.GbxTargetSolution.SuspendLayout();
             this.GbxTargetBranch.SuspendLayout();
             this.GbxProcess.SuspendLayout();
             this.TbpLocalsBranches.SuspendLayout();
+            this.GbxLocalsBranchesActions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,28 +90,85 @@
             this.TbcMain.Location = new System.Drawing.Point(0, 0);
             this.TbcMain.Name = "TbcMain";
             this.TbcMain.SelectedIndex = 0;
-            this.TbcMain.Size = new System.Drawing.Size(990, 451);
+            this.TbcMain.Size = new System.Drawing.Size(990, 685);
             this.TbcMain.TabIndex = 0;
             // 
             // TbpProcess
             // 
+            this.TbpProcess.Controls.Add(this.GbxActualInfos);
             this.TbpProcess.Controls.Add(this.BgxLogInfo);
             this.TbpProcess.Controls.Add(this.GbxTargetSolution);
             this.TbpProcess.Controls.Add(this.GbxTargetBranch);
             this.TbpProcess.Controls.Add(this.GbxProcess);
             this.TbpProcess.Location = new System.Drawing.Point(4, 24);
             this.TbpProcess.Name = "TbpProcess";
-            this.TbpProcess.Size = new System.Drawing.Size(982, 423);
+            this.TbpProcess.Size = new System.Drawing.Size(982, 657);
             this.TbpProcess.TabIndex = 2;
             this.TbpProcess.Text = "Process";
             this.TbpProcess.UseVisualStyleBackColor = true;
             // 
+            // GbxActualInfos
+            // 
+            this.GbxActualInfos.Controls.Add(this.LblActualRepository);
+            this.GbxActualInfos.Controls.Add(this.LblActualRepositoryLabel);
+            this.GbxActualInfos.Controls.Add(this.LblActualBranchName);
+            this.GbxActualInfos.Controls.Add(this.LblActualBranchNameLabel);
+            this.GbxActualInfos.Controls.Add(this.label2);
+            this.GbxActualInfos.Location = new System.Drawing.Point(4, 3);
+            this.GbxActualInfos.Name = "GbxActualInfos";
+            this.GbxActualInfos.Size = new System.Drawing.Size(972, 106);
+            this.GbxActualInfos.TabIndex = 4;
+            this.GbxActualInfos.TabStop = false;
+            this.GbxActualInfos.Text = "Current state";
+            // 
+            // LblActualRepository
+            // 
+            this.LblActualRepository.AutoSize = true;
+            this.LblActualRepository.Location = new System.Drawing.Point(94, 31);
+            this.LblActualRepository.Name = "LblActualRepository";
+            this.LblActualRepository.Size = new System.Drawing.Size(0, 15);
+            this.LblActualRepository.TabIndex = 4;
+            // 
+            // LblActualRepositoryLabel
+            // 
+            this.LblActualRepositoryLabel.AutoSize = true;
+            this.LblActualRepositoryLabel.Location = new System.Drawing.Point(12, 31);
+            this.LblActualRepositoryLabel.Name = "LblActualRepositoryLabel";
+            this.LblActualRepositoryLabel.Size = new System.Drawing.Size(69, 15);
+            this.LblActualRepositoryLabel.TabIndex = 3;
+            this.LblActualRepositoryLabel.Text = "Repository :";
+            // 
+            // LblActualBranchName
+            // 
+            this.LblActualBranchName.AutoSize = true;
+            this.LblActualBranchName.Location = new System.Drawing.Point(114, 67);
+            this.LblActualBranchName.Name = "LblActualBranchName";
+            this.LblActualBranchName.Size = new System.Drawing.Size(0, 15);
+            this.LblActualBranchName.TabIndex = 2;
+            // 
+            // LblActualBranchNameLabel
+            // 
+            this.LblActualBranchNameLabel.AutoSize = true;
+            this.LblActualBranchNameLabel.Location = new System.Drawing.Point(12, 67);
+            this.LblActualBranchNameLabel.Name = "LblActualBranchNameLabel";
+            this.LblActualBranchNameLabel.Size = new System.Drawing.Size(89, 15);
+            this.LblActualBranchNameLabel.TabIndex = 1;
+            this.LblActualBranchNameLabel.Text = "Branche name :";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(105, 39);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 15);
+            this.label2.TabIndex = 0;
+            // 
             // BgxLogInfo
             // 
             this.BgxLogInfo.Controls.Add(this.TbxLogInfo);
-            this.BgxLogInfo.Location = new System.Drawing.Point(0, 259);
+            this.BgxLogInfo.Location = new System.Drawing.Point(1, 369);
             this.BgxLogInfo.Name = "BgxLogInfo";
-            this.BgxLogInfo.Size = new System.Drawing.Size(975, 164);
+            this.BgxLogInfo.Size = new System.Drawing.Size(975, 285);
             this.BgxLogInfo.TabIndex = 4;
             this.BgxLogInfo.TabStop = false;
             this.BgxLogInfo.Text = "Log info";
@@ -116,7 +183,7 @@
             this.TbxLogInfo.Multiline = true;
             this.TbxLogInfo.Name = "TbxLogInfo";
             this.TbxLogInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TbxLogInfo.Size = new System.Drawing.Size(969, 142);
+            this.TbxLogInfo.Size = new System.Drawing.Size(969, 263);
             this.TbxLogInfo.TabIndex = 1;
             // 
             // GbxTargetSolution
@@ -124,7 +191,7 @@
             this.GbxTargetSolution.Controls.Add(this.CbxSolutions);
             this.GbxTargetSolution.Controls.Add(this.LblTargetSolutionFileNameLabel);
             this.GbxTargetSolution.Controls.Add(this.LblTargetSolutionFileName);
-            this.GbxTargetSolution.Location = new System.Drawing.Point(0, 0);
+            this.GbxTargetSolution.Location = new System.Drawing.Point(1, 115);
             this.GbxTargetSolution.Name = "GbxTargetSolution";
             this.GbxTargetSolution.Size = new System.Drawing.Size(975, 81);
             this.GbxTargetSolution.TabIndex = 0;
@@ -164,9 +231,9 @@
             this.GbxTargetBranch.Controls.Add(this.LblSelectBranch);
             this.GbxTargetBranch.Controls.Add(this.RbtIsRemoteTargetBranch);
             this.GbxTargetBranch.Controls.Add(this.RbtIsLocalTargetBranch);
-            this.GbxTargetBranch.Location = new System.Drawing.Point(0, 83);
+            this.GbxTargetBranch.Location = new System.Drawing.Point(3, 197);
             this.GbxTargetBranch.Name = "GbxTargetBranch";
-            this.GbxTargetBranch.Size = new System.Drawing.Size(975, 71);
+            this.GbxTargetBranch.Size = new System.Drawing.Size(973, 71);
             this.GbxTargetBranch.TabIndex = 2;
             this.GbxTargetBranch.TabStop = false;
             this.GbxTargetBranch.Text = "Target branch";
@@ -216,26 +283,47 @@
             // 
             // GbxProcess
             // 
+            this.GbxProcess.Controls.Add(this.CbxLaunchUri);
+            this.GbxProcess.Controls.Add(this.label1);
             this.GbxProcess.Controls.Add(this.CbxIsGitClean);
             this.GbxProcess.Controls.Add(this.BtnRunProcess);
             this.GbxProcess.Controls.Add(this.CbxIsExitVisualStudio);
             this.GbxProcess.Controls.Add(this.CbxIsRunVisualStudio);
             this.GbxProcess.Controls.Add(this.LblNext1);
-            this.GbxProcess.Controls.Add(this.LblNext7);
             this.GbxProcess.Controls.Add(this.CbxIsStashChanges);
-            this.GbxProcess.Controls.Add(this.CbxIsRunScriptNextVersion);
             this.GbxProcess.Controls.Add(this.LblNext2);
             this.GbxProcess.Controls.Add(this.LblNext6);
             this.GbxProcess.Controls.Add(this.CbxIsCheckoutBranch);
             this.GbxProcess.Controls.Add(this.CbxIsBuildSolution);
             this.GbxProcess.Controls.Add(this.LblNext3);
             this.GbxProcess.Controls.Add(this.LblNext4);
-            this.GbxProcess.Location = new System.Drawing.Point(0, 156);
+            this.GbxProcess.Location = new System.Drawing.Point(1, 269);
             this.GbxProcess.Name = "GbxProcess";
-            this.GbxProcess.Size = new System.Drawing.Size(975, 102);
+            this.GbxProcess.Size = new System.Drawing.Size(975, 97);
             this.GbxProcess.TabIndex = 3;
             this.GbxProcess.TabStop = false;
             this.GbxProcess.Text = "Process";
+            // 
+            // CbxLaunchUri
+            // 
+            this.CbxLaunchUri.AutoSize = true;
+            this.CbxLaunchUri.Checked = true;
+            this.CbxLaunchUri.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CbxLaunchUri.Location = new System.Drawing.Point(863, 25);
+            this.CbxLaunchUri.Name = "CbxLaunchUri";
+            this.CbxLaunchUri.Size = new System.Drawing.Size(86, 19);
+            this.CbxLaunchUri.TabIndex = 16;
+            this.CbxLaunchUri.Text = "Launch URI";
+            this.CbxLaunchUri.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(836, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(31, 15);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "==>";
             // 
             // CbxIsGitClean
             // 
@@ -251,7 +339,7 @@
             // 
             // BtnRunProcess
             // 
-            this.BtnRunProcess.Location = new System.Drawing.Point(843, 50);
+            this.BtnRunProcess.Location = new System.Drawing.Point(845, 56);
             this.BtnRunProcess.Name = "BtnRunProcess";
             this.BtnRunProcess.Size = new System.Drawing.Size(118, 32);
             this.BtnRunProcess.TabIndex = 13;
@@ -276,7 +364,7 @@
             this.CbxIsRunVisualStudio.AutoSize = true;
             this.CbxIsRunVisualStudio.Checked = true;
             this.CbxIsRunVisualStudio.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsRunVisualStudio.Location = new System.Drawing.Point(843, 25);
+            this.CbxIsRunVisualStudio.Location = new System.Drawing.Point(722, 25);
             this.CbxIsRunVisualStudio.Name = "CbxIsRunVisualStudio";
             this.CbxIsRunVisualStudio.Size = new System.Drawing.Size(118, 19);
             this.CbxIsRunVisualStudio.TabIndex = 12;
@@ -292,15 +380,6 @@
             this.LblNext1.TabIndex = 3;
             this.LblNext1.Text = "==>";
             // 
-            // LblNext7
-            // 
-            this.LblNext7.AutoSize = true;
-            this.LblNext7.Location = new System.Drawing.Point(813, 26);
-            this.LblNext7.Name = "LblNext7";
-            this.LblNext7.Size = new System.Drawing.Size(31, 15);
-            this.LblNext7.TabIndex = 11;
-            this.LblNext7.Text = "==>";
-            // 
             // CbxIsStashChanges
             // 
             this.CbxIsStashChanges.AutoSize = true;
@@ -312,18 +391,6 @@
             this.CbxIsStashChanges.TabIndex = 1;
             this.CbxIsStashChanges.Text = "Stash changes";
             this.CbxIsStashChanges.UseVisualStyleBackColor = true;
-            // 
-            // CbxIsRunScriptNextVersion
-            // 
-            this.CbxIsRunScriptNextVersion.AutoSize = true;
-            this.CbxIsRunScriptNextVersion.Checked = true;
-            this.CbxIsRunScriptNextVersion.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsRunScriptNextVersion.Location = new System.Drawing.Point(715, 25);
-            this.CbxIsRunScriptNextVersion.Name = "CbxIsRunScriptNextVersion";
-            this.CbxIsRunScriptNextVersion.Size = new System.Drawing.Size(98, 19);
-            this.CbxIsRunScriptNextVersion.TabIndex = 10;
-            this.CbxIsRunScriptNextVersion.Text = "Run script NV";
-            this.CbxIsRunScriptNextVersion.UseVisualStyleBackColor = true;
             // 
             // LblNext2
             // 
@@ -392,20 +459,42 @@
             this.TbpLocalsBranches.Location = new System.Drawing.Point(4, 24);
             this.TbpLocalsBranches.Name = "TbpLocalsBranches";
             this.TbpLocalsBranches.Padding = new System.Windows.Forms.Padding(3);
-            this.TbpLocalsBranches.Size = new System.Drawing.Size(982, 423);
+            this.TbpLocalsBranches.Size = new System.Drawing.Size(982, 657);
             this.TbpLocalsBranches.TabIndex = 0;
             this.TbpLocalsBranches.Text = "Locals branches";
             this.TbpLocalsBranches.UseVisualStyleBackColor = true;
             // 
             // GbxLocalsBranchesActions
             // 
+            this.GbxLocalsBranchesActions.Controls.Add(this.BtnDeleteWithRemote);
+            this.GbxLocalsBranchesActions.Controls.Add(this.BtnDeleteLocalsBranches);
             this.GbxLocalsBranchesActions.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.GbxLocalsBranchesActions.Location = new System.Drawing.Point(3, 274);
+            this.GbxLocalsBranchesActions.Location = new System.Drawing.Point(3, 580);
             this.GbxLocalsBranchesActions.Name = "GbxLocalsBranchesActions";
-            this.GbxLocalsBranchesActions.Size = new System.Drawing.Size(976, 146);
+            this.GbxLocalsBranchesActions.Size = new System.Drawing.Size(976, 74);
             this.GbxLocalsBranchesActions.TabIndex = 1;
             this.GbxLocalsBranchesActions.TabStop = false;
             this.GbxLocalsBranchesActions.Text = "Actions";
+            // 
+            // BtnDeleteWithRemote
+            // 
+            this.BtnDeleteWithRemote.Enabled = false;
+            this.BtnDeleteWithRemote.Location = new System.Drawing.Point(835, 22);
+            this.BtnDeleteWithRemote.Name = "BtnDeleteWithRemote";
+            this.BtnDeleteWithRemote.Size = new System.Drawing.Size(135, 34);
+            this.BtnDeleteWithRemote.TabIndex = 3;
+            this.BtnDeleteWithRemote.Text = "Delete with remote";
+            this.BtnDeleteWithRemote.UseVisualStyleBackColor = true;
+            // 
+            // BtnDeleteLocalsBranches
+            // 
+            this.BtnDeleteLocalsBranches.Location = new System.Drawing.Point(6, 22);
+            this.BtnDeleteLocalsBranches.Name = "BtnDeleteLocalsBranches";
+            this.BtnDeleteLocalsBranches.Size = new System.Drawing.Size(135, 34);
+            this.BtnDeleteLocalsBranches.TabIndex = 2;
+            this.BtnDeleteLocalsBranches.Text = "Delete";
+            this.BtnDeleteLocalsBranches.UseVisualStyleBackColor = true;
+            this.BtnDeleteLocalsBranches.Click += new System.EventHandler(this.BtnDeleteLocalsBranchesClick);
             // 
             // DgvLocalsBranches
             // 
@@ -416,7 +505,7 @@
             this.DgvLocalsBranches.Name = "DgvLocalsBranches";
             this.DgvLocalsBranches.ReadOnly = true;
             this.DgvLocalsBranches.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DgvLocalsBranches.Size = new System.Drawing.Size(976, 417);
+            this.DgvLocalsBranches.Size = new System.Drawing.Size(976, 651);
             this.DgvLocalsBranches.TabIndex = 0;
             // 
             // TbpTools
@@ -424,7 +513,7 @@
             this.TbpTools.Location = new System.Drawing.Point(4, 24);
             this.TbpTools.Name = "TbpTools";
             this.TbpTools.Padding = new System.Windows.Forms.Padding(3);
-            this.TbpTools.Size = new System.Drawing.Size(982, 423);
+            this.TbpTools.Size = new System.Drawing.Size(982, 657);
             this.TbpTools.TabIndex = 1;
             this.TbpTools.Text = "Tools";
             this.TbpTools.UseVisualStyleBackColor = true;
@@ -440,14 +529,17 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(990, 451);
+            this.ClientSize = new System.Drawing.Size(990, 685);
             this.Controls.Add(this.TbcMain);
             this.MaximizeBox = false;
             this.Name = "TalentsoftTools";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Talentsoft tools";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TalentsoftToolsFormClosed);
             this.TbcMain.ResumeLayout(false);
             this.TbpProcess.ResumeLayout(false);
+            this.GbxActualInfos.ResumeLayout(false);
+            this.GbxActualInfos.PerformLayout();
             this.BgxLogInfo.ResumeLayout(false);
             this.BgxLogInfo.PerformLayout();
             this.GbxTargetSolution.ResumeLayout(false);
@@ -457,6 +549,7 @@
             this.GbxProcess.ResumeLayout(false);
             this.GbxProcess.PerformLayout();
             this.TbpLocalsBranches.ResumeLayout(false);
+            this.GbxLocalsBranchesActions.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).EndInit();
             this.ResumeLayout(false);
 
@@ -478,10 +571,8 @@
         private System.Windows.Forms.CheckBox CbxIsCheckoutBranch;
         private System.Windows.Forms.CheckBox CbxIsBuildSolution;
         private System.Windows.Forms.Label LblNext4;
-        private System.Windows.Forms.CheckBox CbxIsRunScriptNextVersion;
         private System.Windows.Forms.Label LblNext6;
         private System.Windows.Forms.CheckBox CbxIsRunVisualStudio;
-        private System.Windows.Forms.Label LblNext7;
         private System.Windows.Forms.GroupBox GbxProcess;
         private System.Windows.Forms.Button BtnRunProcess;
         private System.Windows.Forms.GroupBox GbxTargetBranch;
@@ -497,5 +588,15 @@
         private System.Windows.Forms.GroupBox BgxLogInfo;
         private System.Windows.Forms.TextBox TbxLogInfo;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.Button BtnDeleteWithRemote;
+        private System.Windows.Forms.Button BtnDeleteLocalsBranches;
+        private System.Windows.Forms.GroupBox GbxActualInfos;
+        private System.Windows.Forms.Label LblActualBranchNameLabel;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label LblActualRepository;
+        private System.Windows.Forms.Label LblActualRepositoryLabel;
+        private System.Windows.Forms.Label LblActualBranchName;
+        private System.Windows.Forms.CheckBox CbxLaunchUri;
+        private System.Windows.Forms.Label label1;
     }
 }
