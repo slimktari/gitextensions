@@ -12,160 +12,12 @@ namespace TalentsoftTools
 {
     public class Helper
     {
-        #region AsyncMethods
-
-        public static async Task<bool> ExitVisualStudioAsync(string solutionFileName)
-        {
-            var tcs = new TaskCompletionSource<bool>();
-            solutionFileName = Path.GetFileNameWithoutExtension(solutionFileName);
-            var process = Process.GetProcessesByName("devenv");
-            foreach (Process p in process)
-            {
-                //if (solutionFileName.Equals(p.MainWindowTitle.Split(' ')[0]))
-                if (p.MainWindowTitle.Contains(solutionFileName))
-                {
-                    try
-                    {
-                        p.Kill();
-                        p.WaitForExit(); // possibly with a timeout
-                    }
-                    catch (Win32Exception winException)
-                    {
-                        //tcs.SetResult(false);
-                        // process was terminating or can't be terminated - deal with it
-                    }
-                    catch (InvalidOperationException invalidException)
-                    {
-                        // tcs.SetResult(false);
-                        // process has already exited - might be able to let this one go
-                    }
-                }
-            }
-            tcs.SetResult(true);
-            return tcs.Task.IsCompleted;
-        }
-
-        public static async Task<CmdResult> GitCmdAsync(GitUIBaseEventArgs gitCommands, string command)
-        {
-            var tcs = new TaskCompletionSource<bool>();
-            CmdResult cmdResult = gitCommands.GitModule.RunGitCmdResult(command);
-            tcs.SetResult(true);
-            await tcs.Task;
-            return cmdResult;
-        }
-
-        public static async Task<CmdResult> GitStashAsync(GitUIBaseEventArgs gitCommands)
-        {
-            var tcs = new TaskCompletionSource<bool>();
-            CmdResult cmdResult = gitCommands.GitModule.RunGitCmdResult("stash --include-untracked");
-            tcs.SetResult(true);
-            await tcs.Task;
-            return cmdResult;
-        }
-
-        public static async Task<CmdResult> GitCheckoutAsync(GitUIBaseEventArgs gitCommands, string branch)
-        {
-            var tcs = new TaskCompletionSource<bool>();
-            CmdResult cmdResult = gitCommands.GitModule.RunGitCmdResult(branch);
-            tcs.SetResult(true);
-            await tcs.Task;
-            return cmdResult;
-        }
-
-        public static async Task<CmdResult> GitCleanAsync(GitUIBaseEventArgs gitCommands)
-        {
-            var tcs = new TaskCompletionSource<bool>();
-            CmdResult cmdResult = gitCommands.GitModule.RunGitCmdResult("clean -d -x -f");
-            tcs.SetResult(true);
-            await tcs.Task;
-            return cmdResult;
-        }
-
-        public static async Task<bool> BuildAsync(string solutionFileFullPath, string pathToMsBuild)
-        {
-            var tcs = new TaskCompletionSource<bool>();
-            if (string.IsNullOrEmpty(pathToMsBuild) || string.IsNullOrEmpty(solutionFileFullPath))
-            {
-                tcs.SetResult(false);
-            }
-            else
-            {
-                RunCommandLine(new List<string> { $"{pathToMsBuild} /t:Build /p:Configuration=Debug /m:4 {solutionFileFullPath}" });
-                tcs.SetResult(true);
-            }
-            await tcs.Task;
-            return tcs.Task.IsCompleted;
-            //return await RunCommandLineAsync(new List<string> { $"{validPathToMsBuild} /t:Build /p:Configuration=Debug /m:4 {solutionFileFullPath}" });
-        }
-
-        /// <summary>
-        /// Restore all nugets.
-        /// </summary>
-        /// <param name="solutionFileFullPath">Full path of solution file.</param>
-        public static async Task<bool> NugetRestoreAsync(string solutionFileFullPath)
-        {
-            var tcs = new TaskCompletionSource<bool>();
-            RunCommandLine(new List<string> { $"nuget restore {solutionFileFullPath}" });
-            //return await RunCommandLineAsync(new List<string> { $"nuget restore {solutionFileFullPath}" });
-            tcs.SetResult(true);
-            await tcs.Task;
-            return tcs.Task.IsCompleted;
-        }
-
-        private static async Task<bool> RunCommandLineAsync(List<string> commands)
-        {
-            string output;
-            string error;
-            // there is no non-generic TaskCompletionSource
-            var tcs = new TaskCompletionSource<bool>();
-            ProcessStartInfo processStartInfo = new ProcessStartInfo("cmd.exe")
-            {
-                RedirectStandardOutput = true,
-                RedirectStandardError = false,
-                WindowStyle = ProcessWindowStyle.Hidden,
-                RedirectStandardInput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-            var process = new Process
-            {
-                StartInfo = processStartInfo,
-                EnableRaisingEvents = true
-            };
-            process.Exited += (sender, args) =>
-            {
-                tcs.SetResult(true);
-                process.Dispose();
-            };
-            process.Start();
-            using (StreamWriter sw = process.StandardInput)
-            {
-                if (sw.BaseStream.CanWrite)
-                {
-                    foreach (var command in commands)
-                    {
-                        sw.WriteLine(command);
-                    }
-                }
-            }
-            using (StreamReader streamReader = process.StandardOutput)
-            {
-                output = streamReader.ReadToEnd();
-            }
-
-            process.WaitForExit();
-            return tcs.Task.Result;
-        }
-
-        #endregion
-
         public static bool ExitVisualStudio(string solutionFileName)
         {
             solutionFileName = Path.GetFileNameWithoutExtension(solutionFileName);
             var process = Process.GetProcessesByName("devenv");
             foreach (Process p in process)
             {
-                //if (solutionFileName.Equals(p.MainWindowTitle.Split(' ')[0]))
                 if (p.MainWindowTitle.Contains(solutionFileName))
                 {
                     try
@@ -187,7 +39,7 @@ namespace TalentsoftTools
             }
             return true;
         }
-
+        
         public static List<string> GetSolutionsFile(string directory)
         {
             List<String> files = new List<String>();
@@ -264,7 +116,7 @@ namespace TalentsoftTools
             return RunCommandLine(new List<string> { $"{pathToMsBuild} /t:Build /p:Configuration=Debug /m:4 {solutionFileFullPath}" });
         }
 
-        private static bool RunCommandLine(List<string> commands)
+        public static bool RunCommandLine(List<string> commands)
         {
             string output = string.Empty;
             string error = string.Empty;
