@@ -16,6 +16,7 @@ namespace TalentsoftTools
         public static StringSetting DefaultSolutionFileName = new StringSetting("Default solution file (Eg: TalentSoft.sln)", string.Empty);
         public static StringSetting PathToMsBuild = new StringSetting("Path to MSBuild", string.Empty);
         public static StringSetting ExcludePatternGitClean = new StringSetting("Pattern exclude files Git Clean", "*.mdf *.ldf");
+        public static StringSetting NewBranchPrefix = new StringSetting("Branch name prefix", string.Empty);
 
         public TalentsoftToolsPlugin()
         {
@@ -43,6 +44,7 @@ namespace TalentsoftTools
             yield return IsDefaultRunUri;
             yield return LocalUriWebApplication;
             yield return DefaultSolutionFileName;
+            yield return NewBranchPrefix;
             yield return PathToMsBuild;
             yield return ExcludePatternGitClean;
         }

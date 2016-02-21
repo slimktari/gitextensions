@@ -81,13 +81,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Arrow_Direction_Move_Next_Forward_Right_Continue.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Arrow_Direction_Move_Next_Forward_Right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\talentsoft-logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

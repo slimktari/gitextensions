@@ -11,6 +11,7 @@ namespace TalentsoftTools
 {
     using System.Drawing;
     using System.IO;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -42,13 +43,6 @@ namespace TalentsoftTools
             Branches = new Dictionary<string, List<string>>();
             Icon = _gitUiCommands.GitUICommands.FormIcon;
             InitProcessTab();
-            InitLocalBranchTab();
-        }
-
-        private void ResetCurrentLabels()
-        {
-            LblActualBranchName.Text = _gitUiCommands.GitModule.GetSelectedBranch();
-            LblActualRepository.Text = _gitUiCommands.GitModule.WorkingDir;
         }
 
         private void ResetCheckboxBackColor()
@@ -65,7 +59,7 @@ namespace TalentsoftTools
         private void InitLocalBranchTab()
         {
             LoadLocalsBranchsList();
-            DgvLocalsBranches.DataSource = LocalBranchesNames;
+            DgvLocalsBranches.DataSource = LocalBranchesNames.Select(x => new { Name = x }).ToList();
         }
 
         private void InitProcessTab()
@@ -82,12 +76,14 @@ namespace TalentsoftTools
                 CbxLaunchUri.Checked = false;
                 CbxLaunchUri.Enabled = false;
             }
-            ResetCurrentLabels();
+            LblActualBranchName.Text = _gitUiCommands.GitModule.GetSelectedBranch();
+            LblActualRepository.Text = _gitUiCommands.GitModule.WorkingDir;
             CbxIsCheckoutBranch.Checked = false;
             CbxIsCheckoutBranch.Enabled = false;
             CbxIsStashChanges.Checked = false;
             CbxIsStashChanges.Enabled = false;
-
+            TxbNewBranchName.Enabled = false;
+            CbxIsCreateNewBranch.Enabled = false;
             //var ddss = this._gitUiCommands.GitUICommands.BrowseRepo;
             //var remotes = _gitUiCommands.GitUICommands.StartCheckoutBranch()
             //var remotess = _gitUiCommands.GitModule.GetRemotes(false);
@@ -196,6 +192,7 @@ namespace TalentsoftTools
 
             if (CbxBranches.Items.Count > 0)
             {
+                CbxIsCreateNewBranch.Enabled = true;
                 if (!CbxIsCheckoutBranch.Enabled)
                 {
                     CbxIsCheckoutBranch.Enabled = true;
@@ -219,6 +216,8 @@ namespace TalentsoftTools
                 CbxIsCheckoutBranch.Enabled = false;
                 CbxIsStashChanges.Checked = false;
                 CbxIsStashChanges.Enabled = false;
+                CbxIsCreateNewBranch.Enabled = false;
+                CbxIsCreateNewBranch.Checked = false;
             }
         }
 
@@ -237,6 +236,14 @@ namespace TalentsoftTools
 
         private void RunProcess()
         {
+            using (var stream = new MemoryStream())
+            {
+                using (var csvWriter = new StreamWriter(stream, Encoding.UTF8))
+                {
+                    csvWriter.WriteLine("First name,Second name,E-mail address,Preferred contact number,UserId\r\n");
+                }
+            }
+
             DateTime startDateTime = DateTime.Now;
             TbxLogInfo.Invoke((MethodInvoker)(() =>
             {
@@ -310,6 +317,27 @@ namespace TalentsoftTools
                         }));
                         IsProcessAborted = true;
                     }
+
+
+
+                    if (!IsProcessAborted && CbxIsCreateNewBranch.Checked && CbxIsCreateNewBranch.Enabled && !string.IsNullOrWhiteSpace(TxbNewBranchName.Text))
+                    {
+                        TbxLogInfo.Invoke((MethodInvoker)(() =>
+                        {
+                            TbxLogInfo.AppendText($"\r\nCreating new local branch {TxbNewBranchName.Text}... checkout -b {TxbNewBranchName.Text}");
+                        }));
+                        CmdResult gitCreateNewBranchResult = _gitUiCommands.GitModule.RunGitCmdResult($"checkout -b {TxbNewBranchName.Text}");
+                        if (gitCreateNewBranchResult.ExitCode != 0)
+                        {
+                            CbxIsCheckoutBranch.BackColor = Color.Red;
+                            TbxLogInfo.Invoke((MethodInvoker)(() =>
+                                    {
+                                        TbxLogInfo.AppendText($"\r\nError when Creating new branch {TxbNewBranchName.Text}. {gitCheckoutResult.StdError}");
+                                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                                    }));
+                            IsProcessAborted = true;
+                        }
+                    }
                 }
                 if (CbxIsGitClean.Checked && !IsProcessAborted)
                 {
@@ -336,7 +364,7 @@ namespace TalentsoftTools
                         IsProcessAborted = true;
                     }
                 }
-                if (CbxIsBuildSolution.Checked && !this.IsProcessAborted)
+                if (CbxIsBuildSolution.Checked && !IsProcessAborted)
                 {
                     CbxIsBuildSolution.BackColor = Color.LimeGreen;
                     TbxLogInfo.Invoke((MethodInvoker)(() =>
@@ -359,7 +387,7 @@ namespace TalentsoftTools
                     {
                         TbxLogInfo.Invoke((MethodInvoker)(() =>
                         {
-                            TbxLogInfo.AppendText($"\r\nBuilding solution: {TargetSolutionName}... '{TalentsoftToolsPlugin.PathToMsBuild[_settings]} /t:Build /p:Configuration=Debug /m:4 {TargetSolutionName}'");
+                            TbxLogInfo.AppendText($"\r\nBuilding solution: {TargetSolutionName}... '{TalentsoftToolsPlugin.PathToMsBuild[_settings]} /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount {TargetSolutionName}'");
                         }));
 
                         result = Helper.Build(TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuild[_settings]);
@@ -417,7 +445,14 @@ namespace TalentsoftTools
                     TbxLogInfo.AppendText($"\r\nElapsed time: {endateDateTime - startDateTime}");
                 }));
                 _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
-                ResetCurrentLabels();
+                LblActualBranchName.Invoke((MethodInvoker)(() =>
+                {
+                    LblActualBranchName.Text = _gitUiCommands.GitModule.GetSelectedBranch();
+                }));
+                LblActualRepository.Invoke((MethodInvoker)(() =>
+                {
+                    LblActualRepository.Text = _gitUiCommands.GitModule.WorkingDir;
+                }));
                 IsProcessAborted = true;
                 BtnRunProcess.Invoke((MethodInvoker)(() =>
                     {
@@ -428,7 +463,7 @@ namespace TalentsoftTools
                     {
                         BtnStopProcess.Enabled = false;
                     }));
-                if (!TokenTask.IsCancellationRequested)
+                if (TokenTask != null && !TokenTask.IsCancellationRequested)
                 {
                     TokenTask.Cancel();
                     TokenTask.Dispose();
@@ -490,18 +525,6 @@ namespace TalentsoftTools
             }
         }
 
-        private void CbxSolutionsSelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (CbxBranches.SelectedItem != null && !string.IsNullOrEmpty(CbxBranches.SelectedItem.ToString()) && !string.IsNullOrEmpty(CbxSolutions.SelectedItem.ToString()))
-            {
-                BtnRunProcess.Enabled = true;
-            }
-            else
-            {
-                BtnRunProcess.Enabled = false;
-            }
-        }
-
         private void CbxBranchesKeyPress(object sender, KeyPressEventArgs e)
         {
             string strFindStr = "";
@@ -543,16 +566,23 @@ namespace TalentsoftTools
             e.Handled = true;
         }
 
-        private void TalentsoftToolsFormClosed(object sender, FormClosedEventArgs e)
+        private void ExitProcess()
         {
-            //_gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
+            if (TokenTask != null && !TokenTask.IsCancellationRequested)
+            {
+                TokenTask.Cancel();
+                TokenTask.Dispose();
+                IsProcessAborted = true;
+                BtnRunProcess.Enabled = true;
+                BtnStopProcess.Enabled = false;
+            }
         }
 
         private void BtnDeleteLocalsBranchesClick(object sender, EventArgs e)
         {
             if (DgvLocalsBranches.SelectedRows.Count > 0)
             {
-                DialogResult response = MessageBox.Show("Are sure you want to delete these branches ?", "Talentsoft tools", MessageBoxButtons.YesNo);
+                DialogResult response = MessageBox.Show("Are you sure you want delete these branches ?", "Talentsoft tools", MessageBoxButtons.YesNo);
                 switch (response)
                 {
                     case DialogResult.Yes:
@@ -566,14 +596,7 @@ namespace TalentsoftTools
 
         private void BtnStopProcessClick(object sender, EventArgs e)
         {
-            if (!TokenTask.IsCancellationRequested)
-            {
-                TokenTask.Cancel();
-                TokenTask.Dispose();
-                IsProcessAborted = true;
-                BtnRunProcess.Enabled = true;
-                BtnStopProcess.Enabled = false;
-            }
+            ExitProcess();
         }
 
         private void CbxIsCheckoutBranchCheckedChanged(object sender, EventArgs e)
@@ -581,6 +604,48 @@ namespace TalentsoftTools
             if (CbxBranches.Items.Count == 0)
             {
                 CbxIsCheckoutBranch.Checked = false;
+            }
+        }
+
+        private void CbxIsCreateNewBranchCheckedChanged(object sender, EventArgs e)
+        {
+            if (CbxIsCreateNewBranch.Checked)
+            {
+                TxbNewBranchName.Enabled = true;
+                if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.NewBranchPrefix[_settings]))
+                {
+                    TxbNewBranchName.Text = TalentsoftToolsPlugin.NewBranchPrefix[_settings];
+                }
+            }
+            else
+            {
+                TxbNewBranchName.Enabled = false;
+                TxbNewBranchName.Text = string.Empty;
+            }
+        }
+
+        private void TbcMainSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (TbcMain.SelectedIndex == 1)
+            {
+                InitLocalBranchTab();
+            }
+        }
+
+        private void TalentsoftToolsFormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (TokenTask != null && !TokenTask.IsCancellationRequested)
+            {
+                DialogResult response = MessageBox.Show("The process is running, are you sure to stop it ?", "Talentsoft tools", MessageBoxButtons.YesNo);
+                switch (response)
+                {
+                    case DialogResult.Yes:
+                        ExitProcess();
+                        break;
+                    case DialogResult.No:
+                        e.Cancel = true;
+                        break;
+                }
             }
         }
     }

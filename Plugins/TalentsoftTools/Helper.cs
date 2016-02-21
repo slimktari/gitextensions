@@ -113,7 +113,7 @@ namespace TalentsoftTools
             {
                 return false;
             }
-            return RunCommandLine(new List<string> { $"{pathToMsBuild} /t:Build /p:Configuration=Debug /m:4 {solutionFileFullPath}" });
+            return RunCommandLine(new List<string> { $"{pathToMsBuild} /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount {solutionFileFullPath}" });
         }
 
         public static bool RunCommandLine(List<string> commands)
