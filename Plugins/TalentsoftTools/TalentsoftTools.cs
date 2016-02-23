@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 namespace TalentsoftTools
 {
+    using System.Diagnostics.Eventing.Reader;
     using System.Drawing;
     using System.IO;
     using System.Text;
@@ -34,6 +35,19 @@ namespace TalentsoftTools
         List<GitRef> LocalBranches { get; set; }
         public bool IsRefreshNeeded { get; set; }
 
+        string[] UnmergedBranches
+        {
+            get
+            {
+                CmdResult gitResult = _gitUiCommands.GitModule.RunGitCmdResult("branch --no-merged");
+                if (gitResult.ExitCode == 0)
+                {
+                    return gitResult.StdOutput.Replace(" ", string.Empty).SplitLines();
+                }
+                return new string[0];
+            }
+        }
+
         public TalentsoftTools(GitUIBaseEventArgs gitUiCommands, ISettingsSource settings)
         {
             InitializeComponent();
@@ -41,7 +55,7 @@ namespace TalentsoftTools
             _settings = settings;
             _gitUiCommands = gitUiCommands;
             Branches = new Dictionary<string, List<string>>();
-            Icon = _gitUiCommands.GitUICommands.FormIcon;
+            //Icon = _gitUiCommands.GitUICommands.FormIcon;
             InitProcessTab();
         }
 
@@ -59,7 +73,24 @@ namespace TalentsoftTools
         private void InitLocalBranchTab()
         {
             LoadLocalsBranchsList();
-            DgvLocalsBranches.DataSource = LocalBranchesNames.Select(x => new { Name = x }).ToList();
+            string[] unmerged = UnmergedBranches;
+
+
+
+            DgvLocalsBranches.DataSource =
+                LocalBranchesNames.Select(x => new { Name = x, IsMerged = (!unmerged.Contains(x)).ToString() }).ToList();
+
+            foreach (DataGridViewRow row in DgvLocalsBranches.Rows)
+            {
+                if (row.Cells[1].Value.ToString() == "False")
+                {
+                    row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.Coral };
+                }
+                else
+                {
+                    row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.MediumSeaGreen };
+                }
+            }
         }
 
         private void InitProcessTab()
@@ -244,7 +275,7 @@ namespace TalentsoftTools
 
             if (IsExitVisualStudio)
             {
-                CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.LimeGreen; }));
+                CbxIsExitVisualStudio.Invoke((MethodInvoker)(() => { CbxIsExitVisualStudio.BackColor = Color.LimeGreen; }));
                 TbxLogInfo.Invoke(
                     (MethodInvoker)(() =>
                         {
@@ -253,7 +284,7 @@ namespace TalentsoftTools
                 bool isExited = Helper.ExitVisualStudio(TargetSolutionName);
                 if (!isExited)
                 {
-                    CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.Red; }));
+                    CbxIsExitVisualStudio.Invoke((MethodInvoker)(() => { CbxIsExitVisualStudio.BackColor = Color.Red; }));
                     TbxLogInfo.Invoke(
                         (MethodInvoker)(() =>
                             {
@@ -265,7 +296,7 @@ namespace TalentsoftTools
             }
             if (IsStashCahnges && !IsProcessAborted)
             {
-                CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.LimeGreen; }));
+                this.CbxIsStashChanges.Invoke((MethodInvoker)(() => { CbxIsStashChanges.BackColor = Color.LimeGreen; }));
                 TbxLogInfo.Invoke((MethodInvoker)(() =>
                 {
                     TbxLogInfo.AppendText("\r\nStashing changes... 'stash --include-untracked'");
@@ -274,7 +305,7 @@ namespace TalentsoftTools
                 CmdResult gitStashResult = _gitUiCommands.GitModule.RunGitCmdResult("stash --include-untracked");
                 if (gitStashResult.ExitCode != 0)
                 {
-                    CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.Red; }));
+                    CbxIsStashChanges.Invoke((MethodInvoker)(() => { CbxIsStashChanges.BackColor = Color.Red; }));
                     TbxLogInfo.Invoke((MethodInvoker)(() =>
                     {
                         TbxLogInfo.AppendText($"\r\nError when stashing changes. {gitStashResult.StdError}");
@@ -285,7 +316,7 @@ namespace TalentsoftTools
             }
             if (IsCheckoutBranch && !IsProcessAborted)
             {
-                CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.LimeGreen; }));
+                CbxIsCheckoutBranch.Invoke((MethodInvoker)(() => { this.CbxIsCheckoutBranch.BackColor = Color.LimeGreen; }));
                 TbxLogInfo.Invoke((MethodInvoker)(() =>
                 {
                     TbxLogInfo.AppendText($"\r\nCheckout branch {CbxBranches.SelectedItem}...");
@@ -304,7 +335,7 @@ namespace TalentsoftTools
                 CmdResult gitCheckoutResult = _gitUiCommands.GitModule.RunGitCmdResult($"checkout -B {newLocalBranch} {TargetBranchName}");
                 if (gitCheckoutResult.ExitCode != 0)
                 {
-                    CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.Red; }));
+                    CbxIsCheckoutBranch.Invoke((MethodInvoker)(() => { CbxIsCheckoutBranch.BackColor = Color.Red; }));
                     TbxLogInfo.Invoke((MethodInvoker)(() =>
                     {
                         TbxLogInfo.AppendText($"\r\nError when checkout branch. {gitCheckoutResult.StdError}");
@@ -317,12 +348,12 @@ namespace TalentsoftTools
                 {
                     TbxLogInfo.Invoke((MethodInvoker)(() =>
                     {
-                        TbxLogInfo.AppendText($"\r\nCreating new local branch {TxbNewBranchName.Text}... checkout -b {TxbNewBranchName.Text}");
+                        TbxLogInfo.AppendText($"\r\nCreating new local branch {TxbNewBranchName.Text}... 'checkout -b {TxbNewBranchName.Text}'");
                     }));
                     CmdResult gitCreateNewBranchResult = _gitUiCommands.GitModule.RunGitCmdResult($"checkout -b {TxbNewBranchName.Text}");
                     if (gitCreateNewBranchResult.ExitCode != 0)
                     {
-                        CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.Red; }));
+                        CbxIsCheckoutBranch.Invoke((MethodInvoker)(() => { CbxIsCheckoutBranch.BackColor = Color.Red; }));
                         TbxLogInfo.Invoke((MethodInvoker)(() =>
                                 {
                                     TbxLogInfo.AppendText($"\r\nError when Creating new branch {TxbNewBranchName.Text}. {gitCheckoutResult.StdError}");
@@ -334,21 +365,21 @@ namespace TalentsoftTools
             }
             if (IsGitClean && !IsProcessAborted)
             {
-                CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.LimeGreen; }));
+                CbxIsGitClean.Invoke((MethodInvoker)(() => { CbxIsGitClean.BackColor = Color.LimeGreen; }));
                 string excludeCommand = string.Empty;
                 if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]))
                 {
-                    excludeCommand = $" --exclude {TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]}";
+                    excludeCommand = $" -e='{TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]}'";
                 }
                 TbxLogInfo.Invoke((MethodInvoker)(() =>
                 {
-                    TbxLogInfo.AppendText($"\r\nCleaning solution: {TargetSolutionName}... 'clean -d -x -f {excludeCommand}'");
+                    TbxLogInfo.AppendText($"\r\nCleaning solution: {TargetSolutionName}... 'clean -d -x -f{excludeCommand}'");
                 }));
 
-                CmdResult gitCleanResult = _gitUiCommands.GitModule.RunGitCmdResult($"clean -d -x -f {excludeCommand}");
+                CmdResult gitCleanResult = _gitUiCommands.GitModule.RunGitCmdResult($"clean -d -x -f{excludeCommand}");
                 if (gitCleanResult.ExitCode != 0)
                 {
-                    CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.Red; }));
+                    CbxIsGitClean.Invoke((MethodInvoker)(() => { CbxIsGitClean.BackColor = Color.Red; }));
                     TbxLogInfo.Invoke((MethodInvoker)(() =>
                     {
                         TbxLogInfo.AppendText($"\r\nError when cleaning solution: {TargetSolutionName}. {gitCleanResult.StdError}");
@@ -359,7 +390,7 @@ namespace TalentsoftTools
             }
             if (IsBuildSolution && !IsProcessAborted)
             {
-                CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.LimeGreen; }));
+                this.CbxIsBuildSolution.Invoke((MethodInvoker)(() => { CbxIsBuildSolution.BackColor = Color.LimeGreen; }));
                 TbxLogInfo.Invoke((MethodInvoker)(() =>
                 {
                     TbxLogInfo.AppendText($"\r\nRestoring Nugets in solution: {TargetSolutionName}... 'nuget restore {TargetSolutionName}'");
@@ -368,7 +399,7 @@ namespace TalentsoftTools
                 bool result = Helper.RunCommandLine(new List<string> { $"nuget restore {TargetSolutionName}" });
                 if (!result)
                 {
-                    CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.Red; }));
+                    CbxIsBuildSolution.Invoke((MethodInvoker)(() => { CbxIsBuildSolution.BackColor = Color.Red; }));
                     TbxLogInfo.Invoke((MethodInvoker)(() =>
                     {
                         TbxLogInfo.AppendText($"\r\nError when restoring nugets in solution: {TargetSolutionName}.");
@@ -386,7 +417,7 @@ namespace TalentsoftTools
                     result = Helper.Build(TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuild[_settings]);
                     if (!result)
                     {
-                        CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.Red; }));
+                        CbxIsBuildSolution.Invoke((MethodInvoker)(() => { CbxIsBuildSolution.BackColor = Color.Red; }));
                         TbxLogInfo.Invoke((MethodInvoker)(() =>
                         {
                             TbxLogInfo.AppendText($"\r\nError when building solution: {TargetSolutionName}.");
@@ -398,7 +429,7 @@ namespace TalentsoftTools
             }
             if (IsRunVisualStudio && !IsProcessAborted)
             {
-                CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.LimeGreen; }));
+                this.CbxIsRunVisualStudio.Invoke((MethodInvoker)(() => { CbxIsRunVisualStudio.BackColor = Color.LimeGreen; }));
                 TbxLogInfo.Invoke((MethodInvoker)(() =>
                 {
                     TbxLogInfo.AppendText($"\r\nRunning Visual Studio with: {TargetSolutionName}...");
@@ -406,7 +437,7 @@ namespace TalentsoftTools
 
                 if (!Helper.LaunchVisualStudio(TargetSolutionName))
                 {
-                    CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.Red; }));
+                    CbxIsRunVisualStudio.Invoke((MethodInvoker)(() => { CbxIsRunVisualStudio.BackColor = Color.Red; }));
                     TbxLogInfo.Invoke((MethodInvoker)(() =>
                     {
                         TbxLogInfo.AppendText($"\r\nError when running Visual Studio with: {TargetSolutionName}.");
@@ -425,7 +456,7 @@ namespace TalentsoftTools
 
                 if (!Helper.LaunchWebUri(TalentsoftToolsPlugin.LocalUriWebApplication[_settings]))
                 {
-                    CbxLaunchUri.Invoke((MethodInvoker)(() =>{CbxLaunchUri.BackColor = Color.Red;}));
+                    CbxLaunchUri.Invoke((MethodInvoker)(() => { CbxLaunchUri.BackColor = Color.Red; }));
                     TbxLogInfo.Invoke((MethodInvoker)(() =>
                     {
                         TbxLogInfo.AppendText($"\r\nError when launching web URI: {TalentsoftToolsPlugin.LocalUriWebApplication[_settings]}.");
