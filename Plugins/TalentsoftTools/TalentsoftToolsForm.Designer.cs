@@ -32,12 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TalentsoftToolsForm));
             this.TbcMain = new System.Windows.Forms.TabControl();
             this.TbpProcess = new System.Windows.Forms.TabPage();
-            this.GbxActualInfos = new System.Windows.Forms.GroupBox();
-            this.LblActualRepository = new System.Windows.Forms.Label();
-            this.LblActualRepositoryLabel = new System.Windows.Forms.Label();
-            this.LblActualBranchName = new System.Windows.Forms.Label();
-            this.LblActualBranchNameLabel = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.BgxLogInfo = new System.Windows.Forms.GroupBox();
             this.TbxLogInfo = new System.Windows.Forms.TextBox();
             this.GbxTargetSolution = new System.Windows.Forms.GroupBox();
@@ -82,9 +76,14 @@
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.branchDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GbxActualInfos = new System.Windows.Forms.GroupBox();
+            this.LblActualRepository = new System.Windows.Forms.Label();
+            this.LblActualRepositoryLabel = new System.Windows.Forms.Label();
+            this.LblActualBranchName = new System.Windows.Forms.Label();
+            this.LblActualBranchNameLabel = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
-            this.GbxActualInfos.SuspendLayout();
             this.BgxLogInfo.SuspendLayout();
             this.GbxTargetSolution.SuspendLayout();
             this.GbxTargetBranch.SuspendLayout();
@@ -101,94 +100,38 @@
             this.GbxLocalsBranchesActions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).BeginInit();
+            this.GbxActualInfos.SuspendLayout();
             this.SuspendLayout();
             // 
             // TbcMain
             // 
             this.TbcMain.Controls.Add(this.TbpProcess);
             this.TbcMain.Controls.Add(this.TbpLocalsBranches);
-            this.TbcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TbcMain.Location = new System.Drawing.Point(0, 0);
+            this.TbcMain.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.TbcMain.Location = new System.Drawing.Point(0, 88);
             this.TbcMain.Name = "TbcMain";
             this.TbcMain.SelectedIndex = 0;
-            this.TbcMain.Size = new System.Drawing.Size(990, 738);
+            this.TbcMain.Size = new System.Drawing.Size(990, 650);
             this.TbcMain.TabIndex = 0;
             this.TbcMain.SelectedIndexChanged += new System.EventHandler(this.TbcMainSelectedIndexChanged);
             // 
             // TbpProcess
             // 
-            this.TbpProcess.Controls.Add(this.GbxActualInfos);
             this.TbpProcess.Controls.Add(this.BgxLogInfo);
             this.TbpProcess.Controls.Add(this.GbxTargetSolution);
             this.TbpProcess.Controls.Add(this.GbxTargetBranch);
             this.TbpProcess.Controls.Add(this.GbxProcess);
             this.TbpProcess.Location = new System.Drawing.Point(4, 24);
             this.TbpProcess.Name = "TbpProcess";
-            this.TbpProcess.Size = new System.Drawing.Size(982, 710);
+            this.TbpProcess.Size = new System.Drawing.Size(982, 622);
             this.TbpProcess.TabIndex = 2;
             this.TbpProcess.Text = "Process";
             this.TbpProcess.UseVisualStyleBackColor = true;
             // 
-            // GbxActualInfos
-            // 
-            this.GbxActualInfos.Controls.Add(this.LblActualRepository);
-            this.GbxActualInfos.Controls.Add(this.LblActualRepositoryLabel);
-            this.GbxActualInfos.Controls.Add(this.LblActualBranchName);
-            this.GbxActualInfos.Controls.Add(this.LblActualBranchNameLabel);
-            this.GbxActualInfos.Controls.Add(this.label2);
-            this.GbxActualInfos.Location = new System.Drawing.Point(4, 3);
-            this.GbxActualInfos.Name = "GbxActualInfos";
-            this.GbxActualInfos.Size = new System.Drawing.Size(972, 75);
-            this.GbxActualInfos.TabIndex = 4;
-            this.GbxActualInfos.TabStop = false;
-            this.GbxActualInfos.Text = "Current state";
-            // 
-            // LblActualRepository
-            // 
-            this.LblActualRepository.AutoSize = true;
-            this.LblActualRepository.Location = new System.Drawing.Point(105, 21);
-            this.LblActualRepository.Name = "LblActualRepository";
-            this.LblActualRepository.Size = new System.Drawing.Size(0, 15);
-            this.LblActualRepository.TabIndex = 4;
-            // 
-            // LblActualRepositoryLabel
-            // 
-            this.LblActualRepositoryLabel.AutoSize = true;
-            this.LblActualRepositoryLabel.Location = new System.Drawing.Point(12, 21);
-            this.LblActualRepositoryLabel.Name = "LblActualRepositoryLabel";
-            this.LblActualRepositoryLabel.Size = new System.Drawing.Size(69, 15);
-            this.LblActualRepositoryLabel.TabIndex = 3;
-            this.LblActualRepositoryLabel.Text = "Repository :";
-            // 
-            // LblActualBranchName
-            // 
-            this.LblActualBranchName.AutoSize = true;
-            this.LblActualBranchName.Location = new System.Drawing.Point(105, 44);
-            this.LblActualBranchName.Name = "LblActualBranchName";
-            this.LblActualBranchName.Size = new System.Drawing.Size(0, 15);
-            this.LblActualBranchName.TabIndex = 2;
-            // 
-            // LblActualBranchNameLabel
-            // 
-            this.LblActualBranchNameLabel.AutoSize = true;
-            this.LblActualBranchNameLabel.Location = new System.Drawing.Point(12, 44);
-            this.LblActualBranchNameLabel.Name = "LblActualBranchNameLabel";
-            this.LblActualBranchNameLabel.Size = new System.Drawing.Size(83, 15);
-            this.LblActualBranchNameLabel.TabIndex = 1;
-            this.LblActualBranchNameLabel.Text = "Branch name :";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(105, 39);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(0, 15);
-            this.label2.TabIndex = 0;
-            // 
             // BgxLogInfo
             // 
             this.BgxLogInfo.Controls.Add(this.TbxLogInfo);
-            this.BgxLogInfo.Location = new System.Drawing.Point(1, 417);
+            this.BgxLogInfo.Location = new System.Drawing.Point(1, 333);
             this.BgxLogInfo.Name = "BgxLogInfo";
             this.BgxLogInfo.Size = new System.Drawing.Size(975, 291);
             this.BgxLogInfo.TabIndex = 4;
@@ -213,7 +156,7 @@
             this.GbxTargetSolution.Controls.Add(this.CblSolutions);
             this.GbxTargetSolution.Controls.Add(this.LblTargetSolutionFileNameLabel);
             this.GbxTargetSolution.Controls.Add(this.LblTargetSolutionFileName);
-            this.GbxTargetSolution.Location = new System.Drawing.Point(1, 80);
+            this.GbxTargetSolution.Location = new System.Drawing.Point(1, 3);
             this.GbxTargetSolution.Name = "GbxTargetSolution";
             this.GbxTargetSolution.Size = new System.Drawing.Size(975, 73);
             this.GbxTargetSolution.TabIndex = 0;
@@ -254,7 +197,7 @@
             this.GbxTargetBranch.Controls.Add(this.LblSelectBranch);
             this.GbxTargetBranch.Controls.Add(this.RbtIsRemoteTargetBranch);
             this.GbxTargetBranch.Controls.Add(this.RbtIsLocalTargetBranch);
-            this.GbxTargetBranch.Location = new System.Drawing.Point(3, 155);
+            this.GbxTargetBranch.Location = new System.Drawing.Point(3, 78);
             this.GbxTargetBranch.Name = "GbxTargetBranch";
             this.GbxTargetBranch.Size = new System.Drawing.Size(973, 108);
             this.GbxTargetBranch.TabIndex = 2;
@@ -342,7 +285,7 @@
             this.GbxProcess.Controls.Add(this.CbxIsStashChanges);
             this.GbxProcess.Controls.Add(this.CbxIsCheckoutBranch);
             this.GbxProcess.Controls.Add(this.CbxIsBuildSolution);
-            this.GbxProcess.Location = new System.Drawing.Point(1, 269);
+            this.GbxProcess.Location = new System.Drawing.Point(1, 187);
             this.GbxProcess.Name = "GbxProcess";
             this.GbxProcess.Size = new System.Drawing.Size(975, 142);
             this.GbxProcess.TabIndex = 3;
@@ -560,7 +503,7 @@
             this.TbpLocalsBranches.Location = new System.Drawing.Point(4, 24);
             this.TbpLocalsBranches.Name = "TbpLocalsBranches";
             this.TbpLocalsBranches.Padding = new System.Windows.Forms.Padding(3);
-            this.TbpLocalsBranches.Size = new System.Drawing.Size(982, 710);
+            this.TbpLocalsBranches.Size = new System.Drawing.Size(982, 622);
             this.TbpLocalsBranches.TabIndex = 0;
             this.TbpLocalsBranches.Text = "Locals branches";
             this.TbpLocalsBranches.UseVisualStyleBackColor = true;
@@ -570,7 +513,7 @@
             this.GbxLocalsBranchesActions.Controls.Add(this.BtnDeleteWithRemote);
             this.GbxLocalsBranchesActions.Controls.Add(this.BtnDeleteLocalsBranches);
             this.GbxLocalsBranchesActions.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.GbxLocalsBranchesActions.Location = new System.Drawing.Point(3, 633);
+            this.GbxLocalsBranchesActions.Location = new System.Drawing.Point(3, 545);
             this.GbxLocalsBranchesActions.Name = "GbxLocalsBranchesActions";
             this.GbxLocalsBranchesActions.Size = new System.Drawing.Size(976, 74);
             this.GbxLocalsBranchesActions.TabIndex = 1;
@@ -580,7 +523,7 @@
             // BtnDeleteWithRemote
             // 
             this.BtnDeleteWithRemote.Enabled = false;
-            this.BtnDeleteWithRemote.Location = new System.Drawing.Point(835, 22);
+            this.BtnDeleteWithRemote.Location = new System.Drawing.Point(834, 26);
             this.BtnDeleteWithRemote.Name = "BtnDeleteWithRemote";
             this.BtnDeleteWithRemote.Size = new System.Drawing.Size(135, 34);
             this.BtnDeleteWithRemote.TabIndex = 3;
@@ -589,7 +532,7 @@
             // 
             // BtnDeleteLocalsBranches
             // 
-            this.BtnDeleteLocalsBranches.Location = new System.Drawing.Point(6, 22);
+            this.BtnDeleteLocalsBranches.Location = new System.Drawing.Point(5, 26);
             this.BtnDeleteLocalsBranches.Name = "BtnDeleteLocalsBranches";
             this.BtnDeleteLocalsBranches.Size = new System.Drawing.Size(135, 34);
             this.BtnDeleteLocalsBranches.TabIndex = 2;
@@ -617,7 +560,7 @@
             this.DgvLocalsBranches.Name = "DgvLocalsBranches";
             this.DgvLocalsBranches.ReadOnly = true;
             this.DgvLocalsBranches.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DgvLocalsBranches.Size = new System.Drawing.Size(976, 704);
+            this.DgvLocalsBranches.Size = new System.Drawing.Size(976, 616);
             this.DgvLocalsBranches.TabIndex = 0;
             // 
             // dataGridViewTextBoxColumn6
@@ -666,11 +609,68 @@
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
             this.dataGridViewTextBoxColumn1.Visible = false;
             // 
+            // GbxActualInfos
+            // 
+            this.GbxActualInfos.Controls.Add(this.LblActualRepository);
+            this.GbxActualInfos.Controls.Add(this.LblActualRepositoryLabel);
+            this.GbxActualInfos.Controls.Add(this.LblActualBranchName);
+            this.GbxActualInfos.Controls.Add(this.LblActualBranchNameLabel);
+            this.GbxActualInfos.Controls.Add(this.label2);
+            this.GbxActualInfos.Location = new System.Drawing.Point(7, 5);
+            this.GbxActualInfos.Name = "GbxActualInfos";
+            this.GbxActualInfos.Size = new System.Drawing.Size(972, 75);
+            this.GbxActualInfos.TabIndex = 5;
+            this.GbxActualInfos.TabStop = false;
+            this.GbxActualInfos.Text = "Current state";
+            // 
+            // LblActualRepository
+            // 
+            this.LblActualRepository.AutoSize = true;
+            this.LblActualRepository.Location = new System.Drawing.Point(105, 21);
+            this.LblActualRepository.Name = "LblActualRepository";
+            this.LblActualRepository.Size = new System.Drawing.Size(0, 15);
+            this.LblActualRepository.TabIndex = 4;
+            // 
+            // LblActualRepositoryLabel
+            // 
+            this.LblActualRepositoryLabel.AutoSize = true;
+            this.LblActualRepositoryLabel.Location = new System.Drawing.Point(12, 21);
+            this.LblActualRepositoryLabel.Name = "LblActualRepositoryLabel";
+            this.LblActualRepositoryLabel.Size = new System.Drawing.Size(69, 15);
+            this.LblActualRepositoryLabel.TabIndex = 3;
+            this.LblActualRepositoryLabel.Text = "Repository :";
+            // 
+            // LblActualBranchName
+            // 
+            this.LblActualBranchName.AutoSize = true;
+            this.LblActualBranchName.Location = new System.Drawing.Point(105, 44);
+            this.LblActualBranchName.Name = "LblActualBranchName";
+            this.LblActualBranchName.Size = new System.Drawing.Size(0, 15);
+            this.LblActualBranchName.TabIndex = 2;
+            // 
+            // LblActualBranchNameLabel
+            // 
+            this.LblActualBranchNameLabel.AutoSize = true;
+            this.LblActualBranchNameLabel.Location = new System.Drawing.Point(12, 44);
+            this.LblActualBranchNameLabel.Name = "LblActualBranchNameLabel";
+            this.LblActualBranchNameLabel.Size = new System.Drawing.Size(83, 15);
+            this.LblActualBranchNameLabel.TabIndex = 1;
+            this.LblActualBranchNameLabel.Text = "Branch name :";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(105, 39);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 15);
+            this.label2.TabIndex = 0;
+            // 
             // TalentsoftToolsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(990, 738);
+            this.Controls.Add(this.GbxActualInfos);
             this.Controls.Add(this.TbcMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -682,8 +682,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TalentsoftToolsFormClosing);
             this.TbcMain.ResumeLayout(false);
             this.TbpProcess.ResumeLayout(false);
-            this.GbxActualInfos.ResumeLayout(false);
-            this.GbxActualInfos.PerformLayout();
             this.BgxLogInfo.ResumeLayout(false);
             this.BgxLogInfo.PerformLayout();
             this.GbxTargetSolution.ResumeLayout(false);
@@ -704,6 +702,8 @@
             this.GbxLocalsBranchesActions.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).EndInit();
+            this.GbxActualInfos.ResumeLayout(false);
+            this.GbxActualInfos.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -737,12 +737,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.Button BtnDeleteWithRemote;
         private System.Windows.Forms.Button BtnDeleteLocalsBranches;
-        private System.Windows.Forms.GroupBox GbxActualInfos;
-        private System.Windows.Forms.Label LblActualBranchNameLabel;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label LblActualRepository;
-        private System.Windows.Forms.Label LblActualRepositoryLabel;
-        private System.Windows.Forms.Label LblActualBranchName;
         private System.Windows.Forms.CheckBox CbxLaunchUri;
         private System.Windows.Forms.Button BtnStopProcess;
         private System.Windows.Forms.PictureBox pictureBox1;
@@ -770,5 +764,11 @@
         private System.Windows.Forms.PictureBox pictureBox7;
         private System.Windows.Forms.CheckBox CbxIsStashPop;
         private System.Windows.Forms.TextBox TxbUri;
+        private System.Windows.Forms.GroupBox GbxActualInfos;
+        private System.Windows.Forms.Label LblActualRepository;
+        private System.Windows.Forms.Label LblActualRepositoryLabel;
+        private System.Windows.Forms.Label LblActualBranchName;
+        private System.Windows.Forms.Label LblActualBranchNameLabel;
+        private System.Windows.Forms.Label label2;
     }
 }

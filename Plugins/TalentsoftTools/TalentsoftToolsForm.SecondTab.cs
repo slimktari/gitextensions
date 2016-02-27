@@ -17,7 +17,7 @@ namespace TalentsoftTools
             string[] unmerged = Helper.GetUnmergerBranches(_gitUiCommands);
             var listBranches = new BindingList<BranchDto>();
 
-            foreach (var branchName in LocalBranches.Select(b=>b.Name))
+            foreach (var branchName in LocalBranches.Select(b => b.Name))
             {
                 string[] info = Helper.GetBranchInfo(_gitUiCommands, branchName);
                 bool isMerged = !unmerged.Contains(branchName);
@@ -55,10 +55,27 @@ namespace TalentsoftTools
             foreach (DataGridViewRow row in DgvLocalsBranches.SelectedRows)
             {
                 string branchToDelete = row.Cells[0].Value.ToString();
-                CmdResult gitStashResult = Helper.DeleteMergedLocalBranch(_gitUiCommands, branchToDelete);
-                if (gitStashResult.ExitCode != 0)
+                bool isMerged = Convert.ToBoolean(row.Cells[3].Value);
+                CmdResult gitResult = new CmdResult();
+                if (!isMerged)
                 {
-                    MessageBox.Show($"Error when deleting {branchToDelete}. {gitStashResult.StdError}", "Error");
+                    DialogResult response = MessageBox.Show($"{branchToDelete} branch is not merged. Are you sure you want delete it ?", "Talentsoft tools", MessageBoxButtons.YesNo);
+                    switch (response)
+                    {
+                        case DialogResult.Yes:
+                            gitResult = Helper.DeleteUnmergedLocalBranch(_gitUiCommands, branchToDelete);
+                            break;
+                        case DialogResult.No:
+                            break;
+                    }
+                }
+                else
+                {
+                    gitResult = Helper.DeleteMergedLocalBranch(_gitUiCommands, branchToDelete);
+                }
+                if (gitResult.ExitCode != 0)
+                {
+                    MessageBox.Show($"Error when deleting {branchToDelete}. {gitResult.StdError}", "Error");
                 }
             }
             _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
