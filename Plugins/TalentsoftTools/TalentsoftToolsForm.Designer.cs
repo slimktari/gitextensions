@@ -79,6 +79,8 @@
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.branchDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.CbxStashPop = new System.Windows.Forms.CheckBox();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
             this.GbxActualInfos.SuspendLayout();
@@ -97,6 +99,7 @@
             this.GbxLocalsBranchesActions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             this.SuspendLayout();
             // 
             // TbcMain
@@ -107,7 +110,7 @@
             this.TbcMain.Location = new System.Drawing.Point(0, 0);
             this.TbcMain.Name = "TbcMain";
             this.TbcMain.SelectedIndex = 0;
-            this.TbcMain.Size = new System.Drawing.Size(990, 685);
+            this.TbcMain.Size = new System.Drawing.Size(990, 738);
             this.TbcMain.TabIndex = 0;
             this.TbcMain.SelectedIndexChanged += new System.EventHandler(this.TbcMainSelectedIndexChanged);
             // 
@@ -120,7 +123,7 @@
             this.TbpProcess.Controls.Add(this.GbxProcess);
             this.TbpProcess.Location = new System.Drawing.Point(4, 24);
             this.TbpProcess.Name = "TbpProcess";
-            this.TbpProcess.Size = new System.Drawing.Size(982, 657);
+            this.TbpProcess.Size = new System.Drawing.Size(982, 710);
             this.TbpProcess.TabIndex = 2;
             this.TbpProcess.Text = "Process";
             this.TbpProcess.UseVisualStyleBackColor = true;
@@ -184,7 +187,7 @@
             // BgxLogInfo
             // 
             this.BgxLogInfo.Controls.Add(this.TbxLogInfo);
-            this.BgxLogInfo.Location = new System.Drawing.Point(1, 369);
+            this.BgxLogInfo.Location = new System.Drawing.Point(1, 404);
             this.BgxLogInfo.Name = "BgxLogInfo";
             this.BgxLogInfo.Size = new System.Drawing.Size(975, 285);
             this.BgxLogInfo.TabIndex = 4;
@@ -228,7 +231,7 @@
             // LblTargetSolutionFileNameLabel
             // 
             this.LblTargetSolutionFileNameLabel.AutoSize = true;
-            this.LblTargetSolutionFileNameLabel.Location = new System.Drawing.Point(12, 31);
+            this.LblTargetSolutionFileNameLabel.Location = new System.Drawing.Point(15, 31);
             this.LblTargetSolutionFileNameLabel.Name = "LblTargetSolutionFileNameLabel";
             this.LblTargetSolutionFileNameLabel.Size = new System.Drawing.Size(84, 15);
             this.LblTargetSolutionFileNameLabel.TabIndex = 1;
@@ -319,6 +322,8 @@
             // 
             // GbxProcess
             // 
+            this.GbxProcess.Controls.Add(this.pictureBox7);
+            this.GbxProcess.Controls.Add(this.CbxStashPop);
             this.GbxProcess.Controls.Add(this.PbxLoading);
             this.GbxProcess.Controls.Add(this.pictureBox6);
             this.GbxProcess.Controls.Add(this.pictureBox5);
@@ -337,7 +342,7 @@
             this.GbxProcess.Controls.Add(this.CbxIsBuildSolution);
             this.GbxProcess.Location = new System.Drawing.Point(1, 269);
             this.GbxProcess.Name = "GbxProcess";
-            this.GbxProcess.Size = new System.Drawing.Size(975, 97);
+            this.GbxProcess.Size = new System.Drawing.Size(975, 129);
             this.GbxProcess.TabIndex = 3;
             this.GbxProcess.TabStop = false;
             this.GbxProcess.Text = "Process";
@@ -345,7 +350,7 @@
             // PbxLoading
             // 
             this.PbxLoading.Image = global::TalentsoftTools.Properties.Resources.switchingCircle;
-            this.PbxLoading.Location = new System.Drawing.Point(685, 64);
+            this.PbxLoading.Location = new System.Drawing.Point(685, 98);
             this.PbxLoading.Name = "PbxLoading";
             this.PbxLoading.Size = new System.Drawing.Size(37, 19);
             this.PbxLoading.TabIndex = 24;
@@ -355,7 +360,7 @@
             // pictureBox6
             // 
             this.pictureBox6.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox6.Location = new System.Drawing.Point(844, 19);
+            this.pictureBox6.Location = new System.Drawing.Point(169, 58);
             this.pictureBox6.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(33, 30);
@@ -365,7 +370,7 @@
             // pictureBox5
             // 
             this.pictureBox5.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox5.Location = new System.Drawing.Point(692, 19);
+            this.pictureBox5.Location = new System.Drawing.Point(18, 58);
             this.pictureBox5.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(33, 30);
@@ -375,7 +380,7 @@
             // pictureBox4
             // 
             this.pictureBox4.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox4.Location = new System.Drawing.Point(560, 19);
+            this.pictureBox4.Location = new System.Drawing.Point(730, 19);
             this.pictureBox4.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(33, 30);
@@ -385,7 +390,7 @@
             // pictureBox3
             // 
             this.pictureBox3.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox3.Location = new System.Drawing.Point(454, 19);
+            this.pictureBox3.Location = new System.Drawing.Point(506, 19);
             this.pictureBox3.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(33, 30);
@@ -395,7 +400,7 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox2.Location = new System.Drawing.Point(258, 19);
+            this.pictureBox2.Location = new System.Drawing.Point(307, 19);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(33, 30);
@@ -405,7 +410,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox1.Location = new System.Drawing.Point(124, 19);
+            this.pictureBox1.Location = new System.Drawing.Point(169, 19);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(33, 30);
@@ -414,7 +419,7 @@
             // 
             // BtnStopProcess
             // 
-            this.BtnStopProcess.Location = new System.Drawing.Point(845, 56);
+            this.BtnStopProcess.Location = new System.Drawing.Point(845, 90);
             this.BtnStopProcess.Name = "BtnStopProcess";
             this.BtnStopProcess.Size = new System.Drawing.Size(118, 32);
             this.BtnStopProcess.TabIndex = 17;
@@ -427,7 +432,7 @@
             this.CbxLaunchUri.AutoSize = true;
             this.CbxLaunchUri.Checked = true;
             this.CbxLaunchUri.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxLaunchUri.Location = new System.Drawing.Point(880, 25);
+            this.CbxLaunchUri.Location = new System.Drawing.Point(205, 64);
             this.CbxLaunchUri.Name = "CbxLaunchUri";
             this.CbxLaunchUri.Size = new System.Drawing.Size(86, 19);
             this.CbxLaunchUri.TabIndex = 16;
@@ -439,7 +444,7 @@
             this.CbxIsGitClean.AutoSize = true;
             this.CbxIsGitClean.Checked = true;
             this.CbxIsGitClean.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsGitClean.Location = new System.Drawing.Point(490, 25);
+            this.CbxIsGitClean.Location = new System.Drawing.Point(542, 25);
             this.CbxIsGitClean.Name = "CbxIsGitClean";
             this.CbxIsGitClean.Size = new System.Drawing.Size(72, 19);
             this.CbxIsGitClean.TabIndex = 14;
@@ -448,7 +453,7 @@
             // 
             // BtnRunProcess
             // 
-            this.BtnRunProcess.Location = new System.Drawing.Point(721, 56);
+            this.BtnRunProcess.Location = new System.Drawing.Point(721, 90);
             this.BtnRunProcess.Name = "BtnRunProcess";
             this.BtnRunProcess.Size = new System.Drawing.Size(118, 32);
             this.BtnRunProcess.TabIndex = 13;
@@ -461,7 +466,7 @@
             this.CbxIsExitVisualStudio.AutoSize = true;
             this.CbxIsExitVisualStudio.Checked = true;
             this.CbxIsExitVisualStudio.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsExitVisualStudio.Location = new System.Drawing.Point(11, 25);
+            this.CbxIsExitVisualStudio.Location = new System.Drawing.Point(54, 25);
             this.CbxIsExitVisualStudio.Name = "CbxIsExitVisualStudio";
             this.CbxIsExitVisualStudio.Size = new System.Drawing.Size(115, 19);
             this.CbxIsExitVisualStudio.TabIndex = 0;
@@ -473,7 +478,7 @@
             this.CbxIsRunVisualStudio.AutoSize = true;
             this.CbxIsRunVisualStudio.Checked = true;
             this.CbxIsRunVisualStudio.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsRunVisualStudio.Location = new System.Drawing.Point(728, 25);
+            this.CbxIsRunVisualStudio.Location = new System.Drawing.Point(54, 64);
             this.CbxIsRunVisualStudio.Name = "CbxIsRunVisualStudio";
             this.CbxIsRunVisualStudio.Size = new System.Drawing.Size(118, 19);
             this.CbxIsRunVisualStudio.TabIndex = 12;
@@ -485,7 +490,7 @@
             this.CbxIsStashChanges.AutoSize = true;
             this.CbxIsStashChanges.Checked = true;
             this.CbxIsStashChanges.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsStashChanges.Location = new System.Drawing.Point(159, 25);
+            this.CbxIsStashChanges.Location = new System.Drawing.Point(205, 25);
             this.CbxIsStashChanges.Name = "CbxIsStashChanges";
             this.CbxIsStashChanges.Size = new System.Drawing.Size(101, 19);
             this.CbxIsStashChanges.TabIndex = 1;
@@ -497,7 +502,7 @@
             this.CbxIsCheckoutBranch.AutoSize = true;
             this.CbxIsCheckoutBranch.Checked = true;
             this.CbxIsCheckoutBranch.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsCheckoutBranch.Location = new System.Drawing.Point(294, 25);
+            this.CbxIsCheckoutBranch.Location = new System.Drawing.Point(343, 25);
             this.CbxIsCheckoutBranch.Name = "CbxIsCheckoutBranch";
             this.CbxIsCheckoutBranch.Size = new System.Drawing.Size(162, 19);
             this.CbxIsCheckoutBranch.TabIndex = 2;
@@ -510,7 +515,7 @@
             this.CbxIsBuildSolution.AutoSize = true;
             this.CbxIsBuildSolution.Checked = true;
             this.CbxIsBuildSolution.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsBuildSolution.Location = new System.Drawing.Point(596, 25);
+            this.CbxIsBuildSolution.Location = new System.Drawing.Point(766, 25);
             this.CbxIsBuildSolution.Name = "CbxIsBuildSolution";
             this.CbxIsBuildSolution.Size = new System.Drawing.Size(99, 19);
             this.CbxIsBuildSolution.TabIndex = 8;
@@ -630,11 +635,33 @@
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
             this.dataGridViewTextBoxColumn1.Visible = false;
             // 
+            // pictureBox7
+            // 
+            this.pictureBox7.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox7.Location = new System.Drawing.Point(615, 19);
+            this.pictureBox7.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(33, 30);
+            this.pictureBox7.TabIndex = 26;
+            this.pictureBox7.TabStop = false;
+            // 
+            // CbxStashPop
+            // 
+            this.CbxStashPop.AutoSize = true;
+            this.CbxStashPop.Checked = true;
+            this.CbxStashPop.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CbxStashPop.Location = new System.Drawing.Point(651, 25);
+            this.CbxStashPop.Name = "CbxStashPop";
+            this.CbxStashPop.Size = new System.Drawing.Size(78, 19);
+            this.CbxStashPop.TabIndex = 25;
+            this.CbxStashPop.Text = "Stash pop";
+            this.CbxStashPop.UseVisualStyleBackColor = true;
+            // 
             // TalentsoftToolsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(990, 685);
+            this.ClientSize = new System.Drawing.Size(990, 738);
             this.Controls.Add(this.TbcMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -667,6 +694,7 @@
             this.GbxLocalsBranchesActions.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -730,5 +758,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.PictureBox PbxLoading;
+        private System.Windows.Forms.PictureBox pictureBox7;
+        private System.Windows.Forms.CheckBox CbxStashPop;
     }
 }

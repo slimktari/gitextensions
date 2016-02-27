@@ -266,6 +266,16 @@ namespace TalentsoftTools
             return gitUiCommands.GitModule.RunGitCmdResult($"branch -D {branchToDelete}");
         }
 
+        public static string[] GetStashs(GitUIBaseEventArgs gitUiCommands)
+        {
+            CmdResult gitResult = gitUiCommands.GitModule.RunGitCmdResult("stash list");
+            if (gitResult.ExitCode == 0)
+            {
+                return gitResult.StdOutput.SplitLines();
+            }
+            return new string[0];
+        }
+
         #endregion
     }
 }

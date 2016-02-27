@@ -9,6 +9,7 @@ namespace TalentsoftTools
         public static BoolSetting IsDefaultStashChanges = new BoolSetting("Is default stash changes", true);
         public static BoolSetting IsDefaultCheckoutBranch = new BoolSetting("Is default checkout branch", true);
         public static BoolSetting IsDefaultGitClean = new BoolSetting("Is default git clean", true);
+        public static BoolSetting IsDefaultStashPop = new BoolSetting("Is default stash pop", true);
         public static BoolSetting IsDefaultBuildSolution = new BoolSetting("Is default build solution", true);
         public static BoolSetting IsDefaultRunVisualStudio = new BoolSetting("Is default run VisualStudio", true);
         public static BoolSetting IsDefaultRunUri = new BoolSetting("Is default execute URI", true);
@@ -39,6 +40,7 @@ namespace TalentsoftTools
             yield return IsDefaultStashChanges;
             yield return IsDefaultCheckoutBranch;
             yield return IsDefaultGitClean;
+            yield return IsDefaultStashPop;
             yield return IsDefaultBuildSolution;
             yield return IsDefaultRunVisualStudio;
             yield return IsDefaultRunUri;
