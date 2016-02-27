@@ -26,7 +26,7 @@ namespace TalentsoftTools
 
         public override bool Execute(GitUIBaseEventArgs gitUiCommands)
         {
-            using (var frm = new  TalentsoftTools(gitUiCommands, Settings))
+            using (var frm = new  TalentsoftToolsForm(gitUiCommands, Settings))
             {
                 frm.ShowDialog(gitUiCommands.OwnerForm);
                 return frm.IsRefreshNeeded;

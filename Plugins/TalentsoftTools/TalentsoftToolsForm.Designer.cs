@@ -1,6 +1,6 @@
 ﻿namespace TalentsoftTools
 {
-    partial class TalentsoftTools
+    partial class TalentsoftToolsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TalentsoftTools));
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TalentsoftToolsForm));
             this.TbcMain = new System.Windows.Forms.TabControl();
             this.TbpProcess = new System.Windows.Forms.TabPage();
             this.GbxActualInfos = new System.Windows.Forms.GroupBox();
@@ -71,7 +72,12 @@
             this.BtnDeleteWithRemote = new System.Windows.Forms.Button();
             this.BtnDeleteLocalsBranches = new System.Windows.Forms.Button();
             this.DgvLocalsBranches = new System.Windows.Forms.DataGridView();
+            this.branchDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
             this.GbxActualInfos.SuspendLayout();
@@ -88,6 +94,7 @@
             this.TbpLocalsBranches.SuspendLayout();
             this.GbxLocalsBranchesActions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // TbcMain
@@ -160,9 +167,9 @@
             this.LblActualBranchNameLabel.AutoSize = true;
             this.LblActualBranchNameLabel.Location = new System.Drawing.Point(12, 44);
             this.LblActualBranchNameLabel.Name = "LblActualBranchNameLabel";
-            this.LblActualBranchNameLabel.Size = new System.Drawing.Size(89, 15);
+            this.LblActualBranchNameLabel.Size = new System.Drawing.Size(83, 15);
             this.LblActualBranchNameLabel.TabIndex = 1;
-            this.LblActualBranchNameLabel.Text = "Branche name :";
+            this.LblActualBranchNameLabel.Text = "Branch name :";
             // 
             // label2
             // 
@@ -543,8 +550,19 @@
             // 
             // DgvLocalsBranches
             // 
-            this.DgvLocalsBranches.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.DgvLocalsBranches.AllowUserToAddRows = false;
+            this.DgvLocalsBranches.AllowUserToDeleteRows = false;
+            this.DgvLocalsBranches.AllowUserToResizeColumns = false;
+            this.DgvLocalsBranches.AllowUserToResizeRows = false;
+            this.DgvLocalsBranches.AutoGenerateColumns = false;
+            this.DgvLocalsBranches.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.DgvLocalsBranches.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvLocalsBranches.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn6,
+            this.dataGridViewTextBoxColumn7,
+            this.dataGridViewTextBoxColumn8,
+            this.dataGridViewTextBoxColumn9});
+            this.DgvLocalsBranches.DataSource = this.branchDtoBindingSource;
             this.DgvLocalsBranches.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DgvLocalsBranches.Location = new System.Drawing.Point(3, 3);
             this.DgvLocalsBranches.Name = "DgvLocalsBranches";
@@ -553,6 +571,10 @@
             this.DgvLocalsBranches.Size = new System.Drawing.Size(976, 651);
             this.DgvLocalsBranches.TabIndex = 0;
             // 
+            // branchDtoBindingSource
+            // 
+            this.branchDtoBindingSource.DataSource = typeof(TalentsoftTools.BranchDto);
+            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.HeaderText = "ff";
@@ -560,7 +582,42 @@
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
             this.dataGridViewTextBoxColumn1.Visible = false;
             // 
-            // TalentsoftTools
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn6.DataPropertyName = "Name";
+            this.dataGridViewTextBoxColumn6.HeaderText = "Branch name";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.DataPropertyName = "LastAuthor";
+            this.dataGridViewTextBoxColumn7.HeaderText = "Last author";
+            this.dataGridViewTextBoxColumn7.MinimumWidth = 120;
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.ReadOnly = true;
+            this.dataGridViewTextBoxColumn7.Width = 120;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.DataPropertyName = "LastUpdate";
+            this.dataGridViewTextBoxColumn8.HeaderText = "Last update";
+            this.dataGridViewTextBoxColumn8.MinimumWidth = 120;
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            this.dataGridViewTextBoxColumn8.ReadOnly = true;
+            this.dataGridViewTextBoxColumn8.Width = 120;
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.DataPropertyName = "IsMerged";
+            this.dataGridViewTextBoxColumn9.HeaderText = "Is merged";
+            this.dataGridViewTextBoxColumn9.MinimumWidth = 60;
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.ReadOnly = true;
+            this.dataGridViewTextBoxColumn9.Width = 84;
+            // 
+            // TalentsoftToolsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -570,7 +627,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
-            this.Name = "TalentsoftTools";
+            this.Name = "TalentsoftToolsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Talentsoft tools";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TalentsoftToolsFormClosing);
@@ -595,6 +652,7 @@
             this.TbpLocalsBranches.ResumeLayout(false);
             this.GbxLocalsBranchesActions.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -644,5 +702,18 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.TextBox TxbNewBranchName;
         private System.Windows.Forms.CheckBox CbxIsCreateNewBranch;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn lastAuthorDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn lastUpdateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn isMergedDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.BindingSource branchDtoBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
     }
 }

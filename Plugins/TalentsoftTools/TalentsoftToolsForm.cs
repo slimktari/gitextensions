@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 namespace TalentsoftTools
 {
+    using System.ComponentModel;
     using System.Diagnostics.Eventing.Reader;
     using System.Drawing;
     using System.IO;
@@ -16,7 +17,7 @@ namespace TalentsoftTools
     using System.Threading;
     using System.Threading.Tasks;
 
-    public partial class TalentsoftTools : GitExtensionsFormBase
+    public partial class TalentsoftToolsForm : GitExtensionsFormBase
     {
         private static readonly Regex DefaultHeadPattern = new Regex("refs/remotes/[^/]+/HEAD", RegexOptions.Compiled);
         private Task Task { get; set; }
@@ -48,7 +49,7 @@ namespace TalentsoftTools
             }
         }
 
-        public TalentsoftTools(GitUIBaseEventArgs gitUiCommands, ISettingsSource settings)
+        public TalentsoftToolsForm(GitUIBaseEventArgs gitUiCommands, ISettingsSource settings)
         {
             InitializeComponent();
             Translate();
@@ -74,15 +75,31 @@ namespace TalentsoftTools
         {
             LoadLocalsBranchsList();
             string[] unmerged = UnmergedBranches;
+            var listBranches = new BindingList<BranchDto>();
 
+            foreach (var branchName in LocalBranchesNames)
+            {
+                string[] info = GetBranchInfo(branchName);
+                bool isMerged = !unmerged.Contains(branchName);
 
+                var item = new BranchDto
+                               {
+                                   Name = branchName,
+                                   IsMerged = isMerged.ToString()
+                               };
+                if (info.Count() == 2)
+                {
+                    item.LastAuthor = info[0];
+                    item.LastUpdate = info[1];
+                }
 
-            DgvLocalsBranches.DataSource =
-                LocalBranchesNames.Select(x => new { Name = x, IsMerged = (!unmerged.Contains(x)).ToString() }).ToList();
+                listBranches.Add(item);
+            }
+            DgvLocalsBranches.DataSource = listBranches;
 
             foreach (DataGridViewRow row in DgvLocalsBranches.Rows)
             {
-                if (row.Cells[1].Value.ToString() == "False")
+                if (row.Cells[3].Value != null && row.Cells[3].Value.ToString() == "False")
                 {
                     row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.Coral };
                 }
@@ -91,6 +108,16 @@ namespace TalentsoftTools
                     row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.MediumSeaGreen };
                 }
             }
+        }
+
+        private string[] GetBranchInfo(string branchName)
+        {
+            CmdResult result = _gitUiCommands.GitModule.RunGitCmdResult($"log -n 1 --pretty=format:\" % an;% cr\" {branchName}");
+            if (result.ExitCode == 0 && !string.IsNullOrWhiteSpace(result.StdOutput) && result.StdOutput.Contains(";"))
+            {
+                return result.StdOutput.Split(';');
+            }
+            return new string[0];
         }
 
         private void InitProcessTab()
@@ -369,11 +396,11 @@ namespace TalentsoftTools
                 string excludeCommand = string.Empty;
                 if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]))
                 {
-                    excludeCommand = $" -e='{TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]}'";
+                    excludeCommand = $" -e=\"{TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]}\"";
                 }
                 TbxLogInfo.Invoke((MethodInvoker)(() =>
                 {
-                    TbxLogInfo.AppendText($"\r\nCleaning solution: {TargetSolutionName}... 'clean -d -x -f{excludeCommand}'");
+                    TbxLogInfo.AppendText($"\r\nCleaning solution: {TargetSolutionName}... \"clean -d -x -f{excludeCommand}\"");
                 }));
 
                 CmdResult gitCleanResult = _gitUiCommands.GitModule.RunGitCmdResult($"clean -d -x -f{excludeCommand}");
