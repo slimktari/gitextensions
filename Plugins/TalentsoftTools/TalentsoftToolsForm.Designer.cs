@@ -72,12 +72,12 @@
             this.BtnDeleteWithRemote = new System.Windows.Forms.Button();
             this.BtnDeleteLocalsBranches = new System.Windows.Forms.Button();
             this.DgvLocalsBranches = new System.Windows.Forms.DataGridView();
+            this.branchDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.branchDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
             this.GbxActualInfos.SuspendLayout();
@@ -571,6 +571,17 @@
             this.DgvLocalsBranches.Size = new System.Drawing.Size(976, 651);
             this.DgvLocalsBranches.TabIndex = 0;
             // 
+            // branchDtoBindingSource
+            // 
+            this.branchDtoBindingSource.DataSource = typeof(TalentsoftTools.BranchDto);
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "ff";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Visible = false;
+            // 
             // dataGridViewTextBoxColumn6
             // 
             this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -583,10 +594,10 @@
             // 
             this.dataGridViewTextBoxColumn7.DataPropertyName = "LastAuthor";
             this.dataGridViewTextBoxColumn7.HeaderText = "Last author";
-            this.dataGridViewTextBoxColumn7.MinimumWidth = 120;
+            this.dataGridViewTextBoxColumn7.MinimumWidth = 160;
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             this.dataGridViewTextBoxColumn7.ReadOnly = true;
-            this.dataGridViewTextBoxColumn7.Width = 120;
+            this.dataGridViewTextBoxColumn7.Width = 160;
             // 
             // dataGridViewTextBoxColumn8
             // 
@@ -605,17 +616,6 @@
             this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
             this.dataGridViewTextBoxColumn9.ReadOnly = true;
             this.dataGridViewTextBoxColumn9.Width = 84;
-            // 
-            // branchDtoBindingSource
-            // 
-            this.branchDtoBindingSource.DataSource = typeof(TalentsoftTools.BranchDto);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "ff";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Visible = false;
             // 
             // TalentsoftToolsForm
             // 

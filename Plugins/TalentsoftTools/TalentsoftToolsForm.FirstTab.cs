@@ -462,7 +462,7 @@ namespace TalentsoftTools
 
         private void BtnRunProcessClick(object sender, EventArgs e)
         {
-            if (!ValidateBranches())
+            if (!ValidateCheckoutBranch() || !ValidateCreateBranch())
             {
                 return;
             }
@@ -486,7 +486,33 @@ namespace TalentsoftTools
             Task = Task.Factory.StartNew(RunProcess, TokenTask.Token);
         }
 
-        bool ValidateBranches()
+        bool ValidateCreateBranch()
+        {
+            string message = string.Empty;
+            if (CbxIsCreateNewBranch.Checked && CbxIsCheckoutBranch.Checked)
+            {
+                if (string.IsNullOrWhiteSpace(TxbNewBranchName.Text))
+                {
+                    message = "Please specify the name of the branch to create.";
+                }
+            }
+            else
+            {
+                LocalBranches = Helper.GetLocalsBranches(_gitUiCommands);
+                if (LocalBranches.Any(b => b.Name == TxbNewBranchName.Text))
+                {
+                    message = "There is already a branch that has the same name.";
+                }
+            }
+            if (!string.IsNullOrEmpty(message))
+            {
+                MessageBox.Show(message, "Error", MessageBoxButtons.OK);
+                return false;
+            }
+            return true;
+        }
+
+        bool ValidateCheckoutBranch()
         {
             string message = string.Empty;
             if (CbxIsCheckoutBranch.Checked)
@@ -510,10 +536,9 @@ namespace TalentsoftTools
                     message = "The selected branch does not exist !";
                 }
             }
-
             if (!string.IsNullOrEmpty(message))
             {
-                MessageBox.Show(message, "Talentsoft tools", MessageBoxButtons.OK);
+                MessageBox.Show(message, "Error", MessageBoxButtons.OK);
                 return false;
             }
             return true;
