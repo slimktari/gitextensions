@@ -52,6 +52,9 @@
             this.RbtIsRemoteTargetBranch = new System.Windows.Forms.RadioButton();
             this.RbtIsLocalTargetBranch = new System.Windows.Forms.RadioButton();
             this.GbxProcess = new System.Windows.Forms.GroupBox();
+            this.TxbUri = new System.Windows.Forms.TextBox();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.CbxIsStashPop = new System.Windows.Forms.CheckBox();
             this.PbxLoading = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
@@ -79,8 +82,6 @@
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.branchDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.CbxStashPop = new System.Windows.Forms.CheckBox();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
             this.GbxActualInfos.SuspendLayout();
@@ -88,6 +89,7 @@
             this.GbxTargetSolution.SuspendLayout();
             this.GbxTargetBranch.SuspendLayout();
             this.GbxProcess.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbxLoading)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -99,7 +101,6 @@
             this.GbxLocalsBranchesActions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             this.SuspendLayout();
             // 
             // TbcMain
@@ -187,9 +188,9 @@
             // BgxLogInfo
             // 
             this.BgxLogInfo.Controls.Add(this.TbxLogInfo);
-            this.BgxLogInfo.Location = new System.Drawing.Point(1, 404);
+            this.BgxLogInfo.Location = new System.Drawing.Point(1, 417);
             this.BgxLogInfo.Name = "BgxLogInfo";
-            this.BgxLogInfo.Size = new System.Drawing.Size(975, 285);
+            this.BgxLogInfo.Size = new System.Drawing.Size(975, 291);
             this.BgxLogInfo.TabIndex = 4;
             this.BgxLogInfo.TabStop = false;
             this.BgxLogInfo.Text = "Log info";
@@ -204,7 +205,7 @@
             this.TbxLogInfo.Multiline = true;
             this.TbxLogInfo.Name = "TbxLogInfo";
             this.TbxLogInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TbxLogInfo.Size = new System.Drawing.Size(969, 263);
+            this.TbxLogInfo.Size = new System.Drawing.Size(969, 269);
             this.TbxLogInfo.TabIndex = 1;
             // 
             // GbxTargetSolution
@@ -322,8 +323,9 @@
             // 
             // GbxProcess
             // 
+            this.GbxProcess.Controls.Add(this.TxbUri);
             this.GbxProcess.Controls.Add(this.pictureBox7);
-            this.GbxProcess.Controls.Add(this.CbxStashPop);
+            this.GbxProcess.Controls.Add(this.CbxIsStashPop);
             this.GbxProcess.Controls.Add(this.PbxLoading);
             this.GbxProcess.Controls.Add(this.pictureBox6);
             this.GbxProcess.Controls.Add(this.pictureBox5);
@@ -342,15 +344,44 @@
             this.GbxProcess.Controls.Add(this.CbxIsBuildSolution);
             this.GbxProcess.Location = new System.Drawing.Point(1, 269);
             this.GbxProcess.Name = "GbxProcess";
-            this.GbxProcess.Size = new System.Drawing.Size(975, 129);
+            this.GbxProcess.Size = new System.Drawing.Size(975, 142);
             this.GbxProcess.TabIndex = 3;
             this.GbxProcess.TabStop = false;
             this.GbxProcess.Text = "Process";
             // 
+            // TxbUri
+            // 
+            this.TxbUri.Location = new System.Drawing.Point(307, 62);
+            this.TxbUri.Name = "TxbUri";
+            this.TxbUri.Size = new System.Drawing.Size(656, 23);
+            this.TxbUri.TabIndex = 27;
+            // 
+            // pictureBox7
+            // 
+            this.pictureBox7.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox7.Location = new System.Drawing.Point(615, 19);
+            this.pictureBox7.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(33, 30);
+            this.pictureBox7.TabIndex = 26;
+            this.pictureBox7.TabStop = false;
+            // 
+            // CbxIsStashPop
+            // 
+            this.CbxIsStashPop.AutoSize = true;
+            this.CbxIsStashPop.Checked = true;
+            this.CbxIsStashPop.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CbxIsStashPop.Location = new System.Drawing.Point(651, 25);
+            this.CbxIsStashPop.Name = "CbxIsStashPop";
+            this.CbxIsStashPop.Size = new System.Drawing.Size(78, 19);
+            this.CbxIsStashPop.TabIndex = 25;
+            this.CbxIsStashPop.Text = "Stash pop";
+            this.CbxIsStashPop.UseVisualStyleBackColor = true;
+            // 
             // PbxLoading
             // 
             this.PbxLoading.Image = global::TalentsoftTools.Properties.Resources.switchingCircle;
-            this.PbxLoading.Location = new System.Drawing.Point(685, 98);
+            this.PbxLoading.Location = new System.Drawing.Point(685, 103);
             this.PbxLoading.Name = "PbxLoading";
             this.PbxLoading.Size = new System.Drawing.Size(37, 19);
             this.PbxLoading.TabIndex = 24;
@@ -419,7 +450,7 @@
             // 
             // BtnStopProcess
             // 
-            this.BtnStopProcess.Location = new System.Drawing.Point(845, 90);
+            this.BtnStopProcess.Location = new System.Drawing.Point(845, 95);
             this.BtnStopProcess.Name = "BtnStopProcess";
             this.BtnStopProcess.Size = new System.Drawing.Size(118, 32);
             this.BtnStopProcess.TabIndex = 17;
@@ -453,7 +484,7 @@
             // 
             // BtnRunProcess
             // 
-            this.BtnRunProcess.Location = new System.Drawing.Point(721, 90);
+            this.BtnRunProcess.Location = new System.Drawing.Point(721, 95);
             this.BtnRunProcess.Name = "BtnRunProcess";
             this.BtnRunProcess.Size = new System.Drawing.Size(118, 32);
             this.BtnRunProcess.TabIndex = 13;
@@ -529,7 +560,7 @@
             this.TbpLocalsBranches.Location = new System.Drawing.Point(4, 24);
             this.TbpLocalsBranches.Name = "TbpLocalsBranches";
             this.TbpLocalsBranches.Padding = new System.Windows.Forms.Padding(3);
-            this.TbpLocalsBranches.Size = new System.Drawing.Size(982, 657);
+            this.TbpLocalsBranches.Size = new System.Drawing.Size(982, 710);
             this.TbpLocalsBranches.TabIndex = 0;
             this.TbpLocalsBranches.Text = "Locals branches";
             this.TbpLocalsBranches.UseVisualStyleBackColor = true;
@@ -539,7 +570,7 @@
             this.GbxLocalsBranchesActions.Controls.Add(this.BtnDeleteWithRemote);
             this.GbxLocalsBranchesActions.Controls.Add(this.BtnDeleteLocalsBranches);
             this.GbxLocalsBranchesActions.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.GbxLocalsBranchesActions.Location = new System.Drawing.Point(3, 580);
+            this.GbxLocalsBranchesActions.Location = new System.Drawing.Point(3, 633);
             this.GbxLocalsBranchesActions.Name = "GbxLocalsBranchesActions";
             this.GbxLocalsBranchesActions.Size = new System.Drawing.Size(976, 74);
             this.GbxLocalsBranchesActions.TabIndex = 1;
@@ -586,7 +617,7 @@
             this.DgvLocalsBranches.Name = "DgvLocalsBranches";
             this.DgvLocalsBranches.ReadOnly = true;
             this.DgvLocalsBranches.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DgvLocalsBranches.Size = new System.Drawing.Size(976, 651);
+            this.DgvLocalsBranches.Size = new System.Drawing.Size(976, 704);
             this.DgvLocalsBranches.TabIndex = 0;
             // 
             // dataGridViewTextBoxColumn6
@@ -635,28 +666,6 @@
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
             this.dataGridViewTextBoxColumn1.Visible = false;
             // 
-            // pictureBox7
-            // 
-            this.pictureBox7.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox7.Location = new System.Drawing.Point(615, 19);
-            this.pictureBox7.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox7.Name = "pictureBox7";
-            this.pictureBox7.Size = new System.Drawing.Size(33, 30);
-            this.pictureBox7.TabIndex = 26;
-            this.pictureBox7.TabStop = false;
-            // 
-            // CbxStashPop
-            // 
-            this.CbxStashPop.AutoSize = true;
-            this.CbxStashPop.Checked = true;
-            this.CbxStashPop.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxStashPop.Location = new System.Drawing.Point(651, 25);
-            this.CbxStashPop.Name = "CbxStashPop";
-            this.CbxStashPop.Size = new System.Drawing.Size(78, 19);
-            this.CbxStashPop.TabIndex = 25;
-            this.CbxStashPop.Text = "Stash pop";
-            this.CbxStashPop.UseVisualStyleBackColor = true;
-            // 
             // TalentsoftToolsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -683,6 +692,7 @@
             this.GbxTargetBranch.PerformLayout();
             this.GbxProcess.ResumeLayout(false);
             this.GbxProcess.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbxLoading)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
@@ -694,7 +704,6 @@
             this.GbxLocalsBranchesActions.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -759,6 +768,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.PictureBox PbxLoading;
         private System.Windows.Forms.PictureBox pictureBox7;
-        private System.Windows.Forms.CheckBox CbxStashPop;
+        private System.Windows.Forms.CheckBox CbxIsStashPop;
+        private System.Windows.Forms.TextBox TxbUri;
     }
 }
