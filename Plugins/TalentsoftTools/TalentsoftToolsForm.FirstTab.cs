@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -146,6 +145,7 @@ namespace TalentsoftTools
                 IsProcessAborted = true;
                 BtnRunProcess.Enabled = true;
                 BtnStopProcess.Enabled = false;
+                PbxLoading.Visible = false;
             }
         }
 
@@ -356,21 +356,7 @@ namespace TalentsoftTools
             {
                 LblActualRepository.Text = _gitUiCommands.GitModule.WorkingDir;
             }));
-            IsProcessAborted = true;
-            BtnRunProcess.Invoke((MethodInvoker)(() =>
-            {
-                BtnRunProcess.Enabled = true;
-            }));
-
-            BtnStopProcess.Invoke((MethodInvoker)(() =>
-            {
-                BtnStopProcess.Enabled = false;
-            }));
-            if (TokenTask != null && !TokenTask.IsCancellationRequested)
-            {
-                TokenTask.Cancel();
-                TokenTask.Dispose();
-            }
+            Invoke((MethodInvoker)ExitProcess);
         }
 
         #endregion
@@ -466,6 +452,7 @@ namespace TalentsoftTools
             {
                 return;
             }
+            PbxLoading.Visible = true;
             TokenTask = new CancellationTokenSource();
             if (CblSolutions.Items.Count > 0)
             {

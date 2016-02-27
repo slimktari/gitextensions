@@ -91,6 +91,12 @@
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loopingCircle.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\switchingCircle.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

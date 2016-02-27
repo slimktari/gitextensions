@@ -52,6 +52,7 @@
             this.RbtIsRemoteTargetBranch = new System.Windows.Forms.RadioButton();
             this.RbtIsLocalTargetBranch = new System.Windows.Forms.RadioButton();
             this.GbxProcess = new System.Windows.Forms.GroupBox();
+            this.PbxLoading = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
@@ -72,12 +73,12 @@
             this.BtnDeleteWithRemote = new System.Windows.Forms.Button();
             this.BtnDeleteLocalsBranches = new System.Windows.Forms.Button();
             this.DgvLocalsBranches = new System.Windows.Forms.DataGridView();
-            this.branchDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.branchDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
             this.GbxActualInfos.SuspendLayout();
@@ -85,6 +86,7 @@
             this.GbxTargetSolution.SuspendLayout();
             this.GbxTargetBranch.SuspendLayout();
             this.GbxProcess.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxLoading)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -317,6 +319,7 @@
             // 
             // GbxProcess
             // 
+            this.GbxProcess.Controls.Add(this.PbxLoading);
             this.GbxProcess.Controls.Add(this.pictureBox6);
             this.GbxProcess.Controls.Add(this.pictureBox5);
             this.GbxProcess.Controls.Add(this.pictureBox4);
@@ -338,6 +341,16 @@
             this.GbxProcess.TabIndex = 3;
             this.GbxProcess.TabStop = false;
             this.GbxProcess.Text = "Process";
+            // 
+            // PbxLoading
+            // 
+            this.PbxLoading.Image = global::TalentsoftTools.Properties.Resources.switchingCircle;
+            this.PbxLoading.Location = new System.Drawing.Point(685, 64);
+            this.PbxLoading.Name = "PbxLoading";
+            this.PbxLoading.Size = new System.Drawing.Size(37, 19);
+            this.PbxLoading.TabIndex = 24;
+            this.PbxLoading.TabStop = false;
+            this.PbxLoading.Visible = false;
             // 
             // pictureBox6
             // 
@@ -571,17 +584,6 @@
             this.DgvLocalsBranches.Size = new System.Drawing.Size(976, 651);
             this.DgvLocalsBranches.TabIndex = 0;
             // 
-            // branchDtoBindingSource
-            // 
-            this.branchDtoBindingSource.DataSource = typeof(TalentsoftTools.BranchDto);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "ff";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Visible = false;
-            // 
             // dataGridViewTextBoxColumn6
             // 
             this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -617,6 +619,17 @@
             this.dataGridViewTextBoxColumn9.ReadOnly = true;
             this.dataGridViewTextBoxColumn9.Width = 84;
             // 
+            // branchDtoBindingSource
+            // 
+            this.branchDtoBindingSource.DataSource = typeof(TalentsoftTools.BranchDto);
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "ff";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Visible = false;
+            // 
             // TalentsoftToolsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -643,6 +656,7 @@
             this.GbxTargetBranch.PerformLayout();
             this.GbxProcess.ResumeLayout(false);
             this.GbxProcess.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxLoading)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
@@ -715,5 +729,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.PictureBox PbxLoading;
     }
 }
