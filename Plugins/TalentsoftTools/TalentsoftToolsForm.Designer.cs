@@ -41,13 +41,13 @@
             this.BgxLogInfo = new System.Windows.Forms.GroupBox();
             this.TbxLogInfo = new System.Windows.Forms.TextBox();
             this.GbxTargetSolution = new System.Windows.Forms.GroupBox();
-            this.CbxSolutions = new System.Windows.Forms.ComboBox();
+            this.CblSolutions = new System.Windows.Forms.ComboBox();
             this.LblTargetSolutionFileNameLabel = new System.Windows.Forms.Label();
             this.LblTargetSolutionFileName = new System.Windows.Forms.Label();
             this.GbxTargetBranch = new System.Windows.Forms.GroupBox();
             this.TxbNewBranchName = new System.Windows.Forms.TextBox();
             this.CbxIsCreateNewBranch = new System.Windows.Forms.CheckBox();
-            this.CbxBranches = new System.Windows.Forms.ComboBox();
+            this.CblBranches = new System.Windows.Forms.ComboBox();
             this.LblSelectBranch = new System.Windows.Forms.Label();
             this.RbtIsRemoteTargetBranch = new System.Windows.Forms.RadioButton();
             this.RbtIsLocalTargetBranch = new System.Windows.Forms.RadioButton();
@@ -72,12 +72,12 @@
             this.BtnDeleteWithRemote = new System.Windows.Forms.Button();
             this.BtnDeleteLocalsBranches = new System.Windows.Forms.Button();
             this.DgvLocalsBranches = new System.Windows.Forms.DataGridView();
-            this.branchDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.branchDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
             this.GbxActualInfos.SuspendLayout();
@@ -204,7 +204,7 @@
             // 
             // GbxTargetSolution
             // 
-            this.GbxTargetSolution.Controls.Add(this.CbxSolutions);
+            this.GbxTargetSolution.Controls.Add(this.CblSolutions);
             this.GbxTargetSolution.Controls.Add(this.LblTargetSolutionFileNameLabel);
             this.GbxTargetSolution.Controls.Add(this.LblTargetSolutionFileName);
             this.GbxTargetSolution.Location = new System.Drawing.Point(1, 80);
@@ -214,14 +214,14 @@
             this.GbxTargetSolution.TabStop = false;
             this.GbxTargetSolution.Text = "Target solution";
             // 
-            // CbxSolutions
+            // CblSolutions
             // 
-            this.CbxSolutions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CbxSolutions.FormattingEnabled = true;
-            this.CbxSolutions.Location = new System.Drawing.Point(111, 28);
-            this.CbxSolutions.Name = "CbxSolutions";
-            this.CbxSolutions.Size = new System.Drawing.Size(850, 23);
-            this.CbxSolutions.TabIndex = 3;
+            this.CblSolutions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CblSolutions.FormattingEnabled = true;
+            this.CblSolutions.Location = new System.Drawing.Point(111, 28);
+            this.CblSolutions.Name = "CblSolutions";
+            this.CblSolutions.Size = new System.Drawing.Size(850, 23);
+            this.CblSolutions.TabIndex = 3;
             // 
             // LblTargetSolutionFileNameLabel
             // 
@@ -244,7 +244,7 @@
             // 
             this.GbxTargetBranch.Controls.Add(this.TxbNewBranchName);
             this.GbxTargetBranch.Controls.Add(this.CbxIsCreateNewBranch);
-            this.GbxTargetBranch.Controls.Add(this.CbxBranches);
+            this.GbxTargetBranch.Controls.Add(this.CblBranches);
             this.GbxTargetBranch.Controls.Add(this.LblSelectBranch);
             this.GbxTargetBranch.Controls.Add(this.RbtIsRemoteTargetBranch);
             this.GbxTargetBranch.Controls.Add(this.RbtIsLocalTargetBranch);
@@ -273,14 +273,14 @@
             this.CbxIsCreateNewBranch.UseVisualStyleBackColor = true;
             this.CbxIsCreateNewBranch.CheckedChanged += new System.EventHandler(this.CbxIsCreateNewBranchCheckedChanged);
             // 
-            // CbxBranches
+            // CblBranches
             // 
-            this.CbxBranches.FormattingEnabled = true;
-            this.CbxBranches.Location = new System.Drawing.Point(395, 30);
-            this.CbxBranches.Name = "CbxBranches";
-            this.CbxBranches.Size = new System.Drawing.Size(566, 23);
-            this.CbxBranches.TabIndex = 3;
-            this.CbxBranches.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CbxBranchesKeyPress);
+            this.CblBranches.FormattingEnabled = true;
+            this.CblBranches.Location = new System.Drawing.Point(395, 30);
+            this.CblBranches.Name = "CblBranches";
+            this.CblBranches.Size = new System.Drawing.Size(566, 23);
+            this.CblBranches.TabIndex = 3;
+            this.CblBranches.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CblBranchesKeyPress);
             // 
             // LblSelectBranch
             // 
@@ -490,7 +490,7 @@
             this.CbxIsCheckoutBranch.TabIndex = 2;
             this.CbxIsCheckoutBranch.Text = "Checkout / Create branch";
             this.CbxIsCheckoutBranch.UseVisualStyleBackColor = true;
-            this.CbxIsCheckoutBranch.CheckedChanged += new System.EventHandler(this.CbxIsCheckoutBranchCheckedChanged);
+            this.CbxIsCheckoutBranch.CheckedChanged += new System.EventHandler(this.CblIsCheckoutBranchCheckedChanged);
             // 
             // CbxIsBuildSolution
             // 
@@ -571,17 +571,6 @@
             this.DgvLocalsBranches.Size = new System.Drawing.Size(976, 651);
             this.DgvLocalsBranches.TabIndex = 0;
             // 
-            // branchDtoBindingSource
-            // 
-            this.branchDtoBindingSource.DataSource = typeof(TalentsoftTools.BranchDto);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "ff";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Visible = false;
-            // 
             // dataGridViewTextBoxColumn6
             // 
             this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -616,6 +605,17 @@
             this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
             this.dataGridViewTextBoxColumn9.ReadOnly = true;
             this.dataGridViewTextBoxColumn9.Width = 84;
+            // 
+            // branchDtoBindingSource
+            // 
+            this.branchDtoBindingSource.DataSource = typeof(TalentsoftTools.BranchDto);
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "ff";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Visible = false;
             // 
             // TalentsoftToolsForm
             // 
@@ -675,12 +675,12 @@
         private System.Windows.Forms.RadioButton RbtIsLocalTargetBranch;
         private System.Windows.Forms.RadioButton RbtIsRemoteTargetBranch;
         private System.Windows.Forms.Label LblSelectBranch;
-        private System.Windows.Forms.ComboBox CbxBranches;
+        private System.Windows.Forms.ComboBox CblBranches;
         private System.Windows.Forms.GroupBox GbxTargetSolution;
         private System.Windows.Forms.Label LblTargetSolutionFileName;
         private System.Windows.Forms.Label LblTargetSolutionFileNameLabel;
         private System.Windows.Forms.CheckBox CbxIsGitClean;
-        private System.Windows.Forms.ComboBox CbxSolutions;
+        private System.Windows.Forms.ComboBox CblSolutions;
         private System.Windows.Forms.GroupBox BgxLogInfo;
         private System.Windows.Forms.TextBox TbxLogInfo;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;

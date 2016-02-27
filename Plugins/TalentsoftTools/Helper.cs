@@ -3,7 +3,10 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using GitCommands;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Execution;
 using GitUIPluginInterfaces;
@@ -39,27 +42,14 @@ namespace TalentsoftTools
             }
             return true;
         }
-        
+
         public static List<string> GetSolutionsFile(string directory)
         {
-            List<String> files = new List<String>();
-            try
+            var files = new List<string>();
+            files.AddRange(Directory.GetFiles(directory).Where(f => f.EndsWith(".sln")));
+            foreach (string directoryItem in Directory.GetDirectories(directory))
             {
-                foreach (string f in Directory.GetFiles(directory))
-                {
-                    if (f.EndsWith(".sln"))
-                    {
-                        files.Add(f);
-                    }
-                }
-                foreach (string d in Directory.GetDirectories(directory))
-                {
-                    files.AddRange(GetSolutionsFile(d));
-                }
-            }
-            catch (System.Exception excpt)
-            {
-
+                files.AddRange(GetSolutionsFile(directoryItem));
             }
             return files;
         }
@@ -185,5 +175,97 @@ namespace TalentsoftTools
             }
             return true;
         }
+
+        #region Git Helpers
+
+        public static string[] GetBranchInfo(GitUIBaseEventArgs gitUiCommands, string branchName)
+        {
+            CmdResult result = gitUiCommands.GitModule.RunGitCmdResult($"log -n 1 --pretty=format:\" % an;% cr\" {branchName}");
+            if (result.ExitCode == 0 && !string.IsNullOrWhiteSpace(result.StdOutput) && result.StdOutput.Contains(";"))
+            {
+                return result.StdOutput.Split(';');
+            }
+            return new string[0];
+        }
+
+        public static List<GitRef> GetBranches(GitUIBaseEventArgs gitUiCommands)
+        {
+            return GetTreeRefs(gitUiCommands, gitUiCommands.GitModule.RunGitCmd("show-ref --dereference")).ToList();
+        }
+
+        static List<GitRef> GetTreeRefs(GitUIBaseEventArgs gitUiCommands, string tree)
+        {
+            var defaultHeadPattern = new Regex("refs/remotes/[^/]+/HEAD", RegexOptions.Compiled);
+            var itemsStrings = tree.Split('\n');
+
+            var gitRefs = new List<GitRef>();
+            var defaultHeads = new Dictionary<string, GitRef>(); // remote -> HEAD
+            var remotes = gitUiCommands.GitModule.GetRemotes(false);
+
+            foreach (var itemsString in itemsStrings)
+            {
+                if (itemsString == null || itemsString.Length <= 42 || itemsString.StartsWith("error: "))
+                    continue;
+
+                var completeName = itemsString.Substring(41).Trim();
+                var guid = itemsString.Substring(0, 40);
+                var remoteName = GitCommandHelpers.GetRemoteName(completeName, remotes);
+                var head = new GitRef(null, guid, completeName, remoteName);
+                if (defaultHeadPattern.IsMatch(completeName))
+                {
+                    defaultHeads[remoteName] = head;
+                }
+                else
+                {
+                    gitRefs.Add(head);
+                }
+            }
+
+            // do not show default head if remote has a branch on the same commit
+            GitRef defaultHead;
+            foreach (var gitRef in gitRefs.Where(head => defaultHeads.TryGetValue(head.Remote, out defaultHead) && head.Guid == defaultHead.Guid))
+            {
+                defaultHeads.Remove(gitRef.Remote);
+            }
+
+            gitRefs.AddRange(defaultHeads.Values);
+
+            return gitRefs;
+        }
+
+        public static List<GitRef> GetLocalsBranches(GitUIBaseEventArgs gitUiCommands)
+        {
+            gitUiCommands.GitModule.RunGitCmd("git fetch -p -n");
+            return GetBranches(gitUiCommands).Where(h => !h.IsRemote && !h.IsTag && !h.IsOther && !h.IsBisect).ToList();
+        }
+
+        public static List<GitRef> GetRemotesBranches(GitUIBaseEventArgs gitUiCommands)
+        {
+            gitUiCommands.GitModule.RunGitCmd("git fetch -n --all");
+            return GetBranches(gitUiCommands).Where(h => h.IsRemote && !h.IsTag).ToList();
+        }
+
+        public static string[] GetUnmergerBranches(GitUIBaseEventArgs gitUiCommands)
+        {
+            gitUiCommands.GitModule.RunGitCmd("git fetch -p -n");
+            CmdResult gitResult = gitUiCommands.GitModule.RunGitCmdResult("branch --no-merged");
+            if (gitResult.ExitCode == 0)
+            {
+                return gitResult.StdOutput.Replace(" ", string.Empty).SplitLines();
+            }
+            return new string[0];
+        }
+
+        public static CmdResult DeleteMergedLocalBranch(GitUIBaseEventArgs gitUiCommands, string branchToDelete)
+        {
+            return gitUiCommands.GitModule.RunGitCmdResult($"branch -d {branchToDelete}");
+        }
+
+        public static CmdResult DeleteUnmergedLocalBranch(GitUIBaseEventArgs gitUiCommands, string branchToDelete)
+        {
+            return gitUiCommands.GitModule.RunGitCmdResult($"branch -D {branchToDelete}");
+        }
+
+        #endregion
     }
 }

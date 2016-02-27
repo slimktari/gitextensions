@@ -29,7 +29,7 @@ namespace TalentsoftTools
             using (var frm = new  TalentsoftToolsForm(gitUiCommands, Settings))
             {
                 frm.ShowDialog(gitUiCommands.OwnerForm);
-                return frm.IsRefreshNeeded;
+                return true;
             }
         }
 

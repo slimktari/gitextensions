@@ -56,6 +56,9 @@
     <Compile Include="TalentsoftToolsForm.Designer.cs">
       <DependentUpon>TalentsoftToolsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TalentsoftToolsForm.FirstTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TalentsoftToolsPlugin.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +87,9 @@
   <ItemGroup>
     <None Include="Properties\DataSources\BranchDto.datasource" />
     <None Include="Resources\Arrow_Direction_Move_Next_Forward_Right.png" />
+    <Compile Include="TalentsoftToolsForm.SecondTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
