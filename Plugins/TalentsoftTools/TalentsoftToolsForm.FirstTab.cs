@@ -53,12 +53,7 @@ namespace TalentsoftTools
             BtnStopProcess.Enabled = false;
             LblActualBranchName.Text = _gitUiCommands.GitModule.GetSelectedBranch();
             LblActualRepository.Text = _gitUiCommands.GitModule.WorkingDir;
-            CbxIsCheckoutBranch.Checked = false;
-            CbxIsCheckoutBranch.Enabled = false;
-            CbxIsStashChanges.Checked = false;
-            CbxIsStashChanges.Enabled = false;
             TxbNewBranchName.Enabled = false;
-            CbxIsCreateNewBranch.Enabled = false;
 
             if (!Helper.GetStashs(_gitUiCommands).Any())
             {
@@ -226,7 +221,7 @@ namespace TalentsoftTools
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxIsCheckoutBranch.BackColor = Color.LimeGreen;
-                    TbxLogInfo.AppendText($"\r\nCheckout branch {CblBranches.SelectedItem}...");
+                    TbxLogInfo.AppendText($"\r\nCheckout branch {TargetBranch.Name}...");
                     TbxLogInfo.AppendText($" 'checkout -B {TargetBranch.LocalName} {TargetBranch.Name}'.");
                 }));
                 CmdResult gitCheckoutResult = _gitUiCommands.GitModule.RunGitCmdResult($"checkout -B {TargetBranch.LocalName} {TargetBranch.Name}");
@@ -390,86 +385,15 @@ namespace TalentsoftTools
 
         #region Events
 
-        private void CblBranchesKeyPress(object sender, KeyPressEventArgs e)
-        {
-            string strFindStr = "";
-
-            if (e.KeyChar == (char)8)
-            {
-                if (CblBranches.SelectionStart <= 1)
-                {
-                    CblBranches.Text = "";
-                    return;
-                }
-
-                if (CblBranches.SelectionLength == 0)
-                    strFindStr = CblBranches.Text.Substring(0, CblBranches.Text.Length - 1);
-                else
-                    strFindStr = CblBranches.Text.Substring(0, CblBranches.SelectionStart - 1);
-            }
-            else
-            {
-                if (CblBranches.SelectionLength == 0)
-                    strFindStr = CblBranches.Text + e.KeyChar;
-                else
-                    strFindStr = CblBranches.Text.Substring(0, CblBranches.SelectionStart) + e.KeyChar;
-            }
-
-            int intIdx = -1;
-
-            // Search the string in the ComboBox list.
-
-            intIdx = CblBranches.FindString(strFindStr);
-
-            if (intIdx != -1)
-            {
-                CblBranches.SelectedText = string.Empty;
-                CblBranches.SelectedIndex = intIdx;
-                CblBranches.SelectionStart = strFindStr.Length;
-                CblBranches.SelectionLength = CblBranches.Text.Length;
-            }
-            e.Handled = true;
-        }
-
         void RbtIsRemoteOrLocalTargetBranchCheckedChanged(object sender, EventArgs e)
         {
             if (RbtIsLocalTargetBranch.Checked)
             {
-                CblBranches.DataSource = Helper.GetLocalsBranches(_gitUiCommands).Select(b => b.Name).ToList();
+                ActBranches.Values = Helper.GetLocalsBranches(_gitUiCommands).Select(b => b.Name).ToArray();
             }
             if (RbtIsRemoteTargetBranch.Checked)
             {
-                CblBranches.DataSource = Helper.GetRemotesBranches(_gitUiCommands).Select(b => b.Name).ToList();
-            }
-
-            if (CblBranches.Items.Count > 0)
-            {
-                CbxIsCreateNewBranch.Enabled = true;
-                if (!CbxIsCheckoutBranch.Enabled)
-                {
-                    CbxIsCheckoutBranch.Enabled = true;
-                    if (TalentsoftToolsPlugin.IsDefaultCheckoutBranch[_settings].HasValue)
-                    {
-                        CbxIsCheckoutBranch.Checked = TalentsoftToolsPlugin.IsDefaultCheckoutBranch[_settings].Value;
-                    }
-                }
-                if (!CbxIsStashChanges.Enabled)
-                {
-                    CbxIsStashChanges.Enabled = true;
-                    if (TalentsoftToolsPlugin.IsDefaultStashChanges[_settings].HasValue)
-                    {
-                        CbxIsStashChanges.Checked = TalentsoftToolsPlugin.IsDefaultStashChanges[_settings].Value;
-                    }
-                }
-            }
-            else
-            {
-                CbxIsCheckoutBranch.Checked = false;
-                CbxIsCheckoutBranch.Enabled = false;
-                CbxIsStashChanges.Checked = false;
-                CbxIsStashChanges.Enabled = false;
-                CbxIsCreateNewBranch.Enabled = false;
-                CbxIsCreateNewBranch.Checked = false;
+                ActBranches.Values = Helper.GetRemotesBranches(_gitUiCommands).Select(b => b.Name).ToArray();
             }
         }
 
@@ -549,23 +473,26 @@ namespace TalentsoftTools
             string message = string.Empty;
             if (CbxIsCheckoutBranch.Checked)
             {
-                if (string.IsNullOrWhiteSpace(CblBranches.Text))
+                if (string.IsNullOrWhiteSpace(ActBranches.Text))
                 {
                     message = "There is no selected branch !";
                 }
-                if (RbtIsRemoteTargetBranch.Checked)
-                {
-                    RemoteBranches = Helper.GetRemotesBranches(_gitUiCommands);
-                    TargetBranch = RemoteBranches.FirstOrDefault(b => b.Name.ToUpper() == CblBranches.Text.ToUpper());
-                }
                 else
                 {
-                    LocalBranches = Helper.GetLocalsBranches(_gitUiCommands);
-                    TargetBranch = LocalBranches.FirstOrDefault(b => b.Name.ToUpper() == CblBranches.Text.ToUpper());
-                }
-                if (TargetBranch == null)
-                {
-                    message = "The selected branch does not exist !";
+                    if (RbtIsRemoteTargetBranch.Checked)
+                    {
+                        RemoteBranches = Helper.GetRemotesBranches(_gitUiCommands);
+                        TargetBranch = RemoteBranches.FirstOrDefault(b => b.Name.ToUpper() == ActBranches.Text.ToUpper());
+                    }
+                    else
+                    {
+                        LocalBranches = Helper.GetLocalsBranches(_gitUiCommands);
+                        TargetBranch = LocalBranches.FirstOrDefault(b => b.Name.ToUpper() == ActBranches.Text.ToUpper());
+                    }
+                    if (TargetBranch == null)
+                    {
+                        message = "The selected branch does not exist !";
+                    }
                 }
             }
             if (!string.IsNullOrEmpty(message))
@@ -579,14 +506,6 @@ namespace TalentsoftTools
         void BtnStopProcessClick(object sender, EventArgs e)
         {
             ExitProcess();
-        }
-
-        void CblIsCheckoutBranchCheckedChanged(object sender, EventArgs e)
-        {
-            if (CblBranches.Items.Count == 0)
-            {
-                CbxIsCheckoutBranch.Checked = false;
-            }
         }
 
         void CbxIsCreateNewBranchCheckedChanged(object sender, EventArgs e)

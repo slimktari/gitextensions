@@ -39,9 +39,9 @@
             this.LblTargetSolutionFileNameLabel = new System.Windows.Forms.Label();
             this.LblTargetSolutionFileName = new System.Windows.Forms.Label();
             this.GbxTargetBranch = new System.Windows.Forms.GroupBox();
+            this.ActBranches = new TalentsoftTools.Components.AutoCompleteTextBox();
             this.TxbNewBranchName = new System.Windows.Forms.TextBox();
             this.CbxIsCreateNewBranch = new System.Windows.Forms.CheckBox();
-            this.CblBranches = new System.Windows.Forms.ComboBox();
             this.LblSelectBranch = new System.Windows.Forms.Label();
             this.RbtIsRemoteTargetBranch = new System.Windows.Forms.RadioButton();
             this.RbtIsLocalTargetBranch = new System.Windows.Forms.RadioButton();
@@ -147,6 +147,7 @@
             this.TbxLogInfo.Location = new System.Drawing.Point(3, 19);
             this.TbxLogInfo.Multiline = true;
             this.TbxLogInfo.Name = "TbxLogInfo";
+            this.TbxLogInfo.ReadOnly = true;
             this.TbxLogInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TbxLogInfo.Size = new System.Drawing.Size(969, 269);
             this.TbxLogInfo.TabIndex = 1;
@@ -191,9 +192,9 @@
             // 
             // GbxTargetBranch
             // 
+            this.GbxTargetBranch.Controls.Add(this.ActBranches);
             this.GbxTargetBranch.Controls.Add(this.TxbNewBranchName);
             this.GbxTargetBranch.Controls.Add(this.CbxIsCreateNewBranch);
-            this.GbxTargetBranch.Controls.Add(this.CblBranches);
             this.GbxTargetBranch.Controls.Add(this.LblSelectBranch);
             this.GbxTargetBranch.Controls.Add(this.RbtIsRemoteTargetBranch);
             this.GbxTargetBranch.Controls.Add(this.RbtIsLocalTargetBranch);
@@ -203,6 +204,14 @@
             this.GbxTargetBranch.TabIndex = 2;
             this.GbxTargetBranch.TabStop = false;
             this.GbxTargetBranch.Text = "Target branch";
+            // 
+            // ActBranches
+            // 
+            this.ActBranches.Location = new System.Drawing.Point(395, 30);
+            this.ActBranches.Name = "ActBranches";
+            this.ActBranches.Size = new System.Drawing.Size(566, 23);
+            this.ActBranches.TabIndex = 6;
+            this.ActBranches.Values = null;
             // 
             // TxbNewBranchName
             // 
@@ -221,15 +230,6 @@
             this.CbxIsCreateNewBranch.Text = "Create and checkout new branch";
             this.CbxIsCreateNewBranch.UseVisualStyleBackColor = true;
             this.CbxIsCreateNewBranch.CheckedChanged += new System.EventHandler(this.CbxIsCreateNewBranchCheckedChanged);
-            // 
-            // CblBranches
-            // 
-            this.CblBranches.FormattingEnabled = true;
-            this.CblBranches.Location = new System.Drawing.Point(395, 30);
-            this.CblBranches.Name = "CblBranches";
-            this.CblBranches.Size = new System.Drawing.Size(566, 23);
-            this.CblBranches.TabIndex = 3;
-            this.CblBranches.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CblBranchesKeyPress);
             // 
             // LblSelectBranch
             // 
@@ -482,7 +482,6 @@
             this.CbxIsCheckoutBranch.TabIndex = 2;
             this.CbxIsCheckoutBranch.Text = "Checkout / Create branch";
             this.CbxIsCheckoutBranch.UseVisualStyleBackColor = true;
-            this.CbxIsCheckoutBranch.CheckedChanged += new System.EventHandler(this.CblIsCheckoutBranchCheckedChanged);
             // 
             // CbxIsBuildSolution
             // 
@@ -726,7 +725,6 @@
         private System.Windows.Forms.RadioButton RbtIsLocalTargetBranch;
         private System.Windows.Forms.RadioButton RbtIsRemoteTargetBranch;
         private System.Windows.Forms.Label LblSelectBranch;
-        private System.Windows.Forms.ComboBox CblBranches;
         private System.Windows.Forms.GroupBox GbxTargetSolution;
         private System.Windows.Forms.Label LblTargetSolutionFileName;
         private System.Windows.Forms.Label LblTargetSolutionFileNameLabel;
@@ -770,5 +768,6 @@
         private System.Windows.Forms.Label LblActualBranchName;
         private System.Windows.Forms.Label LblActualBranchNameLabel;
         private System.Windows.Forms.Label label2;
+        private Components.AutoCompleteTextBox ActBranches;
     }
 }

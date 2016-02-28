@@ -43,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BranchDto.cs" />
+    <Compile Include="Components\AutoCompleteTextbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
