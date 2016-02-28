@@ -90,7 +90,12 @@ namespace TalentsoftTools
         {
             if (DgvLocalsBranches.SelectedRows.Count > 0)
             {
-                DialogResult response = MessageBox.Show("Are you sure you want delete these branches ?", "Talentsoft tools", MessageBoxButtons.YesNo);
+                string message = "Are you sure you want delete these branches ?";
+                if (DgvLocalsBranches.SelectedRows.Count == 1)
+                {
+                    message = "Are you sure you want delete this branch ?";
+                }
+                DialogResult response = MessageBox.Show(message, "Talentsoft tools", MessageBoxButtons.YesNo);
                 switch (response)
                 {
                     case DialogResult.Yes:

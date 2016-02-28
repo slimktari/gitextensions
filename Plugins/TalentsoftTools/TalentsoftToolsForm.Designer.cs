@@ -82,6 +82,7 @@
             this.LblActualBranchName = new System.Windows.Forms.Label();
             this.LblActualBranchNameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
             this.BgxLogInfo.SuspendLayout();
@@ -101,6 +102,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).BeginInit();
             this.GbxActualInfos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             this.SuspendLayout();
             // 
             // TbcMain
@@ -170,7 +172,7 @@
             this.CblSolutions.FormattingEnabled = true;
             this.CblSolutions.Location = new System.Drawing.Point(111, 28);
             this.CblSolutions.Name = "CblSolutions";
-            this.CblSolutions.Size = new System.Drawing.Size(850, 23);
+            this.CblSolutions.Size = new System.Drawing.Size(852, 23);
             this.CblSolutions.TabIndex = 3;
             // 
             // LblTargetSolutionFileNameLabel
@@ -266,6 +268,7 @@
             // 
             // GbxProcess
             // 
+            this.GbxProcess.Controls.Add(this.pictureBox8);
             this.GbxProcess.Controls.Add(this.TxbUri);
             this.GbxProcess.Controls.Add(this.pictureBox7);
             this.GbxProcess.Controls.Add(this.CbxIsStashPop);
@@ -664,6 +667,16 @@
             this.label2.Size = new System.Drawing.Size(0, 15);
             this.label2.TabIndex = 0;
             // 
+            // pictureBox8
+            // 
+            this.pictureBox8.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox8.Location = new System.Drawing.Point(868, 19);
+            this.pictureBox8.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox8.Name = "pictureBox8";
+            this.pictureBox8.Size = new System.Drawing.Size(33, 30);
+            this.pictureBox8.TabIndex = 28;
+            this.pictureBox8.TabStop = false;
+            // 
             // TalentsoftToolsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -703,6 +716,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).EndInit();
             this.GbxActualInfos.ResumeLayout(false);
             this.GbxActualInfos.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -745,14 +759,6 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.TextBox TxbNewBranchName;
         private System.Windows.Forms.CheckBox CbxIsCreateNewBranch;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn lastAuthorDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn lastUpdateDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn isMergedDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.BindingSource branchDtoBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
@@ -769,5 +775,6 @@
         private System.Windows.Forms.Label LblActualBranchNameLabel;
         private System.Windows.Forms.Label label2;
         private Components.AutoCompleteTextBox ActBranches;
+        private System.Windows.Forms.PictureBox pictureBox8;
     }
 }
