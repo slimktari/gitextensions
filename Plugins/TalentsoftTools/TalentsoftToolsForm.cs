@@ -11,12 +11,12 @@ namespace TalentsoftTools
     public partial class TalentsoftToolsForm : GitExtensionsFormBase
     {
         #region Fields & Properties
-        
+
         readonly GitUIBaseEventArgs _gitUiCommands;
         readonly ISettingsSource _settings;
         List<GitRef> RemoteBranches { get; set; }
         List<GitRef> LocalBranches { get; set; }
-        
+
         #endregion
 
 
@@ -29,7 +29,7 @@ namespace TalentsoftTools
             //Icon = _gitUiCommands.GitUICommands.FormIcon;
             InitProcessTab();
         }
-        
+
         void TbcMainSelectedIndexChanged(object sender, EventArgs e)
         {
             if (TbcMain.SelectedIndex == 1)

@@ -24,6 +24,8 @@ namespace TalentsoftTools
         bool IsRunVisualStudio { get; set; }
         bool IsRunUri { get; set; }
         bool IsCreateNewBranch { get; set; }
+        bool? CanStashPop { get; set; }
+        bool LastStashPopValue { get; set; }
         string Uri { get; set; }
         string NewBranchName { get; set; }
         string TargetSolutionName { get; set; } = string.Empty;
@@ -54,12 +56,6 @@ namespace TalentsoftTools
             LblActualBranchName.Text = _gitUiCommands.GitModule.GetSelectedBranch();
             LblActualRepository.Text = _gitUiCommands.GitModule.WorkingDir;
             TxbNewBranchName.Enabled = false;
-
-            if (!Helper.GetStashs(_gitUiCommands).Any())
-            {
-                CbxIsStashPop.Checked = false;
-                CbxIsStashPop.Enabled = false;
-            }
         }
 
         void SetMsBuildPath()
@@ -115,7 +111,13 @@ namespace TalentsoftTools
             {
                 CbxIsExitVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultExitVisualStudio[_settings].Value;
             }
-            if (TalentsoftToolsPlugin.IsDefaultStashChanges[_settings].HasValue)
+            bool canStash = Helper.GetDiff(_gitUiCommands).Any();
+            if (!canStash)
+            {
+                CbxIsStashChanges.Checked = false;
+                CbxIsStashChanges.Enabled = false;
+            }
+            else if (TalentsoftToolsPlugin.IsDefaultStashChanges[_settings].HasValue)
             {
                 CbxIsStashChanges.Checked = TalentsoftToolsPlugin.IsDefaultStashChanges[_settings].Value;
             }
@@ -127,7 +129,13 @@ namespace TalentsoftTools
             {
                 CbxIsGitClean.Checked = TalentsoftToolsPlugin.IsDefaultGitClean[_settings].Value;
             }
-            if (TalentsoftToolsPlugin.IsDefaultStashPop[_settings].HasValue)
+            CanStashPop = Helper.GetStashs(_gitUiCommands).Any();
+            if (!CanStashPop.Value && !CbxIsStashChanges.Checked)
+            {
+                CbxIsStashPop.Checked = false;
+                CbxIsStashPop.Enabled = false;
+            }
+            else if (TalentsoftToolsPlugin.IsDefaultStashPop[_settings].HasValue)
             {
                 CbxIsStashPop.Checked = TalentsoftToolsPlugin.IsDefaultStashPop[_settings].Value;
             }
@@ -522,6 +530,24 @@ namespace TalentsoftTools
             {
                 TxbNewBranchName.Enabled = false;
                 TxbNewBranchName.Text = string.Empty;
+            }
+        }
+
+        void CbxIsStashChanges_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CanStashPop.HasValue && !CanStashPop.Value)
+            {
+                if (!CbxIsStashChanges.Checked)
+                {
+                    LastStashPopValue = CbxIsStashPop.Checked;
+                    CbxIsStashPop.Checked = false;
+                    CbxIsStashPop.Enabled = false;
+                }
+                else if (CbxIsStashChanges.Checked)
+                {
+                    CbxIsStashPop.Checked = LastStashPopValue;
+                    CbxIsStashPop.Enabled = true;
+                }
             }
         }
 

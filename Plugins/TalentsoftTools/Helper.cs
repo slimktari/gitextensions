@@ -275,6 +275,16 @@ namespace TalentsoftTools
             return new string[0];
         }
 
+        public static string[] GetDiff(GitUIBaseEventArgs gitUiCommands)
+        {
+            CmdResult gitResult = gitUiCommands.GitModule.RunGitCmdResult("diff");
+            if (gitResult.ExitCode == 0)
+            {
+                return gitResult.StdOutput.SplitLines();
+            }
+            return new string[0];
+        }
+
         #endregion
     }
 }

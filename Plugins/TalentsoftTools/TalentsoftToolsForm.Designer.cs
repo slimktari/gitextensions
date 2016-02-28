@@ -46,6 +46,7 @@
             this.RbtIsRemoteTargetBranch = new System.Windows.Forms.RadioButton();
             this.RbtIsLocalTargetBranch = new System.Windows.Forms.RadioButton();
             this.GbxProcess = new System.Windows.Forms.GroupBox();
+            this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.TxbUri = new System.Windows.Forms.TextBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.CbxIsStashPop = new System.Windows.Forms.CheckBox();
@@ -82,13 +83,13 @@
             this.LblActualBranchName = new System.Windows.Forms.Label();
             this.LblActualBranchNameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
             this.BgxLogInfo.SuspendLayout();
             this.GbxTargetSolution.SuspendLayout();
             this.GbxTargetBranch.SuspendLayout();
             this.GbxProcess.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbxLoading)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
@@ -102,7 +103,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).BeginInit();
             this.GbxActualInfos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             this.SuspendLayout();
             // 
             // TbcMain
@@ -295,6 +295,16 @@
             this.GbxProcess.TabStop = false;
             this.GbxProcess.Text = "Process";
             // 
+            // pictureBox8
+            // 
+            this.pictureBox8.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox8.Location = new System.Drawing.Point(868, 19);
+            this.pictureBox8.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox8.Name = "pictureBox8";
+            this.pictureBox8.Size = new System.Drawing.Size(33, 30);
+            this.pictureBox8.TabIndex = 28;
+            this.pictureBox8.TabStop = false;
+            // 
             // TxbUri
             // 
             this.TxbUri.Location = new System.Drawing.Point(307, 62);
@@ -473,6 +483,7 @@
             this.CbxIsStashChanges.TabIndex = 1;
             this.CbxIsStashChanges.Text = "Stash changes";
             this.CbxIsStashChanges.UseVisualStyleBackColor = true;
+            this.CbxIsStashChanges.CheckedChanged += new System.EventHandler(this.CbxIsStashChanges_CheckedChanged);
             // 
             // CbxIsCheckoutBranch
             // 
@@ -667,16 +678,6 @@
             this.label2.Size = new System.Drawing.Size(0, 15);
             this.label2.TabIndex = 0;
             // 
-            // pictureBox8
-            // 
-            this.pictureBox8.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox8.Location = new System.Drawing.Point(868, 19);
-            this.pictureBox8.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(33, 30);
-            this.pictureBox8.TabIndex = 28;
-            this.pictureBox8.TabStop = false;
-            // 
             // TalentsoftToolsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -702,6 +703,7 @@
             this.GbxTargetBranch.PerformLayout();
             this.GbxProcess.ResumeLayout(false);
             this.GbxProcess.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbxLoading)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
@@ -716,7 +718,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).EndInit();
             this.GbxActualInfos.ResumeLayout(false);
             this.GbxActualInfos.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             this.ResumeLayout(false);
 
         }
