@@ -298,7 +298,7 @@
             // pictureBox8
             // 
             this.pictureBox8.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox8.Location = new System.Drawing.Point(868, 19);
+            this.pictureBox8.Location = new System.Drawing.Point(866, 19);
             this.pictureBox8.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox8.Name = "pictureBox8";
             this.pictureBox8.Size = new System.Drawing.Size(33, 30);

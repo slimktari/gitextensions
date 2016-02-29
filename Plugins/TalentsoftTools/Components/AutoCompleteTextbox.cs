@@ -11,6 +11,7 @@ namespace TalentsoftTools.Components
         private bool _isAdded;
         private String[] _values;
         private String _formerValue = String.Empty;
+        private bool _ifClosingList = false;
 
         public AutoCompleteTextBox()
         {
@@ -21,10 +22,16 @@ namespace TalentsoftTools.Components
         private void InitializeComponent()
         {
             _listBox = new ListBox();
-            this.KeyDown += this_KeyDown;
-            this.KeyUp += this_KeyUp;
+            KeyDown += this_KeyDown;
+            KeyUp += this_KeyUp;
             _listBox.Click += ListBox_Click;
+            DoubleClick += This_DoubleClick;
 
+        }
+
+        private void This_DoubleClick(object sender, EventArgs e)
+        {
+            UpdateListBox();
         }
 
         private void ListBox_Click(object sender, EventArgs e)
@@ -34,7 +41,7 @@ namespace TalentsoftTools.Components
                 Text = _listBox.SelectedItem.ToString();
                 ResetListBox();
                 _formerValue = Text;
-                this.Select(this.Text.Length, 0);
+                Select(Text.Length, 0);
             }
         }
 
@@ -59,6 +66,7 @@ namespace TalentsoftTools.Components
         private void ResetListBox()
         {
             _listBox.Visible = false;
+            _ifClosingList = true;
         }
 
         private void this_KeyUp(object sender, KeyEventArgs e)
@@ -78,27 +86,32 @@ namespace TalentsoftTools.Components
                             Text = _listBox.SelectedItem.ToString();
                             ResetListBox();
                             _formerValue = Text;
-                            this.Select(this.Text.Length, 0);
+                            Select(Text.Length, 0);
                             e.Handled = true;
                         }
                         break;
                     }
                 case Keys.Down:
                     {
-                        if ((_listBox.Visible) && (_listBox.SelectedIndex < _listBox.Items.Count - 1))
+                        if (_listBox.Visible && (_listBox.SelectedIndex < _listBox.Items.Count - 1))
+                        {
                             _listBox.SelectedIndex++;
+                        }
                         e.Handled = true;
                         break;
                     }
                 case Keys.Up:
                     {
-                        if ((_listBox.Visible) && (_listBox.SelectedIndex > 0))
+                        if (_listBox.Visible && (_listBox.SelectedIndex > 0))
                             _listBox.SelectedIndex--;
                         e.Handled = true;
                         break;
                     }
-
-
+                case Keys.Escape:
+                    {
+                        ResetListBox();
+                        break;
+                    }
             }
         }
 
@@ -120,7 +133,11 @@ namespace TalentsoftTools.Components
         {
             if (Text == _formerValue)
                 return;
-
+            //if (_ifClosingList)
+            //{
+            //    _ifClosingList = false;
+            //    return;
+            //}
             _formerValue = this.Text;
             string word = this.Text;
 
