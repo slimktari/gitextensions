@@ -28,9 +28,9 @@ namespace TalentsoftTools
         bool LastStashPopValue { get; set; }
         string Uri { get; set; }
         string NewBranchName { get; set; }
-        string TargetSolutionName { get; set; } = string.Empty;
+        string TargetSolutionName { get; set; }
         GitRef TargetBranch { get; set; }
-        bool IsProcessAborted { get; set; } = true;
+        bool IsProcessAborted { get; set; }
         private Task Task { get; set; }
         private CancellationTokenSource TokenTask { get; set; }
 
@@ -40,6 +40,7 @@ namespace TalentsoftTools
 
         void InitProcessTab()
         {
+            IsProcessAborted = true;
             CblSolutions.DataSource = Helper.GetSolutionsFile(_gitUiCommands.GitModule.WorkingDir);
             CheckDefaultSloutionFileFromSettings();
 
@@ -174,14 +175,14 @@ namespace TalentsoftTools
             DateTime startDateTime = DateTime.Now;
             Invoke((MethodInvoker)(() =>
             {
-                TbxLogInfo.AppendText($"Start at: {startDateTime}\r\nCurrent branch: {_gitUiCommands.GitModule.GetSelectedBranch()}");
+                TbxLogInfo.AppendText(string.Format("Start at: {0}\r\nCurrent branch: {1}",startDateTime, _gitUiCommands.GitModule.GetSelectedBranch()));
                 if (CbxIsCheckoutBranch.Checked && TargetBranch != null)
                 {
-                    TbxLogInfo.AppendText($"\r\nTarget branch: {TargetBranch.Name}\r\nTarget solution: {TargetSolutionName}\r\n");
+                    TbxLogInfo.AppendText(string.Format("\r\nTarget branch: {0}\r\nTarget solution: {1}\r\n",TargetBranch.Name,TargetSolutionName));
                 }
                 if (CbxIsBuildSolution.Checked || CbxIsGitClean.Checked)
                 {
-                    TbxLogInfo.AppendText($"\r\nTarget solution: {TargetSolutionName}\r\n");
+                    TbxLogInfo.AppendText(string.Format("\r\nTarget solution: {0}\r\n",TargetSolutionName));
                 }
             }));
 
@@ -218,7 +219,7 @@ namespace TalentsoftTools
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsStashChanges.BackColor = Color.Red;
-                        TbxLogInfo.AppendText($"\r\nError when stashing changes. {gitStashResult.StdError}.");
+                        TbxLogInfo.AppendText(string.Format("\r\nError when stashing changes. {0}.",gitStashResult.StdError));
                         TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
                     IsProcessAborted = true;
@@ -229,16 +230,16 @@ namespace TalentsoftTools
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxIsCheckoutBranch.BackColor = Color.LimeGreen;
-                    TbxLogInfo.AppendText($"\r\nCheckout branch {TargetBranch.Name}...");
-                    TbxLogInfo.AppendText($" 'checkout -B {TargetBranch.LocalName} {TargetBranch.Name}'.");
+                    TbxLogInfo.AppendText(string.Format("\r\nCheckout branch {0}...",TargetBranch.Name));
+                    TbxLogInfo.AppendText(string.Format(" 'checkout -B {0} {1}'.",TargetBranch.LocalName,TargetBranch.Name));
                 }));
-                CmdResult gitCheckoutResult = _gitUiCommands.GitModule.RunGitCmdResult($"checkout -B {TargetBranch.LocalName} {TargetBranch.Name}");
+                CmdResult gitCheckoutResult = _gitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout -B {0} {1}",TargetBranch.LocalName,TargetBranch.Name));
                 if (gitCheckoutResult.ExitCode != 0)
                 {
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsCheckoutBranch.BackColor = Color.Red;
-                        TbxLogInfo.AppendText($"\r\nError when checkout branch. {gitCheckoutResult.StdError}.");
+                        TbxLogInfo.AppendText(string.Format("\r\nError when checkout branch. {0}.",gitCheckoutResult.StdError));
                         TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
                     IsProcessAborted = true;
@@ -248,15 +249,15 @@ namespace TalentsoftTools
                 {
                     Invoke((MethodInvoker)(() =>
                     {
-                        TbxLogInfo.AppendText($"\r\nCreating new local branch {NewBranchName}... 'checkout -b {NewBranchName}'.");
+                        TbxLogInfo.AppendText(string.Format("\r\nCreating new local branch {0}... 'checkout -b {1}'.",NewBranchName,NewBranchName));
                     }));
-                    CmdResult gitCreateNewBranchResult = _gitUiCommands.GitModule.RunGitCmdResult($"checkout -b {NewBranchName}");
+                    CmdResult gitCreateNewBranchResult = _gitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout -b {0}",NewBranchName));
                     if (gitCreateNewBranchResult.ExitCode != 0)
                     {
                         CbxIsCheckoutBranch.Invoke((MethodInvoker)(() =>
                         {
                             CbxIsCheckoutBranch.BackColor = Color.Red;
-                            TbxLogInfo.AppendText($"\r\nError when Creating new branch {NewBranchName}. {gitCheckoutResult.StdError}.");
+                            TbxLogInfo.AppendText(string.Format("\r\nError when Creating new branch {0}. {1}.",NewBranchName,gitCheckoutResult.StdError));
                             TbxLogInfo.AppendText("\r\nProcess aborted.");
                         }));
                         IsProcessAborted = true;
@@ -269,20 +270,20 @@ namespace TalentsoftTools
                 string excludeCommand = string.Empty;
                 if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]))
                 {
-                    excludeCommand = $" -e=\"{TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]}\"";
+                    excludeCommand = string.Format(" -e=\"{0}\"",TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]);
                 }
                 Invoke((MethodInvoker)(() =>
                 {
-                    TbxLogInfo.AppendText($"\r\nCleaning solution: {TargetSolutionName}... \"clean -d -x -f{excludeCommand}\".");
+                    TbxLogInfo.AppendText(string.Format("\r\nCleaning solution: {0}... \"clean -d -x -f{1}\".",TargetSolutionName,excludeCommand));
                 }));
 
-                CmdResult gitCleanResult = _gitUiCommands.GitModule.RunGitCmdResult($"clean -d -x -f{excludeCommand}");
+                CmdResult gitCleanResult = _gitUiCommands.GitModule.RunGitCmdResult(string.Format("clean -d -x -f{0}",excludeCommand));
                 if (gitCleanResult.ExitCode != 0)
                 {
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsGitClean.BackColor = Color.Red;
-                        TbxLogInfo.AppendText($"\r\nError when cleaning solution: {TargetSolutionName}. {gitCleanResult.StdError}.");
+                        TbxLogInfo.AppendText(string.Format("\r\nError when cleaning solution: {0}. {1}.",TargetSolutionName,gitCleanResult.StdError));
                     }));
                 }
             }
@@ -299,7 +300,7 @@ namespace TalentsoftTools
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsStashPop.BackColor = Color.Red;
-                        TbxLogInfo.AppendText($"\r\nError when popping stash. {gitStashPopResult.StdError}");
+                        TbxLogInfo.AppendText(string.Format("\r\nError when popping stash. {0}",gitStashPopResult.StdError));
                         TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
                     IsProcessAborted = true;
@@ -310,15 +311,15 @@ namespace TalentsoftTools
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxIsBuildSolution.BackColor = Color.LimeGreen;
-                    TbxLogInfo.AppendText($"\r\nRestoring Nugets in solution: {TargetSolutionName}... 'nuget restore {TargetSolutionName}'.");
+                    TbxLogInfo.AppendText(string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.",TargetSolutionName,TargetSolutionName));
                 }));
-                bool result = Helper.RunCommandLine(new List<string> { $"nuget restore {TargetSolutionName}" });
+                bool result = Helper.RunCommandLine(new List<string> { string.Format("nuget restore {0}",TargetSolutionName) });
                 if (!result)
                 {
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsBuildSolution.BackColor = Color.Red;
-                        TbxLogInfo.AppendText($"\r\nError when restoring nugets in solution: {TargetSolutionName}.");
+                        TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.",TargetSolutionName));
                         TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
                     IsProcessAborted = true;
@@ -327,7 +328,7 @@ namespace TalentsoftTools
                 {
                     Invoke((MethodInvoker)(() =>
                     {
-                        TbxLogInfo.AppendText($"\r\nBuilding solution: {TargetSolutionName}... '{TalentsoftToolsPlugin.PathToMsBuild[_settings]} /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount {TargetSolutionName}'.");
+                        TbxLogInfo.AppendText(string.Format("\r\nBuilding solution: {0}... '{1} /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount {2}'.",TargetSolutionName,TalentsoftToolsPlugin.PathToMsBuild[_settings],TargetSolutionName));
                     }));
                     result = Helper.Build(TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuild[_settings]);
                     if (!result)
@@ -335,7 +336,7 @@ namespace TalentsoftTools
                         Invoke((MethodInvoker)(() =>
                         {
                             CbxIsBuildSolution.BackColor = Color.Red;
-                            TbxLogInfo.AppendText($"\r\nError when building solution: {TargetSolutionName}.");
+                            TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.",TargetSolutionName));
                             TbxLogInfo.AppendText("\r\nProcess aborted.");
                         }));
                         IsProcessAborted = true;
@@ -347,14 +348,14 @@ namespace TalentsoftTools
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxIsRunVisualStudio.BackColor = Color.LimeGreen;
-                    TbxLogInfo.AppendText($"\r\nRunning Visual Studio with: {TargetSolutionName}...");
+                    TbxLogInfo.AppendText(string.Format("\r\nRunning Visual Studio with: {0}...",TargetSolutionName));
                 }));
                 if (!Helper.LaunchVisualStudio(TargetSolutionName))
                 {
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsRunVisualStudio.BackColor = Color.Red;
-                        TbxLogInfo.AppendText($"\r\nError when running Visual Studio with: {TargetSolutionName}.");
+                        TbxLogInfo.AppendText(string.Format("\r\nError when running Visual Studio with: {0}.",TargetSolutionName));
                         TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
                     IsProcessAborted = true;
@@ -365,7 +366,7 @@ namespace TalentsoftTools
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxLaunchUri.BackColor = Color.LimeGreen;
-                    TbxLogInfo.AppendText($"\r\nLaunching web URI: {Uri}...");
+                    TbxLogInfo.AppendText(string.Format("\r\nLaunching web URI: {0}...",Uri));
                 }));
 
                 if (!Helper.LaunchWebUri(Uri))
@@ -373,15 +374,15 @@ namespace TalentsoftTools
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxLaunchUri.BackColor = Color.Red;
-                        TbxLogInfo.AppendText($"\r\nError when launching web URI: {Uri}.");
+                        TbxLogInfo.AppendText(string.Format("\r\nError when launching web URI: {0}.",Uri));
                     }));
                 }
             }
             DateTime endateDateTime = DateTime.Now;
             Invoke((MethodInvoker)(() =>
             {
-                TbxLogInfo.AppendText($"\r\nEnd at: {endateDateTime}.");
-                TbxLogInfo.AppendText($"\r\nElapsed time: {endateDateTime - startDateTime}.");
+                TbxLogInfo.AppendText(string.Format("\r\nEnd at: {0}.",endateDateTime));
+                TbxLogInfo.AppendText(string.Format("\r\nElapsed time: {0}.", endateDateTime - startDateTime));
                 _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
                 LblActualBranchName.Text = _gitUiCommands.GitModule.GetSelectedBranch();
                 LblActualRepository.Text = _gitUiCommands.GitModule.WorkingDir;

@@ -59,7 +59,7 @@ namespace TalentsoftTools
                 CmdResult gitResult = new CmdResult();
                 if (!isMerged)
                 {
-                    DialogResult response = MessageBox.Show($"{branchToDelete} branch is not merged. Are you sure you want delete it ?", "Talentsoft tools", MessageBoxButtons.YesNo);
+                    DialogResult response = MessageBox.Show(string.Format("{0} branch is not merged. Are you sure you want delete it ?",branchToDelete), "Talentsoft tools", MessageBoxButtons.YesNo);
                     switch (response)
                     {
                         case DialogResult.Yes:
@@ -75,7 +75,7 @@ namespace TalentsoftTools
                 }
                 if (gitResult.ExitCode != 0)
                 {
-                    MessageBox.Show($"Error when deleting {branchToDelete}. {gitResult.StdError}", "Error");
+                    MessageBox.Show(string.Format("Error when deleting {0}. {1}", branchToDelete, gitResult.StdError), "Error");
                 }
             }
             _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();

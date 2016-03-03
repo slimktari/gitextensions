@@ -102,7 +102,7 @@ namespace TalentsoftTools
             {
                 return false;
             }
-            return RunCommandLine(new List<string> { $"{pathToMsBuild} /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount {solutionFileFullPath}" });
+            return RunCommandLine(new List<string> { string.Format("{0} /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount {1}", pathToMsBuild, solutionFileFullPath) });
         }
 
         public static bool RunCommandLine(List<string> commands)
@@ -179,7 +179,7 @@ namespace TalentsoftTools
 
         public static string[] GetBranchInfo(GitUIBaseEventArgs gitUiCommands, string branchName)
         {
-            CmdResult result = gitUiCommands.GitModule.RunGitCmdResult($"log -n 1 --pretty=format:\" % an;% cr\" {branchName}");
+            CmdResult result = gitUiCommands.GitModule.RunGitCmdResult(string.Format("log -n 1 --pretty=format:\" % an;% cr\" {0}",branchName));
             if (result.ExitCode == 0 && !string.IsNullOrWhiteSpace(result.StdOutput) && result.StdOutput.Contains(";"))
             {
                 return result.StdOutput.Split(';');
@@ -257,12 +257,12 @@ namespace TalentsoftTools
 
         public static CmdResult DeleteMergedLocalBranch(GitUIBaseEventArgs gitUiCommands, string branchToDelete)
         {
-            return gitUiCommands.GitModule.RunGitCmdResult($"branch -d {branchToDelete}");
+            return gitUiCommands.GitModule.RunGitCmdResult(string.Format("branch -d {0}",branchToDelete));
         }
 
         public static CmdResult DeleteUnmergedLocalBranch(GitUIBaseEventArgs gitUiCommands, string branchToDelete)
         {
-            return gitUiCommands.GitModule.RunGitCmdResult($"branch -D {branchToDelete}");
+            return gitUiCommands.GitModule.RunGitCmdResult(string.Format("branch -D {0}", branchToDelete));
         }
 
         public static string[] GetStashs(GitUIBaseEventArgs gitUiCommands)
