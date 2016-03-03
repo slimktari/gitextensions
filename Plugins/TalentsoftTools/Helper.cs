@@ -9,6 +9,7 @@ using GitCommands;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Execution;
 using GitUIPluginInterfaces;
+using ZetaLongPaths;
 
 namespace TalentsoftTools
 {
@@ -44,8 +45,9 @@ namespace TalentsoftTools
 
         public static List<string> GetSolutionsFile(string directory)
         {
+            var folderPath = new ZlpDirectoryInfo(directory);
             var files = new List<string>();
-            files.AddRange(Directory.GetFiles(directory).Where(f => f.EndsWith(".sln")));
+            files.AddRange(folderPath.GetFiles().Where(f => f.Name.EndsWith(".sln")).Select(x=>x.Name));
             foreach (string directoryItem in Directory.GetDirectories(directory))
             {
                 files.AddRange(GetSolutionsFile(directoryItem));
