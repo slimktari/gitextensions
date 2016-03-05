@@ -42,7 +42,7 @@ namespace TalentsoftTools
         {
             IsProcessAborted = true;
             CblSolutions.DataSource = Helper.GetSolutionsFile(_gitUiCommands.GitModule.WorkingDir);
-            CheckDefaultSloutionFileFromSettings();
+            CheckDefaultSolutionFileFromSettings();
 
             SetMsBuildPath();
 
@@ -79,7 +79,7 @@ namespace TalentsoftTools
             }
         }
 
-        void CheckDefaultSloutionFileFromSettings()
+        void CheckDefaultSolutionFileFromSettings()
         {
             if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.DefaultSolutionFileName[_settings]) && CblSolutions.Items.Count > 1)
             {
