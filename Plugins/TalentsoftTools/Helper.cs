@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using GitCommands;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Execution;
@@ -45,12 +46,18 @@ namespace TalentsoftTools
 
         public static List<string> GetSolutionsFile(string directory)
         {
-            var folderPath = new ZlpDirectoryInfo(directory);
             var files = new List<string>();
-            files.AddRange(folderPath.GetFiles().Where(f => f.Name.EndsWith(".sln")).Select(x=>x.Name));
-            foreach (string directoryItem in Directory.GetDirectories(directory))
+            try
             {
-                files.AddRange(GetSolutionsFile(directoryItem));
+                files.AddRange(Directory.GetFiles(directory, "*.sln").Select(Path.GetFileName));
+                foreach (string directoryItem in Directory.GetDirectories(directory))
+                {
+                    files.AddRange(GetSolutionsFile(directoryItem));
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Error when loading solution files. " + exception);
             }
             return files;
         }
@@ -181,7 +188,7 @@ namespace TalentsoftTools
 
         public static string[] GetBranchInfo(GitUIBaseEventArgs gitUiCommands, string branchName)
         {
-            CmdResult result = gitUiCommands.GitModule.RunGitCmdResult(string.Format("log -n 1 --pretty=format:\" % an;% cr\" {0}",branchName));
+            CmdResult result = gitUiCommands.GitModule.RunGitCmdResult(string.Format("log -n 1 --pretty=format:\" % an;% cr\" {0}", branchName));
             if (result.ExitCode == 0 && !string.IsNullOrWhiteSpace(result.StdOutput) && result.StdOutput.Contains(";"))
             {
                 return result.StdOutput.Split(';');
@@ -259,7 +266,7 @@ namespace TalentsoftTools
 
         public static CmdResult DeleteMergedLocalBranch(GitUIBaseEventArgs gitUiCommands, string branchToDelete)
         {
-            return gitUiCommands.GitModule.RunGitCmdResult(string.Format("branch -d {0}",branchToDelete));
+            return gitUiCommands.GitModule.RunGitCmdResult(string.Format("branch -d {0}", branchToDelete));
         }
 
         public static CmdResult DeleteUnmergedLocalBranch(GitUIBaseEventArgs gitUiCommands, string branchToDelete)
