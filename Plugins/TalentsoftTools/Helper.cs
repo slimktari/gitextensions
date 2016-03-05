@@ -10,7 +10,6 @@ using GitCommands;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Execution;
 using GitUIPluginInterfaces;
-using ZetaLongPaths;
 
 namespace TalentsoftTools
 {
@@ -175,13 +174,13 @@ namespace TalentsoftTools
         {
             try
             {
-                Process.Start(uri);
+                Process.Start(new UriBuilder(uri).Uri.AbsoluteUri);
+                return true;
             }
             catch (Exception)
             {
                 return false;
             }
-            return true;
         }
 
         #region Git Helpers
