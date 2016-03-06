@@ -40,6 +40,7 @@ namespace TalentsoftTools
 
         void InitProcessTab()
         {
+            _gitUiCommands.GitModule.RunGitCmd("git fetch -n --all");
             IsProcessAborted = true;
             CblSolutions.DataSource = Helper.GetSolutionsFile(_gitUiCommands.GitModule.WorkingDir);
             CheckDefaultSolutionFileFromSettings();
