@@ -232,7 +232,7 @@ namespace TalentsoftTools
         public static string[] GetStashs(GitUIBaseEventArgs gitUiCommands)
         {
             CmdResult gitResult = gitUiCommands.GitModule.RunGitCmdResult("stash list");
-            if (gitResult.ExitCode == 0)
+            if (gitResult.ExitCode == 0 && !string.IsNullOrWhiteSpace(gitResult.StdOutput))
             {
                 return gitResult.StdOutput.SplitLines();
             }
@@ -242,7 +242,7 @@ namespace TalentsoftTools
         public static string[] GetDiff(GitUIBaseEventArgs gitUiCommands)
         {
             CmdResult gitResult = gitUiCommands.GitModule.RunGitCmdResult("diff");
-            if (gitResult.ExitCode == 0)
+            if (gitResult.ExitCode == 0 && !string.IsNullOrWhiteSpace(gitResult.StdOutput))
             {
                 return gitResult.StdOutput.SplitLines();
             }

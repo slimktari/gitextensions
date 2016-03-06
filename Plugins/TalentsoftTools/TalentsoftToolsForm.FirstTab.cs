@@ -26,7 +26,7 @@ namespace TalentsoftTools
         bool IsCreateNewBranch { get; set; }
         bool? CanStashPop { get; set; }
         bool LastStashPopValue { get; set; }
-        string Uri { get; set; }
+        string Uris { get; set; }
         string NewBranchName { get; set; }
         string TargetSolutionName { get; set; }
         GitRef TargetBranch { get; set; }
@@ -370,16 +370,24 @@ namespace TalentsoftTools
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxLaunchUri.BackColor = Color.LimeGreen;
-                    TbxLogInfo.AppendText(string.Format("\r\nLaunching web URI: {0}...",Uri));
                 }));
-
-                if (!Helper.LaunchWebUri(Uri))
+                foreach (var uri in Uris.Split(';'))
                 {
-                    Invoke((MethodInvoker)(() =>
+                    if (!string.IsNullOrWhiteSpace(uri))
                     {
-                        CbxLaunchUri.BackColor = Color.Red;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when launching web URI: {0}.",Uri));
-                    }));
+                        Invoke((MethodInvoker) (() =>
+                        {
+                            TbxLogInfo.AppendText(string.Format("\r\nLaunching web URI: {0}...", Uris));
+                        }));
+                        if (!Helper.LaunchWebUri(uri))
+                        {
+                            Invoke((MethodInvoker) (() =>
+                            {
+                                CbxLaunchUri.BackColor = Color.Red;
+                                TbxLogInfo.AppendText(string.Format("\r\nError when launching web URI: {0}.", uri));
+                            }));
+                        }
+                    }
                 }
             }
             DateTime endateDateTime = DateTime.Now;
@@ -436,14 +444,14 @@ namespace TalentsoftTools
             BtnRunProcess.Enabled = false;
             BtnStopProcess.Enabled = true;
             NewBranchName = TxbNewBranchName.Text;
-            Uri = TxbUri.Text;
+            Uris = TxbUri.Text;
             Task = Task.Factory.StartNew(RunProcess, TokenTask.Token);
         }
 
         bool ValidateUri()
         {
             string message = string.Empty;
-            if (CbxLaunchUri.Checked && string.IsNullOrWhiteSpace(TxbUri.Text))
+            if (CbxLaunchUri.Checked && (string.IsNullOrWhiteSpace(TxbUri.Text) || string.IsNullOrWhiteSpace(TxbUri.Text.Remove(';'))))
             {
                 message = "URI not defined.";
             }

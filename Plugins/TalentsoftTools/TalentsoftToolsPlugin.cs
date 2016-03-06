@@ -13,7 +13,7 @@ namespace TalentsoftTools
         public static BoolSetting IsDefaultBuildSolution = new BoolSetting("Is default build solution", true);
         public static BoolSetting IsDefaultRunVisualStudio = new BoolSetting("Is default run VisualStudio", true);
         public static BoolSetting IsDefaultRunUri = new BoolSetting("Is default execute URI", true);
-        public static StringSetting LocalUriWebApplication = new StringSetting("Local URI web application", string.Empty);
+        public static StringSetting LocalUriWebApplication = new StringSetting("Local URIs web application (separator ;)", string.Empty);
         public static StringSetting DefaultSolutionFileName = new StringSetting("Default solution file (Eg: TalentSoft.sln)", string.Empty);
         public static StringSetting PathToMsBuildFramework = new StringSetting("Path to MSBuild", string.Empty);
         public static StringSetting ExcludePatternGitClean = new StringSetting("Pattern exclude files Git Clean", "*.mdf *.ldf");
