@@ -44,16 +44,31 @@ namespace TalentsoftTools
 
         void InitProcessTab()
         {
+            LoadSolutionsFiles();
             _gitUiCommands.GitModule.RunGitCmd("git fetch -n --all");
             IsProcessAborted = true;
-            CblSolutions.DataSource = Helper.GetSolutionsFile(_gitUiCommands.GitModule.WorkingDir);
-            CheckDefaultSolutionFileFromSettings();
-
             SetMsBuildPath();
-
             LoadDefaultStepsValuesFromSettings();
 
             ResetControls();
+        }
+
+        void LoadSolutionsFiles()
+        {
+            List<string> list = Helper.GetSolutionsFile(_gitUiCommands.GitModule.WorkingDir);
+
+            CblSolutions.DataSource = list;
+            if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.DefaultSolutionFileName[_settings]) && CblSolutions.Items.Count > 1)
+            {
+                foreach (var item in CblSolutions.Items)
+                {
+                    if (item.ToString().EndsWith(TalentsoftToolsPlugin.DefaultSolutionFileName[_settings], StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        CblSolutions.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
         }
 
         void ResetControls()
@@ -66,7 +81,6 @@ namespace TalentsoftTools
 
         void SetMsBuildPath()
         {
-            TalentsoftToolsPlugin.PathToMsBuildFramework[_settings] = string.Empty;
             if (string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.PathToMsBuildFramework[_settings]))
             {
                 List<string> pathsToMsBuild = new List<string>
@@ -82,21 +96,6 @@ namespace TalentsoftTools
                     if (File.Exists(pathToMsBuild))
                     {
                         TalentsoftToolsPlugin.PathToMsBuildFramework[_settings] = pathToMsBuild;
-                    }
-                }
-            }
-        }
-
-        void CheckDefaultSolutionFileFromSettings()
-        {
-            if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.DefaultSolutionFileName[_settings]) && CblSolutions.Items.Count > 1)
-            {
-                foreach (var item in CblSolutions.Items)
-                {
-                    if (item.ToString().EndsWith(TalentsoftToolsPlugin.DefaultSolutionFileName[_settings], StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        CblSolutions.SelectedItem = item;
-                        break;
                     }
                 }
             }

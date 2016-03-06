@@ -41,15 +41,19 @@ namespace TalentsoftTools
             return true;
         }
 
-        public static List<string> GetSolutionsFile(string directory)
+        public static List<string> GetSolutionsFile(string directory, int currentDepth = 0)
         {
             var files = new List<string>();
             try
             {
+
                 files.AddRange(Directory.GetFiles(directory, "*.sln").Select(Path.GetFileName));
-                foreach (string directoryItem in Directory.GetDirectories(directory))
+                if (currentDepth < 3)
                 {
-                    files.AddRange(GetSolutionsFile(directoryItem));
+                    foreach (string directoryItem in Directory.GetDirectories(directory))
+                    {
+                        files.AddRange(GetSolutionsFile(directoryItem, currentDepth + 1));
+                    }
                 }
             }
             catch (Exception exception)
