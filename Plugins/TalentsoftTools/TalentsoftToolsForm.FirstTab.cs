@@ -61,19 +61,22 @@ namespace TalentsoftTools
 
         void SetMsBuildPath()
         {
-            if (string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.PathToMsBuild[_settings]))
+            TalentsoftToolsPlugin.PathToMsBuildFramework[_settings] = string.Empty;
+            if (string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.PathToMsBuildFramework[_settings]))
             {
                 List<string> pathsToMsBuild = new List<string>
                                                   {
                     "C:/Windows/Microsoft.Net/Framework/v2.0.50727/MsBuild.exe",
                     "C:/Windows/Microsoft.Net/Framework/v3.5/MsBuild.exe",
-                    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/MsBuild.exe"
+                    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/MsBuild.exe",
+                    @"C:\Program Files (x86)\MSBuild\12.0\Bin\MsBuild.exe",
+                    @"C:\Program Files (x86)\MSBuild\14.0\Bin\MsBuild.exe"
                                                   };
                 foreach (var pathToMsBuild in pathsToMsBuild)
                 {
                     if (File.Exists(pathToMsBuild))
                     {
-                        TalentsoftToolsPlugin.PathToMsBuild[_settings] = pathToMsBuild;
+                        TalentsoftToolsPlugin.PathToMsBuildFramework[_settings] = pathToMsBuild;
                     }
                 }
             }
@@ -308,18 +311,19 @@ namespace TalentsoftTools
             }
             if (IsBuildSolution && !IsProcessAborted)
             {
+                string workingDirectory = _gitUiCommands.GitModule.WorkingDir;
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxIsBuildSolution.BackColor = Color.LimeGreen;
-                    TbxLogInfo.AppendText(string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.",TargetSolutionName,TargetSolutionName));
+                    TbxLogInfo.AppendText(string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.", workingDirectory + TargetSolutionName, TargetSolutionName));
                 }));
-                bool result = Helper.RunCommandLine(new List<string> { string.Format("nuget restore {0}",TargetSolutionName) });
+                bool result = Helper.RunCommandLine(new List<string> { string.Format("nuget restore {0}", workingDirectory + TargetSolutionName) });
                 if (!result)
                 {
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsBuildSolution.BackColor = Color.Red;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.",TargetSolutionName));
+                        TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.", workingDirectory + TargetSolutionName));
                         TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
                     IsProcessAborted = true;
@@ -328,9 +332,9 @@ namespace TalentsoftTools
                 {
                     Invoke((MethodInvoker)(() =>
                     {
-                        TbxLogInfo.AppendText(string.Format("\r\nBuilding solution: {0}... '{1} /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount {2}'.",TargetSolutionName,TalentsoftToolsPlugin.PathToMsBuild[_settings],TargetSolutionName));
+                        TbxLogInfo.AppendText(string.Format("\r\nBuilding solution: {0}... '{1} /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount {2}'.",TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings], workingDirectory + TargetSolutionName));
                     }));
-                    result = Helper.Build(TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuild[_settings]);
+                    result = Helper.Build(workingDirectory + TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings]);
                     if (!result)
                     {
                         Invoke((MethodInvoker)(() =>

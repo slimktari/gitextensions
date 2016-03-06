@@ -15,7 +15,7 @@ namespace TalentsoftTools
         public static BoolSetting IsDefaultRunUri = new BoolSetting("Is default execute URI", true);
         public static StringSetting LocalUriWebApplication = new StringSetting("Local URI web application", string.Empty);
         public static StringSetting DefaultSolutionFileName = new StringSetting("Default solution file (Eg: TalentSoft.sln)", string.Empty);
-        public static StringSetting PathToMsBuild = new StringSetting("Path to MSBuild", string.Empty);
+        public static StringSetting PathToMsBuildFramework = new StringSetting("Path to MSBuild", string.Empty);
         public static StringSetting ExcludePatternGitClean = new StringSetting("Pattern exclude files Git Clean", "*.mdf *.ldf");
         public static StringSetting NewBranchPrefix = new StringSetting("Branch name prefix", string.Empty);
 
@@ -47,7 +47,7 @@ namespace TalentsoftTools
             yield return LocalUriWebApplication;
             yield return DefaultSolutionFileName;
             yield return NewBranchPrefix;
-            yield return PathToMsBuild;
+            yield return PathToMsBuildFramework;
             yield return ExcludePatternGitClean;
         }
     }
