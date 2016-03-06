@@ -37,6 +37,7 @@ namespace TalentsoftTools
         bool IsProcessAborted { get; set; }
         private Task Task { get; set; }
         private CancellationTokenSource TokenTask { get; set; }
+        private string WorkingDirectory { get; set; }
 
         #endregion
 
@@ -44,6 +45,7 @@ namespace TalentsoftTools
 
         void InitProcessTab()
         {
+            WorkingDirectory = _gitUiCommands.GitModule.WorkingDir;
             LoadSolutionsFiles();
             _gitUiCommands.GitModule.RunGitCmd("git fetch -n --all");
             IsProcessAborted = true;
@@ -55,7 +57,7 @@ namespace TalentsoftTools
 
         void LoadSolutionsFiles()
         {
-            List<string> list = Helper.GetSolutionsFile(_gitUiCommands.GitModule.WorkingDir);
+            List<string> list = Helper.GetSolutionsFile(WorkingDirectory);
 
             CblSolutions.DataSource = list;
             if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.DefaultSolutionFileName[_settings]) && CblSolutions.Items.Count > 1)
@@ -75,7 +77,7 @@ namespace TalentsoftTools
         {
             BtnStopProcess.Enabled = false;
             LblActualBranchName.Text = _gitUiCommands.GitModule.GetSelectedBranch();
-            LblActualRepository.Text = _gitUiCommands.GitModule.WorkingDir;
+            LblActualRepository.Text = WorkingDirectory;
             TxbNewBranchName.Enabled = false;
         }
 
@@ -396,19 +398,19 @@ namespace TalentsoftTools
             }
             if (IsBuildSolution && !IsProcessAborted)
             {
-                string workingDirectory = _gitUiCommands.GitModule.WorkingDir;
+
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxIsBuildSolution.BackColor = Color.LimeGreen;
-                    TbxLogInfo.AppendText(string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.", workingDirectory + TargetSolutionName, TargetSolutionName));
+                    TbxLogInfo.AppendText(string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.", WorkingDirectory + TargetSolutionName, TargetSolutionName));
                 }));
-                bool result = Helper.RunCommandLine(new List<string> { string.Format("nuget restore {0}", workingDirectory + TargetSolutionName) });
+                bool result = Helper.RunCommandLine(new List<string> { string.Format("nuget restore {0}", WorkingDirectory + TargetSolutionName) });
                 if (!result)
                 {
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsBuildSolution.BackColor = Color.Red;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.", workingDirectory + TargetSolutionName));
+                        TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.", WorkingDirectory + TargetSolutionName));
                         TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
                     IsProcessAborted = true;
@@ -417,15 +419,15 @@ namespace TalentsoftTools
                 {
                     Invoke((MethodInvoker)(() =>
                     {
-                        TbxLogInfo.AppendText(string.Format("\r\nBuilding solution: {0}... '{1} /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount {2}'.", TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings], workingDirectory + TargetSolutionName));
+                        TbxLogInfo.AppendText(string.Format("\r\nBuilding solution: {0}... '{1} /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount {2}'.", TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings], WorkingDirectory + TargetSolutionName));
                     }));
-                    result = Helper.Build(workingDirectory + TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings]);
+                    result = Helper.Build(WorkingDirectory + TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings]);
                     if (!result)
                     {
                         Invoke((MethodInvoker)(() =>
                         {
                             CbxIsBuildSolution.BackColor = Color.Red;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.", TargetSolutionName));
+                            TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.", WorkingDirectory + TargetSolutionName));
                             TbxLogInfo.AppendText("\r\nProcess aborted.");
                         }));
                         IsProcessAborted = true;
@@ -457,15 +459,14 @@ namespace TalentsoftTools
                     CbxIsRunVisualStudio.BackColor = Color.LimeGreen;
                     TbxLogInfo.AppendText(string.Format("\r\nRunning Visual Studio with: {0}...", TargetSolutionName));
                 }));
-                if (!Helper.LaunchVisualStudio(TargetSolutionName))
+                if (!Helper.LaunchVisualStudio(WorkingDirectory + TargetSolutionName))
                 {
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsRunVisualStudio.BackColor = Color.Red;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when running Visual Studio with: {0}.", TargetSolutionName));
+                        TbxLogInfo.AppendText(string.Format("\r\nError when running Visual Studio with: {0}.", WorkingDirectory + TargetSolutionName));
                         TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
-                    IsProcessAborted = true;
                 }
             }
             if (IsRunUri && !IsProcessAborted)
