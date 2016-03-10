@@ -45,9 +45,10 @@ namespace TalentsoftTools
 
         void InitProcessTab()
         {
+            _gitUiCommands.GitModule.RunGitCmdResult("git fetch --all");
+            _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
             WorkingDirectory = _gitUiCommands.GitModule.WorkingDir;
             LoadSolutionsFiles();
-            _gitUiCommands.GitModule.RunGitCmd("git fetch -n --all");
             IsProcessAborted = true;
             SetMsBuildPath();
             LoadDefaultStepsValuesFromSettings();
@@ -261,7 +262,7 @@ namespace TalentsoftTools
             {
                 Invoke((MethodInvoker)(() =>
                 {
-                    CbxIsExitVisualStudio.BackColor = Color.LimeGreen;
+                    CbxIsExitVisualStudio.BackColor = Color.DodgerBlue;
                     TbxLogInfo.AppendText("\r\nExiting Visual Studio...");
                 }));
                 bool isExited = Helper.ExitVisualStudio(TargetSolutionName);
@@ -275,16 +276,24 @@ namespace TalentsoftTools
                     }));
                     IsProcessAborted = true;
                 }
+                else
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsExitVisualStudio.BackColor = Color.LimeGreen;
+                    }));
+                }
             }
             if (IsStashCahnges && !IsProcessAborted)
             {
                 Invoke((MethodInvoker)(() =>
                 {
-                    CbxIsStashChanges.BackColor = Color.LimeGreen;
+                    CbxIsStashChanges.BackColor = Color.DodgerBlue;
                     TbxLogInfo.AppendText("\r\nStashing changes... 'stash --include-untracked'.");
                 }));
 
                 CmdResult gitStashResult = _gitUiCommands.GitModule.RunGitCmdResult("stash --include-untracked");
+                _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
                 if (gitStashResult.ExitCode != 0)
                 {
                     Invoke((MethodInvoker)(() =>
@@ -295,12 +304,19 @@ namespace TalentsoftTools
                     }));
                     IsProcessAborted = true;
                 }
+                else
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsStashChanges.BackColor = Color.LimeGreen;
+                    }));
+                }
             }
             if (IsCheckoutBranch && !IsProcessAborted)
             {
                 Invoke((MethodInvoker)(() =>
                 {
-                    CbxIsCheckoutBranch.BackColor = Color.LimeGreen;
+                    CbxIsCheckoutBranch.BackColor = Color.DodgerBlue;
                     TbxLogInfo.AppendText(string.Format("\r\nCheckout branch {0}...", TargetBranch.Name));
                     TbxLogInfo.AppendText(string.Format(" 'checkout -B {0} {1}'.", TargetBranch.LocalName, TargetBranch.Name));
                 }));
@@ -334,10 +350,18 @@ namespace TalentsoftTools
                         IsProcessAborted = true;
                     }
                 }
+                _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
+                if (!IsProcessAborted)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsCheckoutBranch.BackColor = Color.LimeGreen;
+                    }));
+                }
             }
             if (IsGitClean && !IsProcessAborted)
             {
-                Invoke((MethodInvoker)(() => { CbxIsGitClean.BackColor = Color.LimeGreen; }));
+                Invoke((MethodInvoker)(() => { CbxIsGitClean.BackColor = Color.DodgerBlue; }));
                 string excludeCommand = string.Empty;
                 if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]))
                 {
@@ -357,12 +381,19 @@ namespace TalentsoftTools
                         TbxLogInfo.AppendText(string.Format("\r\nError when cleaning solution: {0}. {1}.", TargetSolutionName, gitCleanResult.StdError));
                     }));
                 }
+                else
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsGitClean.BackColor = Color.LimeGreen;
+                    }));
+                }
             }
             if (IsStashPop && !IsProcessAborted)
             {
                 Invoke((MethodInvoker)(() =>
                 {
-                    CbxIsStashPop.BackColor = Color.LimeGreen;
+                    CbxIsStashPop.BackColor = Color.DodgerBlue;
                     TbxLogInfo.AppendText("\r\nPopping stash... \"stash pop");
                 }));
                 CmdResult gitStashPopResult = _gitUiCommands.GitModule.RunGitCmdResult("stash pop");
@@ -376,12 +407,19 @@ namespace TalentsoftTools
                     }));
                     IsProcessAborted = true;
                 }
+                else
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsStashPop.BackColor = Color.LimeGreen;
+                    }));
+                }
             }
             if (IsPreBuildSolution)
             {
                 Invoke((MethodInvoker)(() =>
                 {
-                    CbxIsPreBuild.BackColor = Color.LimeGreen;
+                    CbxIsPreBuild.BackColor = Color.DodgerBlue;
                     TbxLogInfo.AppendText(string.Format("\r\nRunning Pre-Build scripts:\r\n{0}", string.Join("\r\n", PreBuildFiles)));
                 }));
                 bool result = Helper.RunCommandLine(PreBuildFiles.ToList());
@@ -395,13 +433,20 @@ namespace TalentsoftTools
                     }));
                     IsProcessAborted = true;
                 }
+                else
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsPreBuild.BackColor = Color.LimeGreen;
+                    }));
+                }
             }
             if (IsBuildSolution && !IsProcessAborted)
             {
 
                 Invoke((MethodInvoker)(() =>
                 {
-                    CbxIsBuildSolution.BackColor = Color.LimeGreen;
+                    CbxIsBuildSolution.BackColor = Color.DodgerBlue;
                     TbxLogInfo.AppendText(string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.", WorkingDirectory + TargetSolutionName, TargetSolutionName));
                 }));
                 bool result = Helper.RunCommandLine(new List<string> { string.Format("nuget restore {0}", WorkingDirectory + TargetSolutionName) });
@@ -413,7 +458,6 @@ namespace TalentsoftTools
                         TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.", WorkingDirectory + TargetSolutionName));
                         TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
-                    IsProcessAborted = true;
                 }
                 else
                 {
@@ -433,12 +477,19 @@ namespace TalentsoftTools
                         IsProcessAborted = true;
                     }
                 }
+                if (!IsProcessAborted)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsBuildSolution.BackColor = Color.LimeGreen;
+                    }));
+                }
             }
             if (IsPostBuildSolution)
             {
                 Invoke((MethodInvoker)(() =>
                 {
-                    CbxIsPostBuild.BackColor = Color.LimeGreen;
+                    CbxIsPostBuild.BackColor = Color.DodgerBlue;
                     TbxLogInfo.AppendText(string.Format("\r\nRunning Post-Build scripts:\r\n{0}", string.Join("\r\n", PostBuildFiles)));
                 }));
                 bool result = Helper.RunCommandLine(PostBuildFiles.ToList());
@@ -451,12 +502,19 @@ namespace TalentsoftTools
                         TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
                 }
+                else
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsPostBuild.BackColor = Color.LimeGreen;
+                    }));
+                }
             }
             if (IsRunVisualStudio && !IsProcessAborted)
             {
                 Invoke((MethodInvoker)(() =>
                 {
-                    CbxIsRunVisualStudio.BackColor = Color.LimeGreen;
+                    CbxIsRunVisualStudio.BackColor = Color.DodgerBlue;
                     TbxLogInfo.AppendText(string.Format("\r\nRunning Visual Studio with: {0}...", TargetSolutionName));
                 }));
                 if (!Helper.LaunchVisualStudio(WorkingDirectory + TargetSolutionName))
@@ -468,12 +526,19 @@ namespace TalentsoftTools
                         TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
                 }
+                else
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsRunVisualStudio.BackColor = Color.LimeGreen;
+                    }));
+                }
             }
             if (IsRunUri && !IsProcessAborted)
             {
                 Invoke((MethodInvoker)(() =>
                 {
-                    CbxLaunchUri.BackColor = Color.LimeGreen;
+                    CbxLaunchUri.BackColor = Color.DodgerBlue;
                 }));
                 foreach (var uri in Uris.Split(';'))
                 {
@@ -489,6 +554,13 @@ namespace TalentsoftTools
                             {
                                 CbxLaunchUri.BackColor = Color.Red;
                                 TbxLogInfo.AppendText(string.Format("\r\nError when launching web URI: {0}.", uri));
+                            }));
+                        }
+                        else
+                        {
+                            Invoke((MethodInvoker)(() =>
+                            {
+                                CbxLaunchUri.BackColor = Color.LimeGreen;
                             }));
                         }
                     }

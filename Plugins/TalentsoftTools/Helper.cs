@@ -208,7 +208,7 @@ namespace TalentsoftTools
 
         public static List<GitRef> GetRemotesBranches(GitUIBaseEventArgs gitUiCommands)
         {
-            gitUiCommands.GitModule.RunGitCmd("git fetch -n --all");
+            gitUiCommands.GitModule.RunGitCmdResult("git fetch --all");
             return GetBranches(gitUiCommands).Where(h => h.IsRemote && !h.IsTag).ToList();
         }
 

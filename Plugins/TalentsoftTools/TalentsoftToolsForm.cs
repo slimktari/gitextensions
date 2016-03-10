@@ -54,6 +54,7 @@ namespace TalentsoftTools
                         break;
                 }
             }
+            _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
         }
     }
 }
