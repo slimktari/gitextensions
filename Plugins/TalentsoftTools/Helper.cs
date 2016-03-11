@@ -15,6 +15,10 @@ namespace TalentsoftTools
     {
         public static bool ExitVisualStudio(string solutionFileName)
         {
+            if (string.IsNullOrWhiteSpace(solutionFileName))
+            {
+                return false;
+            }
             solutionFileName = Path.GetFileNameWithoutExtension(solutionFileName);
             var process = Process.GetProcessesByName("devenv");
             foreach (Process p in process)
@@ -118,6 +122,10 @@ namespace TalentsoftTools
 
         public static bool LaunchVisualStudio(string solutionFileFullPath)
         {
+            if (string.IsNullOrWhiteSpace(solutionFileFullPath))
+            {
+                return false;
+            }
             ProcessStartInfo processStartInfo = new ProcessStartInfo(solutionFileFullPath) { UseShellExecute = true };
             try
             {
@@ -254,5 +262,10 @@ namespace TalentsoftTools
         }
 
         #endregion
+
+        public static void Database()
+        {
+
+        }
     }
 }

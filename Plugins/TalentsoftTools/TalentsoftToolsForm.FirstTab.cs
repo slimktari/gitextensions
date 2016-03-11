@@ -45,15 +45,14 @@ namespace TalentsoftTools
 
         void InitProcessTab()
         {
-            _gitUiCommands.GitModule.RunGitCmdResult("git fetch --all");
-            _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
+            _gitUiCommands.GitModule.RunGitCmdResult("fetch --all");
             WorkingDirectory = _gitUiCommands.GitModule.WorkingDir;
             LoadSolutionsFiles();
             IsProcessAborted = true;
             SetMsBuildPath();
             LoadDefaultStepsValuesFromSettings();
-
             ResetControls();
+            _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
         }
 
         void LoadSolutionsFiles()
@@ -118,10 +117,25 @@ namespace TalentsoftTools
 
         void LoadDefaultStepsValuesFromSettings()
         {
-            if (TalentsoftToolsPlugin.IsDefaultExitVisualStudio[_settings].HasValue)
+            if (CblSolutions.Items.Count <= 0)
             {
-                CbxIsExitVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultExitVisualStudio[_settings].Value;
+                CbxIsExitVisualStudio.Enabled = false;
+                CbxIsExitVisualStudio.Checked = false;
+                CbxIsRunVisualStudio.Enabled = false;
+                CbxIsRunVisualStudio.Checked = false;
             }
+            else
+            {
+                if (TalentsoftToolsPlugin.IsDefaultExitVisualStudio[_settings].HasValue)
+                {
+                    CbxIsExitVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultExitVisualStudio[_settings].Value;
+                }
+                if (TalentsoftToolsPlugin.IsDefaultRunVisualStudio[_settings].HasValue)
+                {
+                    CbxIsRunVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultRunVisualStudio[_settings].Value;
+                }
+            }
+
             bool canStash = Helper.GetDiff(_gitUiCommands).Any();
             if (!canStash)
             {
@@ -153,10 +167,6 @@ namespace TalentsoftTools
             if (TalentsoftToolsPlugin.IsDefaultBuildSolution[_settings].HasValue)
             {
                 CbxIsBuildSolution.Checked = TalentsoftToolsPlugin.IsDefaultBuildSolution[_settings].Value;
-            }
-            if (TalentsoftToolsPlugin.IsDefaultRunVisualStudio[_settings].HasValue)
-            {
-                CbxIsRunVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultRunVisualStudio[_settings].Value;
             }
             if (TalentsoftToolsPlugin.IsDefaultRunUri[_settings].HasValue)
             {
@@ -293,7 +303,6 @@ namespace TalentsoftTools
                 }));
 
                 CmdResult gitStashResult = _gitUiCommands.GitModule.RunGitCmdResult("stash --include-untracked");
-                _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
                 if (gitStashResult.ExitCode != 0)
                 {
                     Invoke((MethodInvoker)(() =>
@@ -350,7 +359,6 @@ namespace TalentsoftTools
                         IsProcessAborted = true;
                     }
                 }
-                _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
                 if (!IsProcessAborted)
                 {
                     Invoke((MethodInvoker)(() =>
