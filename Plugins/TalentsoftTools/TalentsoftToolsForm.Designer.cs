@@ -46,6 +46,7 @@
             this.RbtIsRemoteTargetBranch = new System.Windows.Forms.RadioButton();
             this.RbtIsLocalTargetBranch = new System.Windows.Forms.RadioButton();
             this.GbxProcess = new System.Windows.Forms.GroupBox();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.CbxIsNugetRestore = new System.Windows.Forms.CheckBox();
             this.pictureBox11 = new System.Windows.Forms.PictureBox();
             this.TxbDatabases = new System.Windows.Forms.TextBox();
@@ -90,13 +91,17 @@
             this.LblActualBranchName = new System.Windows.Forms.Label();
             this.LblActualBranchNameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.pictureBox12 = new System.Windows.Forms.PictureBox();
+            this.pictureBox13 = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
             this.BgxLogInfo.SuspendLayout();
             this.GbxTargetSolution.SuspendLayout();
             this.GbxTargetBranch.SuspendLayout();
             this.GbxProcess.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
@@ -113,7 +118,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).BeginInit();
             this.GbxActualInfos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
             this.SuspendLayout();
             // 
             // TbcMain
@@ -314,6 +320,16 @@
             this.GbxProcess.TabIndex = 3;
             this.GbxProcess.TabStop = false;
             this.GbxProcess.Text = "Process";
+            // 
+            // pictureBox6
+            // 
+            this.pictureBox6.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox6.Location = new System.Drawing.Point(493, 100);
+            this.pictureBox6.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(33, 30);
+            this.pictureBox6.TabIndex = 38;
+            this.pictureBox6.TabStop = false;
             // 
             // CbxIsNugetRestore
             // 
@@ -612,19 +628,23 @@
             this.TbpLocalsBranches.Location = new System.Drawing.Point(4, 24);
             this.TbpLocalsBranches.Name = "TbpLocalsBranches";
             this.TbpLocalsBranches.Padding = new System.Windows.Forms.Padding(3);
-            this.TbpLocalsBranches.Size = new System.Drawing.Size(996, 622);
+            this.TbpLocalsBranches.Size = new System.Drawing.Size(887, 622);
             this.TbpLocalsBranches.TabIndex = 0;
             this.TbpLocalsBranches.Text = "Locals branches";
             this.TbpLocalsBranches.UseVisualStyleBackColor = true;
             // 
             // GbxLocalsBranchesActions
             // 
+            this.GbxLocalsBranchesActions.Controls.Add(this.label3);
+            this.GbxLocalsBranchesActions.Controls.Add(this.label1);
+            this.GbxLocalsBranchesActions.Controls.Add(this.pictureBox13);
+            this.GbxLocalsBranchesActions.Controls.Add(this.pictureBox12);
             this.GbxLocalsBranchesActions.Controls.Add(this.BtnDeleteWithRemote);
             this.GbxLocalsBranchesActions.Controls.Add(this.BtnDeleteLocalsBranches);
             this.GbxLocalsBranchesActions.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.GbxLocalsBranchesActions.Location = new System.Drawing.Point(3, 545);
             this.GbxLocalsBranchesActions.Name = "GbxLocalsBranchesActions";
-            this.GbxLocalsBranchesActions.Size = new System.Drawing.Size(990, 74);
+            this.GbxLocalsBranchesActions.Size = new System.Drawing.Size(881, 74);
             this.GbxLocalsBranchesActions.TabIndex = 1;
             this.GbxLocalsBranchesActions.TabStop = false;
             this.GbxLocalsBranchesActions.Text = "Actions";
@@ -632,7 +652,7 @@
             // BtnDeleteWithRemote
             // 
             this.BtnDeleteWithRemote.Enabled = false;
-            this.BtnDeleteWithRemote.Location = new System.Drawing.Point(834, 26);
+            this.BtnDeleteWithRemote.Location = new System.Drawing.Point(741, 26);
             this.BtnDeleteWithRemote.Name = "BtnDeleteWithRemote";
             this.BtnDeleteWithRemote.Size = new System.Drawing.Size(135, 34);
             this.BtnDeleteWithRemote.TabIndex = 3;
@@ -641,7 +661,7 @@
             // 
             // BtnDeleteLocalsBranches
             // 
-            this.BtnDeleteLocalsBranches.Location = new System.Drawing.Point(5, 26);
+            this.BtnDeleteLocalsBranches.Location = new System.Drawing.Point(600, 26);
             this.BtnDeleteLocalsBranches.Name = "BtnDeleteLocalsBranches";
             this.BtnDeleteLocalsBranches.Size = new System.Drawing.Size(135, 34);
             this.BtnDeleteLocalsBranches.TabIndex = 2;
@@ -669,7 +689,7 @@
             this.DgvLocalsBranches.Name = "DgvLocalsBranches";
             this.DgvLocalsBranches.ReadOnly = true;
             this.DgvLocalsBranches.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DgvLocalsBranches.Size = new System.Drawing.Size(990, 616);
+            this.DgvLocalsBranches.Size = new System.Drawing.Size(881, 616);
             this.DgvLocalsBranches.TabIndex = 0;
             // 
             // dataGridViewTextBoxColumn6
@@ -774,15 +794,41 @@
             this.label2.Size = new System.Drawing.Size(0, 15);
             this.label2.TabIndex = 0;
             // 
-            // pictureBox6
+            // pictureBox12
             // 
-            this.pictureBox6.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox6.Location = new System.Drawing.Point(493, 100);
-            this.pictureBox6.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(33, 30);
-            this.pictureBox6.TabIndex = 38;
-            this.pictureBox6.TabStop = false;
+            this.pictureBox12.BackColor = System.Drawing.Color.Coral;
+            this.pictureBox12.Location = new System.Drawing.Point(146, 33);
+            this.pictureBox12.Name = "pictureBox12";
+            this.pictureBox12.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox12.TabIndex = 4;
+            this.pictureBox12.TabStop = false;
+            // 
+            // pictureBox13
+            // 
+            this.pictureBox13.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.pictureBox13.Location = new System.Drawing.Point(13, 34);
+            this.pictureBox13.Name = "pictureBox13";
+            this.pictureBox13.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox13.TabIndex = 5;
+            this.pictureBox13.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(169, 36);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(114, 15);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Unmerged branches";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(36, 36);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(99, 15);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Merged branches";
             // 
             // TalentsoftToolsForm
             // 
@@ -809,6 +855,7 @@
             this.GbxTargetBranch.PerformLayout();
             this.GbxProcess.ResumeLayout(false);
             this.GbxProcess.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
@@ -822,11 +869,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.TbpLocalsBranches.ResumeLayout(false);
             this.GbxLocalsBranchesActions.ResumeLayout(false);
+            this.GbxLocalsBranchesActions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).EndInit();
             this.GbxActualInfos.ResumeLayout(false);
             this.GbxActualInfos.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -894,5 +943,9 @@
         private System.Windows.Forms.PictureBox pictureBox11;
         private System.Windows.Forms.CheckBox CbxIsNugetRestore;
         private System.Windows.Forms.PictureBox pictureBox6;
+        private System.Windows.Forms.PictureBox pictureBox12;
+        private System.Windows.Forms.PictureBox pictureBox13;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
     }
 }
