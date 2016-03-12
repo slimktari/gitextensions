@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -23,6 +22,7 @@ namespace TalentsoftTools
         bool IsStashPop { get; set; }
         bool IsPreBuildSolution { get; set; }
         bool IsRestoreDatabase { get; set; }
+        bool IsNugetRestore { get; set; }
         bool IsBuildSolution { get; set; }
         bool IsPostBuildSolution { get; set; }
         bool IsRunVisualStudio { get; set; }
@@ -104,6 +104,10 @@ namespace TalentsoftTools
             CbxIsRunVisualStudio.BackColor = Color.Transparent;
             CbxIsExitVisualStudio.BackColor = Color.Transparent;
             CbxIsStashChanges.BackColor = Color.Transparent;
+            CbxIsNugetRestore.BackColor = Color.Transparent;
+            CbxIsPreBuild.BackColor = Color.Transparent;
+            CbxIsPostBuild.BackColor = Color.Transparent;
+            CbxIsRestoreDatabases.BackColor = Color.Transparent;
         }
 
         void LoadDefaultStepsValuesFromSettings()
@@ -166,6 +170,10 @@ namespace TalentsoftTools
             else if (TalentsoftToolsPlugin.IsDefaultStashPop[_settings].HasValue)
             {
                 CbxIsStashPop.Checked = TalentsoftToolsPlugin.IsDefaultStashPop[_settings].Value;
+            }
+            if (TalentsoftToolsPlugin.IsDefaultNugetRestore[_settings].HasValue)
+            {
+                CbxIsNugetRestore.Checked = TalentsoftToolsPlugin.IsDefaultNugetRestore[_settings].Value;
             }
             if (TalentsoftToolsPlugin.IsDefaultBuildSolution[_settings].HasValue)
             {
@@ -260,7 +268,7 @@ namespace TalentsoftTools
             DateTime startDateTime = DateTime.Now;
             if (TokenTask != null && !TokenTask.IsCancellationRequested)
             {
-                Invoke((MethodInvoker) (() =>
+                Invoke((MethodInvoker)(() =>
                 {
                     TbxLogInfo.AppendText(string.Format("Start at: {0}\r\nCurrent branch: {1}", startDateTime,
                         _gitUiCommands.GitModule.GetSelectedBranch()));
@@ -280,7 +288,7 @@ namespace TalentsoftTools
             {
                 if (TokenTask != null && !TokenTask.IsCancellationRequested)
                 {
-                    Invoke((MethodInvoker) (() =>
+                    Invoke((MethodInvoker)(() =>
                     {
                         CbxIsExitVisualStudio.BackColor = Color.DodgerBlue;
                         TbxLogInfo.AppendText("\r\nExiting Visual Studio...");
@@ -291,7 +299,7 @@ namespace TalentsoftTools
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
                     {
-                        Invoke((MethodInvoker) (() =>
+                        Invoke((MethodInvoker)(() =>
                         {
                             CbxIsExitVisualStudio.BackColor = Color.Red;
                             TbxLogInfo.AppendText("\r\nError when exit Visual Studio.");
@@ -304,7 +312,7 @@ namespace TalentsoftTools
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
                     {
-                        Invoke((MethodInvoker) (() =>
+                        Invoke((MethodInvoker)(() =>
                         {
                             CbxIsExitVisualStudio.BackColor = Color.LimeGreen;
                         }));
@@ -315,7 +323,7 @@ namespace TalentsoftTools
             {
                 if (TokenTask != null && !TokenTask.IsCancellationRequested)
                 {
-                    Invoke((MethodInvoker) (() =>
+                    Invoke((MethodInvoker)(() =>
                     {
                         CbxIsStashChanges.BackColor = Color.DodgerBlue;
                         TbxLogInfo.AppendText("\r\nStashing changes... 'stash --include-untracked'.");
@@ -327,7 +335,7 @@ namespace TalentsoftTools
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
                     {
-                        Invoke((MethodInvoker) (() =>
+                        Invoke((MethodInvoker)(() =>
                         {
                             CbxIsStashChanges.BackColor = Color.Red;
                             TbxLogInfo.AppendText(string.Format("\r\nError when stashing changes. {0}.",
@@ -341,7 +349,7 @@ namespace TalentsoftTools
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
                     {
-                        Invoke((MethodInvoker) (() =>
+                        Invoke((MethodInvoker)(() =>
                         {
                             CbxIsStashChanges.BackColor = Color.LimeGreen;
                         }));
@@ -352,7 +360,7 @@ namespace TalentsoftTools
             {
                 if (TokenTask != null && !TokenTask.IsCancellationRequested)
                 {
-                    Invoke((MethodInvoker) (() =>
+                    Invoke((MethodInvoker)(() =>
                     {
                         CbxIsCheckoutBranch.BackColor = Color.DodgerBlue;
                         TbxLogInfo.AppendText(string.Format("\r\nCheckout branch {0}...", TargetBranch.Name));
@@ -365,7 +373,7 @@ namespace TalentsoftTools
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
                     {
-                        Invoke((MethodInvoker) (() =>
+                        Invoke((MethodInvoker)(() =>
                         {
                             CbxIsCheckoutBranch.BackColor = Color.Red;
                             TbxLogInfo.AppendText(string.Format("\r\nError when checkout branch. {0}.",
@@ -380,7 +388,7 @@ namespace TalentsoftTools
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
                     {
-                        Invoke((MethodInvoker) (() =>
+                        Invoke((MethodInvoker)(() =>
                         {
                             TbxLogInfo.AppendText(
                                 string.Format("\r\nCreating new local branch {0}... 'checkout -b {1}'.", NewBranchName,
@@ -392,7 +400,7 @@ namespace TalentsoftTools
                     {
                         if (TokenTask != null && !TokenTask.IsCancellationRequested)
                         {
-                            Invoke((MethodInvoker) (() =>
+                            Invoke((MethodInvoker)(() =>
                             {
                                 CbxIsCheckoutBranch.BackColor = Color.Red;
                                 TbxLogInfo.AppendText(string.Format("\r\nError when Creating new branch {0}. {1}.",
@@ -491,7 +499,7 @@ namespace TalentsoftTools
                     }
                 }
             }
-            if (IsPreBuildSolution)
+            if (IsPreBuildSolution && !IsProcessAborted)
             {
                 if (TokenTask != null && !TokenTask.IsCancellationRequested)
                 {
@@ -523,6 +531,149 @@ namespace TalentsoftTools
                         Invoke((MethodInvoker)(() =>
                         {
                             CbxIsPreBuild.BackColor = Color.LimeGreen;
+                        }));
+                    }
+                }
+            }
+            if (IsNugetRestore && !IsProcessAborted)
+            {
+                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsNugetRestore.BackColor = Color.DodgerBlue;
+                        TbxLogInfo.AppendText(
+                            string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.",
+                                WorkingDirectory + TargetSolutionName, TargetSolutionName));
+                    }));
+                }
+                if (Helper.RunCommandLine(new List<string>
+                {
+                    string.Format("nuget restore {0}", WorkingDirectory + TargetSolutionName)
+                }))
+                {
+                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    {
+                        Invoke((MethodInvoker)(() =>
+                        {
+                            CbxIsNugetRestore.BackColor = Color.LimeGreen;
+                        }));
+                    }
+                }
+                else
+                {
+                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    {
+                        Invoke((MethodInvoker)(() =>
+                        {
+                            CbxIsNugetRestore.BackColor = Color.Red;
+                            TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.", WorkingDirectory + TargetSolutionName));
+                        }));
+                    }
+                }
+            }
+            if (IsBuildSolution && !IsProcessAborted)
+            {
+                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsBuildSolution.BackColor = Color.DodgerBlue;
+                        TbxLogInfo.AppendText(
+                                string.Format(
+                                    "\r\nBuilding solution: {0}... '{1} /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount {2}'.",
+                                    TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings],
+                                    WorkingDirectory + TargetSolutionName));
+                    }));
+                }
+                if (!Helper.Build(WorkingDirectory + TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings]))
+                {
+                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    {
+                        Invoke((MethodInvoker)(() =>
+                        {
+                            CbxIsBuildSolution.BackColor = Color.Red;
+                            TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.",
+                                WorkingDirectory + TargetSolutionName));
+                            TbxLogInfo.AppendText("\r\nProcess aborted.");
+                        }));
+                    }
+                    IsProcessAborted = true;
+                }
+                else if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsBuildSolution.BackColor = Color.LimeGreen;
+                    }));
+                }
+            }
+            if (IsPostBuildSolution && !IsProcessAborted)
+            {
+                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsPostBuild.BackColor = Color.DodgerBlue;
+                        TbxLogInfo.AppendText(string.Format("\r\nRunning Post-Build scripts:\r\n{0}",
+                            string.Join("\r\n", PostBuildFiles)));
+                    }));
+                }
+                bool result = Helper.RunCommandLine(PostBuildFiles.ToList());
+                if (!result)
+                {
+                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    {
+                        Invoke((MethodInvoker)(() =>
+                        {
+                            CbxIsPostBuild.BackColor = Color.Red;
+                            TbxLogInfo.AppendText("\r\nError when running Post-Build scripts.");
+                            TbxLogInfo.AppendText("\r\nProcess aborted.");
+                        }));
+                    }
+                }
+                else
+                {
+                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    {
+                        Invoke((MethodInvoker)(() =>
+                        {
+                            CbxIsPostBuild.BackColor = Color.LimeGreen;
+                        }));
+                    }
+                }
+            }
+            DateTime endateDateTime = DateTime.Now;
+            if (IsRunVisualStudio && !IsProcessAborted)
+            {
+                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsRunVisualStudio.BackColor = Color.DodgerBlue;
+                        TbxLogInfo.AppendText(string.Format("\r\nRunning Visual Studio with: {0}...", TargetSolutionName));
+                    }));
+                }
+                if (!Helper.LaunchVisualStudio(WorkingDirectory + TargetSolutionName))
+                {
+                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    {
+                        Invoke((MethodInvoker)(() =>
+                        {
+                            CbxIsRunVisualStudio.BackColor = Color.Red;
+                            TbxLogInfo.AppendText(string.Format("\r\nError when running Visual Studio with: {0}.",
+                                WorkingDirectory + TargetSolutionName));
+                            TbxLogInfo.AppendText("\r\nProcess aborted.");
+                        }));
+                    }
+                }
+                else
+                {
+                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    {
+                        Invoke((MethodInvoker)(() =>
+                        {
+                            CbxIsRunVisualStudio.BackColor = Color.LimeGreen;
                         }));
                     }
                 }
@@ -594,142 +745,6 @@ namespace TalentsoftTools
                                 CbxIsRestoreDatabases.BackColor = Color.LimeGreen;
                             }));
                         }
-                    }
-                }
-            }
-            if (IsBuildSolution && !IsProcessAborted)
-            {
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsBuildSolution.BackColor = Color.DodgerBlue;
-                        TbxLogInfo.AppendText(
-                            string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.",
-                                WorkingDirectory + TargetSolutionName, TargetSolutionName));
-                    }));
-                }
-                bool result = Helper.RunCommandLine(new List<string> { string.Format("nuget restore {0}", WorkingDirectory + TargetSolutionName) });
-                if (!result)
-                {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                    {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsBuildSolution.BackColor = Color.Red;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.",
-                                WorkingDirectory + TargetSolutionName));
-                            TbxLogInfo.AppendText("\r\nProcess aborted.");
-                        }));
-                    }
-                }
-                else
-                {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                    {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            TbxLogInfo.AppendText(
-                                string.Format(
-                                    "\r\nBuilding solution: {0}... '{1} /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount {2}'.",
-                                    TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings],
-                                    WorkingDirectory + TargetSolutionName));
-                        }));
-                    }
-                    result = Helper.Build(WorkingDirectory + TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings]);
-                    if (!result)
-                    {
-                        if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                        {
-                            Invoke((MethodInvoker)(() =>
-                            {
-                                CbxIsBuildSolution.BackColor = Color.Red;
-                                TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.",
-                                    WorkingDirectory + TargetSolutionName));
-                                TbxLogInfo.AppendText("\r\nProcess aborted.");
-                            }));
-                        }
-                        IsProcessAborted = true;
-                    }
-                }
-                if (!IsProcessAborted)
-                {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                    {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsBuildSolution.BackColor = Color.LimeGreen;
-                        }));
-                    }
-                }
-            }
-            if (IsPostBuildSolution)
-            {
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsPostBuild.BackColor = Color.DodgerBlue;
-                        TbxLogInfo.AppendText(string.Format("\r\nRunning Post-Build scripts:\r\n{0}",
-                            string.Join("\r\n", PostBuildFiles)));
-                    }));
-                }
-                bool result = Helper.RunCommandLine(PostBuildFiles.ToList());
-                if (!result)
-                {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                    {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsPostBuild.BackColor = Color.Red;
-                            TbxLogInfo.AppendText("\r\nError when running Post-Build scripts.");
-                            TbxLogInfo.AppendText("\r\nProcess aborted.");
-                        }));
-                    }
-                }
-                else
-                {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                    {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsPostBuild.BackColor = Color.LimeGreen;
-                        }));
-                    }
-                }
-            }
-            DateTime endateDateTime = DateTime.Now;
-            if (IsRunVisualStudio && !IsProcessAborted)
-            {
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsRunVisualStudio.BackColor = Color.DodgerBlue;
-                        TbxLogInfo.AppendText(string.Format("\r\nRunning Visual Studio with: {0}...", TargetSolutionName));
-                    }));
-                }
-                if (!Helper.LaunchVisualStudio(WorkingDirectory + TargetSolutionName))
-                {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                    {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsRunVisualStudio.BackColor = Color.Red;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when running Visual Studio with: {0}.",
-                                WorkingDirectory + TargetSolutionName));
-                            TbxLogInfo.AppendText("\r\nProcess aborted.");
-                        }));
-                    }
-                }
-                else
-                {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                    {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsRunVisualStudio.BackColor = Color.LimeGreen;
-                        }));
                     }
                 }
             }
@@ -905,6 +920,7 @@ namespace TalentsoftTools
             IsStashPop = CbxIsStashPop.Checked;
             IsPreBuildSolution = CbxIsPreBuild.Checked;
             IsRestoreDatabase = CbxIsRestoreDatabases.Checked;
+            IsNugetRestore = CbxIsNugetRestore.Checked;
             IsBuildSolution = CbxIsBuildSolution.Checked;
             IsPostBuildSolution = CbxIsPostBuild.Checked;
             IsRunVisualStudio = CbxIsRunVisualStudio.Checked;

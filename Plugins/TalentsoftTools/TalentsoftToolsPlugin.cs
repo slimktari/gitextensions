@@ -16,6 +16,7 @@ namespace TalentsoftTools
         public static BoolSetting IsDefaultStashPop = new BoolSetting("Is default stash pop", true);
         public static BoolSetting IsDefaultResetDatabases = new BoolSetting("Is default reset databases", true);
         public static BoolSetting IsDefaultPreBuildSolution = new BoolSetting("Is default pre-build solution", true);
+        public static BoolSetting IsDefaultNugetRestore = new BoolSetting("Is default Nuget restore", true);
         public static BoolSetting IsDefaultBuildSolution = new BoolSetting("Is default build solution", true);
         public static BoolSetting IsDefaultPostBuildSolution = new BoolSetting("Is default post-build solution", true);
         public static BoolSetting IsDefaultRunVisualStudio = new BoolSetting("Is default run VisualStudio", true);
@@ -52,11 +53,12 @@ namespace TalentsoftTools
             yield return IsDefaultCheckoutBranch;
             yield return IsDefaultGitClean;
             yield return IsDefaultStashPop;
-            yield return IsDefaultResetDatabases;
             yield return IsDefaultPreBuildSolution;
+            yield return IsDefaultNugetRestore;
             yield return IsDefaultBuildSolution;
             yield return IsDefaultPostBuildSolution;
             yield return IsDefaultRunVisualStudio;
+            yield return IsDefaultResetDatabases;
             yield return IsDefaultRunUri;
             yield return LocalUriWebApplication;
             yield return PreBuildBatch;

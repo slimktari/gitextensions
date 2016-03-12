@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 
@@ -47,6 +48,10 @@ namespace TalentsoftTools
             String dataFileLocation = dataFilePath + databaseName + "_0.mdf";
             String logFileLocation = logFilePath + databaseName + "_1.ldf";
             db = sqlServer.Databases[databaseName];
+            if (db != null)
+            {
+                sqlServer.KillAllProcesses(db.Name);
+            }
             RelocateFile rf = new RelocateFile(databaseName, dataFileLocation);
 
             var logicalRestoreFiles = sqlRestore.ReadFileList(sqlServer);
