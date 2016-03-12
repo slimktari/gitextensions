@@ -6,5 +6,6 @@
         public string LastAuthor { get; set; }
         public string LastUpdate { get; set; }
         public string IsMerged { get; set; }
+        public string NeedUpdate { get; set; }
     }
 }

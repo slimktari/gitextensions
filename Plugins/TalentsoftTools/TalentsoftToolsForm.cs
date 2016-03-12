@@ -3,8 +3,6 @@ using GitUIPluginInterfaces;
 using ResourceManager;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TalentsoftTools
@@ -48,6 +46,8 @@ namespace TalentsoftTools
             SplashScreen.SetStatus("Loading settings values");
             LoadDefaultStepsValuesFromSettings();
             ResetControls();
+            SplashScreen.SetStatus("Loading locals branches informations");
+            InitLocalBranchTab();
 
             SplashScreen.CloseForm();
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -286,25 +287,37 @@ namespace TalentsoftTools
 
         public static List<GitRef> GetLocalsBranches(GitUIBaseEventArgs gitUiCommands)
         {
-            gitUiCommands.GitModule.RunGitCmd("git fetch -p -n");
             return GetBranches(gitUiCommands).Where(h => !h.IsRemote && !h.IsTag && !h.IsOther && !h.IsBisect).ToList();
         }
 
         public static List<GitRef> GetRemotesBranches(GitUIBaseEventArgs gitUiCommands)
         {
-            gitUiCommands.GitModule.RunGitCmdResult("git fetch --all");
             return GetBranches(gitUiCommands).Where(h => h.IsRemote && !h.IsTag).ToList();
         }
 
         public static string[] GetUnmergerBranches(GitUIBaseEventArgs gitUiCommands)
         {
-            gitUiCommands.GitModule.RunGitCmd("git fetch -p -n");
             CmdResult gitResult = gitUiCommands.GitModule.RunGitCmdResult("branch --no-merged");
             if (gitResult.ExitCode == 0)
             {
                 return gitResult.StdOutput.Replace(" ", string.Empty).SplitLines();
             }
             return new string[0];
+        }
+
+        public static bool NeedToUpdate(GitUIBaseEventArgs gitUiCommands, string brancheName)
+        {
+            CmdResult gitResult = gitUiCommands.GitModule.RunGitCmdResult("show-ref -s " + brancheName);
+            if (gitResult.ExitCode == 0)
+            {
+                var results = gitResult.StdOutput.SplitLines();
+                if (results.Any())
+                {
+                    return results.Any(x => x != results.FirstOrDefault());
+                }
+                return false;
+            }
+            return false;
         }
 
         public static CmdResult DeleteMergedLocalBranch(GitUIBaseEventArgs gitUiCommands, string branchToDelete)
@@ -338,10 +351,5 @@ namespace TalentsoftTools
         }
 
         #endregion
-
-        public static void Database()
-        {
-
-        }
     }
 }

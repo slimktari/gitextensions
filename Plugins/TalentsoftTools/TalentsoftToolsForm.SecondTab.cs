@@ -11,6 +11,8 @@ namespace TalentsoftTools
     {
         #region Methods
 
+        public int UnmergedBranchesCounter { get; set; }
+        public int BranchesNeedToUpdateCounter { get; set; }
         private void InitLocalBranchTab()
         {
             LocalBranches = Helper.GetLocalsBranches(_gitUiCommands);
@@ -21,11 +23,20 @@ namespace TalentsoftTools
             {
                 string[] info = Helper.GetBranchInfo(_gitUiCommands, branchName);
                 bool isMerged = !unmerged.Contains(branchName);
-
+                bool needToUpdate = Helper.NeedToUpdate(_gitUiCommands, branchName);
+                if (needToUpdate)
+                {
+                    BranchesNeedToUpdateCounter++;
+                }
+                if (isMerged)
+                {
+                    UnmergedBranchesCounter++;
+                }
                 var item = new BranchDto
                 {
                     Name = branchName,
-                    IsMerged = isMerged.ToString()
+                    IsMerged = isMerged.ToString(),
+                    NeedUpdate = needToUpdate.ToString()
                 };
                 if (info.Count() == 2)
                 {
@@ -39,13 +50,59 @@ namespace TalentsoftTools
 
             foreach (DataGridViewRow row in DgvLocalsBranches.Rows)
             {
-                if (row.Cells[3].Value != null && row.Cells[3].Value.ToString() == "False")
+                if (row.Cells[4].Value != null && row.Cells[4].Value.ToString() == "True")
+                {
+                    row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.Red };
+                }
+                else if (row.Cells[3].Value != null && row.Cells[3].Value.ToString() == "False")
                 {
                     row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.Coral };
                 }
                 else
                 {
                     row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.MediumSeaGreen };
+                }
+            }
+            UpdateNotifications();
+        }
+
+        void UpdateNotifications()
+        {
+            if (BranchesNeedToUpdateCounter == 0)
+            {
+                LblNeedToUpdate.Visible = false;
+                PbxBranchesMustUpdate.Visible = false;
+            }
+            else
+            {
+                LblNeedToUpdate.Visible = true;
+                PbxBranchesMustUpdate.Visible = true;
+                if (BranchesNeedToUpdateCounter == 1)
+                {
+                    LblNeedToUpdate.Text = "One branch must be updated.";
+                }
+                else
+                {
+                    LblNeedToUpdate.Text = BranchesNeedToUpdateCounter + " branches must be updated.";
+                }
+            }
+
+            if (UnmergedBranchesCounter == 0)
+            {
+                LblUnmergedBranches.Visible = false;
+                PbxUnmergedBranches.Visible = false;
+            }
+            else
+            {
+                LblUnmergedBranches.Visible = true;
+                PbxUnmergedBranches.Visible = true;
+                if (UnmergedBranchesCounter == 1)
+                {
+                    LblUnmergedBranches.Text = "One branch is not merged.";
+                }
+                else
+                {
+                    LblUnmergedBranches.Text = UnmergedBranchesCounter + " branches are not merged.";
                 }
             }
         }
@@ -59,7 +116,7 @@ namespace TalentsoftTools
                 CmdResult gitResult = new CmdResult();
                 if (!isMerged)
                 {
-                    DialogResult response = MessageBox.Show(string.Format("{0} branch is not merged. Are you sure you want delete it ?",branchToDelete), "Talentsoft tools", MessageBoxButtons.YesNo);
+                    DialogResult response = MessageBox.Show(string.Format("{0} branch is not merged. Are you sure you want delete it ?", branchToDelete), "Talentsoft tools", MessageBoxButtons.YesNo);
                     switch (response)
                     {
                         case DialogResult.Yes:
