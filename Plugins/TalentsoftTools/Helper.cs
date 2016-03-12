@@ -13,6 +13,82 @@ namespace TalentsoftTools
 {
     public class Helper
     {
+        public static List<DatabaseDto> GetDatabasesFromPameters(string parameters, string databases)
+        {
+            if (string.IsNullOrWhiteSpace(parameters) || string.IsNullOrWhiteSpace(databases))
+            {
+                return new List<DatabaseDto>();
+            }
+            var databasesTab = databases.Split(';');
+            var results = new List<DatabaseDto>();
+            string userId = string.Empty;
+            string password = string.Empty;
+            string relocateDataFilePath = string.Empty;
+            string dataSource = string.Empty;
+
+            DatabaseDto databaseDto = null;
+            foreach (var database in databasesTab)
+            {
+                if (!string.IsNullOrWhiteSpace(database) && database.Contains("="))
+                {
+                    string[] dict = database.Split('=');
+                    if (dict.Length == 2)
+                    {
+                        switch (dict[0])
+                        {
+                            case "Initial Catalog":
+                                databaseDto = new DatabaseDto
+                                {
+                                    DatabaseName = dict[1]
+                                };
+                                break;
+                            case "BackupFilePath":
+                                if (databaseDto != null && !string.IsNullOrWhiteSpace(databaseDto.DatabaseName))
+                                {
+                                    databaseDto.BackupFilePath = dict[1];
+                                    results.Add(databaseDto);
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+            foreach (var param in parameters.Split(';'))
+            {
+                if (!string.IsNullOrWhiteSpace(param) && param.Contains("="))
+                {
+                    string[] dict = param.Split('=');
+                    if (dict.Length == 2)
+                    {
+                        switch (dict[0])
+                        {
+                            case "User ID":
+                                userId = dict[1];
+                                break;
+                            case "Password":
+                                password = dict[1];
+                                break;
+                            case "RelocateDataFilePath":
+                                relocateDataFilePath = dict[1];
+                                break;
+                            case "Data Source":
+                                dataSource = dict[1];
+                                break;
+                        }
+                    }
+                }
+            }
+
+            foreach (var result in results)
+            {
+                result.Password = password;
+                result.PathToRelocate = relocateDataFilePath;
+                result.ServerName = dataSource;
+                result.UserId = userId;
+            }
+            return results;
+        }
+
         public static bool ExitVisualStudio(string solutionFileName)
         {
             if (string.IsNullOrWhiteSpace(solutionFileName))

@@ -1,4 +1,5 @@
-﻿using GitUIPluginInterfaces;
+﻿using System.Collections.Generic;
+using GitUIPluginInterfaces;
 using ResourceManager;
 
 namespace TalentsoftTools
@@ -10,6 +11,7 @@ namespace TalentsoftTools
         public static BoolSetting IsDefaultCheckoutBranch = new BoolSetting("Is default checkout branch", true);
         public static BoolSetting IsDefaultGitClean = new BoolSetting("Is default git clean", true);
         public static BoolSetting IsDefaultStashPop = new BoolSetting("Is default stash pop", true);
+        public static BoolSetting IsDefaultResetDatabases = new BoolSetting("Is default reset databases", true);
         public static BoolSetting IsDefaultPreBuildSolution = new BoolSetting("Is default pre-build solution", true);
         public static BoolSetting IsDefaultBuildSolution = new BoolSetting("Is default build solution", true);
         public static BoolSetting IsDefaultPostBuildSolution = new BoolSetting("Is default post-build solution", true);
@@ -22,7 +24,8 @@ namespace TalentsoftTools
         public static StringSetting NewBranchPrefix = new StringSetting("Branch name prefix", string.Empty);
         public static StringSetting PreBuildBatch = new StringSetting("Pre-Build batch (separator ;)", string.Empty);
         public static StringSetting PostBuildBatch = new StringSetting("Post-Build batch (separator ;)", string.Empty);
-
+        public static StringSetting DatabaseConnectionParams = new StringSetting("Database connection parameters", @"Data Source=.;User ID=ASPNET;Password=aspasp;RelocateDataFilePath=C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\DATA\");
+        public static StringSetting DatabasesToRestore = new StringSetting("Databases to restore", @"Initial Catalog=TSDEV;BackupFilePath=;");
 
         public TalentsoftToolsPlugin()
         {
@@ -39,13 +42,14 @@ namespace TalentsoftTools
             }
         }
 
-        public override System.Collections.Generic.IEnumerable<ISetting> GetSettings()
+        public override IEnumerable<ISetting> GetSettings()
         {
             yield return IsDefaultExitVisualStudio;
             yield return IsDefaultStashChanges;
             yield return IsDefaultCheckoutBranch;
             yield return IsDefaultGitClean;
             yield return IsDefaultStashPop;
+            yield return IsDefaultResetDatabases;
             yield return IsDefaultPreBuildSolution;
             yield return IsDefaultBuildSolution;
             yield return IsDefaultPostBuildSolution;
@@ -57,7 +61,8 @@ namespace TalentsoftTools
             yield return DefaultSolutionFileName;
             yield return NewBranchPrefix;
             yield return PathToMsBuildFramework;
-            yield return ExcludePatternGitClean;
+            yield return DatabaseConnectionParams;
+            yield return DatabasesToRestore;
         }
     }
 }

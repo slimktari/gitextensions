@@ -21,6 +21,7 @@ namespace TalentsoftTools
         bool IsGitClean { get; set; }
         bool IsStashPop { get; set; }
         bool IsPreBuildSolution { get; set; }
+        bool IsRestoreDatabase { get; set; }
         bool IsBuildSolution { get; set; }
         bool IsPostBuildSolution { get; set; }
         bool IsRunVisualStudio { get; set; }
@@ -38,6 +39,7 @@ namespace TalentsoftTools
         private Task Task { get; set; }
         private CancellationTokenSource TokenTask { get; set; }
         private string WorkingDirectory { get; set; }
+        private List<DatabaseDto> Databases { get; set; }
 
         #endregion
 
@@ -45,7 +47,7 @@ namespace TalentsoftTools
 
         void InitProcessTab()
         {
-            _gitUiCommands.GitModule.RunGitCmdResult("fetch --all");
+            _gitUiCommands.GitModule.RunGitCmdResult("fetch -q -n --all");
             WorkingDirectory = _gitUiCommands.GitModule.WorkingDir;
             LoadSolutionsFiles();
             IsProcessAborted = true;
@@ -135,7 +137,19 @@ namespace TalentsoftTools
                     CbxIsRunVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultRunVisualStudio[_settings].Value;
                 }
             }
-
+            if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.DatabasesToRestore[_settings]) &&
+                !string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.DatabaseConnectionParams[_settings]) &&
+                TalentsoftToolsPlugin.IsDefaultResetDatabases[_settings].HasValue)
+            {
+                CbxIsRestoreDatabases.Checked = TalentsoftToolsPlugin.IsDefaultResetDatabases[_settings].Value;
+                TxbDatabases.Text = TalentsoftToolsPlugin.DatabasesToRestore[_settings];
+            }
+            else
+            {
+                CbxIsRestoreDatabases.Checked = false;
+                CbxIsRestoreDatabases.Enabled = false;
+                TxbDatabases.Enabled = false;
+            }
             bool canStash = Helper.GetDiff(_gitUiCommands).Any();
             if (!canStash)
             {
@@ -449,9 +463,59 @@ namespace TalentsoftTools
                     }));
                 }
             }
+            if (IsRestoreDatabase && Databases.Any())
+            {
+                bool isRestore = false;
+                bool isError = false;
+                Invoke((MethodInvoker)(() =>
+                {
+                    CbxIsRestoreDatabases.BackColor = Color.DodgerBlue;
+                }));
+                foreach (var database in Databases)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        TbxLogInfo.AppendText("\r\nRestoring database : " + database.DatabaseName);
+                    }));
+                    if (DatabaseHelper.RestoreDatabase(database.DatabaseName, database.BackupFilePath,
+                        database.ServerName, database.UserId, database.Password, database.PathToRelocate,
+                        database.PathToRelocate))
+                    {
+                        isRestore = true;
+                        Invoke((MethodInvoker)(() =>
+                        {
+                            TbxLogInfo.AppendText(string.Format("\r\nSuccess of the restoration {0} database.",
+                                database.DatabaseName));
+                        }));
+                    }
+                    else
+                    {
+                        isError = true;
+                        Invoke((MethodInvoker)(() =>
+                        {
+                            CbxIsRestoreDatabases.BackColor = Color.Red;
+                            TbxLogInfo.AppendText(string.Format("\r\nError when restoring {0} database.", database.DatabaseName));
+                        }));
+                    }
+                    if (isRestore && isError)
+                    {
+                        Invoke((MethodInvoker)(() =>
+                        {
+                            CbxIsRestoreDatabases.BackColor = Color.Gold;
+                            TbxLogInfo.AppendText("\r\nSome database was not restored.");
+                        }));
+                    }
+                    else if (isRestore)
+                    {
+                        Invoke((MethodInvoker)(() =>
+                        {
+                            CbxIsRestoreDatabases.BackColor = Color.LimeGreen;
+                        }));
+                    }
+                }
+            }
             if (IsBuildSolution && !IsProcessAborted)
             {
-
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxIsBuildSolution.BackColor = Color.DodgerBlue;
@@ -518,6 +582,7 @@ namespace TalentsoftTools
                     }));
                 }
             }
+            DateTime endateDateTime = DateTime.Now;
             if (IsRunVisualStudio && !IsProcessAborted)
             {
                 Invoke((MethodInvoker)(() =>
@@ -574,7 +639,6 @@ namespace TalentsoftTools
                     }
                 }
             }
-            DateTime endateDateTime = DateTime.Now;
             Invoke((MethodInvoker)(() =>
             {
                 TbxLogInfo.AppendText(string.Format("\r\nEnd at: {0}.", endateDateTime));
@@ -586,60 +650,27 @@ namespace TalentsoftTools
             }));
         }
 
-        #endregion
-
-        #region Events
-
-        void RbtIsRemoteOrLocalTargetBranchCheckedChanged(object sender, EventArgs e)
-        {
-            if (RbtIsLocalTargetBranch.Checked)
-            {
-                ActBranches.Values = Helper.GetLocalsBranches(_gitUiCommands).Select(b => b.Name).ToArray();
-            }
-            if (RbtIsRemoteTargetBranch.Checked)
-            {
-                ActBranches.Values = Helper.GetRemotesBranches(_gitUiCommands).Select(b => b.Name).ToArray();
-            }
-        }
-
-        private void BtnRunProcessClick(object sender, EventArgs e)
-        {
-            if (!ValidateCheckoutBranch() || !ValidateCreateBranch() || !ValidateUri())
-            {
-                return;
-            }
-            PbxLoading.Visible = true;
-            TokenTask = new CancellationTokenSource();
-            if (CblSolutions.Items.Count > 0)
-            {
-                TargetSolutionName = CblSolutions.SelectedItem.ToString();
-            }
-            IsExitVisualStudio = CbxIsExitVisualStudio.Checked;
-            IsStashCahnges = CbxIsStashChanges.Checked;
-            IsCheckoutBranch = CbxIsCheckoutBranch.Checked;
-            IsGitClean = CbxIsGitClean.Checked;
-            IsStashPop = CbxIsStashPop.Checked;
-            IsPreBuildSolution = CbxIsPreBuild.Checked;
-            IsBuildSolution = CbxIsBuildSolution.Checked;
-            IsPostBuildSolution = CbxIsPostBuild.Checked;
-            IsRunVisualStudio = CbxIsRunVisualStudio.Checked;
-            IsRunUri = CbxLaunchUri.Checked;
-            IsCreateNewBranch = CbxIsCreateNewBranch.Checked;
-            ResetCheckboxBackColor();
-            IsProcessAborted = false;
-            BtnRunProcess.Enabled = false;
-            BtnStopProcess.Enabled = true;
-            NewBranchName = TxbNewBranchName.Text;
-            Uris = TxbUri.Text;
-            Task = Task.Factory.StartNew(RunProcess, TokenTask.Token);
-        }
-
         bool ValidateUri()
         {
             string message = string.Empty;
             if (CbxLaunchUri.Checked && (string.IsNullOrWhiteSpace(TxbUri.Text) || (TxbUri.Text.Contains(";") && string.IsNullOrWhiteSpace(TxbUri.Text.Remove(';')))))
             {
                 message = "URI not defined.";
+            }
+            if (!string.IsNullOrEmpty(message))
+            {
+                MessageBox.Show(message, "Error", MessageBoxButtons.OK);
+                return false;
+            }
+            return true;
+        }
+        bool ValidateRestoreDatabases()
+        {
+            string message = string.Empty;
+            Databases = Helper.GetDatabasesFromPameters(TalentsoftToolsPlugin.DatabaseConnectionParams[_settings], TxbDatabases.Text);
+            if ((CbxIsRestoreDatabases.Checked && string.IsNullOrWhiteSpace(TxbDatabases.Text)) || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath)))
+            {
+                message = "Database not defined.";
             }
             if (!string.IsNullOrEmpty(message))
             {
@@ -710,6 +741,56 @@ namespace TalentsoftTools
             return true;
         }
 
+        #endregion
+
+        #region Events
+
+        private void BtnRunProcessClick(object sender, EventArgs e)
+        {
+            if (!ValidateCheckoutBranch() || !ValidateCreateBranch() || !ValidateUri() || !ValidateRestoreDatabases())
+            {
+                return;
+            }
+            PbxLoading.Visible = true;
+            TokenTask = new CancellationTokenSource();
+            if (CblSolutions.Items.Count > 0)
+            {
+                TargetSolutionName = CblSolutions.SelectedItem.ToString();
+            }
+            IsExitVisualStudio = CbxIsExitVisualStudio.Checked;
+            IsStashCahnges = CbxIsStashChanges.Checked;
+            IsCheckoutBranch = CbxIsCheckoutBranch.Checked;
+            IsGitClean = CbxIsGitClean.Checked;
+            IsStashPop = CbxIsStashPop.Checked;
+            IsPreBuildSolution = CbxIsPreBuild.Checked;
+            IsRestoreDatabase = CbxIsRestoreDatabases.Checked;
+            IsBuildSolution = CbxIsBuildSolution.Checked;
+            IsPostBuildSolution = CbxIsPostBuild.Checked;
+            IsRunVisualStudio = CbxIsRunVisualStudio.Checked;
+            IsRunUri = CbxLaunchUri.Checked;
+            IsCreateNewBranch = CbxIsCreateNewBranch.Checked;
+            ResetCheckboxBackColor();
+            IsProcessAborted = false;
+            BtnRunProcess.Enabled = false;
+            BtnStopProcess.Enabled = true;
+            NewBranchName = TxbNewBranchName.Text;
+            Uris = TxbUri.Text;
+            Task = Task.Factory.StartNew(RunProcess, TokenTask.Token);
+        }
+
+        void RbtIsRemoteOrLocalTargetBranchCheckedChanged(object sender, EventArgs e)
+        {
+            ActBranches.Enabled = true;
+            if (RbtIsLocalTargetBranch.Checked)
+            {
+                ActBranches.Values = Helper.GetLocalsBranches(_gitUiCommands).Select(b => b.Name).ToArray();
+            }
+            if (RbtIsRemoteTargetBranch.Checked)
+            {
+                ActBranches.Values = Helper.GetRemotesBranches(_gitUiCommands).Select(b => b.Name).ToArray();
+            }
+        }
+
         void BtnStopProcessClick(object sender, EventArgs e)
         {
             ExitProcess();
@@ -748,6 +829,11 @@ namespace TalentsoftTools
                     CbxIsStashPop.Enabled = true;
                 }
             }
+        }
+
+        private void CbxIsRestoreDatabasesCheckedChanged(object sender, EventArgs e)
+        {
+            TxbDatabases.Enabled = CbxIsRestoreDatabases.Checked;
         }
 
         #endregion
