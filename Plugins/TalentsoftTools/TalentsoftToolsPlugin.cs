@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using GitUIPluginInterfaces;
 using ResourceManager;
 
@@ -35,7 +38,7 @@ namespace TalentsoftTools
 
         public override bool Execute(GitUIBaseEventArgs gitUiCommands)
         {
-            using (var frm = new  TalentsoftToolsForm(gitUiCommands, Settings))
+            using (var frm = new TalentsoftToolsForm(gitUiCommands, Settings))
             {
                 frm.ShowDialog(gitUiCommands.OwnerForm);
                 return true;

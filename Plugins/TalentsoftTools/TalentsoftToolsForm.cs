@@ -23,12 +23,33 @@ namespace TalentsoftTools
 
         public TalentsoftToolsForm(GitUIBaseEventArgs gitUiCommands, ISettingsSource settings)
         {
-            InitializeComponent();
-            Translate();
+            IsProcessAborted = true;
             _settings = settings;
             _gitUiCommands = gitUiCommands;
+            WorkingDirectory = _gitUiCommands.GitModule.WorkingDir;
             //Icon = _gitUiCommands.GitUICommands.FormIcon;
-            InitProcessTab();
+            LunchSplashScreen();
+        }
+
+        void LunchSplashScreen()
+        {
+            SplashScreen.ShowSplashScreen();
+            Application.DoEvents();
+            SplashScreen.SetStatus("Initialize component");
+            InitializeComponent();
+            Translate();
+            SplashScreen.SetStatus("Fetching remote");
+            _gitUiCommands.GitModule.RunGitCmdResult("fetch -q -n --all");
+            _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
+            SplashScreen.SetStatus("Loading solutions files");
+            LoadSolutionsFiles();
+            SplashScreen.SetStatus("Check MsBuild path");
+            SetMsBuildPath();
+            SplashScreen.SetStatus("Loading settings values");
+            LoadDefaultStepsValuesFromSettings();
+            ResetControls();
+
+            SplashScreen.CloseForm();
         }
 
         void TbcMainSelectedIndexChanged(object sender, EventArgs e)
