@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
 // associées à un assembly.
 [assembly: AssemblyTitle("TalentsoftTools")]
-[assembly: AssemblyDescription("By Slim Ktari")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Talentsoft")]
-[assembly: AssemblyProduct("TalentsoftTools")]
+[assembly: AssemblyProduct("TalentsoftTools By Slim Ktari")]
 [assembly: AssemblyCopyright("Copyright © Talentsoft 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
