@@ -325,10 +325,10 @@ namespace TalentsoftTools
             CmdResult gitResult = gitUiCommands.GitModule.RunGitCmdResult("show-ref -s " + brancheName);
             if (gitResult.ExitCode == 0)
             {
-                var results = gitResult.StdOutput.SplitLines();
+                string[] results = gitResult.StdOutput.SplitLines();
                 if (results.Any())
                 {
-                    return results.Any(x => x != results.FirstOrDefault());
+                    return results.Any(x => !string.IsNullOrWhiteSpace(x) && x != results.FirstOrDefault());
                 }
                 return false;
             }

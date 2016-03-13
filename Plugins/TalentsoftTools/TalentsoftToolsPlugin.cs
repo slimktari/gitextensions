@@ -48,6 +48,14 @@ namespace TalentsoftTools
 
         public override IEnumerable<ISetting> GetSettings()
         {
+            yield return LocalUriWebApplication;
+            yield return PreBuildBatch;
+            yield return PostBuildBatch;
+            yield return DefaultSolutionFileName;
+            yield return NewBranchPrefix;
+            yield return PathToMsBuildFramework;
+            yield return DatabaseConnectionParams;
+            yield return DatabasesToRestore;
             yield return IsDefaultExitVisualStudio;
             yield return IsDefaultStashChanges;
             yield return IsDefaultCheckoutBranch;
@@ -60,14 +68,6 @@ namespace TalentsoftTools
             yield return IsDefaultRunVisualStudio;
             yield return IsDefaultResetDatabases;
             yield return IsDefaultRunUri;
-            yield return LocalUriWebApplication;
-            yield return PreBuildBatch;
-            yield return PostBuildBatch;
-            yield return DefaultSolutionFileName;
-            yield return NewBranchPrefix;
-            yield return PathToMsBuildFramework;
-            yield return DatabaseConnectionParams;
-            yield return DatabasesToRestore;
         }
     }
 }
