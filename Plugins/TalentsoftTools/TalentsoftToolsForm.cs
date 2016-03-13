@@ -49,7 +49,6 @@ namespace TalentsoftTools
             ResetControls();
             SplashScreen.SetStatus("Loading locals branches informations");
             InitLocalBranchTab();
-
             SplashScreen.CloseForm();
         }
 
