@@ -37,8 +37,9 @@ namespace TalentsoftTools
             InitializeComponent();
             Translate();
             SplashScreen.SetStatus("Fetching remote");
-            _gitUiCommands.GitModule.RunGitCmdResult("fetch -q -n --all");
-            _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
+            //_gitUiCommands.GitModule.RunGitCmdResult("fetch -q -n --all");
+            //_gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
+            Helper.FetchAll(_gitUiCommands);
             SplashScreen.SetStatus("Loading solutions files");
             LoadSolutionsFiles();
             SplashScreen.SetStatus("Check MsBuild path");

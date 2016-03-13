@@ -41,6 +41,7 @@ namespace TalentsoftTools
         private CancellationTokenSource TokenTask { get; set; }
         private string WorkingDirectory { get; set; }
         private List<DatabaseDto> Databases { get; set; }
+        private Dictionary<string, string> SolutionDictionary { get; set; }
 
         #endregion
 
@@ -48,9 +49,10 @@ namespace TalentsoftTools
 
         void LoadSolutionsFiles()
         {
-            List<string> list = Helper.GetSolutionsFile(WorkingDirectory);
+            SolutionDictionary = Helper.GetSolutionsFile(WorkingDirectory);
 
-            CblSolutions.DataSource = list;
+            CblSolutions.DataSource = SolutionDictionary.Select(x => x.Key).ToList();
+            CblDsbSolutions.DataSource = SolutionDictionary.Select(x => x.Key).ToList();
             if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.DefaultSolutionFileName[_settings]) && CblSolutions.Items.Count > 1)
             {
                 foreach (var item in CblSolutions.Items)
@@ -58,6 +60,14 @@ namespace TalentsoftTools
                     if (item.ToString().EndsWith(TalentsoftToolsPlugin.DefaultSolutionFileName[_settings], StringComparison.InvariantCultureIgnoreCase))
                     {
                         CblSolutions.SelectedItem = item;
+                        break;
+                    }
+                }
+                foreach (var item in CblDsbSolutions.Items)
+                {
+                    if (item.ToString().EndsWith(TalentsoftToolsPlugin.DefaultSolutionFileName[_settings], StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        CblDsbSolutions.SelectedItem = item;
                         break;
                     }
                 }
@@ -118,6 +128,14 @@ namespace TalentsoftTools
                 CbxIsExitVisualStudio.Checked = false;
                 CbxIsRunVisualStudio.Enabled = false;
                 CbxIsRunVisualStudio.Checked = false;
+                CbxIsBuildSolution.Checked = false;
+                CbxIsBuildSolution.Enabled = false;
+                CblDsbSolutions.Enabled = false;
+                BtnDsbBuildSolution.Enabled = false;
+                BtnDsbExitSolution.Enabled = false;
+                BtnDsbNugetRestore.Enabled = false;
+                BtnDsbRebuildSolution.Enabled = false;
+                BtnDsbStartSolution.Enabled = false;
             }
             else
             {
@@ -136,14 +154,18 @@ namespace TalentsoftTools
             {
                 CbxIsRestoreDatabases.Checked = TalentsoftToolsPlugin.IsDefaultResetDatabases[_settings].Value;
                 TxbDatabases.Text = TalentsoftToolsPlugin.DatabasesToRestore[_settings];
+                TxbDsbDatabases.Text = TalentsoftToolsPlugin.DatabasesToRestore[_settings];
             }
             else
             {
                 CbxIsRestoreDatabases.Checked = false;
                 CbxIsRestoreDatabases.Enabled = false;
                 TxbDatabases.Enabled = false;
+                TxbDsbDatabases.Enabled = false;
+                BtnDsbRestoreDatabases.Enabled = false;
             }
-            bool canStash = Helper.GetDiff(_gitUiCommands).Any();
+
+            bool canStash = Helper.IfChangedFiles(_gitUiCommands);
             if (!canStash)
             {
                 CbxIsStashChanges.Checked = false;
@@ -160,6 +182,10 @@ namespace TalentsoftTools
             if (TalentsoftToolsPlugin.IsDefaultGitClean[_settings].HasValue)
             {
                 CbxIsGitClean.Checked = TalentsoftToolsPlugin.IsDefaultGitClean[_settings].Value;
+            }
+            if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]))
+            {
+                TxbDsbGitClean.Text = TalentsoftToolsPlugin.ExcludePatternGitClean[_settings];
             }
             CanStashPop = Helper.GetStashs(_gitUiCommands).Any();
             if (!CanStashPop.Value && !CbxIsStashChanges.Checked)
@@ -194,7 +220,7 @@ namespace TalentsoftTools
                 bool isError = false;
                 foreach (var file in files)
                 {
-                    if (!File.Exists(file))
+                    if (!string.IsNullOrWhiteSpace(file) && !File.Exists(file))
                     {
                         isError = true;
                     }
@@ -203,10 +229,11 @@ namespace TalentsoftTools
                         PreBuildFiles.Add(file);
                     }
                 }
-                if (!PreBuildFiles.Any() && isError)
+                if (!PreBuildFiles.Any() || isError)
                 {
                     CbxIsPreBuild.Checked = false;
                     CbxIsPreBuild.Enabled = false;
+                    BtnDsbRunScriptPrebuild.Enabled = false;
                 }
                 else
                 {
@@ -217,6 +244,7 @@ namespace TalentsoftTools
             {
                 CbxIsPreBuild.Checked = false;
                 CbxIsPreBuild.Enabled = false;
+                BtnDsbRunScriptPrebuild.Enabled = false;
             }
             if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.PostBuildBatch[_settings]))
             {
@@ -234,20 +262,22 @@ namespace TalentsoftTools
                         PostBuildFiles.Add(file);
                     }
                 }
-                if (!PostBuildFiles.Any() && isError)
+                if (!PostBuildFiles.Any() || isError)
                 {
                     CbxIsPostBuild.Checked = false;
                     CbxIsPostBuild.Enabled = false;
+                    BtnDsbRunScriptPostbuild.Enabled = false;
                 }
                 else
                 {
-                    CbxIsPreBuild.Checked = TalentsoftToolsPlugin.IsDefaultPostBuildSolution[_settings].Value;
+                    CbxIsPostBuild.Checked = TalentsoftToolsPlugin.IsDefaultPostBuildSolution[_settings].Value;
                 }
             }
             else
             {
                 CbxIsPostBuild.Checked = false;
                 CbxIsPostBuild.Enabled = false;
+                BtnDsbRunScriptPostbuild.Enabled = false;
             }
         }
         void ExitProcess()
@@ -259,12 +289,13 @@ namespace TalentsoftTools
                 IsProcessAborted = true;
                 BtnRunProcess.Enabled = true;
                 BtnStopProcess.Enabled = false;
-                PbxLoading.Visible = false;
+                PbxLoadingProcess.Visible = false;
             }
         }
 
         void RunProcess()
         {
+            string solutionFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == TargetSolutionName).Value;
             DateTime startDateTime = DateTime.Now;
             if (TokenTask != null && !TokenTask.IsCancellationRequested)
             {
@@ -537,6 +568,7 @@ namespace TalentsoftTools
             }
             if (IsNugetRestore && !IsProcessAborted)
             {
+
                 if (TokenTask != null && !TokenTask.IsCancellationRequested)
                 {
                     Invoke((MethodInvoker)(() =>
@@ -544,12 +576,12 @@ namespace TalentsoftTools
                         CbxIsNugetRestore.BackColor = Color.DodgerBlue;
                         TbxLogInfo.AppendText(
                             string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.",
-                                WorkingDirectory + TargetSolutionName, TargetSolutionName));
+                                solutionFullPath, TargetSolutionName));
                     }));
                 }
                 if (Helper.RunCommandLine(new List<string>
                 {
-                    string.Format("nuget restore {0}", WorkingDirectory + TargetSolutionName)
+                    string.Format("nuget restore {0}", solutionFullPath)
                 }))
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
@@ -567,7 +599,7 @@ namespace TalentsoftTools
                         Invoke((MethodInvoker)(() =>
                         {
                             CbxIsNugetRestore.BackColor = Color.Red;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.", WorkingDirectory + TargetSolutionName));
+                            TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.", solutionFullPath));
                         }));
                     }
                 }
@@ -583,18 +615,17 @@ namespace TalentsoftTools
                                 string.Format(
                                     "\r\nBuilding solution: {0}... '{1} /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount {2}'.",
                                     TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings],
-                                    WorkingDirectory + TargetSolutionName));
+                                    solutionFullPath));
                     }));
                 }
-                if (!Helper.Build(WorkingDirectory + TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings]))
+                if (!Helper.Build(solutionFullPath, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings]))
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
                     {
                         Invoke((MethodInvoker)(() =>
                         {
                             CbxIsBuildSolution.BackColor = Color.Red;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.",
-                                WorkingDirectory + TargetSolutionName));
+                            TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.",solutionFullPath));
                             TbxLogInfo.AppendText("\r\nProcess aborted.");
                         }));
                     }
@@ -654,15 +685,14 @@ namespace TalentsoftTools
                         TbxLogInfo.AppendText(string.Format("\r\nRunning Visual Studio with: {0}...", TargetSolutionName));
                     }));
                 }
-                if (!Helper.LaunchVisualStudio(WorkingDirectory + TargetSolutionName))
+                if (!Helper.LaunchVisualStudio(solutionFullPath))
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
                     {
                         Invoke((MethodInvoker)(() =>
                         {
                             CbxIsRunVisualStudio.BackColor = Color.Red;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when running Visual Studio with: {0}.",
-                                WorkingDirectory + TargetSolutionName));
+                            TbxLogInfo.AppendText(string.Format("\r\nError when running Visual Studio with: {0}.", solutionFullPath));
                             TbxLogInfo.AppendText("\r\nProcess aborted.");
                         }));
                     }
@@ -801,6 +831,7 @@ namespace TalentsoftTools
                     _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
                     LblActualBranchName.Text = _gitUiCommands.GitModule.GetSelectedBranch();
                     LblActualRepository.Text = _gitUiCommands.GitModule.WorkingDir;
+                    TbcMain.TabPages[2].Enabled = true;
                     ExitProcess();
                 }));
             }
@@ -826,7 +857,7 @@ namespace TalentsoftTools
             Databases = Helper.GetDatabasesFromPameters(TalentsoftToolsPlugin.DatabaseConnectionParams[_settings], TxbDatabases.Text);
             if ((CbxIsRestoreDatabases.Checked && string.IsNullOrWhiteSpace(TxbDatabases.Text)) || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath)))
             {
-                message = "Database not defined.";
+                message = "Databases not correctly defined.";
             }
             if (!string.IsNullOrEmpty(message))
             {
@@ -907,12 +938,13 @@ namespace TalentsoftTools
             {
                 return;
             }
-            PbxLoading.Visible = true;
+            PbxLoadingProcess.Visible = true;
             TokenTask = new CancellationTokenSource();
             if (CblSolutions.Items.Count > 0)
             {
                 TargetSolutionName = CblSolutions.SelectedItem.ToString();
             }
+            TbcMain.TabPages[2].Enabled = false;
             IsExitVisualStudio = CbxIsExitVisualStudio.Checked;
             IsStashCahnges = CbxIsStashChanges.Checked;
             IsCheckoutBranch = CbxIsCheckoutBranch.Checked;

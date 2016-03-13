@@ -83,9 +83,19 @@ namespace TalentsoftTools.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap switchingCircle {
+        internal static System.Drawing.Bitmap SwitchingCircleGreenBlueTransparentBig {
             get {
-                object obj = ResourceManager.GetObject("switchingCircle", resourceCulture);
+                object obj = ResourceManager.GetObject("SwitchingCircleGreenBlueTransparentBig", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SwitchingCircleGreenBlueTransparentM {
+            get {
+                object obj = ResourceManager.GetObject("SwitchingCircleGreenBlueTransparentM", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

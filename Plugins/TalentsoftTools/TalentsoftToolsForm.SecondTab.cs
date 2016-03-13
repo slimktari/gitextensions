@@ -18,7 +18,8 @@ namespace TalentsoftTools
             LocalBranches = Helper.GetLocalsBranches(_gitUiCommands);
             string[] unmerged = Helper.GetUnmergerBranches(_gitUiCommands);
             var listBranches = new BindingList<BranchDto>();
-
+            BranchesNeedToUpdateCounter = 0;
+            UnmergedBranchesCounter = 0;
             foreach (var branchName in LocalBranches.Select(b => b.Name))
             {
                 string[] info = Helper.GetBranchInfo(_gitUiCommands, branchName);
@@ -70,40 +71,28 @@ namespace TalentsoftTools
         {
             if (BranchesNeedToUpdateCounter == 0)
             {
-                LblNeedToUpdate.Visible = false;
-                PbxBranchesMustUpdate.Visible = false;
+                LblNeedToUpdate.Text = "All branches are up to date.";
+            }
+            else if (BranchesNeedToUpdateCounter == 1)
+            {
+                LblNeedToUpdate.Text = "One branch must be updated.";
             }
             else
             {
-                LblNeedToUpdate.Visible = true;
-                PbxBranchesMustUpdate.Visible = true;
-                if (BranchesNeedToUpdateCounter == 1)
-                {
-                    LblNeedToUpdate.Text = "One branch must be updated.";
-                }
-                else
-                {
-                    LblNeedToUpdate.Text = BranchesNeedToUpdateCounter + " branches must be updated.";
-                }
+                LblNeedToUpdate.Text = BranchesNeedToUpdateCounter + " branches must be updated.";
             }
 
             if (UnmergedBranchesCounter == 0)
             {
-                LblUnmergedBranches.Visible = false;
-                PbxUnmergedBranches.Visible = false;
+                LblUnmergedBranches.Text = "All branches are merged.";
+            }
+            else if (UnmergedBranchesCounter == 1)
+            {
+                LblUnmergedBranches.Text = "One branch is not merged.";
             }
             else
             {
-                LblUnmergedBranches.Visible = true;
-                PbxUnmergedBranches.Visible = true;
-                if (UnmergedBranchesCounter == 1)
-                {
-                    LblUnmergedBranches.Text = "One branch is not merged.";
-                }
-                else
-                {
-                    LblUnmergedBranches.Text = UnmergedBranchesCounter + " branches are not merged.";
-                }
+                LblUnmergedBranches.Text = UnmergedBranchesCounter + " branches are not merged.";
             }
         }
 

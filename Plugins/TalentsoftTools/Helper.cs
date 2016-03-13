@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System;
-using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -92,15 +91,15 @@ namespace TalentsoftTools
 
         public static bool ExitVisualStudio(string solutionFileName)
         {
-            if (string.IsNullOrWhiteSpace(solutionFileName))
+            if (!string.IsNullOrWhiteSpace(solutionFileName))
             {
-                return false;
+                solutionFileName = Path.GetFileNameWithoutExtension(solutionFileName);
             }
-            solutionFileName = Path.GetFileNameWithoutExtension(solutionFileName);
+
             var process = Process.GetProcessesByName("devenv");
             foreach (Process p in process)
             {
-                if (p.MainWindowTitle.Contains(solutionFileName))
+                if (string.IsNullOrWhiteSpace(solutionFileName) || (!string.IsNullOrWhiteSpace(solutionFileName) && p.MainWindowTitle.Contains(solutionFileName)))
                 {
                     try
                     {
@@ -122,18 +121,24 @@ namespace TalentsoftTools
             return true;
         }
 
-        public static List<string> GetSolutionsFile(string directory, int currentDepth = 0)
+        public static Dictionary<string, string> GetSolutionsFile(string directory, int currentDepth = 0)
         {
-            var files = new List<string>();
+            var files = new Dictionary<string, string>();
             try
             {
+                foreach (var file in Directory.GetFiles(directory, "*.sln"))
+                {
+                    files.Add(Path.GetFileName(file), Path.GetFullPath(file));
+                }
 
-                files.AddRange(Directory.GetFiles(directory, "*.sln").Select(Path.GetFileName));
                 if (currentDepth < 3)
                 {
                     foreach (string directoryItem in Directory.GetDirectories(directory))
                     {
-                        files.AddRange(GetSolutionsFile(directoryItem, currentDepth + 1));
+                        foreach (var file in GetSolutionsFile(directoryItem, currentDepth + 1))
+                        {
+                            files.Add(file.Key, file.Value);
+                        }
                     }
                 }
             }
@@ -152,6 +157,16 @@ namespace TalentsoftTools
                 return false;
             }
             return RunCommandLine(new List<string> { string.Format("\"{0}\" /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount \"{1}\"", pathToMsBuild, solutionFileFullPath) });
+        }
+
+        public static bool Rebuild(string solutionFileFullPath, string pathToMsBuild)
+        {
+            //string validPathToMsBuild = GetMsBuildPath();
+            if (string.IsNullOrEmpty(pathToMsBuild) || string.IsNullOrEmpty(solutionFileFullPath))
+            {
+                return false;
+            }
+            return RunCommandLine(new List<string> { string.Format("\"{0}\" /t:Clean;Rebuild /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount \"{1}\"", pathToMsBuild, solutionFileFullPath) });
         }
 
         public static bool RunCommandLine(List<string> commands)
@@ -329,6 +344,12 @@ namespace TalentsoftTools
         {
             return gitUiCommands.GitModule.RunGitCmdResult(string.Format("branch -D {0}", branchToDelete));
         }
+        public static CmdResult FetchAll(GitUIBaseEventArgs gitUiCommands)
+        {
+            CmdResult results = gitUiCommands.GitModule.RunGitCmdResult("fetch -q -n --all");
+            gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
+            return results;
+        }
 
         public static string[] GetStashs(GitUIBaseEventArgs gitUiCommands)
         {
@@ -348,6 +369,10 @@ namespace TalentsoftTools
                 return gitResult.StdOutput.SplitLines();
             }
             return new string[0];
+        }
+        public static bool IfChangedFiles(GitUIBaseEventArgs gitUiCommands)
+        {
+            return !string.IsNullOrWhiteSpace(gitUiCommands.GitModule.RunGitCmd(GitCommandHelpers.GetAllChangedFilesCmd(true, UntrackedFilesMode.All)));
         }
 
         #endregion
