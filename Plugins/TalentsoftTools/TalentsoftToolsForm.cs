@@ -3,6 +3,7 @@ using GitUIPluginInterfaces;
 using ResourceManager;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace TalentsoftTools
@@ -42,13 +43,12 @@ namespace TalentsoftTools
             Helper.FetchAll(_gitUiCommands);
             SplashScreen.SetStatus("Loading solutions files");
             LoadSolutionsFiles();
-            SplashScreen.SetStatus("Check MsBuild path");
-            SetMsBuildPath();
             SplashScreen.SetStatus("Loading settings values");
             LoadDefaultStepsValuesFromSettings();
             ResetControls();
             SplashScreen.SetStatus("Loading locals branches informations");
-            InitLocalBranchTab();
+            LoadLocalBranches();
+            UpdateNotifications();
             SplashScreen.CloseForm();
         }
 
@@ -76,6 +76,22 @@ namespace TalentsoftTools
                 }
             }
             _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
+        }
+
+        private void PbxBranchesMustUpdateClick(object sender, EventArgs e)
+        {
+            if (TbcMain.Enabled)
+            {
+                TbcMain.SelectedIndex = 1;
+            }
+        }
+
+        private void PbxUnmergedBranchesClick(object sender, EventArgs e)
+        {
+            if (TbcMain.Enabled)
+            {
+                TbcMain.SelectedIndex = 1;
+            }
         }
     }
 }

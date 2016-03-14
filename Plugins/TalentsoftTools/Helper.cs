@@ -131,7 +131,7 @@ namespace TalentsoftTools
                     files.Add(Path.GetFileName(file), Path.GetFullPath(file));
                 }
 
-                if (currentDepth < 3)
+                if (currentDepth < 2)
                 {
                     foreach (string directoryItem in Directory.GetDirectories(directory))
                     {
@@ -151,7 +151,6 @@ namespace TalentsoftTools
 
         public static bool Build(string solutionFileFullPath, string pathToMsBuild)
         {
-            //string validPathToMsBuild = GetMsBuildPath();
             if (string.IsNullOrEmpty(pathToMsBuild) || string.IsNullOrEmpty(solutionFileFullPath))
             {
                 return false;
@@ -205,7 +204,7 @@ namespace TalentsoftTools
                 error = streamReader.ReadToEnd();
             }
             process.WaitForExit();
-            if (!string.IsNullOrEmpty(error))
+            if (!string.IsNullOrEmpty(error) || process.ExitCode != 0)
             {
                 return false;
             }

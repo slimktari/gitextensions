@@ -291,6 +291,8 @@ namespace TalentsoftTools
                 BtnStopProcess.Enabled = false;
                 PbxLoadingProcess.Visible = false;
                 TbcMain.TabPages[2].Enabled = true;
+                LoadLocalBranches();
+                UpdateNotifications();
             }
         }
 
@@ -842,7 +844,6 @@ namespace TalentsoftTools
                     _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
                     LblActualBranchName.Text = _gitUiCommands.GitModule.GetSelectedBranch();
                     LblActualRepository.Text = _gitUiCommands.GitModule.WorkingDir;
-                    TbcMain.TabPages[2].Enabled = true;
                     ExitProcess();
                 }));
             }

@@ -765,7 +765,6 @@
             // 
             this.DgvLocalsBranches.AllowUserToAddRows = false;
             this.DgvLocalsBranches.AllowUserToDeleteRows = false;
-            this.DgvLocalsBranches.AllowUserToResizeColumns = false;
             this.DgvLocalsBranches.AllowUserToResizeRows = false;
             this.DgvLocalsBranches.AutoGenerateColumns = false;
             this.DgvLocalsBranches.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
@@ -1098,11 +1097,13 @@
             // PbxUnmergedBranches
             // 
             this.PbxUnmergedBranches.BackColor = System.Drawing.Color.Coral;
+            this.PbxUnmergedBranches.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PbxUnmergedBranches.Location = new System.Drawing.Point(655, 41);
             this.PbxUnmergedBranches.Name = "PbxUnmergedBranches";
             this.PbxUnmergedBranches.Size = new System.Drawing.Size(20, 20);
             this.PbxUnmergedBranches.TabIndex = 12;
             this.PbxUnmergedBranches.TabStop = false;
+            this.PbxUnmergedBranches.Click += new System.EventHandler(this.PbxUnmergedBranchesClick);
             // 
             // LblNeedToUpdate
             // 
@@ -1115,11 +1116,14 @@
             // PbxBranchesMustUpdate
             // 
             this.PbxBranchesMustUpdate.BackColor = System.Drawing.Color.Red;
+            this.PbxBranchesMustUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PbxBranchesMustUpdate.Location = new System.Drawing.Point(655, 18);
             this.PbxBranchesMustUpdate.Name = "PbxBranchesMustUpdate";
             this.PbxBranchesMustUpdate.Size = new System.Drawing.Size(20, 20);
             this.PbxBranchesMustUpdate.TabIndex = 10;
             this.PbxBranchesMustUpdate.TabStop = false;
+            this.PbxBranchesMustUpdate.Tag = "";
+            this.PbxBranchesMustUpdate.Click += new System.EventHandler(this.PbxBranchesMustUpdateClick);
             // 
             // LblActualRepository
             // 
@@ -1288,11 +1292,6 @@
         private System.Windows.Forms.PictureBox PbxBranchesMustUpdate;
         private System.Windows.Forms.Label LblUnmergedBranches;
         private System.Windows.Forms.PictureBox PbxUnmergedBranches;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NeedUpdate;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TabPage TpbTabPage;
         private System.Windows.Forms.GroupBox GbxDashboardActions;
@@ -1316,5 +1315,10 @@
         private System.Windows.Forms.Button BtnDsbExitAllVisualStudio;
         private System.Windows.Forms.Button BtnDsbRebuildSolution;
         private System.Windows.Forms.PictureBox PbxDsbLoadingAction;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NeedUpdate;
     }
 }

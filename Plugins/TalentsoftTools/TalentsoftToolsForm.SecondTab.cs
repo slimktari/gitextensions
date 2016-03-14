@@ -13,11 +13,13 @@ namespace TalentsoftTools
 
         public int UnmergedBranchesCounter { get; set; }
         public int BranchesNeedToUpdateCounter { get; set; }
-        private void InitLocalBranchTab()
+        public BindingList<BranchDto> LbrGridBranches { get; set; }
+
+        void LoadLocalBranches()
         {
             LocalBranches = Helper.GetLocalsBranches(_gitUiCommands);
             string[] unmerged = Helper.GetUnmergerBranches(_gitUiCommands);
-            var listBranches = new BindingList<BranchDto>();
+            LbrGridBranches = new BindingList<BranchDto>();
             BranchesNeedToUpdateCounter = 0;
             UnmergedBranchesCounter = 0;
             foreach (var branchName in LocalBranches.Select(b => b.Name))
@@ -44,11 +46,13 @@ namespace TalentsoftTools
                     item.LastAuthor = info[0];
                     item.LastUpdate = info[1];
                 }
-
-                listBranches.Add(item);
+                LbrGridBranches.Add(item);
             }
-            DgvLocalsBranches.DataSource = listBranches;
+        }
 
+        void SetLocalBranchesGrid()
+        {
+            DgvLocalsBranches.DataSource = LbrGridBranches;
             foreach (DataGridViewRow row in DgvLocalsBranches.Rows)
             {
                 if (row.Cells[4].Value != null && row.Cells[4].Value.ToString() == "True")
@@ -64,7 +68,11 @@ namespace TalentsoftTools
                     row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.MediumSeaGreen };
                 }
             }
-            UpdateNotifications();
+        }
+
+        private void InitLocalBranchTab()
+        {
+            SetLocalBranchesGrid();
         }
 
         void UpdateNotifications()
@@ -125,7 +133,9 @@ namespace TalentsoftTools
                 }
             }
             _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
-            InitLocalBranchTab();
+            LoadLocalBranches();
+            SetLocalBranchesGrid();
+            UpdateNotifications();
         }
 
         #endregion

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GitUIPluginInterfaces;
@@ -35,6 +37,34 @@ namespace TalentsoftTools
         {
             Description = "Talentsoft tools";
             //Translate();
+        }
+
+        void SetMsBuildPath()
+        {
+            if (string.IsNullOrWhiteSpace(PathToMsBuildFramework[Settings]))
+            {
+                List<string> pathsToMsBuild = new List<string>
+                                                  {
+                    "C:/Windows/Microsoft.Net/Framework/v2.0.50727/MsBuild.exe",
+                    "C:/Windows/Microsoft.Net/Framework/v3.5/MsBuild.exe",
+                    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/MsBuild.exe",
+                    @"C:\Program Files (x86)\MSBuild\12.0\Bin\MsBuild.exe",
+                    @"C:\Program Files (x86)\MSBuild\14.0\Bin\MsBuild.exe"
+                                                  };
+                foreach (var pathToMsBuild in pathsToMsBuild)
+                {
+                    if (File.Exists(pathToMsBuild))
+                    {
+                        PathToMsBuildFramework[Settings] = pathToMsBuild;
+                    }
+                }
+            }
+        }
+
+        public override void Register(IGitUICommands gitUiCommands)
+        {
+            base.Register(gitUiCommands);
+            SetMsBuildPath();
         }
 
         public override bool Execute(GitUIBaseEventArgs gitUiCommands)
