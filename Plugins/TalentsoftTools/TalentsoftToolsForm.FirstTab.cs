@@ -137,16 +137,10 @@ namespace TalentsoftTools
                 BtnDsbRebuildSolution.Enabled = false;
                 BtnDsbStartSolution.Enabled = false;
             }
-            else
+            else if (TalentsoftToolsPlugin.IsDefaultExitAndStartVisualStudio[_settings].HasValue)
             {
-                if (TalentsoftToolsPlugin.IsDefaultExitVisualStudio[_settings].HasValue)
-                {
-                    CbxIsExitVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultExitVisualStudio[_settings].Value;
-                }
-                if (TalentsoftToolsPlugin.IsDefaultRunVisualStudio[_settings].HasValue)
-                {
-                    CbxIsRunVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultRunVisualStudio[_settings].Value;
-                }
+                CbxIsExitVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultExitAndStartVisualStudio[_settings].Value;
+                CbxIsRunVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultExitAndStartVisualStudio[_settings].Value;
             }
             if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.DatabasesToRestore[_settings]) &&
                 !string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.DatabaseConnectionParams[_settings]) &&
@@ -235,10 +229,6 @@ namespace TalentsoftTools
                     CbxIsPreBuild.Enabled = false;
                     BtnDsbRunScriptPrebuild.Enabled = false;
                 }
-                else
-                {
-                    CbxIsPreBuild.Checked = TalentsoftToolsPlugin.IsDefaultPreBuildSolution[_settings].Value;
-                }
             }
             else
             {
@@ -267,10 +257,6 @@ namespace TalentsoftTools
                     CbxIsPostBuild.Checked = false;
                     CbxIsPostBuild.Enabled = false;
                     BtnDsbRunScriptPostbuild.Enabled = false;
-                }
-                else
-                {
-                    CbxIsPostBuild.Checked = TalentsoftToolsPlugin.IsDefaultPostBuildSolution[_settings].Value;
                 }
             }
             else
@@ -638,7 +624,7 @@ namespace TalentsoftTools
                         Invoke((MethodInvoker)(() =>
                         {
                             CbxIsBuildSolution.BackColor = Color.Red;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.",solutionFullPath));
+                            TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.", solutionFullPath));
                             TbxLogInfo.AppendText("\r\nProcess aborted.");
                         }));
                     }
