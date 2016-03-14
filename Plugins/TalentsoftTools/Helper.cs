@@ -218,7 +218,7 @@ namespace TalentsoftTools
             {
                 return false;
             }
-            ProcessStartInfo processStartInfo = new ProcessStartInfo(solutionFileFullPath) { UseShellExecute = true };
+            ProcessStartInfo processStartInfo = new ProcessStartInfo(solutionFileFullPath);
             try
             {
                 Process.Start(processStartInfo);

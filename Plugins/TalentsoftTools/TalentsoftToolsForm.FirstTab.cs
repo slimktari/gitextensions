@@ -290,6 +290,7 @@ namespace TalentsoftTools
                 BtnRunProcess.Enabled = true;
                 BtnStopProcess.Enabled = false;
                 PbxLoadingProcess.Visible = false;
+                TbcMain.TabPages[2].Enabled = true;
             }
         }
 
@@ -389,17 +390,27 @@ namespace TalentsoftTools
             }
             if (IsCheckoutBranch && !IsProcessAborted)
             {
+                bool isLocal = false;
                 if (TokenTask != null && !TokenTask.IsCancellationRequested)
                 {
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsCheckoutBranch.BackColor = Color.DodgerBlue;
                         TbxLogInfo.AppendText(string.Format("\r\nCheckout branch {0}...", TargetBranch.Name));
-                        TbxLogInfo.AppendText(string.Format(" 'checkout -B {0} {1}'.", TargetBranch.LocalName,
-                            TargetBranch.Name));
+                        TbxLogInfo.AppendText(string.Format(" 'checkout -B {0} {1}'.", TargetBranch.LocalName, TargetBranch.Name));
+                        isLocal = RbtIsLocalTargetBranch.Checked;
                     }));
                 }
-                CmdResult gitCheckoutResult = _gitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout -B {0} {1}", TargetBranch.LocalName, TargetBranch.Name));
+                CmdResult gitCheckoutResult;
+                if (isLocal)
+                {
+                    gitCheckoutResult = _gitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout {0}", TargetBranch.LocalName));
+                }
+                else
+                {
+                    gitCheckoutResult = _gitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout -B {0} {1}", TargetBranch.LocalName, TargetBranch.Name));
+                }
+
                 if (gitCheckoutResult.ExitCode != 0)
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
@@ -674,7 +685,6 @@ namespace TalentsoftTools
                     }
                 }
             }
-            DateTime endateDateTime = DateTime.Now;
             if (IsRunVisualStudio && !IsProcessAborted)
             {
                 if (TokenTask != null && !TokenTask.IsCancellationRequested)
@@ -708,7 +718,7 @@ namespace TalentsoftTools
                     }
                 }
             }
-            if (IsRestoreDatabase && Databases.Any())
+            if (!IsProcessAborted && IsRestoreDatabase && Databases.Any())
             {
                 bool isRestore = false;
                 bool isError = false;
@@ -822,6 +832,7 @@ namespace TalentsoftTools
                     }
                 }
             }
+            DateTime endateDateTime = DateTime.Now;
             if (TokenTask != null && !TokenTask.IsCancellationRequested)
             {
                 Invoke((MethodInvoker)(() =>
@@ -855,7 +866,7 @@ namespace TalentsoftTools
         {
             string message = string.Empty;
             Databases = Helper.GetDatabasesFromPameters(TalentsoftToolsPlugin.DatabaseConnectionParams[_settings], TxbDatabases.Text);
-            if ((CbxIsRestoreDatabases.Checked && string.IsNullOrWhiteSpace(TxbDatabases.Text)) || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath)))
+            if (CbxIsRestoreDatabases.Checked && (string.IsNullOrWhiteSpace(TxbDatabases.Text) || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath))))
             {
                 message = "Databases not correctly defined.";
             }
