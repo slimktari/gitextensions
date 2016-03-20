@@ -82,28 +82,6 @@ namespace TalentsoftTools
             TxbNewBranchName.Enabled = false;
         }
 
-        void SetMsBuildPath()
-        {
-            if (string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.PathToMsBuildFramework[_settings]))
-            {
-                List<string> pathsToMsBuild = new List<string>
-                                                  {
-                    "C:/Windows/Microsoft.Net/Framework/v2.0.50727/MsBuild.exe",
-                    "C:/Windows/Microsoft.Net/Framework/v3.5/MsBuild.exe",
-                    "C:/Windows/Microsoft.NET/Framework/v4.0.30319/MsBuild.exe",
-                    @"C:\Program Files (x86)\MSBuild\12.0\Bin\MsBuild.exe",
-                    @"C:\Program Files (x86)\MSBuild\14.0\Bin\MsBuild.exe"
-                                                  };
-                foreach (var pathToMsBuild in pathsToMsBuild)
-                {
-                    if (File.Exists(pathToMsBuild))
-                    {
-                        TalentsoftToolsPlugin.PathToMsBuildFramework[_settings] = pathToMsBuild;
-                    }
-                }
-            }
-        }
-
         void ResetCheckboxBackColor()
         {
             CbxIsBuildSolution.BackColor = Color.Transparent;
@@ -612,12 +590,12 @@ namespace TalentsoftTools
                         CbxIsBuildSolution.BackColor = Color.DodgerBlue;
                         TbxLogInfo.AppendText(
                                 string.Format(
-                                    "\r\nBuilding solution: {0}... '{1} /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount {2}'.",
-                                    TargetSolutionName, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings],
-                                    solutionFullPath));
+                                    "\r\nBuilding solution: {0}...",
+                                    TargetSolutionName));
                     }));
                 }
-                if (!Helper.Build(solutionFullPath, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings]))
+                string errorResult = Helper.Build(solutionFullPath, "Debug");
+                if (!string.IsNullOrWhiteSpace(errorResult))
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
                     {
@@ -625,6 +603,7 @@ namespace TalentsoftTools
                         {
                             CbxIsBuildSolution.BackColor = Color.Red;
                             TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.", solutionFullPath));
+                            TbxLogInfo.AppendText(errorResult);
                             TbxLogInfo.AppendText("\r\nProcess aborted.");
                         }));
                     }

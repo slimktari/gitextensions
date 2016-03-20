@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -42,7 +43,7 @@ namespace TalentsoftTools
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
             }));
-            if (Helper.Build(solutionFileFullPath, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings]))
+            if (string.IsNullOrWhiteSpace(Helper.Build(solutionFileFullPath, "Build")))
             {
                 message = "Success of Building solution " + solutionFile;
             }
@@ -75,7 +76,10 @@ namespace TalentsoftTools
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
             }));
-            if (Helper.Build(solutionFileFullPath, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings]))
+            if (Helper.RunCommandLine(new List<string>
+                {
+                    string.Format("nuget restore {0}", solutionFileFullPath)
+                }))
             {
                 message = "Nuget restored for solution " + solutionFile;
             }
@@ -108,7 +112,7 @@ namespace TalentsoftTools
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
             }));
-            if (Helper.Rebuild(solutionFileFullPath, TalentsoftToolsPlugin.PathToMsBuildFramework[_settings]))
+            if (string.IsNullOrWhiteSpace(Helper.Build(solutionFileFullPath, "ReBuild")))
             {
                 message = "Success of Rebuilding solution " + solutionFile;
             }

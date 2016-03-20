@@ -1,5 +1,6 @@
 ﻿using GitUIPluginInterfaces;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace TalentsoftTools
         public int BranchesNeedToUpdateCounter { get; set; }
         public BindingList<BranchDto> LbrGridBranches { get; set; }
 
-        void LoadLocalBranches()
+        public void LoadLocalBranches()
         {
             LocalBranches = Helper.GetLocalsBranches(_gitUiCommands);
             string[] unmerged = Helper.GetUnmergerBranches(_gitUiCommands);
@@ -50,16 +51,25 @@ namespace TalentsoftTools
             }
         }
 
-        void SetLocalBranchesGrid()
+        public void SetLocalBranchesGrid()
         {
+            string[] branchesMonitors = new string[0];
+            if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.BranchesToMonitor[_settings]))
+            {
+                branchesMonitors = TalentsoftToolsPlugin.BranchesToMonitor[_settings].Split(';');
+            }
             DgvLocalsBranches.DataSource = LbrGridBranches;
             foreach (DataGridViewRow row in DgvLocalsBranches.Rows)
             {
-                if (row.Cells[4].Value != null && row.Cells[4].Value.ToString() == "True")
+                if (row.Cells[1].Value != null)
+                {
+                    row.Cells[0].Value = branchesMonitors.Contains(row.Cells[1].Value);
+                }
+                if (row.Cells[5].Value != null && row.Cells[5].Value.ToString() == "True")
                 {
                     row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.Red };
                 }
-                else if (row.Cells[3].Value != null && row.Cells[3].Value.ToString() == "False")
+                else if (row.Cells[4].Value != null && row.Cells[4].Value.ToString() == "False")
                 {
                     row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.Coral };
                 }
@@ -68,6 +78,7 @@ namespace TalentsoftTools
                     row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.MediumSeaGreen };
                 }
             }
+            DgvLocalsBranches.RefreshEdit();
         }
 
         private void InitLocalBranchTab()
@@ -75,7 +86,7 @@ namespace TalentsoftTools
             SetLocalBranchesGrid();
         }
 
-        void UpdateNotifications()
+        public void UpdateNotifications()
         {
             if (BranchesNeedToUpdateCounter == 0)
             {
@@ -108,8 +119,8 @@ namespace TalentsoftTools
         {
             foreach (DataGridViewRow row in DgvLocalsBranches.SelectedRows)
             {
-                string branchToDelete = row.Cells[0].Value.ToString();
-                bool isMerged = Convert.ToBoolean(row.Cells[3].Value);
+                string branchToDelete = row.Cells[1].Value.ToString();
+                bool isMerged = Convert.ToBoolean(row.Cells[4].Value);
                 CmdResult gitResult = new CmdResult();
                 if (!isMerged)
                 {

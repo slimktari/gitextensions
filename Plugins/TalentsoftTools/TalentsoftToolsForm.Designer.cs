@@ -85,6 +85,7 @@
             this.BtnDeleteWithRemote = new System.Windows.Forms.Button();
             this.BtnDeleteLocalsBranches = new System.Windows.Forms.Button();
             this.DgvLocalsBranches = new System.Windows.Forms.DataGridView();
+            this.NotifWhenUpdate = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -770,6 +771,7 @@
             this.DgvLocalsBranches.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.DgvLocalsBranches.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DgvLocalsBranches.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.NotifWhenUpdate,
             this.dataGridViewTextBoxColumn6,
             this.dataGridViewTextBoxColumn7,
             this.dataGridViewTextBoxColumn8,
@@ -779,10 +781,16 @@
             this.DgvLocalsBranches.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DgvLocalsBranches.Location = new System.Drawing.Point(3, 3);
             this.DgvLocalsBranches.Name = "DgvLocalsBranches";
-            this.DgvLocalsBranches.ReadOnly = true;
             this.DgvLocalsBranches.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DgvLocalsBranches.Size = new System.Drawing.Size(881, 616);
             this.DgvLocalsBranches.TabIndex = 0;
+            this.DgvLocalsBranches.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvLocalsBranches_CellContentClick);
+            // 
+            // NotifWhenUpdate
+            // 
+            this.NotifWhenUpdate.HeaderText = "Notif when Update";
+            this.NotifWhenUpdate.Name = "NotifWhenUpdate";
+            this.NotifWhenUpdate.Width = 102;
             // 
             // dataGridViewTextBoxColumn6
             // 
@@ -817,7 +825,7 @@
             this.dataGridViewTextBoxColumn9.MinimumWidth = 60;
             this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
             this.dataGridViewTextBoxColumn9.ReadOnly = true;
-            this.dataGridViewTextBoxColumn9.Width = 84;
+            this.dataGridViewTextBoxColumn9.Width = 78;
             // 
             // NeedUpdate
             // 
@@ -825,7 +833,7 @@
             this.NeedUpdate.HeaderText = "Must update";
             this.NeedUpdate.Name = "NeedUpdate";
             this.NeedUpdate.ReadOnly = true;
-            this.NeedUpdate.Width = 99;
+            this.NeedUpdate.Width = 91;
             // 
             // branchDtoBindingSource
             // 
@@ -1315,6 +1323,7 @@
         private System.Windows.Forms.Button BtnDsbExitAllVisualStudio;
         private System.Windows.Forms.Button BtnDsbRebuildSolution;
         private System.Windows.Forms.PictureBox PbxDsbLoadingAction;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn NotifWhenUpdate;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;

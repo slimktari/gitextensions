@@ -117,8 +117,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitExtUtils", "GitExtUtils\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentsoftTools", "Plugins\TalentsoftTools\TalentsoftTools.csproj", "{C9ABE7BB-E08F-4B8A-95DC-49FA4F4321CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BranchMonitor", "BranchMonitor\BranchMonitor.csproj", "{E3136DC4-0A08-4A36-A18D-FA4713DBE6EC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -531,18 +529,6 @@ Global
 		{C9ABE7BB-E08F-4B8A-95DC-49FA4F4321CF}.ReleaseTC|Any CPU.Build.0 = Release|Any CPU
 		{C9ABE7BB-E08F-4B8A-95DC-49FA4F4321CF}.ReleaseTC|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C9ABE7BB-E08F-4B8A-95DC-49FA4F4321CF}.ReleaseTC|Mixed Platforms.Build.0 = Release|Any CPU
-		{E3136DC4-0A08-4A36-A18D-FA4713DBE6EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E3136DC4-0A08-4A36-A18D-FA4713DBE6EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E3136DC4-0A08-4A36-A18D-FA4713DBE6EC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{E3136DC4-0A08-4A36-A18D-FA4713DBE6EC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{E3136DC4-0A08-4A36-A18D-FA4713DBE6EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E3136DC4-0A08-4A36-A18D-FA4713DBE6EC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E3136DC4-0A08-4A36-A18D-FA4713DBE6EC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{E3136DC4-0A08-4A36-A18D-FA4713DBE6EC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{E3136DC4-0A08-4A36-A18D-FA4713DBE6EC}.ReleaseTC|Any CPU.ActiveCfg = Release|Any CPU
-		{E3136DC4-0A08-4A36-A18D-FA4713DBE6EC}.ReleaseTC|Any CPU.Build.0 = Release|Any CPU
-		{E3136DC4-0A08-4A36-A18D-FA4713DBE6EC}.ReleaseTC|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{E3136DC4-0A08-4A36-A18D-FA4713DBE6EC}.ReleaseTC|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -573,6 +559,5 @@ Global
 		{699CE23D-8BBD-4C15-82E9-7A628ACCA4C6} = {F1B97F5D-CA42-4280-94A1-CE412BEA20DF}
 		{101D3C78-27CC-446A-98EC-E2DE88BF0641} = {F1B97F5D-CA42-4280-94A1-CE412BEA20DF}
 		{C9ABE7BB-E08F-4B8A-95DC-49FA4F4321CF} = {3D5CA0E0-EF51-4488-A8B7-86CC330D7AD8}
-		{E3136DC4-0A08-4A36-A18D-FA4713DBE6EC} = {3D5CA0E0-EF51-4488-A8B7-86CC330D7AD8}
 	EndGlobalSection
 EndGlobal

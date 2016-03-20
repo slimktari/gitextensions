@@ -149,13 +149,31 @@ namespace TalentsoftTools
             return files;
         }
 
-        public static bool Build(string solutionFileFullPath, string pathToMsBuild)
+        public static string Build(string solutionFileFullPath, string argument)
         {
-            if (string.IsNullOrEmpty(pathToMsBuild) || string.IsNullOrEmpty(solutionFileFullPath))
+            if (string.IsNullOrEmpty(solutionFileFullPath))
             {
-                return false;
+                return "Error : No solution file !";
             }
-            return RunCommandLine(new List<string> { string.Format("\"{0}\" /t:Build /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount \"{1}\"", pathToMsBuild, solutionFileFullPath) });
+
+            string logFileName = Path.GetTempFileName();
+            ProcessStartInfo psi = new ProcessStartInfo();
+            psi.FileName = @"devenv.exe";
+            psi.ErrorDialog = true;
+            psi.Arguments = "\"" + solutionFileFullPath + "\"" + @" /" + argument + " Debug" + " /out " + logFileName;
+            Process p = Process.Start(psi);
+            p.WaitForExit();
+            int exitCode = p.ExitCode;
+            p.Close();
+            string errorLog;
+            if (exitCode != 0)
+            {
+                TextReader reader = File.OpenText(logFileName);
+                errorLog = reader.ReadToEnd();
+                reader.Close();
+                return errorLog;
+            }
+            return string.Empty;
         }
 
         public static bool Rebuild(string solutionFileFullPath, string pathToMsBuild)
@@ -217,7 +235,10 @@ namespace TalentsoftTools
             {
                 return false;
             }
-            ProcessStartInfo processStartInfo = new ProcessStartInfo(solutionFileFullPath);
+            ProcessStartInfo processStartInfo = new ProcessStartInfo();
+            processStartInfo.Verb = "runas";
+            processStartInfo.FileName = "devenv.exe";
+            processStartInfo.Arguments = solutionFileFullPath;
             try
             {
                 Process.Start(processStartInfo);
