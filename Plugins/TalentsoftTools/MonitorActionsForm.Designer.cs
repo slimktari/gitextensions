@@ -139,7 +139,7 @@
             this.Controls.Add(this.BtnMerge);
             this.Controls.Add(this.BtnCheckout);
             this.Controls.Add(this.BtnRebase);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MonitorActionsForm";

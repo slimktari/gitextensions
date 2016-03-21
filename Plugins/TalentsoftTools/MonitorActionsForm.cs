@@ -10,16 +10,14 @@ namespace TalentsoftTools
     public partial class MonitorActionsForm : Form
     {
         private ISettingsSource _settings;
-        private StringSetting _branchesMonitor;
         private IGitUICommands _gitCommands;
         private List<string> _remotesDiff;
         private string _currentItem;
 
-        public MonitorActionsForm(StringSetting branchesMonitor, ISettingsSource settings, IGitUICommands gitCommands, List<string> remotesDiff, string branchName)
+        public MonitorActionsForm(ISettingsSource settings, IGitUICommands gitCommands, List<string> remotesDiff, string branchName)
         {
             InitializeComponent();
             _settings = settings;
-            _branchesMonitor = branchesMonitor;
             _gitCommands = gitCommands;
             _remotesDiff = remotesDiff;
             _currentItem = branchName;

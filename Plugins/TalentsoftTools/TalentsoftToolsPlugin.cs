@@ -40,7 +40,7 @@ namespace TalentsoftTools
 
         private bool _isMonitorRunnig;
         private IDisposable cancellationToken;
-        private IGitUICommands currentGitUiCommands;
+        private static IGitUICommands currentGitUiCommands;
         public static StringSetting BranchesToMonitor = new StringSetting("Branches to monitor", string.Empty);
 
         public TalentsoftToolsPlugin()
@@ -98,17 +98,24 @@ namespace TalentsoftTools
         {
             CancelBackgroundOperation();
             int fetchInterval = CheckInterval[Settings];
-            var gitModule = currentGitUiCommands.GitModule;
+            IGitModule gitModule = currentGitUiCommands.GitModule;
             if (fetchInterval > 0 && gitModule.IsValidGitWorkingDir())
             {
-                currentGitUiCommands.GitModule.RunGitCmdResult("fetch -q -n --all");
-                currentGitUiCommands.RepoChangedNotifier.Notify();
                 cancellationToken =
-                   Observable.Timer(TimeSpan.FromSeconds(Math.Max(5, fetchInterval)))
-                              .SkipWhile(i => gitModule.IsRunningGitProcess() || _isMonitorRunnig)
-                              .Repeat()
-                              .ObserveOn(ThreadPoolScheduler.Instance)
-                              .Subscribe(i => MonitorTask());
+                    Observable.Timer(TimeSpan.FromSeconds(Math.Max(5, fetchInterval)))
+                        .SkipWhile(
+                            i => gitModule.IsRunningGitProcess() || _isMonitorRunnig || CheckInterval[Settings] == 0)
+                        .Repeat()
+                        .ObserveOn(ThreadPoolScheduler.Instance)
+                        .Subscribe(i =>
+                        {
+                            if (currentGitUiCommands != null)
+                            {
+                                currentGitUiCommands.GitModule.RunGitCmdResult("fetch -q -n --all");
+                                currentGitUiCommands.RepoChangedNotifier.Notify();
+                            }
+                            MonitorTask();
+                        });
             }
         }
 
@@ -122,42 +129,14 @@ namespace TalentsoftTools
                     _isMonitorRunnig = true;
                     foreach (var item in tab)
                     {
-                        var remotes = NeedToUpdate(item);
+                        List<string> remotes = NeedToUpdate(item);
                         if (remotes.Any())
                         {
-                            var resultFormDialog = new MonitorActionsForm(BranchesToMonitor, Settings, currentGitUiCommands, remotes, item).ShowDialog();
+                            var resultFormDialog = new MonitorActionsForm(Settings, currentGitUiCommands, remotes, item).ShowDialog();
                             if (resultFormDialog == DialogResult.OK)
                             {
                                 break;
                             }
-                            //DialogResult dialogResult = MessageBox.Show(item + " must be updated.\nWould you like to rebase this branch ?\nClick on no if you would disable notifications for this branch.", "Talentsoft Tools", MessageBoxButtons.YesNoCancel);
-                            //if (dialogResult == DialogResult.Yes)
-                            //{
-                            //    Application.OpenForms[0].BeginInvoke((ThreadStart)delegate { currentGitUiCommands.StartRebaseDialog(item); });
-                            //    foreach (var form in Application.OpenForms)
-                            //    {
-                            //        var pluginForm = form as TalentsoftToolsForm;
-                            //        if (pluginForm != null)
-                            //        {
-                            //            pluginForm.LoadLocalBranches();
-                            //            pluginForm.SetLocalBranchesGrid();
-                            //            pluginForm.UpdateNotifications();
-                            //            pluginForm.SetLocalBranchesGrid();
-                            //        }
-                            //    }
-                            //}
-                            //else if (dialogResult == DialogResult.No)
-                            //{
-                            //    BranchesToMonitor[Settings] = string.Join(";", BranchesToMonitor[Settings].Split(';').Where(x => !string.IsNullOrWhiteSpace(x)).Where(x => x != item).ToList());
-                            //    foreach (var form in Application.OpenForms)
-                            //    {
-                            //        var pluginForm = form as TalentsoftToolsForm;
-                            //        if (pluginForm != null)
-                            //        {
-                            //            pluginForm.SetLocalBranchesGrid();
-                            //        }
-                            //    }
-                            //}
                         }
                     }
                     _isMonitorRunnig = false;
@@ -193,10 +172,11 @@ namespace TalentsoftTools
                 CmdResult gitResult = currentGitUiCommands.GitModule.RunGitCmdResult("show-ref " + brancheName);
                 if (gitResult.ExitCode == 0)
                 {
-                    List<string> results = gitResult.StdOutput.SplitLines().ToList();
-                    if (results.Any(x => !string.IsNullOrWhiteSpace(results.FirstOrDefault()) && results.FirstOrDefault().Split(' ')[0] != x.Split(' ')[0]))
+                    List<string> results = gitResult.StdOutput.SplitLines().Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+                    string localBranch = results.FirstOrDefault(x => !x.Contains("refs/remotes/"));
+                    if (!string.IsNullOrWhiteSpace(localBranch) && results.Any(x => x.Split(' ')[0] != localBranch.Split(' ')[0]))
                     {
-                        return results.Select(x => x.Split(' ')[1]).Where(x => !string.IsNullOrWhiteSpace(x) && x.Contains("refs/remotes/")).Select(x => x.Replace("refs/remotes/", string.Empty)).ToList();
+                        return results.Where(x => !string.IsNullOrWhiteSpace(x) && x.Contains(" ") && x != localBranch).Select(x => x.Split(' ')[1]).Where(x => !string.IsNullOrWhiteSpace(x) && x.Contains("refs/remotes/")).Select(x => x.Replace("refs/remotes/", string.Empty)).ToList();
                     }
                     return new List<string>();
                 }

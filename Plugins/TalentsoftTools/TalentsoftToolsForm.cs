@@ -94,11 +94,12 @@ namespace TalentsoftTools
             }
         }
 
-        private void DgvLocalsBranches_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        private void DgvLocalsBranches_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 0 && e.RowIndex != -1)
             {
-                bool isChecked = (Boolean)DgvLocalsBranches[0, e.RowIndex].FormattedValue;
+                var checkBoxCell = (DataGridViewCheckBoxCell)DgvLocalsBranches.Rows[DgvLocalsBranches.CurrentRow.Index].Cells[0];
+                bool isChecked = checkBoxCell.Value.ToString() == "False";
                 List<string> branchesMonitors = TalentsoftToolsPlugin.BranchesToMonitor[_settings].Split(';').ToList();
                 string branchName = DgvLocalsBranches[1, e.RowIndex].Value.ToString();
                 if (isChecked && branchesMonitors.All(x => x != DgvLocalsBranches[1, e.RowIndex].Value.ToString()))
@@ -111,28 +112,6 @@ namespace TalentsoftTools
                 }
                 TalentsoftToolsPlugin.BranchesToMonitor[_settings] = string.Join(";", branchesMonitors);
             }
-        }
-
-        private void DgvLocalsBranches_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
-        {
-            MessageBox.Show("");
-        }
-
-        private void DgvLocalsBranches_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            var checkBoxCell = (DataGridViewCheckBoxCell)DgvLocalsBranches.Rows[DgvLocalsBranches.CurrentRow.Index].Cells[0];
-            bool isChecked = checkBoxCell.Value.ToString() == "False";
-            List<string> branchesMonitors = TalentsoftToolsPlugin.BranchesToMonitor[_settings].Split(';').ToList();
-            string branchName = DgvLocalsBranches[1, e.RowIndex].Value.ToString();
-            if (isChecked && branchesMonitors.All(x => x != DgvLocalsBranches[1, e.RowIndex].Value.ToString()))
-            {
-                branchesMonitors.Add(branchName);
-            }
-            if (!isChecked && branchesMonitors.Any(x => x == branchName))
-            {
-                branchesMonitors.Remove(branchName);
-            }
-            TalentsoftToolsPlugin.BranchesToMonitor[_settings] = string.Join(";", branchesMonitors);
         }
     }
 }
