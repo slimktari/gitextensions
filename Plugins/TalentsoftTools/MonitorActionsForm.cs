@@ -27,7 +27,10 @@ namespace TalentsoftTools
 
         private void BtnCheckoutClick(object sender, EventArgs e)
         {
-            RemoveFromMonitor();
+            if (CbxRemoveFromMonitor.Checked)
+            {
+                RemoveFromMonitor();
+            }
             Application.OpenForms[0].BeginInvoke((ThreadStart)delegate
             {
                 _gitCommands.StartCheckoutBranch();
@@ -38,7 +41,10 @@ namespace TalentsoftTools
 
         private void BtnRebaseClick(object sender, EventArgs e)
         {
-            RemoveFromMonitor();
+            if (CbxRemoveFromMonitor.Checked)
+            {
+                RemoveFromMonitor();
+            }
             string selectedRemote = CblRemotesList.SelectedItem.ToString();
             Application.OpenForms[0].BeginInvoke((ThreadStart)delegate
             {
@@ -50,7 +56,10 @@ namespace TalentsoftTools
 
         private void BtnMergeClick(object sender, EventArgs e)
         {
-            RemoveFromMonitor();
+            if (CbxRemoveFromMonitor.Checked)
+            {
+                RemoveFromMonitor();
+            }
             string selectedRemote = CblRemotesList.SelectedItem.ToString();
             Application.OpenForms[0].BeginInvoke((ThreadStart)delegate
             {

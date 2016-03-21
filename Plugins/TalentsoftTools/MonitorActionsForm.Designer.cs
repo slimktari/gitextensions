@@ -37,34 +37,35 @@
             this.CblRemotesList = new System.Windows.Forms.ComboBox();
             this.BtnCancel = new System.Windows.Forms.Button();
             this.BtnRemoveFromMonitor = new System.Windows.Forms.Button();
+            this.CbxRemoveFromMonitor = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // BtnRebase
             // 
-            this.BtnRebase.Location = new System.Drawing.Point(270, 190);
+            this.BtnRebase.Location = new System.Drawing.Point(270, 214);
             this.BtnRebase.Name = "BtnRebase";
             this.BtnRebase.Size = new System.Drawing.Size(128, 31);
-            this.BtnRebase.TabIndex = 1;
+            this.BtnRebase.TabIndex = 4;
             this.BtnRebase.Text = "Rebase";
             this.BtnRebase.UseVisualStyleBackColor = true;
             this.BtnRebase.Click += new System.EventHandler(this.BtnRebaseClick);
             // 
             // BtnCheckout
             // 
-            this.BtnCheckout.Location = new System.Drawing.Point(270, 227);
+            this.BtnCheckout.Location = new System.Drawing.Point(270, 251);
             this.BtnCheckout.Name = "BtnCheckout";
             this.BtnCheckout.Size = new System.Drawing.Size(128, 31);
-            this.BtnCheckout.TabIndex = 0;
+            this.BtnCheckout.TabIndex = 5;
             this.BtnCheckout.Text = "Checkout";
             this.BtnCheckout.UseVisualStyleBackColor = true;
             this.BtnCheckout.Click += new System.EventHandler(this.BtnCheckoutClick);
             // 
             // BtnMerge
             // 
-            this.BtnMerge.Location = new System.Drawing.Point(270, 153);
+            this.BtnMerge.Location = new System.Drawing.Point(270, 177);
             this.BtnMerge.Name = "BtnMerge";
             this.BtnMerge.Size = new System.Drawing.Size(128, 31);
-            this.BtnMerge.TabIndex = 2;
+            this.BtnMerge.TabIndex = 3;
             this.BtnMerge.Text = "Merge";
             this.BtnMerge.UseVisualStyleBackColor = true;
             this.BtnMerge.Click += new System.EventHandler(this.BtnMergeClick);
@@ -89,7 +90,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 85);
+            this.label3.Location = new System.Drawing.Point(12, 74);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(314, 13);
             this.label3.TabIndex = 5;
@@ -100,36 +101,49 @@
             this.CblRemotesList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CblRemotesList.FormattingEnabled = true;
             this.CblRemotesList.ItemHeight = 13;
-            this.CblRemotesList.Location = new System.Drawing.Point(12, 111);
+            this.CblRemotesList.Location = new System.Drawing.Point(12, 100);
             this.CblRemotesList.Name = "CblRemotesList";
             this.CblRemotesList.Size = new System.Drawing.Size(386, 21);
             this.CblRemotesList.TabIndex = 6;
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(12, 227);
+            this.BtnCancel.Location = new System.Drawing.Point(12, 251);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(128, 31);
-            this.BtnCancel.TabIndex = 4;
+            this.BtnCancel.TabIndex = 0;
             this.BtnCancel.Text = "Cancel";
             this.BtnCancel.UseVisualStyleBackColor = true;
             this.BtnCancel.Click += new System.EventHandler(this.BtnCancelClick);
             // 
             // BtnRemoveFromMonitor
             // 
-            this.BtnRemoveFromMonitor.Location = new System.Drawing.Point(12, 189);
+            this.BtnRemoveFromMonitor.Location = new System.Drawing.Point(12, 213);
             this.BtnRemoveFromMonitor.Name = "BtnRemoveFromMonitor";
             this.BtnRemoveFromMonitor.Size = new System.Drawing.Size(128, 31);
-            this.BtnRemoveFromMonitor.TabIndex = 3;
+            this.BtnRemoveFromMonitor.TabIndex = 1;
             this.BtnRemoveFromMonitor.Text = "Remove from monitor";
             this.BtnRemoveFromMonitor.UseVisualStyleBackColor = true;
             this.BtnRemoveFromMonitor.Click += new System.EventHandler(this.BtnRemoveFromMonitorClick);
+            // 
+            // CbxRemoveFromMonitor
+            // 
+            this.CbxRemoveFromMonitor.AutoSize = true;
+            this.CbxRemoveFromMonitor.Checked = true;
+            this.CbxRemoveFromMonitor.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CbxRemoveFromMonitor.Location = new System.Drawing.Point(270, 154);
+            this.CbxRemoveFromMonitor.Name = "CbxRemoveFromMonitor";
+            this.CbxRemoveFromMonitor.Size = new System.Drawing.Size(126, 17);
+            this.CbxRemoveFromMonitor.TabIndex = 2;
+            this.CbxRemoveFromMonitor.Text = "Remove from monitor";
+            this.CbxRemoveFromMonitor.UseVisualStyleBackColor = true;
             // 
             // MonitorActionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(410, 270);
+            this.ClientSize = new System.Drawing.Size(410, 294);
+            this.Controls.Add(this.CbxRemoveFromMonitor);
             this.Controls.Add(this.BtnRemoveFromMonitor);
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.CblRemotesList);
@@ -162,5 +176,6 @@
         private System.Windows.Forms.ComboBox CblRemotesList;
         private System.Windows.Forms.Button BtnCancel;
         private System.Windows.Forms.Button BtnRemoveFromMonitor;
+        private System.Windows.Forms.CheckBox CbxRemoveFromMonitor;
     }
 }
