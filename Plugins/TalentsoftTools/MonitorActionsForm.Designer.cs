@@ -38,11 +38,12 @@
             this.BtnCancel = new System.Windows.Forms.Button();
             this.BtnRemoveFromMonitor = new System.Windows.Forms.Button();
             this.CbxRemoveFromMonitor = new System.Windows.Forms.CheckBox();
+            this.LblInfos = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // BtnRebase
             // 
-            this.BtnRebase.Location = new System.Drawing.Point(270, 214);
+            this.BtnRebase.Location = new System.Drawing.Point(270, 229);
             this.BtnRebase.Name = "BtnRebase";
             this.BtnRebase.Size = new System.Drawing.Size(128, 31);
             this.BtnRebase.TabIndex = 4;
@@ -52,7 +53,7 @@
             // 
             // BtnCheckout
             // 
-            this.BtnCheckout.Location = new System.Drawing.Point(270, 251);
+            this.BtnCheckout.Location = new System.Drawing.Point(270, 266);
             this.BtnCheckout.Name = "BtnCheckout";
             this.BtnCheckout.Size = new System.Drawing.Size(128, 31);
             this.BtnCheckout.TabIndex = 5;
@@ -62,7 +63,7 @@
             // 
             // BtnMerge
             // 
-            this.BtnMerge.Location = new System.Drawing.Point(270, 177);
+            this.BtnMerge.Location = new System.Drawing.Point(270, 192);
             this.BtnMerge.Name = "BtnMerge";
             this.BtnMerge.Size = new System.Drawing.Size(128, 31);
             this.BtnMerge.TabIndex = 3;
@@ -90,7 +91,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 74);
+            this.label3.Location = new System.Drawing.Point(12, 98);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(314, 13);
             this.label3.TabIndex = 5;
@@ -101,14 +102,14 @@
             this.CblRemotesList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CblRemotesList.FormattingEnabled = true;
             this.CblRemotesList.ItemHeight = 13;
-            this.CblRemotesList.Location = new System.Drawing.Point(12, 100);
+            this.CblRemotesList.Location = new System.Drawing.Point(12, 124);
             this.CblRemotesList.Name = "CblRemotesList";
             this.CblRemotesList.Size = new System.Drawing.Size(386, 21);
             this.CblRemotesList.TabIndex = 6;
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(12, 251);
+            this.BtnCancel.Location = new System.Drawing.Point(12, 266);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(128, 31);
             this.BtnCancel.TabIndex = 0;
@@ -118,7 +119,7 @@
             // 
             // BtnRemoveFromMonitor
             // 
-            this.BtnRemoveFromMonitor.Location = new System.Drawing.Point(12, 213);
+            this.BtnRemoveFromMonitor.Location = new System.Drawing.Point(12, 228);
             this.BtnRemoveFromMonitor.Name = "BtnRemoveFromMonitor";
             this.BtnRemoveFromMonitor.Size = new System.Drawing.Size(128, 31);
             this.BtnRemoveFromMonitor.TabIndex = 1;
@@ -131,18 +132,27 @@
             this.CbxRemoveFromMonitor.AutoSize = true;
             this.CbxRemoveFromMonitor.Checked = true;
             this.CbxRemoveFromMonitor.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxRemoveFromMonitor.Location = new System.Drawing.Point(270, 154);
+            this.CbxRemoveFromMonitor.Location = new System.Drawing.Point(270, 169);
             this.CbxRemoveFromMonitor.Name = "CbxRemoveFromMonitor";
             this.CbxRemoveFromMonitor.Size = new System.Drawing.Size(126, 17);
             this.CbxRemoveFromMonitor.TabIndex = 2;
             this.CbxRemoveFromMonitor.Text = "Remove from monitor";
             this.CbxRemoveFromMonitor.UseVisualStyleBackColor = true;
             // 
+            // LblInfos
+            // 
+            this.LblInfos.AutoSize = true;
+            this.LblInfos.Location = new System.Drawing.Point(28, 66);
+            this.LblInfos.Name = "LblInfos";
+            this.LblInfos.Size = new System.Drawing.Size(0, 13);
+            this.LblInfos.TabIndex = 7;
+            // 
             // MonitorActionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(410, 294);
+            this.ClientSize = new System.Drawing.Size(410, 309);
+            this.Controls.Add(this.LblInfos);
             this.Controls.Add(this.CbxRemoveFromMonitor);
             this.Controls.Add(this.BtnRemoveFromMonitor);
             this.Controls.Add(this.BtnCancel);
@@ -177,5 +187,6 @@
         private System.Windows.Forms.Button BtnCancel;
         private System.Windows.Forms.Button BtnRemoveFromMonitor;
         private System.Windows.Forms.CheckBox CbxRemoveFromMonitor;
+        private System.Windows.Forms.Label LblInfos;
     }
 }

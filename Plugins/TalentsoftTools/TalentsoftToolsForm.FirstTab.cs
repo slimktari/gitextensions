@@ -553,7 +553,7 @@ namespace TalentsoftTools
                         CbxIsNugetRestore.BackColor = Color.DodgerBlue;
                         TbxLogInfo.AppendText(
                             string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.",
-                                solutionFullPath, TargetSolutionName));
+                                TargetSolutionName, solutionFullPath));
                     }));
                 }
                 if (Helper.RunCommandLine(new List<string>
@@ -594,7 +594,7 @@ namespace TalentsoftTools
                                     TargetSolutionName));
                     }));
                 }
-                string errorResult = Helper.Build(solutionFullPath, "Debug");
+                string errorResult = Helper.Build(solutionFullPath, "Build");
                 if (!string.IsNullOrWhiteSpace(errorResult))
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)

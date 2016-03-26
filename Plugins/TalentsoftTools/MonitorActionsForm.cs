@@ -23,6 +23,12 @@ namespace TalentsoftTools
             _currentItem = branchName;
             LblBranchName.Text = branchName;
             CblRemotesList.DataSource = _remotesDiff;
+
+            CmdResult result = gitCommands.GitModule.RunGitCmdResult(string.Format("log -n 1 --pretty=format:\" % an : % cr\" {0}", branchName));
+            if (result.ExitCode == 0 && !string.IsNullOrWhiteSpace(result.StdOutput) && result.StdOutput.Contains(";"))
+            {
+                LblInfos.Text = result.StdOutput;
+            }
         }
 
         private void BtnCheckoutClick(object sender, EventArgs e)

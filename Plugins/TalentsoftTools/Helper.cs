@@ -160,7 +160,7 @@ namespace TalentsoftTools
             ProcessStartInfo psi = new ProcessStartInfo();
             psi.FileName = @"devenv.exe";
             psi.ErrorDialog = true;
-            psi.Arguments = "\"" + solutionFileFullPath + "\"" + @" /" + argument + " Debug" + " /out " + logFileName;
+            psi.Arguments = string.Format(@"/{0} Debug /out {1} {2}", argument, logFileName, solutionFileFullPath);
             Process p = Process.Start(psi);
             p.WaitForExit();
             int exitCode = p.ExitCode;

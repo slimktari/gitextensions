@@ -111,7 +111,7 @@ namespace TalentsoftTools
                         {
                             if (currentGitUiCommands != null)
                             {
-                                currentGitUiCommands.GitModule.RunGitCmdResult("fetch -q -n --all");
+                                currentGitUiCommands.GitModule.RunGitCmdResult("fetch -q --all");
                                 currentGitUiCommands.RepoChangedNotifier.Notify();
                             }
                             MonitorTask();
