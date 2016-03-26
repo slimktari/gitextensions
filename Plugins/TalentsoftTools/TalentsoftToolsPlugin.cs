@@ -42,6 +42,8 @@ namespace TalentsoftTools
         private IDisposable cancellationToken;
         private static IGitUICommands currentGitUiCommands;
         public static StringSetting BranchesToMonitor = new StringSetting("Branches to monitor", string.Empty);
+        public static GitUIBaseEventArgs GitUiCommands;
+
 
         public TalentsoftToolsPlugin()
         {
@@ -60,7 +62,8 @@ namespace TalentsoftTools
 
         public override bool Execute(GitUIBaseEventArgs gitUiCommands)
         {
-            using (var frm = new TalentsoftToolsForm(gitUiCommands, Settings))
+            GitUiCommands = gitUiCommands;
+            using (var frm = new TalentsoftToolsForm(Settings))
             {
                 frm.ShowDialog(gitUiCommands.OwnerForm);
                 return true;

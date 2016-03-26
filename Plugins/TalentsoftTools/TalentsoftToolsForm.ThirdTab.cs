@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using GitCommands;
 using GitUIPluginInterfaces;
+using TalentsoftTools.Helpers;
 
 namespace TalentsoftTools
 {
@@ -217,7 +219,7 @@ namespace TalentsoftTools
                     excludeCommand = string.Format(" -e=\"{0}\"", TxbDsbGitClean.Text);
                 }
             }));
-            CmdResult gitCleanResult = _gitUiCommands.GitModule.RunGitCmdResult(string.Format("clean -d -x -f{0}", excludeCommand));
+            CmdResult gitCleanResult = GitHelper.Clean(excludeCommand);
             if (gitCleanResult.ExitCode != 0)
             {
                 message = gitCleanResult.StdError;
@@ -237,7 +239,8 @@ namespace TalentsoftTools
         private void BtnDsbFetchAllClick(object sender, EventArgs e)
         {
             PbxDsbLoadingAction.Visible = true;
-            CmdResult results = Helper.FetchAll(_gitUiCommands);
+            CmdResult results = GitHelper.FetchAll();
+            GitHelper.NotifyGitExtensions();
             if (results.ExitCode != 0)
             {
                 MessageBox.Show(results.StdError, "Error", MessageBoxButtons.OK);
@@ -273,7 +276,7 @@ namespace TalentsoftTools
 
         void RunStashChanges()
         {
-            bool canStash = Helper.IfChangedFiles(_gitUiCommands);
+            bool canStash = GitHelper.IfChangedFiles();
             if (!canStash)
             {
                 MessageBox.Show("There is no change to stash !", "Error", MessageBoxButtons.OK);
@@ -285,7 +288,7 @@ namespace TalentsoftTools
                     TbcMain.Enabled = false;
                     PbxDsbLoadingAction.Visible = true;
                 }));
-                CmdResult gitStashResult = _gitUiCommands.GitModule.RunGitCmdResult("stash --include-untracked");
+                CmdResult gitStashResult = GitHelper.StashChanges();
                 if (gitStashResult.ExitCode != 0)
                 {
                     MessageBox.Show(gitStashResult.StdError, "Error", MessageBoxButtons.OK);
@@ -309,7 +312,7 @@ namespace TalentsoftTools
 
         void RunStashPop()
         {
-            bool canStashPop = Helper.GetStashs(_gitUiCommands).Any();
+            bool canStashPop = GitHelper.GetStashs().Any();
             if (!canStashPop)
             {
                 MessageBox.Show("There is no stash to pop !", "Error", MessageBoxButtons.OK);
@@ -321,7 +324,7 @@ namespace TalentsoftTools
                     TbcMain.Enabled = false;
                     PbxDsbLoadingAction.Visible = true;
                 }));
-                CmdResult gitStashPopResult = _gitUiCommands.GitModule.RunGitCmdResult("stash pop");
+                CmdResult gitStashPopResult = GitHelper.StashPop();
                 if (gitStashPopResult.ExitCode != 0)
                 {
                     MessageBox.Show(gitStashPopResult.StdError, "Error", MessageBoxButtons.OK);

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using TalentsoftTools.Helpers;
 
 namespace TalentsoftTools
 {
@@ -18,16 +19,16 @@ namespace TalentsoftTools
 
         public void LoadLocalBranches()
         {
-            LocalBranches = Helper.GetLocalsBranches(_gitUiCommands);
-            string[] unmerged = Helper.GetUnmergerBranches(_gitUiCommands);
+            LocalBranches = GitHelper.GetLocalsBranches();
+            string[] unmerged = GitHelper.GetUnmergerBranches();
             LbrGridBranches = new BindingList<BranchDto>();
             BranchesNeedToUpdateCounter = 0;
             UnmergedBranchesCounter = 0;
             foreach (var branchName in LocalBranches.Select(b => b.Name))
             {
-                string[] info = Helper.GetBranchInfo(_gitUiCommands, branchName);
+                string[] info = GitHelper.GetBranchInfo(branchName);
                 bool isMerged = !unmerged.Contains(branchName);
-                bool needToUpdate = Helper.NeedToUpdate(_gitUiCommands, branchName);
+                bool needToUpdate = GitHelper.NeedToUpdate(branchName);
                 if (needToUpdate)
                 {
                     BranchesNeedToUpdateCounter++;
@@ -128,7 +129,7 @@ namespace TalentsoftTools
                     switch (response)
                     {
                         case DialogResult.Yes:
-                            gitResult = Helper.DeleteUnmergedLocalBranch(_gitUiCommands, branchToDelete);
+                            gitResult = GitHelper.DeleteUnmergedLocalBranch(branchToDelete);
                             break;
                         case DialogResult.No:
                             break;
@@ -136,14 +137,14 @@ namespace TalentsoftTools
                 }
                 else
                 {
-                    gitResult = Helper.DeleteMergedLocalBranch(_gitUiCommands, branchToDelete);
+                    gitResult = GitHelper.DeleteMergedLocalBranch(branchToDelete);
                 }
                 if (gitResult.ExitCode != 0)
                 {
                     MessageBox.Show(string.Format("Error when deleting {0}. {1}", branchToDelete, gitResult.StdError), "Error");
                 }
             }
-            _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
+            GitHelper.NotifyGitExtensions();
             LoadLocalBranches();
             SetLocalBranchesGrid();
             UpdateNotifications();

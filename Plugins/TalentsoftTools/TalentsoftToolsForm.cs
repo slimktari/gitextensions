@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using TalentsoftTools.Helpers;
 
 namespace TalentsoftTools
 {
@@ -12,7 +13,6 @@ namespace TalentsoftTools
     {
         #region Fields & Properties
 
-        readonly GitUIBaseEventArgs _gitUiCommands;
         readonly ISettingsSource _settings;
         List<GitRef> RemoteBranches { get; set; }
         List<GitRef> LocalBranches { get; set; }
@@ -20,12 +20,11 @@ namespace TalentsoftTools
         #endregion
 
 
-        public TalentsoftToolsForm(GitUIBaseEventArgs gitUiCommands, ISettingsSource settings)
+        public TalentsoftToolsForm(ISettingsSource settings)
         {
             IsProcessAborted = true;
             _settings = settings;
-            _gitUiCommands = gitUiCommands;
-            WorkingDirectory = _gitUiCommands.GitModule.WorkingDir;
+            WorkingDirectory = TalentsoftToolsPlugin.GitUiCommands.GitModule.WorkingDir;
             //Icon = _gitUiCommands.GitUICommands.FormIcon;
             LunchSplashScreen();
         }
@@ -40,7 +39,8 @@ namespace TalentsoftTools
             SplashScreen.SetStatus("Fetching remote");
             //_gitUiCommands.GitModule.RunGitCmdResult("fetch -q -n --all");
             //_gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
-            Helper.FetchAll(_gitUiCommands);
+            GitHelper.FetchAll();
+            GitHelper.NotifyGitExtensions();
             SplashScreen.SetStatus("Loading solutions files");
             LoadSolutionsFiles();
             SplashScreen.SetStatus("Loading settings values");
@@ -75,7 +75,7 @@ namespace TalentsoftTools
                         break;
                 }
             }
-            _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
+            TalentsoftToolsPlugin.GitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
         }
 
         private void PbxBranchesMustUpdateClick(object sender, EventArgs e)

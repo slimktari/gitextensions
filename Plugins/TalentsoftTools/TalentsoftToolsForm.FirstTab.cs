@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GitCommands;
 using GitUIPluginInterfaces;
+using TalentsoftTools.Helpers;
 
 namespace TalentsoftTools
 {
@@ -77,7 +78,7 @@ namespace TalentsoftTools
         void ResetControls()
         {
             BtnStopProcess.Enabled = false;
-            LblActualBranchName.Text = _gitUiCommands.GitModule.GetSelectedBranch();
+            LblActualBranchName.Text = GitHelper.GetSelectedBranch();
             LblActualRepository.Text = WorkingDirectory;
             TxbNewBranchName.Enabled = false;
         }
@@ -137,7 +138,7 @@ namespace TalentsoftTools
                 BtnDsbRestoreDatabases.Enabled = false;
             }
 
-            bool canStash = Helper.IfChangedFiles(_gitUiCommands);
+            bool canStash = GitHelper.IfChangedFiles();
             if (!canStash)
             {
                 CbxIsStashChanges.Checked = false;
@@ -159,7 +160,7 @@ namespace TalentsoftTools
             {
                 TxbDsbGitClean.Text = TalentsoftToolsPlugin.ExcludePatternGitClean[_settings];
             }
-            CanStashPop = Helper.GetStashs(_gitUiCommands).Any();
+            CanStashPop = GitHelper.GetStashs().Any();
             if (!CanStashPop.Value && !CbxIsStashChanges.Checked)
             {
                 CbxIsStashPop.Checked = false;
@@ -269,7 +270,7 @@ namespace TalentsoftTools
                 Invoke((MethodInvoker)(() =>
                 {
                     TbxLogInfo.AppendText(string.Format("Start at: {0}\r\nCurrent branch: {1}", startDateTime,
-                        _gitUiCommands.GitModule.GetSelectedBranch()));
+                        GitHelper.GetSelectedBranch()));
                     if (CbxIsCheckoutBranch.Checked && TargetBranch != null)
                     {
                         TbxLogInfo.AppendText(string.Format("\r\nTarget branch: {0}\r\nTarget solution: {1}\r\n",
@@ -328,7 +329,7 @@ namespace TalentsoftTools
                     }));
                 }
 
-                CmdResult gitStashResult = _gitUiCommands.GitModule.RunGitCmdResult("stash --include-untracked");
+                CmdResult gitStashResult = GitHelper.StashChanges();
                 if (gitStashResult.ExitCode != 0)
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
@@ -370,11 +371,11 @@ namespace TalentsoftTools
                 CmdResult gitCheckoutResult;
                 if (isLocal)
                 {
-                    gitCheckoutResult = _gitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout {0}", TargetBranch.LocalName));
+                    gitCheckoutResult = GitHelper.CheckoutBranch(TargetBranch.LocalName);
                 }
                 else
                 {
-                    gitCheckoutResult = _gitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout -B {0} {1}", TargetBranch.LocalName, TargetBranch.Name));
+                    gitCheckoutResult = GitHelper.CheckoutBranch(TargetBranch.LocalName, TargetBranch.Name);
                 }
 
                 if (gitCheckoutResult.ExitCode != 0)
@@ -403,7 +404,7 @@ namespace TalentsoftTools
                                     NewBranchName));
                         }));
                     }
-                    CmdResult gitCreateNewBranchResult = _gitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout -b {0}", NewBranchName));
+                    CmdResult gitCreateNewBranchResult = GitHelper.CreateAndCheckoutBranch(NewBranchName);
                     if (gitCreateNewBranchResult.ExitCode != 0)
                     {
                         if (TokenTask != null && !TokenTask.IsCancellationRequested)
@@ -447,7 +448,7 @@ namespace TalentsoftTools
                     }));
                 }
 
-                CmdResult gitCleanResult = _gitUiCommands.GitModule.RunGitCmdResult(string.Format("clean -d -x -f{0}", excludeCommand));
+                CmdResult gitCleanResult = GitHelper.Clean(excludeCommand);
                 if (gitCleanResult.ExitCode != 0)
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
@@ -481,7 +482,7 @@ namespace TalentsoftTools
                         TbxLogInfo.AppendText("\r\nPopping stash... \"stash pop");
                     }));
                 }
-                CmdResult gitStashPopResult = _gitUiCommands.GitModule.RunGitCmdResult("stash pop");
+                CmdResult gitStashPopResult = GitHelper.StashPop();
                 if (gitStashPopResult.ExitCode != 0)
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
@@ -806,9 +807,9 @@ namespace TalentsoftTools
                 {
                     TbxLogInfo.AppendText(string.Format("\r\nEnd at: {0}.", endateDateTime));
                     TbxLogInfo.AppendText(string.Format("\r\nElapsed time: {0}.", endateDateTime - startDateTime));
-                    _gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
-                    LblActualBranchName.Text = _gitUiCommands.GitModule.GetSelectedBranch();
-                    LblActualRepository.Text = _gitUiCommands.GitModule.WorkingDir;
+                    GitHelper.NotifyGitExtensions();
+                    LblActualBranchName.Text = GitHelper.GetSelectedBranch();
+                    LblActualRepository.Text = GitHelper.GetWorkingDirectory();
                     ExitProcess();
                 }));
             }
@@ -855,7 +856,7 @@ namespace TalentsoftTools
                 }
                 else
                 {
-                    LocalBranches = Helper.GetLocalsBranches(_gitUiCommands);
+                    LocalBranches = GitHelper.GetLocalsBranches();
                     if (LocalBranches.Any(b => b.Name.ToUpper() == TxbNewBranchName.Text.ToUpper()))
                     {
                         message = "There is already a branch that has the same name.";
@@ -883,12 +884,12 @@ namespace TalentsoftTools
                 {
                     if (RbtIsRemoteTargetBranch.Checked)
                     {
-                        RemoteBranches = Helper.GetRemotesBranches(_gitUiCommands);
+                        RemoteBranches = GitHelper.GetRemotesBranches();
                         TargetBranch = RemoteBranches.FirstOrDefault(b => b.Name.ToUpper() == ActBranches.Text.ToUpper());
                     }
                     else
                     {
-                        LocalBranches = Helper.GetLocalsBranches(_gitUiCommands);
+                        LocalBranches = GitHelper.GetLocalsBranches();
                         TargetBranch = LocalBranches.FirstOrDefault(b => b.Name.ToUpper() == ActBranches.Text.ToUpper());
                     }
                     if (TargetBranch == null)
@@ -949,11 +950,11 @@ namespace TalentsoftTools
             ActBranches.Enabled = true;
             if (RbtIsLocalTargetBranch.Checked)
             {
-                ActBranches.Values = Helper.GetLocalsBranches(_gitUiCommands).Select(b => b.Name).ToArray();
+                ActBranches.Values = GitHelper.GetLocalsBranches().Select(b => b.Name).ToArray();
             }
             if (RbtIsRemoteTargetBranch.Checked)
             {
-                ActBranches.Values = Helper.GetRemotesBranches(_gitUiCommands).Select(b => b.Name).ToArray();
+                ActBranches.Values = GitHelper.GetRemotesBranches().Select(b => b.Name).ToArray();
             }
         }
 
