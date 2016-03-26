@@ -1,94 +1,19 @@
-﻿using System.Collections.Generic;
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using GitCommands;
-using GitUIPluginInterfaces;
-
-namespace TalentsoftTools
+﻿namespace TalentsoftTools.Helpers
 {
-    public class Helper
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Windows.Forms;
+
+    public class GenericHelper
     {
-        public static List<DatabaseDto> GetDatabasesFromPameters(string parameters, string databases)
-        {
-            if (string.IsNullOrWhiteSpace(parameters) || string.IsNullOrWhiteSpace(databases))
-            {
-                return new List<DatabaseDto>();
-            }
-            var databasesTab = databases.Split(';');
-            var results = new List<DatabaseDto>();
-            string userId = string.Empty;
-            string password = string.Empty;
-            string relocateDataFilePath = string.Empty;
-            string dataSource = string.Empty;
-
-            DatabaseDto databaseDto = null;
-            foreach (var database in databasesTab)
-            {
-                if (!string.IsNullOrWhiteSpace(database) && database.Contains("="))
-                {
-                    string[] dict = database.Split('=');
-                    if (dict.Length == 2)
-                    {
-                        switch (dict[0])
-                        {
-                            case "Initial Catalog":
-                                databaseDto = new DatabaseDto
-                                {
-                                    DatabaseName = dict[1]
-                                };
-                                break;
-                            case "BackupFilePath":
-                                if (databaseDto != null && !string.IsNullOrWhiteSpace(databaseDto.DatabaseName))
-                                {
-                                    databaseDto.BackupFilePath = dict[1];
-                                    results.Add(databaseDto);
-                                }
-                                break;
-                        }
-                    }
-                }
-            }
-            foreach (var param in parameters.Split(';'))
-            {
-                if (!string.IsNullOrWhiteSpace(param) && param.Contains("="))
-                {
-                    string[] dict = param.Split('=');
-                    if (dict.Length == 2)
-                    {
-                        switch (dict[0])
-                        {
-                            case "User ID":
-                                userId = dict[1];
-                                break;
-                            case "Password":
-                                password = dict[1];
-                                break;
-                            case "RelocateDataFilePath":
-                                relocateDataFilePath = dict[1];
-                                break;
-                            case "Data Source":
-                                dataSource = dict[1];
-                                break;
-                        }
-                    }
-                }
-            }
-
-            foreach (var result in results)
-            {
-                result.Password = password;
-                result.PathToRelocate = relocateDataFilePath;
-                result.ServerName = dataSource;
-                result.UserId = userId;
-            }
-            return results;
-        }
-
+        /// <summary>
+        /// Kill visual studio process.
+        /// </summary>
+        /// <param name="solutionFileName">Solution name.</param>
+        /// <returns>True if there is no exception when exit solution.</returns>
         public static bool ExitVisualStudio(string solutionFileName)
         {
             if (!string.IsNullOrWhiteSpace(solutionFileName))
@@ -116,11 +41,21 @@ namespace TalentsoftTools
                         return false;
                         // process has already exited - might be able to let this one go
                     }
+                    catch (Exception exception)
+                    {
+                        return false;
+                    }
                 }
             }
             return true;
         }
 
+        /// <summary>
+        /// Get solutions files from directory.
+        /// </summary>
+        /// <param name="directory">Directory path.</param>
+        /// <param name="currentDepth">Depth number.</param>
+        /// <returns>A dictionary, the key is solution file name and the value is the path to this file.</returns>
         public static Dictionary<string, string> GetSolutionsFile(string directory, int currentDepth = 0)
         {
             var files = new Dictionary<string, string>();
@@ -149,7 +84,13 @@ namespace TalentsoftTools
             return files;
         }
 
-        public static string Build(string solutionFileFullPath, string argument)
+        /// <summary>
+        /// Build solution with devenv program.
+        /// </summary>
+        /// <param name="solutionFileFullPath">Solution file path.</param>
+        /// <param name="argument">Arguments tu build.</param>
+        /// <returns></returns>
+        public static string Build(string solutionFileFullPath, Generic.GenrateSolutionArguments argument)
         {
             if (string.IsNullOrEmpty(solutionFileFullPath))
             {
@@ -157,35 +98,34 @@ namespace TalentsoftTools
             }
 
             string logFileName = Path.GetTempFileName();
-            ProcessStartInfo psi = new ProcessStartInfo();
-            psi.FileName = @"devenv.exe";
-            psi.ErrorDialog = true;
-            psi.Arguments = string.Format(@"/{0} Debug /out {1} {2}", argument, logFileName, solutionFileFullPath);
-            Process p = Process.Start(psi);
-            p.WaitForExit();
-            int exitCode = p.ExitCode;
-            p.Close();
-            string errorLog;
-            if (exitCode != 0)
+            ProcessStartInfo processStartInfo = new ProcessStartInfo
             {
-                TextReader reader = File.OpenText(logFileName);
-                errorLog = reader.ReadToEnd();
-                reader.Close();
-                return errorLog;
+                FileName = @"devenv.exe",
+                ErrorDialog = true,
+                Arguments = string.Format(@"/{0} Debug /out {1} {2}", argument, logFileName, solutionFileFullPath)
+            };
+            Process process = Process.Start(processStartInfo);
+            if (process != null)
+            {
+                process.WaitForExit();
+                int exitCode = process.ExitCode;
+                process.Close();
+                if (exitCode != 0)
+                {
+                    TextReader reader = File.OpenText(logFileName);
+                    string errorLog = reader.ReadToEnd();
+                    reader.Close();
+                    return errorLog;
+                }
             }
             return string.Empty;
         }
 
-        public static bool Rebuild(string solutionFileFullPath, string pathToMsBuild)
-        {
-            //string validPathToMsBuild = GetMsBuildPath();
-            if (string.IsNullOrEmpty(pathToMsBuild) || string.IsNullOrEmpty(solutionFileFullPath))
-            {
-                return false;
-            }
-            return RunCommandLine(new List<string> { string.Format("\"{0}\" /t:Clean;Rebuild /p:BuildInParallel=true /p:Configuration=Debug /maxcpucount \"{1}\"", pathToMsBuild, solutionFileFullPath) });
-        }
-
+        /// <summary>
+        /// Run command line.
+        /// </summary>
+        /// <param name="commands">Commands texts.</param>
+        /// <returns>True if there is no exceptions, false otherwise.</returns>
         public static bool RunCommandLine(List<string> commands)
         {
             string output = string.Empty;
@@ -229,6 +169,11 @@ namespace TalentsoftTools
             return true;
         }
 
+        /// <summary>
+        /// Launch visual studio solution.
+        /// </summary>
+        /// <param name="solutionFileFullPath">Solution file path.</param>
+        /// <returns>True if there is no exceptions, false otherwise.</returns>
         public static bool LaunchVisualStudio(string solutionFileFullPath)
         {
             if (string.IsNullOrWhiteSpace(solutionFileFullPath))
@@ -250,6 +195,11 @@ namespace TalentsoftTools
             return true;
         }
 
+        /// <summary>
+        /// Launch web URI.
+        /// </summary>
+        /// <param name="uri">The URI.</param>
+        /// <returns>True if there is no exceptions, false otherwise.</returns>
         public static bool LaunchWebUri(string uri)
         {
             try

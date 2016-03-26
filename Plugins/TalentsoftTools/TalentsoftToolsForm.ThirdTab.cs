@@ -15,7 +15,7 @@ namespace TalentsoftTools
         {
             PbxDsbLoadingAction.Visible = true;
             string message;
-            bool isExited = Helper.ExitVisualStudio(CblDsbSolutions.SelectedItem.ToString());
+            bool isExited = GenericHelper.ExitVisualStudio(CblDsbSolutions.SelectedItem.ToString());
             if (isExited)
             {
                 message = CblDsbSolutions.SelectedItem + " is exited !";
@@ -45,7 +45,7 @@ namespace TalentsoftTools
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
             }));
-            if (string.IsNullOrWhiteSpace(Helper.Build(solutionFileFullPath, "Build")))
+            if (string.IsNullOrWhiteSpace(GenericHelper.Build(solutionFileFullPath, Generic.GenrateSolutionArguments.Build)))
             {
                 message = "Success of Building solution " + solutionFile;
             }
@@ -78,7 +78,7 @@ namespace TalentsoftTools
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
             }));
-            if (Helper.RunCommandLine(new List<string>
+            if (GenericHelper.RunCommandLine(new List<string>
                 {
                     string.Format("nuget restore {0}", solutionFileFullPath)
                 }))
@@ -114,7 +114,7 @@ namespace TalentsoftTools
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
             }));
-            if (string.IsNullOrWhiteSpace(Helper.Build(solutionFileFullPath, "ReBuild")))
+            if (string.IsNullOrWhiteSpace(GenericHelper.Build(solutionFileFullPath, Generic.GenrateSolutionArguments.Rebuild)))
             {
                 message = "Success of Rebuilding solution " + solutionFile;
             }
@@ -135,7 +135,7 @@ namespace TalentsoftTools
             PbxDsbLoadingAction.Visible = true;
             string message;
             string solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
-            if (Helper.LaunchVisualStudio(solutionFileFullPath))
+            if (GenericHelper.LaunchVisualStudio(solutionFileFullPath))
             {
                 message = "Success of launching solution " + CblDsbSolutions.SelectedItem;
             }
@@ -187,7 +187,7 @@ namespace TalentsoftTools
         bool ValidateRestoreDatabasesFromDashboard()
         {
             string message = string.Empty;
-            Databases = Helper.GetDatabasesFromPameters(TalentsoftToolsPlugin.DatabaseConnectionParams[_settings], TxbDatabases.Text);
+            Databases = DatabaseHelper.GetDatabasesFromPameters(TalentsoftToolsPlugin.DatabaseConnectionParams[_settings], TxbDatabases.Text);
             if (string.IsNullOrWhiteSpace(TxbDsbDatabases.Text) || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath)))
             {
                 message = "Databases not correctly defined.";
@@ -256,7 +256,7 @@ namespace TalentsoftTools
         {
             PbxDsbLoadingAction.Visible = true;
             string message;
-            bool isExited = Helper.ExitVisualStudio(string.Empty);
+            bool isExited = GenericHelper.ExitVisualStudio(string.Empty);
             if (isExited)
             {
                 message = "All Visual Studio instances are exited !";
@@ -353,7 +353,7 @@ namespace TalentsoftTools
                 TbcMain.Enabled = false;
                 PbxDsbLoadingAction.Visible = true;
             }));
-            if (Helper.RunCommandLine(PreBuildFiles.ToList()))
+            if (GenericHelper.RunCommandLine(PreBuildFiles.ToList()))
             {
                 MessageBox.Show("Commands PreBuild success !", "Talentsoft Tools", MessageBoxButtons.OK);
             }
@@ -380,7 +380,7 @@ namespace TalentsoftTools
                 TbcMain.Enabled = false;
                 PbxDsbLoadingAction.Visible = true;
             }));
-            if (Helper.RunCommandLine(PostBuildFiles.ToList()))
+            if (GenericHelper.RunCommandLine(PostBuildFiles.ToList()))
             {
                 MessageBox.Show("Commands PostBuild success !", "Talentsoft Tools", MessageBoxButtons.OK);
             }

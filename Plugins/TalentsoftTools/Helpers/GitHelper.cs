@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using GitCommands;
-using GitUIPluginInterfaces;
-
-namespace TalentsoftTools.Helpers
+﻿namespace TalentsoftTools.Helpers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using GitCommands;
+    using GitUIPluginInterfaces;
+
     /// <summary>
     /// Here we find all methods helper for interact with git.
     /// </summary>

@@ -71,8 +71,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DatabaseDto.cs" />
-    <Compile Include="DatabaseHelper.cs" />
-    <Compile Include="Helper.cs" />
+    <Compile Include="Generic.cs" />
+    <Compile Include="Helpers\DatabaseHelper.cs" />
+    <Compile Include="Helpers\GenericHelper.cs" />
     <Compile Include="Helpers\GitHelper.cs" />
     <Compile Include="MonitorActionsForm.cs">
       <SubType>Form</SubType>

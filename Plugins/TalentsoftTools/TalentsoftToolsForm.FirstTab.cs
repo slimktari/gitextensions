@@ -50,7 +50,7 @@ namespace TalentsoftTools
 
         void LoadSolutionsFiles()
         {
-            SolutionDictionary = Helper.GetSolutionsFile(WorkingDirectory);
+            SolutionDictionary = GenericHelper.GetSolutionsFile(WorkingDirectory);
 
             CblSolutions.DataSource = SolutionDictionary.Select(x => x.Key).ToList();
             CblDsbSolutions.DataSource = SolutionDictionary.Select(x => x.Key).ToList();
@@ -293,7 +293,7 @@ namespace TalentsoftTools
                         TbxLogInfo.AppendText("\r\nExiting Visual Studio...");
                     }));
                 }
-                bool isExited = Helper.ExitVisualStudio(TargetSolutionName);
+                bool isExited = GenericHelper.ExitVisualStudio(TargetSolutionName);
                 if (!isExited)
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
@@ -519,7 +519,7 @@ namespace TalentsoftTools
                             string.Join("\r\n", PreBuildFiles)));
                     }));
                 }
-                bool result = Helper.RunCommandLine(PreBuildFiles.ToList());
+                bool result = GenericHelper.RunCommandLine(PreBuildFiles.ToList());
                 if (!result)
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
@@ -557,7 +557,7 @@ namespace TalentsoftTools
                                 TargetSolutionName, solutionFullPath));
                     }));
                 }
-                if (Helper.RunCommandLine(new List<string>
+                if (GenericHelper.RunCommandLine(new List<string>
                 {
                     string.Format("nuget restore {0}", solutionFullPath)
                 }))
@@ -595,7 +595,7 @@ namespace TalentsoftTools
                                     TargetSolutionName));
                     }));
                 }
-                string errorResult = Helper.Build(solutionFullPath, "Build");
+                string errorResult = GenericHelper.Build(solutionFullPath, Generic.GenrateSolutionArguments.Build);
                 if (!string.IsNullOrWhiteSpace(errorResult))
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
@@ -629,7 +629,7 @@ namespace TalentsoftTools
                             string.Join("\r\n", PostBuildFiles)));
                     }));
                 }
-                bool result = Helper.RunCommandLine(PostBuildFiles.ToList());
+                bool result = GenericHelper.RunCommandLine(PostBuildFiles.ToList());
                 if (!result)
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
@@ -663,7 +663,7 @@ namespace TalentsoftTools
                         TbxLogInfo.AppendText(string.Format("\r\nRunning Visual Studio with: {0}...", TargetSolutionName));
                     }));
                 }
-                if (!Helper.LaunchVisualStudio(solutionFullPath))
+                if (!GenericHelper.LaunchVisualStudio(solutionFullPath))
                 {
                     if (TokenTask != null && !TokenTask.IsCancellationRequested)
                     {
@@ -776,7 +776,7 @@ namespace TalentsoftTools
                                 TbxLogInfo.AppendText(string.Format("\r\nLaunching web URI: {0}...", Uris));
                             }));
                         }
-                        if (!Helper.LaunchWebUri(uri))
+                        if (!GenericHelper.LaunchWebUri(uri))
                         {
                             if (TokenTask != null && !TokenTask.IsCancellationRequested)
                             {
@@ -832,7 +832,7 @@ namespace TalentsoftTools
         bool ValidateRestoreDatabases()
         {
             string message = string.Empty;
-            Databases = Helper.GetDatabasesFromPameters(TalentsoftToolsPlugin.DatabaseConnectionParams[_settings], TxbDatabases.Text);
+            Databases = DatabaseHelper.GetDatabasesFromPameters(TalentsoftToolsPlugin.DatabaseConnectionParams[_settings], TxbDatabases.Text);
             if (CbxIsRestoreDatabases.Checked && (string.IsNullOrWhiteSpace(TxbDatabases.Text) || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath))))
             {
                 message = "Databases not correctly defined.";
