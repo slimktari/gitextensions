@@ -11,9 +11,9 @@ namespace TalentsoftTools
 {
     public class TalentsoftToolsPlugin : GitPluginBase, IGitPluginForRepository
     {
-        public static BoolSetting IsDefaultExitAndStartVisualStudio =
-            new BoolSetting("Is default exit and start Visual Studio", true);
+        #region Settings
 
+        public static BoolSetting IsDefaultExitAndStartVisualStudio = new BoolSetting("Is default exit and start Visual Studio", true);
         public static BoolSetting IsDefaultStashChanges = new BoolSetting("Is default stash changes", true);
         public static BoolSetting IsDefaultCheckoutBranch = new BoolSetting("Is default checkout branch", true);
         public static BoolSetting IsDefaultGitClean = new BoolSetting("Is default git clean", true);
@@ -22,21 +22,17 @@ namespace TalentsoftTools
         public static BoolSetting IsDefaultNugetRestore = new BoolSetting("Is default Nuget restore", true);
         public static BoolSetting IsDefaultBuildSolution = new BoolSetting("Is default build solution", true);
         public static BoolSetting IsDefaultRunUri = new BoolSetting("Is default execute URI", true);
-        public static StringSetting LocalUriWebApplication =
-            new StringSetting("Local URIs web application (separator ;)", string.Empty);
-        public static StringSetting DefaultSolutionFileName =
-            new StringSetting("Default solution file (Eg: TalentSoft.sln)", string.Empty);
-        public static StringSetting ExcludePatternGitClean = new StringSetting("Pattern exclude files Git Clean",
-            "*.mdf *.ldf");
+        public static StringSetting LocalUriWebApplication = new StringSetting("Local URIs web application (separator ;)", string.Empty);
+        public static StringSetting DefaultSolutionFileName = new StringSetting("Default solution file (Eg: TalentSoft.sln)", string.Empty);
+        public static StringSetting ExcludePatternGitClean = new StringSetting("Pattern exclude files Git Clean", "*.mdf *.ldf");
         public static StringSetting NewBranchPrefix = new StringSetting("Branch name prefix", string.Empty);
         public static StringSetting PreBuildBatch = new StringSetting("Pre-Build batch (separator ;)", string.Empty);
         public static StringSetting PostBuildBatch = new StringSetting("Post-Build batch (separator ;)", string.Empty);
-        public static StringSetting DatabaseConnectionParams = new StringSetting("Database connection parameters",
-            @"Data Source=.;User ID=ASPNET;Password=aspasp;RelocateDataFilePath=C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\DATA\");
-        public static StringSetting DatabasesToRestore = new StringSetting("Databases to restore",
-            @"Initial Catalog=TSDEV;BackupFilePath=;");
-        public static NumberSetting<int> CheckInterval =
-                    new NumberSetting<int>("Check branch if update every (seconds) - set to 0 to disable", 0);
+        public static StringSetting DatabaseConnectionParams = new StringSetting("Database connection parameters", @"Data Source=.;User ID=ASPNET;Password=aspasp;RelocateDataFilePath=C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\DATA\");
+        public static StringSetting DatabasesToRestore = new StringSetting("Databases to restore", @"Initial Catalog=TSDEV;BackupFilePath=;");
+        public static NumberSetting<int> CheckInterval = new NumberSetting<int>("Check branch if update every (seconds) - set to 0 to disable", 0);
+
+        #endregion
 
         private bool _isMonitorRunnig;
         private IDisposable _cancellationToken;
@@ -45,34 +41,19 @@ namespace TalentsoftTools
         public static GitUIBaseEventArgs GitUiCommands;
         public static ISettingsSource PluginSettings;
 
-
+        /// <summary>
+        /// Constructor of plugin.
+        /// </summary>
         public TalentsoftToolsPlugin()
         {
             Description = Generic.PluginName;
             //Translate();
         }
 
-
-        public override void Register(IGitUICommands gitUiCommands)
-        {
-            base.Register(gitUiCommands);
-            _currentGitUiCommands = gitUiCommands;
-            PluginSettings = Settings;
-            _currentGitUiCommands.PostSettings += OnPostSettings;
-            RecreateObservable();
-        }
-
-        public override bool Execute(GitUIBaseEventArgs gitUiCommands)
-        {
-            GitUiCommands = gitUiCommands;
-            PluginSettings = Settings;
-            using (var frm = new TalentsoftToolsForm(Settings))
-            {
-                frm.ShowDialog(gitUiCommands.OwnerForm);
-                return true;
-            }
-        }
-
+        /// <summary>
+        /// Lets showing parameters in GitExtensions settings view.
+        /// </summary>
+        /// <returns></returns>
         public override IEnumerable<ISetting> GetSettings()
         {
             yield return LocalUriWebApplication;
@@ -93,6 +74,51 @@ namespace TalentsoftTools
             yield return IsDefaultBuildSolution;
             yield return IsDefaultResetDatabases;
             yield return IsDefaultRunUri;
+        }
+
+        /// <summary>
+        /// When register plugin. Before launching plugin and after choose repository.
+        /// </summary>
+        /// <param name="gitUiCommands">The <see cref="IGitUICommands"/>.</param>
+        public override void Register(IGitUICommands gitUiCommands)
+        {
+            base.Register(gitUiCommands);
+            _currentGitUiCommands = gitUiCommands;
+            PluginSettings = Settings;
+            _currentGitUiCommands.PostSettings += OnPostSettings;
+            RecreateObservable();
+        }
+
+        /// <summary>
+        /// When launching plugin.
+        /// </summary>
+        /// <param name="gitUiCommands">The <see cref="GitUIBaseEventArgs"/>.</param>
+        /// <returns></returns>
+        public override bool Execute(GitUIBaseEventArgs gitUiCommands)
+        {
+            GitUiCommands = gitUiCommands;
+            PluginSettings = Settings;
+            using (var frm = new TalentsoftToolsForm(Settings))
+            {
+                frm.ShowDialog(gitUiCommands.OwnerForm);
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// When exit GitExtension or changes repository.
+        /// </summary>
+        /// <param name="gitUiCommands">The <see cref="IGitUICommands"/>.</param>
+        public override void Unregister(IGitUICommands gitUiCommands)
+        {
+            CancelBackgroundOperation();
+            if (_currentGitUiCommands != null)
+            {
+                _currentGitUiCommands.PostSettings -= OnPostSettings;
+                _currentGitUiCommands = null;
+            }
+
+            base.Unregister(gitUiCommands);
         }
 
         private void OnPostSettings(object sender, GitUIPostActionEventArgs e)
@@ -157,18 +183,6 @@ namespace TalentsoftTools
                 _cancellationToken.Dispose();
                 _cancellationToken = null;
             }
-        }
-
-        public override void Unregister(IGitUICommands gitUiCommands)
-        {
-            CancelBackgroundOperation();
-            if (_currentGitUiCommands != null)
-            {
-                _currentGitUiCommands.PostSettings -= OnPostSettings;
-                _currentGitUiCommands = null;
-            }
-
-            base.Unregister(gitUiCommands);
         }
 
         public List<string> NeedToUpdate(string brancheName)
