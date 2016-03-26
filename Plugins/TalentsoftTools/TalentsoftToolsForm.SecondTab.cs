@@ -125,7 +125,7 @@ namespace TalentsoftTools
                 CmdResult gitResult = new CmdResult();
                 if (!isMerged)
                 {
-                    DialogResult response = MessageBox.Show(string.Format("{0} branch is not merged. Are you sure you want delete it ?", branchToDelete), "Talentsoft tools", MessageBoxButtons.YesNo);
+                    DialogResult response = MessageBox.Show(string.Format("{0} branch is not merged. Are you sure you want delete it ?", branchToDelete), Generic.PluginName, MessageBoxButtons.YesNo);
                     switch (response)
                     {
                         case DialogResult.Yes:
@@ -163,7 +163,7 @@ namespace TalentsoftTools
                 {
                     message = "Are you sure you want delete this branch ?";
                 }
-                DialogResult response = MessageBox.Show(message, "Talentsoft tools", MessageBoxButtons.YesNo);
+                DialogResult response = MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.YesNo);
                 switch (response)
                 {
                     case DialogResult.Yes:

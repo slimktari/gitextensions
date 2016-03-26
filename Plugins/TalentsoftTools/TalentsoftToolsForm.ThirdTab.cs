@@ -25,7 +25,7 @@ namespace TalentsoftTools
                 message = "Error when exiting " + CblDsbSolutions.SelectedItem + " !";
             }
             PbxDsbLoadingAction.Visible = false;
-            MessageBox.Show(message, "Talentsoft Tools", MessageBoxButtons.OK);
+            MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
         }
 
         private void BtnDsbBuildSolutionClick(object sender, EventArgs e)
@@ -57,7 +57,7 @@ namespace TalentsoftTools
             {
                 TbcMain.Enabled = true;
                 PbxDsbLoadingAction.Visible = false;
-                MessageBox.Show(message, "Talentsoft Tools", MessageBoxButtons.OK);
+                MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
             }));
         }
 
@@ -93,7 +93,7 @@ namespace TalentsoftTools
             {
                 TbcMain.Enabled = true;
                 PbxDsbLoadingAction.Visible = false;
-                MessageBox.Show(message, "Talentsoft Tools", MessageBoxButtons.OK);
+                MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
             }));
         }
 
@@ -126,7 +126,7 @@ namespace TalentsoftTools
             {
                 TbcMain.Enabled = true;
                 PbxDsbLoadingAction.Visible = false;
-                MessageBox.Show(message, "Talentsoft Tools", MessageBoxButtons.OK);
+                MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
             }));
         }
 
@@ -144,7 +144,7 @@ namespace TalentsoftTools
                 message = "Error when launching solution " + CblDsbSolutions.SelectedItem;
             }
             PbxDsbLoadingAction.Visible = false;
-            MessageBox.Show(message, "Talentsoft Tools", MessageBoxButtons.OK);
+            MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
         }
 
         private void BtnDsbRestoreDatabasesClick(object sender, EventArgs e)
@@ -180,7 +180,7 @@ namespace TalentsoftTools
             {
                 TbcMain.Enabled = true;
                 PbxDsbLoadingAction.Visible = false;
-                MessageBox.Show(message.ToString(), "Talentsoft Tools", MessageBoxButtons.OK);
+                MessageBox.Show(message.ToString(), Generic.PluginName, MessageBoxButtons.OK);
             }));
         }
 
@@ -232,7 +232,7 @@ namespace TalentsoftTools
             {
                 TbcMain.Enabled = true;
                 PbxDsbLoadingAction.Visible = false;
-                MessageBox.Show(message, "Talentsoft Tools", MessageBoxButtons.OK);
+                MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
             }));
         }
 
@@ -247,7 +247,7 @@ namespace TalentsoftTools
             }
             else
             {
-                MessageBox.Show("Fetching success !", "Talentsoft tools", MessageBoxButtons.OK);
+                MessageBox.Show("Fetching success !", Generic.PluginName, MessageBoxButtons.OK);
             }
             PbxDsbLoadingAction.Visible = false;
         }
@@ -266,7 +266,7 @@ namespace TalentsoftTools
                 message = "Error when exiting all Visual Studio instances !";
             }
             PbxDsbLoadingAction.Visible = false;
-            MessageBox.Show(message, "Talentsoft Tools", MessageBoxButtons.OK);
+            MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
         }
 
         private void BtnDsbStashChangesClick(object sender, EventArgs e)
@@ -295,7 +295,7 @@ namespace TalentsoftTools
                 }
                 else
                 {
-                    MessageBox.Show("Stash changes success", "Talentsoft Tools", MessageBoxButtons.OK);
+                    MessageBox.Show("Stash changes success", Generic.PluginName, MessageBoxButtons.OK);
                 }
                 Invoke((MethodInvoker)(() =>
                 {
@@ -355,7 +355,7 @@ namespace TalentsoftTools
             }));
             if (GenericHelper.RunCommandLine(PreBuildFiles.ToList()))
             {
-                MessageBox.Show("Commands PreBuild success !", "Talentsoft Tools", MessageBoxButtons.OK);
+                MessageBox.Show("Commands PreBuild success !", Generic.PluginName, MessageBoxButtons.OK);
             }
             else
             {
@@ -382,7 +382,7 @@ namespace TalentsoftTools
             }));
             if (GenericHelper.RunCommandLine(PostBuildFiles.ToList()))
             {
-                MessageBox.Show("Commands PostBuild success !", "Talentsoft Tools", MessageBoxButtons.OK);
+                MessageBox.Show("Commands PostBuild success !", Generic.PluginName, MessageBoxButtons.OK);
             }
             else
             {

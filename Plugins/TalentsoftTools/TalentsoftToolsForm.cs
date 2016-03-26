@@ -64,7 +64,7 @@ namespace TalentsoftTools
         {
             if (TokenTask != null && !TokenTask.IsCancellationRequested)
             {
-                DialogResult response = MessageBox.Show("The process is running, are you sure to stop it ?", "Talentsoft tools", MessageBoxButtons.YesNo);
+                DialogResult response = MessageBox.Show("The process is running, are you sure to stop it ?", Generic.PluginName, MessageBoxButtons.YesNo);
                 switch (response)
                 {
                     case DialogResult.Yes:

@@ -39,15 +39,16 @@ namespace TalentsoftTools
                     new NumberSetting<int>("Check branch if update every (seconds) - set to 0 to disable", 0);
 
         private bool _isMonitorRunnig;
-        private IDisposable cancellationToken;
-        private static IGitUICommands currentGitUiCommands;
+        private IDisposable _cancellationToken;
+        private static IGitUICommands _currentGitUiCommands;
         public static StringSetting BranchesToMonitor = new StringSetting("Branches to monitor", string.Empty);
         public static GitUIBaseEventArgs GitUiCommands;
+        public static ISettingsSource PluginSettings;
 
 
         public TalentsoftToolsPlugin()
         {
-            Description = "Talentsoft tools";
+            Description = Generic.PluginName;
             //Translate();
         }
 
@@ -55,14 +56,16 @@ namespace TalentsoftTools
         public override void Register(IGitUICommands gitUiCommands)
         {
             base.Register(gitUiCommands);
-            currentGitUiCommands = gitUiCommands;
-            currentGitUiCommands.PostSettings += OnPostSettings;
+            _currentGitUiCommands = gitUiCommands;
+            PluginSettings = Settings;
+            _currentGitUiCommands.PostSettings += OnPostSettings;
             RecreateObservable();
         }
 
         public override bool Execute(GitUIBaseEventArgs gitUiCommands)
         {
             GitUiCommands = gitUiCommands;
+            PluginSettings = Settings;
             using (var frm = new TalentsoftToolsForm(Settings))
             {
                 frm.ShowDialog(gitUiCommands.OwnerForm);
@@ -101,10 +104,10 @@ namespace TalentsoftTools
         {
             CancelBackgroundOperation();
             int fetchInterval = CheckInterval[Settings];
-            IGitModule gitModule = currentGitUiCommands.GitModule;
+            IGitModule gitModule = _currentGitUiCommands.GitModule;
             if (fetchInterval > 0 && gitModule.IsValidGitWorkingDir())
             {
-                cancellationToken =
+                _cancellationToken =
                     Observable.Timer(TimeSpan.FromSeconds(Math.Max(5, fetchInterval)))
                         .SkipWhile(
                             i => gitModule.IsRunningGitProcess() || _isMonitorRunnig || CheckInterval[Settings] == 0)
@@ -112,10 +115,10 @@ namespace TalentsoftTools
                         .ObserveOn(ThreadPoolScheduler.Instance)
                         .Subscribe(i =>
                         {
-                            if (currentGitUiCommands != null)
+                            if (_currentGitUiCommands != null)
                             {
-                                currentGitUiCommands.GitModule.RunGitCmdResult("fetch -q --all");
-                                currentGitUiCommands.RepoChangedNotifier.Notify();
+                                _currentGitUiCommands.GitModule.RunGitCmdResult("fetch -q --all");
+                                _currentGitUiCommands.RepoChangedNotifier.Notify();
                             }
                             MonitorTask();
                         });
@@ -135,7 +138,7 @@ namespace TalentsoftTools
                         List<string> remotes = NeedToUpdate(item);
                         if (remotes.Any())
                         {
-                            var resultFormDialog = new MonitorActionsForm(Settings, currentGitUiCommands, remotes, item).ShowDialog();
+                            var resultFormDialog = new MonitorActionsForm(Settings, _currentGitUiCommands, remotes, item).ShowDialog();
                             if (resultFormDialog == DialogResult.OK)
                             {
                                 break;
@@ -149,20 +152,20 @@ namespace TalentsoftTools
 
         private void CancelBackgroundOperation()
         {
-            if (cancellationToken != null)
+            if (_cancellationToken != null)
             {
-                cancellationToken.Dispose();
-                cancellationToken = null;
+                _cancellationToken.Dispose();
+                _cancellationToken = null;
             }
         }
 
         public override void Unregister(IGitUICommands gitUiCommands)
         {
             CancelBackgroundOperation();
-            if (currentGitUiCommands != null)
+            if (_currentGitUiCommands != null)
             {
-                currentGitUiCommands.PostSettings -= OnPostSettings;
-                currentGitUiCommands = null;
+                _currentGitUiCommands.PostSettings -= OnPostSettings;
+                _currentGitUiCommands = null;
             }
 
             base.Unregister(gitUiCommands);
@@ -170,9 +173,9 @@ namespace TalentsoftTools
 
         public List<string> NeedToUpdate(string brancheName)
         {
-            if (currentGitUiCommands != null)
+            if (_currentGitUiCommands != null)
             {
-                CmdResult gitResult = currentGitUiCommands.GitModule.RunGitCmdResult("show-ref " + brancheName);
+                CmdResult gitResult = _currentGitUiCommands.GitModule.RunGitCmdResult("show-ref " + brancheName);
                 if (gitResult.ExitCode == 0)
                 {
                     List<string> results = gitResult.StdOutput.SplitLines().Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
