@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace TalentsoftTools.Helpers
+﻿namespace TalentsoftTools.Helpers
 {
     using System;
+    using System.Collections.Generic;
     using Microsoft.SqlServer.Management.Common;
     using Microsoft.SqlServer.Management.Smo;
 
@@ -128,21 +127,15 @@ namespace TalentsoftTools.Helpers
         /// <summary>
         /// Gets databases from settings.
         /// </summary>
-        /// <param name="parameters">Settings parameters.</param>
-        /// <param name="databases">Settings databases.</param>
         /// <returns>List of <see cref="DatabaseDto"/>.</returns>
-        public static List<DatabaseDto> GetDatabasesFromPameters(string parameters, string databases)
+        public static List<DatabaseDto> GetDatabasesFromSettings(string databasesText)
         {
-            if (string.IsNullOrWhiteSpace(parameters) || string.IsNullOrWhiteSpace(databases))
+            var databases = new List<DatabaseDto>();
+            if (string.IsNullOrWhiteSpace(databasesText))
             {
-                return new List<DatabaseDto>();
+                return databases;
             }
-            var databasesTab = databases.Split(';');
-            var results = new List<DatabaseDto>();
-            string userId = string.Empty;
-            string password = string.Empty;
-            string relocateDataFilePath = string.Empty;
-            string dataSource = string.Empty;
+            string[] databasesTab = databasesText.Split(';');
 
             DatabaseDto databaseDto = null;
             foreach (var database in databasesTab)
@@ -164,47 +157,14 @@ namespace TalentsoftTools.Helpers
                                 if (databaseDto != null && !string.IsNullOrWhiteSpace(databaseDto.DatabaseName))
                                 {
                                     databaseDto.BackupFilePath = dict[1];
-                                    results.Add(databaseDto);
+                                    databases.Add(databaseDto);
                                 }
                                 break;
                         }
                     }
                 }
             }
-            foreach (var param in parameters.Split(';'))
-            {
-                if (!string.IsNullOrWhiteSpace(param) && param.Contains("="))
-                {
-                    string[] dict = param.Split('=');
-                    if (dict.Length == 2)
-                    {
-                        switch (dict[0])
-                        {
-                            case "User ID":
-                                userId = dict[1];
-                                break;
-                            case "Password":
-                                password = dict[1];
-                                break;
-                            case "RelocateDataFilePath":
-                                relocateDataFilePath = dict[1];
-                                break;
-                            case "Data Source":
-                                dataSource = dict[1];
-                                break;
-                        }
-                    }
-                }
-            }
-
-            foreach (var result in results)
-            {
-                result.Password = password;
-                result.PathToRelocate = relocateDataFilePath;
-                result.ServerName = dataSource;
-                result.UserId = userId;
-            }
-            return results;
+            return databases;
         }
     }
 }

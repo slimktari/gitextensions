@@ -109,6 +109,9 @@
     <Compile Include="TalentsoftToolsForm.DashboardTab.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="TalentsoftToolsForm.SettingsTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TalentsoftToolsPlugin.cs" />
   </ItemGroup>
   <ItemGroup>

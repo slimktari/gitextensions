@@ -15,7 +15,8 @@ namespace TalentsoftTools
     {
         #region Settings
 
-        public static BoolSetting IsDefaultExitAndStartVisualStudio = new BoolSetting("Is default exit and start Visual Studio", true);
+        public static BoolSetting IsDefaultExitVisualStudio = new BoolSetting("Is default exit Visual Studio", true);
+        public static BoolSetting IsDefaultStartVisualStudio = new BoolSetting("Is default start Visual Studio", true);
         public static BoolSetting IsDefaultStashChanges = new BoolSetting("Is default stash changes", true);
         public static BoolSetting IsDefaultCheckoutBranch = new BoolSetting("Is default checkout branch", true);
         public static BoolSetting IsDefaultGitClean = new BoolSetting("Is default git clean", true);
@@ -24,15 +25,22 @@ namespace TalentsoftTools
         public static BoolSetting IsDefaultNugetRestore = new BoolSetting("Is default Nuget restore", true);
         public static BoolSetting IsDefaultBuildSolution = new BoolSetting("Is default build solution", true);
         public static BoolSetting IsDefaultRunUri = new BoolSetting("Is default execute URI", true);
+        public static BoolSetting IsDefaultPreBuildScripts = new BoolSetting("Is default PreBuild scripts", true);
+        public static BoolSetting IsDefaultPostBuildProcess = new BoolSetting("Is default PostBuild scripts", true);
         public static StringSetting LocalUriWebApplication = new StringSetting("Local URIs web application (separator ;)", string.Empty);
         public static StringSetting DefaultSolutionFileName = new StringSetting("Default solution file (Eg: TalentSoft.sln)", string.Empty);
         public static StringSetting ExcludePatternGitClean = new StringSetting("Pattern exclude files Git Clean", "*.mdf *.ldf");
         public static StringSetting NewBranchPrefix = new StringSetting("Branch name prefix", string.Empty);
         public static StringSetting PreBuildBatch = new StringSetting("Pre-Build batch (separator ;)", string.Empty);
         public static StringSetting PostBuildBatch = new StringSetting("Post-Build batch (separator ;)", string.Empty);
-        public static StringSetting DatabaseConnectionParams = new StringSetting("Database connection parameters", @"Data Source=.;User ID=ASPNET;Password=aspasp;RelocateDataFilePath=C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\DATA\");
+        public static StringSetting DatabaseServerName = new StringSetting("Database server name", ".");
+        public static StringSetting DatabaseUserName = new StringSetting("Database user name", "ASPNET");
+        public static StringSetting DatabasePassword = new StringSetting("Database password", "aspasp");
+        public static StringSetting DatabaseRelocateFile = new StringSetting("Database relocate file", @"C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\DATA\");
         public static StringSetting DatabasesToRestore = new StringSetting("Databases to restore", @"Initial Catalog=TSDEV;BackupFilePath=;");
         public static NumberSetting<int> CheckInterval = new NumberSetting<int>("Check branch if update every (seconds) - set to 0 to disable", 0);
+        public static StringSetting BranchesToMonitor = new StringSetting("Branches to monitor", string.Empty);
+
 
         #endregion
 
@@ -41,7 +49,6 @@ namespace TalentsoftTools
         private static IGitUICommands _currentGitUiCommands;
         public static GitUIBaseEventArgs GitUiCommands;
         public static ISettingsSource PluginSettings;
-        public static StringSetting BranchesToMonitor = new StringSetting("Branches to monitor", string.Empty);
 
         /// <summary>
         /// Constructor of plugin.
@@ -56,27 +63,27 @@ namespace TalentsoftTools
         /// Lets showing parameters in GitExtensions settings view.
         /// </summary>
         /// <returns></returns>
-        public override IEnumerable<ISetting> GetSettings()
-        {
-            yield return LocalUriWebApplication;
-            yield return PreBuildBatch;
-            yield return PostBuildBatch;
-            yield return DefaultSolutionFileName;
-            yield return NewBranchPrefix;
-            yield return ExcludePatternGitClean;
-            yield return DatabaseConnectionParams;
-            yield return DatabasesToRestore;
-            yield return CheckInterval;
-            yield return IsDefaultExitAndStartVisualStudio;
-            yield return IsDefaultStashChanges;
-            yield return IsDefaultCheckoutBranch;
-            yield return IsDefaultGitClean;
-            yield return IsDefaultStashPop;
-            yield return IsDefaultNugetRestore;
-            yield return IsDefaultBuildSolution;
-            yield return IsDefaultResetDatabases;
-            yield return IsDefaultRunUri;
-        }
+        //public override IEnumerable<ISetting> GetSettings()
+        //{
+        //    //yield return LocalUriWebApplication;
+        //    //yield return PreBuildBatch;
+        //    //yield return PostBuildBatch;
+        //    //yield return DefaultSolutionFileName;
+        //    //yield return NewBranchPrefix;
+        //    //yield return ExcludePatternGitClean;
+        //    //yield return DatabaseConnectionParams;
+        //    //yield return DatabasesToRestore;
+        //    //yield return CheckInterval;
+        //    //yield return IsDefaultExitVisualStudio;
+        //    //yield return IsDefaultStashChanges;
+        //    //yield return IsDefaultCheckoutBranch;
+        //    //yield return IsDefaultGitClean;
+        //    //yield return IsDefaultStashPop;
+        //    //yield return IsDefaultNugetRestore;
+        //    //yield return IsDefaultBuildSolution;
+        //    //yield return IsDefaultResetDatabases;
+        //    //yield return IsDefaultRunUri;
+        //}
 
 
         /// <summary>

@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using GitCommands;
-using GitUIPluginInterfaces;
-using TalentsoftTools.Helpers;
-
-namespace TalentsoftTools
+﻿namespace TalentsoftTools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+    using GitCommands;
+    using GitUIPluginInterfaces;
+    using Helpers;
+
     public partial class TalentsoftToolsForm
     {
         #region Fields & Properties
@@ -99,152 +98,6 @@ namespace TalentsoftTools
             CbxIsRestoreDatabases.BackColor = Color.Transparent;
         }
 
-        void LoadDefaultStepsValuesFromSettings()
-        {
-            if (CblSolutions.Items.Count <= 0)
-            {
-                CbxIsExitVisualStudio.Enabled = false;
-                CbxIsExitVisualStudio.Checked = false;
-                CbxIsRunVisualStudio.Enabled = false;
-                CbxIsRunVisualStudio.Checked = false;
-                CbxIsBuildSolution.Checked = false;
-                CbxIsBuildSolution.Enabled = false;
-                CblDsbSolutions.Enabled = false;
-                BtnDsbBuildSolution.Enabled = false;
-                BtnDsbExitSolution.Enabled = false;
-                BtnDsbNugetRestore.Enabled = false;
-                BtnDsbRebuildSolution.Enabled = false;
-                BtnDsbStartSolution.Enabled = false;
-            }
-            else if (TalentsoftToolsPlugin.IsDefaultExitAndStartVisualStudio[_settings].HasValue)
-            {
-                CbxIsExitVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultExitAndStartVisualStudio[_settings].Value;
-                CbxIsRunVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultExitAndStartVisualStudio[_settings].Value;
-            }
-            if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.DatabasesToRestore[_settings]) &&
-                !string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.DatabaseConnectionParams[_settings]) &&
-                TalentsoftToolsPlugin.IsDefaultResetDatabases[_settings].HasValue)
-            {
-                CbxIsRestoreDatabases.Checked = TalentsoftToolsPlugin.IsDefaultResetDatabases[_settings].Value;
-                TxbDatabases.Text = TalentsoftToolsPlugin.DatabasesToRestore[_settings];
-                TxbDsbDatabases.Text = TalentsoftToolsPlugin.DatabasesToRestore[_settings];
-            }
-            else
-            {
-                CbxIsRestoreDatabases.Checked = false;
-                CbxIsRestoreDatabases.Enabled = false;
-                TxbDatabases.Enabled = false;
-                TxbDsbDatabases.Enabled = false;
-                BtnDsbRestoreDatabases.Enabled = false;
-            }
-
-            bool canStash = GitHelper.IfChangedFiles();
-            if (!canStash)
-            {
-                CbxIsStashChanges.Checked = false;
-                CbxIsStashChanges.Enabled = false;
-            }
-            else if (TalentsoftToolsPlugin.IsDefaultStashChanges[_settings].HasValue)
-            {
-                CbxIsStashChanges.Checked = TalentsoftToolsPlugin.IsDefaultStashChanges[_settings].Value;
-            }
-            if (TalentsoftToolsPlugin.IsDefaultCheckoutBranch[_settings].HasValue)
-            {
-                CbxIsCheckoutBranch.Checked = TalentsoftToolsPlugin.IsDefaultCheckoutBranch[_settings].Value;
-            }
-            if (TalentsoftToolsPlugin.IsDefaultGitClean[_settings].HasValue)
-            {
-                CbxIsGitClean.Checked = TalentsoftToolsPlugin.IsDefaultGitClean[_settings].Value;
-            }
-            if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]))
-            {
-                TxbDsbGitClean.Text = TalentsoftToolsPlugin.ExcludePatternGitClean[_settings];
-            }
-            CanStashPop = GitHelper.GetStashs().Any();
-            if (!CanStashPop.Value && !CbxIsStashChanges.Checked)
-            {
-                CbxIsStashPop.Checked = false;
-                CbxIsStashPop.Enabled = false;
-            }
-            else if (TalentsoftToolsPlugin.IsDefaultStashPop[_settings].HasValue)
-            {
-                CbxIsStashPop.Checked = TalentsoftToolsPlugin.IsDefaultStashPop[_settings].Value;
-            }
-            if (TalentsoftToolsPlugin.IsDefaultNugetRestore[_settings].HasValue)
-            {
-                CbxIsNugetRestore.Checked = TalentsoftToolsPlugin.IsDefaultNugetRestore[_settings].Value;
-            }
-            if (TalentsoftToolsPlugin.IsDefaultBuildSolution[_settings].HasValue)
-            {
-                CbxIsBuildSolution.Checked = TalentsoftToolsPlugin.IsDefaultBuildSolution[_settings].Value;
-            }
-            if (TalentsoftToolsPlugin.IsDefaultRunUri[_settings].HasValue)
-            {
-                CbxLaunchUri.Checked = TalentsoftToolsPlugin.IsDefaultRunUri[_settings].Value;
-            }
-            if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.LocalUriWebApplication[_settings]))
-            {
-                TxbUri.Text = TalentsoftToolsPlugin.LocalUriWebApplication[_settings];
-            }
-            if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.PreBuildBatch[_settings]))
-            {
-                PreBuildFiles = new List<string>();
-                string[] files = TalentsoftToolsPlugin.PreBuildBatch[_settings].Split(';');
-                bool isError = false;
-                foreach (var file in files)
-                {
-                    if (!string.IsNullOrWhiteSpace(file) && !File.Exists(file))
-                    {
-                        isError = true;
-                    }
-                    else
-                    {
-                        PreBuildFiles.Add(file);
-                    }
-                }
-                if (!PreBuildFiles.Any() || isError)
-                {
-                    CbxIsPreBuild.Checked = false;
-                    CbxIsPreBuild.Enabled = false;
-                    BtnDsbRunScriptPrebuild.Enabled = false;
-                }
-            }
-            else
-            {
-                CbxIsPreBuild.Checked = false;
-                CbxIsPreBuild.Enabled = false;
-                BtnDsbRunScriptPrebuild.Enabled = false;
-            }
-            if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.PostBuildBatch[_settings]))
-            {
-                PostBuildFiles = new List<string>();
-                string[] files = TalentsoftToolsPlugin.PostBuildBatch[_settings].Split(';');
-                bool isError = false;
-                foreach (var file in files)
-                {
-                    if (!File.Exists(file))
-                    {
-                        isError = true;
-                    }
-                    else
-                    {
-                        PostBuildFiles.Add(file);
-                    }
-                }
-                if (!PostBuildFiles.Any() || isError)
-                {
-                    CbxIsPostBuild.Checked = false;
-                    CbxIsPostBuild.Enabled = false;
-                    BtnDsbRunScriptPostbuild.Enabled = false;
-                }
-            }
-            else
-            {
-                CbxIsPostBuild.Checked = false;
-                CbxIsPostBuild.Enabled = false;
-                BtnDsbRunScriptPostbuild.Enabled = false;
-            }
-        }
         void ExitProcess()
         {
             if (TokenTask != null && !TokenTask.IsCancellationRequested)
@@ -709,8 +562,8 @@ namespace TalentsoftTools
                         }));
                     }
                     if (DatabaseHelper.RestoreDatabase(database.DatabaseName, database.BackupFilePath,
-                        database.ServerName, database.UserId, database.Password, database.PathToRelocate,
-                        database.PathToRelocate))
+                        TalentsoftToolsPlugin.DatabaseServerName[_settings], TalentsoftToolsPlugin.DatabaseUserName[_settings], TalentsoftToolsPlugin.DatabasePassword[_settings], TalentsoftToolsPlugin.DatabaseRelocateFile[_settings],
+                        TalentsoftToolsPlugin.DatabaseRelocateFile[_settings]))
                     {
                         isRestore = true;
                         if (TokenTask != null && !TokenTask.IsCancellationRequested)
@@ -834,8 +687,7 @@ namespace TalentsoftTools
         bool ValidateRestoreDatabases()
         {
             string message = string.Empty;
-            Databases = DatabaseHelper.GetDatabasesFromPameters(TalentsoftToolsPlugin.DatabaseConnectionParams[_settings], TxbDatabases.Text);
-            if (CbxIsRestoreDatabases.Checked && (string.IsNullOrWhiteSpace(TxbDatabases.Text) || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath))))
+            if (CbxIsRestoreDatabases.Checked && (string.IsNullOrWhiteSpace(TxbProcessDatabasesToRestore.Text) || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath))))
             {
                 message = "Databases not correctly defined.";
             }
@@ -914,6 +766,7 @@ namespace TalentsoftTools
 
         private void BtnRunProcessClick(object sender, EventArgs e)
         {
+            Databases = DatabaseHelper.GetDatabasesFromSettings(TxbProcessDatabasesToRestore.Text);
             if (!ValidateCheckoutBranch() || !ValidateCreateBranch() || !ValidateUri() || !ValidateRestoreDatabases())
             {
                 return;
@@ -1002,7 +855,7 @@ namespace TalentsoftTools
 
         private void CbxIsRestoreDatabasesCheckedChanged(object sender, EventArgs e)
         {
-            TxbDatabases.Enabled = CbxIsRestoreDatabases.Checked;
+            TxbProcessDatabasesToRestore.Enabled = CbxIsRestoreDatabases.Checked;
         }
 
         #endregion

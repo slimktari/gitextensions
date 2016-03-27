@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace TalentsoftTools
 {
-    using System.Drawing;
-    using System.Windows.Forms;
-    using Helpers;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Windows.Forms;
 
     public partial class TalentsoftToolsForm
     {
@@ -22,8 +20,7 @@ namespace TalentsoftTools
             {
                 if (row.Cells[1].Value != null)
                 {
-                    bool isMonitor = branchesMonitors.Contains(row.Cells[1].Value);
-                    row.Cells[0].Value = isMonitor;
+                    row.Cells[0].Value  = branchesMonitors.Contains(row.Cells[1].Value);
                 }
             }
             DgvNtfNotifications.RefreshEdit();
@@ -34,7 +31,7 @@ namespace TalentsoftTools
             if (e.ColumnIndex == 0 && e.RowIndex != -1)
             {
                 var checkBoxCell = (DataGridViewCheckBoxCell)DgvNtfNotifications.Rows[DgvNtfNotifications.CurrentRow.Index].Cells[0];
-                bool isChecked = checkBoxCell.Selected;
+                bool isChecked =Convert.ToBoolean(checkBoxCell.EditingCellFormattedValue);
                 List<string> branchesMonitors = TalentsoftToolsPlugin.BranchesToMonitor[_settings].Split(';').ToList();
                 string branchName = DgvNtfNotifications[1, e.RowIndex].Value.ToString();
                 if (isChecked && branchesMonitors.All(x => x != DgvNtfNotifications[1, e.RowIndex].Value.ToString()))
@@ -45,7 +42,8 @@ namespace TalentsoftTools
                 {
                     branchesMonitors.Remove(branchName);
                 }
-                TalentsoftToolsPlugin.BranchesToMonitor[_settings] = string.Join(";", branchesMonitors);
+                TalentsoftToolsPlugin.BranchesToMonitor[_settings] = string.Join(";", branchesMonitors.Where(x=>!string.IsNullOrWhiteSpace(x)));
+                TxbSettingsNotificationsMonitorBranches.Text = TalentsoftToolsPlugin.BranchesToMonitor[_settings];
             }
         }
     }

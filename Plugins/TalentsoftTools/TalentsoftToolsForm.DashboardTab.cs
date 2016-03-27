@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using GitCommands;
-using GitUIPluginInterfaces;
-using TalentsoftTools.Helpers;
-
-namespace TalentsoftTools
+﻿namespace TalentsoftTools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Windows.Forms;
+    using GitUIPluginInterfaces;
+    using Helpers;
+
     public partial class TalentsoftToolsForm
     {
         private void BtnDsbExitSolutionClick(object sender, EventArgs e)
@@ -149,6 +148,7 @@ namespace TalentsoftTools
 
         private void BtnDsbRestoreDatabasesClick(object sender, EventArgs e)
         {
+            Databases = DatabaseHelper.GetDatabasesFromSettings(TxbDsbDatabasesToRestore.Text);
             if (ValidateRestoreDatabasesFromDashboard())
             {
                 System.Threading.Tasks.Task.Factory.StartNew(RunDsbRestoreDatabases);
@@ -166,8 +166,8 @@ namespace TalentsoftTools
             foreach (var database in Databases)
             {
                 if (DatabaseHelper.RestoreDatabase(database.DatabaseName, database.BackupFilePath,
-                    database.ServerName, database.UserId, database.Password, database.PathToRelocate,
-                    database.PathToRelocate))
+                    TalentsoftToolsPlugin.DatabaseServerName[_settings], TalentsoftToolsPlugin.DatabaseUserName[_settings], TalentsoftToolsPlugin.DatabasePassword[_settings], TalentsoftToolsPlugin.DatabaseRelocateFile[_settings],
+                    TalentsoftToolsPlugin.DatabaseRelocateFile[_settings]))
                 {
                     message.Append(string.Format("\r\nSuccess of the restoration {0} database.", database.DatabaseName));
                 }
@@ -187,8 +187,7 @@ namespace TalentsoftTools
         bool ValidateRestoreDatabasesFromDashboard()
         {
             string message = string.Empty;
-            Databases = DatabaseHelper.GetDatabasesFromPameters(TalentsoftToolsPlugin.DatabaseConnectionParams[_settings], TxbDatabases.Text);
-            if (string.IsNullOrWhiteSpace(TxbDsbDatabases.Text) || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath)))
+            if (string.IsNullOrWhiteSpace(TxbDsbDatabasesToRestore.Text) || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath)))
             {
                 message = "Databases not correctly defined.";
             }

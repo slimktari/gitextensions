@@ -49,7 +49,7 @@
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.CbxIsNugetRestore = new System.Windows.Forms.CheckBox();
             this.pictureBox11 = new System.Windows.Forms.PictureBox();
-            this.TxbDatabases = new System.Windows.Forms.TextBox();
+            this.TxbProcessDatabasesToRestore = new System.Windows.Forms.TextBox();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.CbxIsRestoreDatabases = new System.Windows.Forms.CheckBox();
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
@@ -93,6 +93,8 @@
             this.branchDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.TpbNotifications = new System.Windows.Forms.TabPage();
             this.DgvNtfNotifications = new System.Windows.Forms.DataGridView();
+            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TpbDashboard = new System.Windows.Forms.TabPage();
             this.GbxDashboardActions = new System.Windows.Forms.GroupBox();
             this.BtnDsbRebuildSolution = new System.Windows.Forms.Button();
@@ -105,7 +107,7 @@
             this.TxbDsbGitClean = new System.Windows.Forms.TextBox();
             this.BtnDsbGitClean = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.TxbDsbDatabases = new System.Windows.Forms.TextBox();
+            this.TxbDsbDatabasesToRestore = new System.Windows.Forms.TextBox();
             this.BtnDsbRestoreDatabases = new System.Windows.Forms.Button();
             this.BtnDsbFetchAll = new System.Windows.Forms.Button();
             this.BtnDsbStashPop = new System.Windows.Forms.Button();
@@ -115,7 +117,51 @@
             this.BtnDsbExitSolution = new System.Windows.Forms.Button();
             this.BtnDsbStashChanges = new System.Windows.Forms.Button();
             this.TpbSettings = new System.Windows.Forms.TabPage();
+            this.BtnSettingsSave = new System.Windows.Forms.Button();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.TxbSettingsDefaultSolutionFileName = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.TxbSettingsNewBranchPrefix = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.TxbSettingsExcludeGitCleanPattern = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.TxbSettingsUris = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.CbxSettingsProcessNugetRestore = new System.Windows.Forms.CheckBox();
+            this.CbxSettingsProcessRestoreDatabases = new System.Windows.Forms.CheckBox();
+            this.CbxSettingsProcessPostBuild = new System.Windows.Forms.CheckBox();
+            this.CbxSettingsProcessRunPreBuild = new System.Windows.Forms.CheckBox();
+            this.CbxSettingsProcessRunUris = new System.Windows.Forms.CheckBox();
+            this.CbxSettingsProcessGitClean = new System.Windows.Forms.CheckBox();
+            this.CbxSettingsProcessCheckout = new System.Windows.Forms.CheckBox();
+            this.CbxSettingsProcessStashPop = new System.Windows.Forms.CheckBox();
+            this.CbxSettingsProcessStashChanges = new System.Windows.Forms.CheckBox();
+            this.CbxSettingsProcessRunVisualStudio = new System.Windows.Forms.CheckBox();
+            this.CbxSettingsProcessExitVisualStudio = new System.Windows.Forms.CheckBox();
+            this.CbxSettingsProcessBuild = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.TxbSettingsBatchPostBuildScripts = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.TxbSettingsBatchPreBuildScripts = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.TxbSettingsDatabasesRestore = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.TxbSettingsDatabaseRelocateFile = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.TxbSettingsDatabaseUserName = new System.Windows.Forms.TextBox();
+            this.TxbSettingsDatabasePassword = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.TxbSettingsDatabaseServerName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CbxSettingsNotificationsEnable = new System.Windows.Forms.CheckBox();
+            this.TxbSettingsNotificationsMonitorBranches = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.TxbSettingsNotificationsCheckIntrerval = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.PbxDsbLoadingAction = new System.Windows.Forms.PictureBox();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GbxActualInfos = new System.Windows.Forms.GroupBox();
@@ -128,8 +174,6 @@
             this.LblActualBranchName = new System.Windows.Forms.Label();
             this.LblActualBranchNameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
             this.BgxLogInfo.SuspendLayout();
@@ -160,6 +204,11 @@
             this.TpbDashboard.SuspendLayout();
             this.GbxDashboardActions.SuspendLayout();
             this.TpbSettings.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbxDsbLoadingAction)).BeginInit();
             this.GbxActualInfos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesUpToDate)).BeginInit();
@@ -336,7 +385,7 @@
             this.GbxProcess.Controls.Add(this.pictureBox6);
             this.GbxProcess.Controls.Add(this.CbxIsNugetRestore);
             this.GbxProcess.Controls.Add(this.pictureBox11);
-            this.GbxProcess.Controls.Add(this.TxbDatabases);
+            this.GbxProcess.Controls.Add(this.TxbProcessDatabasesToRestore);
             this.GbxProcess.Controls.Add(this.pictureBox8);
             this.GbxProcess.Controls.Add(this.CbxIsRestoreDatabases);
             this.GbxProcess.Controls.Add(this.pictureBox10);
@@ -400,12 +449,12 @@
             this.pictureBox11.TabIndex = 36;
             this.pictureBox11.TabStop = false;
             // 
-            // TxbDatabases
+            // TxbProcessDatabasesToRestore
             // 
-            this.TxbDatabases.Location = new System.Drawing.Point(142, 104);
-            this.TxbDatabases.Name = "TxbDatabases";
-            this.TxbDatabases.Size = new System.Drawing.Size(346, 23);
-            this.TxbDatabases.TabIndex = 35;
+            this.TxbProcessDatabasesToRestore.Location = new System.Drawing.Point(142, 104);
+            this.TxbProcessDatabasesToRestore.Name = "TxbProcessDatabasesToRestore";
+            this.TxbProcessDatabasesToRestore.Size = new System.Drawing.Size(346, 23);
+            this.TxbProcessDatabasesToRestore.TabIndex = 35;
             // 
             // pictureBox8
             // 
@@ -871,6 +920,21 @@
             this.DgvNtfNotifications.TabIndex = 1;
             this.DgvNtfNotifications.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvNtfNotificationsCellContentClick);
             // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            this.dataGridViewCheckBoxColumn1.HeaderText = "Notif when update";
+            this.dataGridViewCheckBoxColumn1.MinimumWidth = 140;
+            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            this.dataGridViewCheckBoxColumn1.Width = 140;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "Name";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Branch name";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
             // TpbDashboard
             // 
             this.TpbDashboard.Controls.Add(this.GbxDashboardActions);
@@ -893,7 +957,7 @@
             this.GbxDashboardActions.Controls.Add(this.TxbDsbGitClean);
             this.GbxDashboardActions.Controls.Add(this.BtnDsbGitClean);
             this.GbxDashboardActions.Controls.Add(this.label6);
-            this.GbxDashboardActions.Controls.Add(this.TxbDsbDatabases);
+            this.GbxDashboardActions.Controls.Add(this.TxbDsbDatabasesToRestore);
             this.GbxDashboardActions.Controls.Add(this.BtnDsbRestoreDatabases);
             this.GbxDashboardActions.Controls.Add(this.BtnDsbFetchAll);
             this.GbxDashboardActions.Controls.Add(this.BtnDsbStashPop);
@@ -1005,12 +1069,12 @@
             this.label6.TabIndex = 9;
             this.label6.Text = "Databases";
             // 
-            // TxbDsbDatabases
+            // TxbDsbDatabasesToRestore
             // 
-            this.TxbDsbDatabases.Location = new System.Drawing.Point(114, 90);
-            this.TxbDsbDatabases.Name = "TxbDsbDatabases";
-            this.TxbDsbDatabases.Size = new System.Drawing.Size(610, 23);
-            this.TxbDsbDatabases.TabIndex = 8;
+            this.TxbDsbDatabasesToRestore.Location = new System.Drawing.Point(114, 90);
+            this.TxbDsbDatabasesToRestore.Name = "TxbDsbDatabasesToRestore";
+            this.TxbDsbDatabasesToRestore.Size = new System.Drawing.Size(610, 23);
+            this.TxbDsbDatabasesToRestore.TabIndex = 8;
             // 
             // BtnDsbRestoreDatabases
             // 
@@ -1092,6 +1156,11 @@
             // 
             // TpbSettings
             // 
+            this.TpbSettings.Controls.Add(this.BtnSettingsSave);
+            this.TpbSettings.Controls.Add(this.groupBox5);
+            this.TpbSettings.Controls.Add(this.groupBox4);
+            this.TpbSettings.Controls.Add(this.groupBox3);
+            this.TpbSettings.Controls.Add(this.groupBox2);
             this.TpbSettings.Controls.Add(this.groupBox1);
             this.TpbSettings.Location = new System.Drawing.Point(4, 24);
             this.TpbSettings.Name = "TpbSettings";
@@ -1100,14 +1169,438 @@
             this.TpbSettings.Text = "Settings";
             this.TpbSettings.UseVisualStyleBackColor = true;
             // 
+            // BtnSettingsSave
+            // 
+            this.BtnSettingsSave.Location = new System.Drawing.Point(731, 512);
+            this.BtnSettingsSave.Name = "BtnSettingsSave";
+            this.BtnSettingsSave.Size = new System.Drawing.Size(148, 29);
+            this.BtnSettingsSave.TabIndex = 27;
+            this.BtnSettingsSave.Text = "Save settings";
+            this.BtnSettingsSave.UseVisualStyleBackColor = true;
+            this.BtnSettingsSave.Click += new System.EventHandler(this.BtnSettingsSaveClick);
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.TxbSettingsDefaultSolutionFileName);
+            this.groupBox5.Controls.Add(this.label20);
+            this.groupBox5.Controls.Add(this.TxbSettingsNewBranchPrefix);
+            this.groupBox5.Controls.Add(this.label19);
+            this.groupBox5.Controls.Add(this.TxbSettingsExcludeGitCleanPattern);
+            this.groupBox5.Controls.Add(this.label17);
+            this.groupBox5.Controls.Add(this.TxbSettingsUris);
+            this.groupBox5.Controls.Add(this.label18);
+            this.groupBox5.Location = new System.Drawing.Point(8, 0);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(871, 87);
+            this.groupBox5.TabIndex = 1;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Generic";
+            // 
+            // TxbSettingsDefaultSolutionFileName
+            // 
+            this.TxbSettingsDefaultSolutionFileName.Location = new System.Drawing.Point(741, 19);
+            this.TxbSettingsDefaultSolutionFileName.Name = "TxbSettingsDefaultSolutionFileName";
+            this.TxbSettingsDefaultSolutionFileName.Size = new System.Drawing.Size(124, 23);
+            this.TxbSettingsDefaultSolutionFileName.TabIndex = 3;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(592, 22);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(143, 15);
+            this.label20.TabIndex = 13;
+            this.label20.Text = "Default solution file name";
+            // 
+            // TxbSettingsNewBranchPrefix
+            // 
+            this.TxbSettingsNewBranchPrefix.Location = new System.Drawing.Point(446, 19);
+            this.TxbSettingsNewBranchPrefix.Name = "TxbSettingsNewBranchPrefix";
+            this.TxbSettingsNewBranchPrefix.Size = new System.Drawing.Size(124, 23);
+            this.TxbSettingsNewBranchPrefix.TabIndex = 2;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(322, 22);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(103, 15);
+            this.label19.TabIndex = 11;
+            this.label19.Text = "New branch prefix";
+            // 
+            // TxbSettingsExcludeGitCleanPattern
+            // 
+            this.TxbSettingsExcludeGitCleanPattern.Location = new System.Drawing.Point(169, 19);
+            this.TxbSettingsExcludeGitCleanPattern.Name = "TxbSettingsExcludeGitCleanPattern";
+            this.TxbSettingsExcludeGitCleanPattern.Size = new System.Drawing.Size(124, 23);
+            this.TxbSettingsExcludeGitCleanPattern.TabIndex = 1;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(14, 51);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(65, 15);
+            this.label17.TabIndex = 4;
+            this.label17.Text = "URIs (sep ;)";
+            // 
+            // TxbSettingsUris
+            // 
+            this.TxbSettingsUris.Location = new System.Drawing.Point(169, 48);
+            this.TxbSettingsUris.Name = "TxbSettingsUris";
+            this.TxbSettingsUris.Size = new System.Drawing.Size(696, 23);
+            this.TxbSettingsUris.TabIndex = 4;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(14, 22);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(139, 15);
+            this.label18.TabIndex = 2;
+            this.label18.Text = "Exclude Git Clean pattern";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.CbxSettingsProcessNugetRestore);
+            this.groupBox4.Controls.Add(this.CbxSettingsProcessRestoreDatabases);
+            this.groupBox4.Controls.Add(this.CbxSettingsProcessPostBuild);
+            this.groupBox4.Controls.Add(this.CbxSettingsProcessRunPreBuild);
+            this.groupBox4.Controls.Add(this.CbxSettingsProcessRunUris);
+            this.groupBox4.Controls.Add(this.CbxSettingsProcessGitClean);
+            this.groupBox4.Controls.Add(this.CbxSettingsProcessCheckout);
+            this.groupBox4.Controls.Add(this.CbxSettingsProcessStashPop);
+            this.groupBox4.Controls.Add(this.CbxSettingsProcessStashChanges);
+            this.groupBox4.Controls.Add(this.CbxSettingsProcessRunVisualStudio);
+            this.groupBox4.Controls.Add(this.CbxSettingsProcessExitVisualStudio);
+            this.groupBox4.Controls.Add(this.CbxSettingsProcessBuild);
+            this.groupBox4.Location = new System.Drawing.Point(8, 420);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(871, 86);
+            this.groupBox4.TabIndex = 11;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Default process actions";
+            // 
+            // CbxSettingsProcessNugetRestore
+            // 
+            this.CbxSettingsProcessNugetRestore.AutoSize = true;
+            this.CbxSettingsProcessNugetRestore.Location = new System.Drawing.Point(735, 22);
+            this.CbxSettingsProcessNugetRestore.Name = "CbxSettingsProcessNugetRestore";
+            this.CbxSettingsProcessNugetRestore.Size = new System.Drawing.Size(98, 19);
+            this.CbxSettingsProcessNugetRestore.TabIndex = 20;
+            this.CbxSettingsProcessNugetRestore.Text = "Nuget restore";
+            this.CbxSettingsProcessNugetRestore.UseVisualStyleBackColor = true;
+            // 
+            // CbxSettingsProcessRestoreDatabases
+            // 
+            this.CbxSettingsProcessRestoreDatabases.AutoSize = true;
+            this.CbxSettingsProcessRestoreDatabases.Location = new System.Drawing.Point(469, 47);
+            this.CbxSettingsProcessRestoreDatabases.Name = "CbxSettingsProcessRestoreDatabases";
+            this.CbxSettingsProcessRestoreDatabases.Size = new System.Drawing.Size(120, 19);
+            this.CbxSettingsProcessRestoreDatabases.TabIndex = 24;
+            this.CbxSettingsProcessRestoreDatabases.Text = "Restore databases";
+            this.CbxSettingsProcessRestoreDatabases.UseVisualStyleBackColor = true;
+            // 
+            // CbxSettingsProcessPostBuild
+            // 
+            this.CbxSettingsProcessPostBuild.AutoSize = true;
+            this.CbxSettingsProcessPostBuild.Location = new System.Drawing.Point(300, 47);
+            this.CbxSettingsProcessPostBuild.Name = "CbxSettingsProcessPostBuild";
+            this.CbxSettingsProcessPostBuild.Size = new System.Drawing.Size(138, 19);
+            this.CbxSettingsProcessPostBuild.TabIndex = 23;
+            this.CbxSettingsProcessPostBuild.Text = "Run Post-Build batch";
+            this.CbxSettingsProcessPostBuild.UseVisualStyleBackColor = true;
+            // 
+            // CbxSettingsProcessRunPreBuild
+            // 
+            this.CbxSettingsProcessRunPreBuild.AutoSize = true;
+            this.CbxSettingsProcessRunPreBuild.Location = new System.Drawing.Point(18, 47);
+            this.CbxSettingsProcessRunPreBuild.Name = "CbxSettingsProcessRunPreBuild";
+            this.CbxSettingsProcessRunPreBuild.Size = new System.Drawing.Size(132, 19);
+            this.CbxSettingsProcessRunPreBuild.TabIndex = 21;
+            this.CbxSettingsProcessRunPreBuild.Text = "Run Pre-Build batch";
+            this.CbxSettingsProcessRunPreBuild.UseVisualStyleBackColor = true;
+            // 
+            // CbxSettingsProcessRunUris
+            // 
+            this.CbxSettingsProcessRunUris.AutoSize = true;
+            this.CbxSettingsProcessRunUris.Location = new System.Drawing.Point(735, 47);
+            this.CbxSettingsProcessRunUris.Name = "CbxSettingsProcessRunUris";
+            this.CbxSettingsProcessRunUris.Size = new System.Drawing.Size(68, 19);
+            this.CbxSettingsProcessRunUris.TabIndex = 26;
+            this.CbxSettingsProcessRunUris.Text = "Run URI";
+            this.CbxSettingsProcessRunUris.UseVisualStyleBackColor = true;
+            // 
+            // CbxSettingsProcessGitClean
+            // 
+            this.CbxSettingsProcessGitClean.AutoSize = true;
+            this.CbxSettingsProcessGitClean.Location = new System.Drawing.Point(469, 22);
+            this.CbxSettingsProcessGitClean.Name = "CbxSettingsProcessGitClean";
+            this.CbxSettingsProcessGitClean.Size = new System.Drawing.Size(72, 19);
+            this.CbxSettingsProcessGitClean.TabIndex = 18;
+            this.CbxSettingsProcessGitClean.Text = "Git clean";
+            this.CbxSettingsProcessGitClean.UseVisualStyleBackColor = true;
+            // 
+            // CbxSettingsProcessCheckout
+            // 
+            this.CbxSettingsProcessCheckout.AutoSize = true;
+            this.CbxSettingsProcessCheckout.Location = new System.Drawing.Point(300, 22);
+            this.CbxSettingsProcessCheckout.Name = "CbxSettingsProcessCheckout";
+            this.CbxSettingsProcessCheckout.Size = new System.Drawing.Size(166, 19);
+            this.CbxSettingsProcessCheckout.TabIndex = 17;
+            this.CbxSettingsProcessCheckout.Text = "Checkout or create branch";
+            this.CbxSettingsProcessCheckout.UseVisualStyleBackColor = true;
+            // 
+            // CbxSettingsProcessStashPop
+            // 
+            this.CbxSettingsProcessStashPop.AutoSize = true;
+            this.CbxSettingsProcessStashPop.Location = new System.Drawing.Point(600, 22);
+            this.CbxSettingsProcessStashPop.Name = "CbxSettingsProcessStashPop";
+            this.CbxSettingsProcessStashPop.Size = new System.Drawing.Size(78, 19);
+            this.CbxSettingsProcessStashPop.TabIndex = 19;
+            this.CbxSettingsProcessStashPop.Text = "Stash pop";
+            this.CbxSettingsProcessStashPop.UseVisualStyleBackColor = true;
+            // 
+            // CbxSettingsProcessStashChanges
+            // 
+            this.CbxSettingsProcessStashChanges.AutoSize = true;
+            this.CbxSettingsProcessStashChanges.Location = new System.Drawing.Point(156, 22);
+            this.CbxSettingsProcessStashChanges.Name = "CbxSettingsProcessStashChanges";
+            this.CbxSettingsProcessStashChanges.Size = new System.Drawing.Size(101, 19);
+            this.CbxSettingsProcessStashChanges.TabIndex = 16;
+            this.CbxSettingsProcessStashChanges.Text = "Stash changes";
+            this.CbxSettingsProcessStashChanges.UseVisualStyleBackColor = true;
+            // 
+            // CbxSettingsProcessRunVisualStudio
+            // 
+            this.CbxSettingsProcessRunVisualStudio.AutoSize = true;
+            this.CbxSettingsProcessRunVisualStudio.Location = new System.Drawing.Point(600, 47);
+            this.CbxSettingsProcessRunVisualStudio.Name = "CbxSettingsProcessRunVisualStudio";
+            this.CbxSettingsProcessRunVisualStudio.Size = new System.Drawing.Size(118, 19);
+            this.CbxSettingsProcessRunVisualStudio.TabIndex = 25;
+            this.CbxSettingsProcessRunVisualStudio.Text = "Run Visual Studio";
+            this.CbxSettingsProcessRunVisualStudio.UseVisualStyleBackColor = true;
+            // 
+            // CbxSettingsProcessExitVisualStudio
+            // 
+            this.CbxSettingsProcessExitVisualStudio.AutoSize = true;
+            this.CbxSettingsProcessExitVisualStudio.Location = new System.Drawing.Point(18, 22);
+            this.CbxSettingsProcessExitVisualStudio.Name = "CbxSettingsProcessExitVisualStudio";
+            this.CbxSettingsProcessExitVisualStudio.Size = new System.Drawing.Size(115, 19);
+            this.CbxSettingsProcessExitVisualStudio.TabIndex = 15;
+            this.CbxSettingsProcessExitVisualStudio.Text = "Exit Visual Studio";
+            this.CbxSettingsProcessExitVisualStudio.UseVisualStyleBackColor = true;
+            // 
+            // CbxSettingsProcessBuild
+            // 
+            this.CbxSettingsProcessBuild.AutoSize = true;
+            this.CbxSettingsProcessBuild.Location = new System.Drawing.Point(156, 47);
+            this.CbxSettingsProcessBuild.Name = "CbxSettingsProcessBuild";
+            this.CbxSettingsProcessBuild.Size = new System.Drawing.Size(134, 19);
+            this.CbxSettingsProcessBuild.TabIndex = 22;
+            this.CbxSettingsProcessBuild.Text = "Run build or Rebuild";
+            this.CbxSettingsProcessBuild.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.TxbSettingsBatchPostBuildScripts);
+            this.groupBox3.Controls.Add(this.label15);
+            this.groupBox3.Controls.Add(this.TxbSettingsBatchPreBuildScripts);
+            this.groupBox3.Controls.Add(this.label16);
+            this.groupBox3.Location = new System.Drawing.Point(8, 328);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(871, 86);
+            this.groupBox3.TabIndex = 11;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Batch";
+            // 
+            // TxbSettingsBatchPostBuildScripts
+            // 
+            this.TxbSettingsBatchPostBuildScripts.Location = new System.Drawing.Point(167, 50);
+            this.TxbSettingsBatchPostBuildScripts.Name = "TxbSettingsBatchPostBuildScripts";
+            this.TxbSettingsBatchPostBuildScripts.Size = new System.Drawing.Size(698, 23);
+            this.TxbSettingsBatchPostBuildScripts.TabIndex = 14;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(12, 29);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(126, 15);
+            this.label15.TabIndex = 4;
+            this.label15.Text = "Pre build scripts (sep ;)";
+            // 
+            // TxbSettingsBatchPreBuildScripts
+            // 
+            this.TxbSettingsBatchPreBuildScripts.Location = new System.Drawing.Point(167, 21);
+            this.TxbSettingsBatchPreBuildScripts.Name = "TxbSettingsBatchPreBuildScripts";
+            this.TxbSettingsBatchPreBuildScripts.Size = new System.Drawing.Size(698, 23);
+            this.TxbSettingsBatchPreBuildScripts.TabIndex = 13;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(12, 53);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(132, 15);
+            this.label16.TabIndex = 2;
+            this.label16.Text = "Post build scripts (sep ;)";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.TxbSettingsDatabasesRestore);
+            this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Controls.Add(this.TxbSettingsDatabaseRelocateFile);
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.TxbSettingsDatabaseUserName);
+            this.groupBox2.Controls.Add(this.TxbSettingsDatabasePassword);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.TxbSettingsDatabaseServerName);
+            this.groupBox2.Location = new System.Drawing.Point(8, 93);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(870, 123);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Databases parameters";
+            // 
+            // TxbSettingsDatabasesRestore
+            // 
+            this.TxbSettingsDatabasesRestore.Location = new System.Drawing.Point(167, 58);
+            this.TxbSettingsDatabasesRestore.Name = "TxbSettingsDatabasesRestore";
+            this.TxbSettingsDatabasesRestore.Size = new System.Drawing.Size(698, 23);
+            this.TxbSettingsDatabasesRestore.TabIndex = 8;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(12, 61);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(148, 15);
+            this.label12.TabIndex = 8;
+            this.label12.Text = "Databases to restore (sep ;)";
+            // 
+            // TxbSettingsDatabaseRelocateFile
+            // 
+            this.TxbSettingsDatabaseRelocateFile.Location = new System.Drawing.Point(167, 87);
+            this.TxbSettingsDatabaseRelocateFile.Name = "TxbSettingsDatabaseRelocateFile";
+            this.TxbSettingsDatabaseRelocateFile.Size = new System.Drawing.Size(698, 23);
+            this.TxbSettingsDatabaseRelocateFile.TabIndex = 9;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(12, 90);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(103, 15);
+            this.label11.TabIndex = 6;
+            this.label11.Text = "Relocate files path";
+            // 
+            // TxbSettingsDatabaseUserName
+            // 
+            this.TxbSettingsDatabaseUserName.Location = new System.Drawing.Point(446, 29);
+            this.TxbSettingsDatabaseUserName.Name = "TxbSettingsDatabaseUserName";
+            this.TxbSettingsDatabaseUserName.Size = new System.Drawing.Size(124, 23);
+            this.TxbSettingsDatabaseUserName.TabIndex = 6;
+            // 
+            // TxbSettingsDatabasePassword
+            // 
+            this.TxbSettingsDatabasePassword.Location = new System.Drawing.Point(741, 29);
+            this.TxbSettingsDatabasePassword.Name = "TxbSettingsDatabasePassword";
+            this.TxbSettingsDatabasePassword.Size = new System.Drawing.Size(124, 23);
+            this.TxbSettingsDatabasePassword.TabIndex = 7;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(592, 32);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(57, 15);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Password";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(319, 32);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(63, 15);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "User name";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 32);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(72, 15);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "Server name";
+            // 
+            // TxbSettingsDatabaseServerName
+            // 
+            this.TxbSettingsDatabaseServerName.Location = new System.Drawing.Point(167, 29);
+            this.TxbSettingsDatabaseServerName.Name = "TxbSettingsDatabaseServerName";
+            this.TxbSettingsDatabaseServerName.Size = new System.Drawing.Size(126, 23);
+            this.TxbSettingsDatabaseServerName.TabIndex = 5;
+            // 
             // groupBox1
             // 
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Controls.Add(this.CbxSettingsNotificationsEnable);
+            this.groupBox1.Controls.Add(this.TxbSettingsNotificationsMonitorBranches);
+            this.groupBox1.Controls.Add(this.label14);
+            this.groupBox1.Controls.Add(this.TxbSettingsNotificationsCheckIntrerval);
+            this.groupBox1.Controls.Add(this.label13);
+            this.groupBox1.Location = new System.Drawing.Point(8, 222);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 100);
+            this.groupBox1.Size = new System.Drawing.Size(870, 100);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Notifications";
+            // 
+            // CbxSettingsNotificationsEnable
+            // 
+            this.CbxSettingsNotificationsEnable.AutoSize = true;
+            this.CbxSettingsNotificationsEnable.Location = new System.Drawing.Point(322, 25);
+            this.CbxSettingsNotificationsEnable.Name = "CbxSettingsNotificationsEnable";
+            this.CbxSettingsNotificationsEnable.Size = new System.Drawing.Size(130, 19);
+            this.CbxSettingsNotificationsEnable.TabIndex = 11;
+            this.CbxSettingsNotificationsEnable.Text = "Enable notifications";
+            this.CbxSettingsNotificationsEnable.UseVisualStyleBackColor = true;
+            this.CbxSettingsNotificationsEnable.CheckedChanged += new System.EventHandler(this.CbxSettingsNotificationsEnableCheckedChanged);
+            // 
+            // TxbSettingsNotificationsMonitorBranches
+            // 
+            this.TxbSettingsNotificationsMonitorBranches.Location = new System.Drawing.Point(167, 55);
+            this.TxbSettingsNotificationsMonitorBranches.Name = "TxbSettingsNotificationsMonitorBranches";
+            this.TxbSettingsNotificationsMonitorBranches.Size = new System.Drawing.Size(698, 23);
+            this.TxbSettingsNotificationsMonitorBranches.TabIndex = 12;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(14, 58);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(136, 15);
+            this.label14.TabIndex = 4;
+            this.label14.Text = "Monitor branches (sep ;)";
+            // 
+            // TxbSettingsNotificationsCheckIntrerval
+            // 
+            this.TxbSettingsNotificationsCheckIntrerval.Location = new System.Drawing.Point(167, 23);
+            this.TxbSettingsNotificationsCheckIntrerval.Name = "TxbSettingsNotificationsCheckIntrerval";
+            this.TxbSettingsNotificationsCheckIntrerval.Size = new System.Drawing.Size(126, 23);
+            this.TxbSettingsNotificationsCheckIntrerval.TabIndex = 10;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(12, 26);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(149, 15);
+            this.label13.TabIndex = 2;
+            this.label13.Text = "Check interval (in seconds)";
             // 
             // PbxDsbLoadingAction
             // 
@@ -1226,21 +1719,6 @@
             this.label2.Size = new System.Drawing.Size(0, 15);
             this.label2.TabIndex = 0;
             // 
-            // dataGridViewCheckBoxColumn1
-            // 
-            this.dataGridViewCheckBoxColumn1.HeaderText = "Notif when update";
-            this.dataGridViewCheckBoxColumn1.MinimumWidth = 140;
-            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            this.dataGridViewCheckBoxColumn1.Width = 140;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "Name";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Branch name";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
             // TalentsoftToolsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1291,6 +1769,16 @@
             this.GbxDashboardActions.ResumeLayout(false);
             this.GbxDashboardActions.PerformLayout();
             this.TpbSettings.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbxDsbLoadingAction)).EndInit();
             this.GbxActualInfos.ResumeLayout(false);
             this.GbxActualInfos.PerformLayout();
@@ -1354,7 +1842,7 @@
         private System.Windows.Forms.PictureBox pictureBox10;
         private System.Windows.Forms.CheckBox CbxIsPreBuild;
         private System.Windows.Forms.CheckBox CbxIsRestoreDatabases;
-        private System.Windows.Forms.TextBox TxbDatabases;
+        private System.Windows.Forms.TextBox TxbProcessDatabasesToRestore;
         private System.Windows.Forms.PictureBox pictureBox8;
         private System.Windows.Forms.PictureBox pictureBox11;
         private System.Windows.Forms.CheckBox CbxIsNugetRestore;
@@ -1380,7 +1868,7 @@
         private System.Windows.Forms.Button BtnDsbFetchAll;
         private System.Windows.Forms.Button BtnDsbRestoreDatabases;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox TxbDsbDatabases;
+        private System.Windows.Forms.TextBox TxbDsbDatabasesToRestore;
         private System.Windows.Forms.Button BtnDsbGitClean;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox TxbDsbGitClean;
@@ -1402,5 +1890,49 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn NeedUpdate;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox TxbSettingsDatabaseServerName;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox TxbSettingsDatabasePassword;
+        private System.Windows.Forms.TextBox TxbSettingsDatabaseUserName;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox TxbSettingsDatabaseRelocateFile;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox TxbSettingsDatabasesRestore;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox TxbSettingsNotificationsMonitorBranches;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox TxbSettingsNotificationsCheckIntrerval;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox TxbSettingsBatchPostBuildScripts;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox TxbSettingsBatchPreBuildScripts;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.CheckBox CbxSettingsProcessBuild;
+        private System.Windows.Forms.CheckBox CbxSettingsProcessExitVisualStudio;
+        private System.Windows.Forms.CheckBox CbxSettingsProcessRunVisualStudio;
+        private System.Windows.Forms.CheckBox CbxSettingsProcessStashChanges;
+        private System.Windows.Forms.CheckBox CbxSettingsProcessStashPop;
+        private System.Windows.Forms.CheckBox CbxSettingsProcessCheckout;
+        private System.Windows.Forms.CheckBox CbxSettingsProcessGitClean;
+        private System.Windows.Forms.CheckBox CbxSettingsProcessRunUris;
+        private System.Windows.Forms.CheckBox CbxSettingsProcessRunPreBuild;
+        private System.Windows.Forms.CheckBox CbxSettingsProcessPostBuild;
+        private System.Windows.Forms.CheckBox CbxSettingsProcessRestoreDatabases;
+        private System.Windows.Forms.CheckBox CbxSettingsProcessNugetRestore;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.TextBox TxbSettingsDefaultSolutionFileName;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox TxbSettingsNewBranchPrefix;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TextBox TxbSettingsExcludeGitCleanPattern;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox TxbSettingsUris;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button BtnSettingsSave;
+        private System.Windows.Forms.CheckBox CbxSettingsNotificationsEnable;
     }
 }
