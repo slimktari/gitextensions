@@ -109,25 +109,43 @@
         /// <summary>
         /// Gets all branches.
         /// </summary>
+        /// <param name="iGitUiCommands">The <see cref="IGitUICommands"/>.</param>
         /// <returns>List of all branches.</returns>
-        public static List<GitRef> GetBranches()
+        public static List<GitRef> GetBranches(IGitUICommands iGitUiCommands = null)
         {
-            return GetTreeRefs(TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmd("show-ref --dereference")).ToList();
+            if (iGitUiCommands == null)
+            {
+                return GetTreeRefs(TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmd("show-ref --dereference")).ToList();
+            }
+            return GetTreeRefs(iGitUiCommands.GitModule.RunGitCmd("show-ref --dereference"), iGitUiCommands).ToList();
         }
 
         /// <summary>
         /// Gets tree of all object in repository.
         /// </summary>
         /// <param name="tree">The tree.</param>
+        /// <param name="iGitUiCommands">The <see cref="IGitUICommands"/>.</param>
         /// <returns>List of object.</returns>
-        static List<GitRef> GetTreeRefs(string tree)
+        static List<GitRef> GetTreeRefs(string tree, IGitUICommands iGitUiCommands = null)
         {
             var defaultHeadPattern = new Regex("refs/remotes/[^/]+/HEAD", RegexOptions.Compiled);
             var itemsStrings = tree.Split('\n');
 
             var gitRefs = new List<GitRef>();
             var defaultHeads = new Dictionary<string, GitRef>(); // remote -> HEAD
-            var remotes = TalentsoftToolsPlugin.GitUiCommands.GitModule.GetRemotes(false);
+
+            string[] remotes;
+            GitModule gitModule = null;
+            if (iGitUiCommands == null)
+            {
+                gitModule = (GitModule)TalentsoftToolsPlugin.GitUiCommands.GitModule;
+                remotes = TalentsoftToolsPlugin.GitUiCommands.GitModule.GetRemotes(false);
+            }
+            else
+            {
+                gitModule = (GitModule)iGitUiCommands.GitModule;
+                remotes = iGitUiCommands.GitModule.GetRemotes(false);
+            }
 
             foreach (var itemsString in itemsStrings)
             {
@@ -137,7 +155,7 @@
                 var completeName = itemsString.Substring(41).Trim();
                 var guid = itemsString.Substring(0, 40);
                 var remoteName = GitCommandHelpers.GetRemoteName(completeName, remotes);
-                var head = new GitRef(null, guid, completeName, remoteName);
+                var head = new GitRef(gitModule, guid, completeName, remoteName);
                 if (defaultHeadPattern.IsMatch(completeName))
                 {
                     defaultHeads[remoteName] = head;
@@ -161,12 +179,23 @@
         }
 
         /// <summary>
+        /// Gets local branches.
+        /// </summary>
+        /// <param name="iGitUiCommands">The <see cref="IGitUICommands"/>.</param>
+        /// <returns>Locals branch.</returns>
+        public static GitRef GetLocalsBranch(string branchName, IGitUICommands iGitUiCommands = null)
+        {
+            return GetBranches(iGitUiCommands).Single(h => !h.IsRemote && !h.IsTag && !h.IsOther && !h.IsBisect && h.LocalName == branchName);
+        }
+
+        /// <summary>
         /// Gets locals branches.
         /// </summary>
+        /// <param name="iGitUiCommands">The <see cref="IGitUICommands"/>.</param>
         /// <returns>List of all locals branches.</returns>
-        public static List<GitRef> GetLocalsBranches()
+        public static List<GitRef> GetLocalsBranches(IGitUICommands iGitUiCommands = null)
         {
-            return GetBranches().Where(h => !h.IsRemote && !h.IsTag && !h.IsOther && !h.IsBisect).ToList();
+            return GetBranches(iGitUiCommands).Where(h => !h.IsRemote && !h.IsTag && !h.IsOther && !h.IsBisect).ToList();
         }
 
         /// <summary>

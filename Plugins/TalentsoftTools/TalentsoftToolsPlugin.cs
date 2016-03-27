@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using GitUIPluginInterfaces;
 using ResourceManager;
+using TalentsoftTools.Helpers;
 
 namespace TalentsoftTools
 {
@@ -37,9 +39,9 @@ namespace TalentsoftTools
         private bool _isMonitorRunnig;
         private IDisposable _cancellationToken;
         private static IGitUICommands _currentGitUiCommands;
-        public static StringSetting BranchesToMonitor = new StringSetting("Branches to monitor", string.Empty);
         public static GitUIBaseEventArgs GitUiCommands;
         public static ISettingsSource PluginSettings;
+        public static StringSetting BranchesToMonitor = new StringSetting("Branches to monitor", string.Empty);
 
         /// <summary>
         /// Constructor of plugin.
@@ -75,6 +77,7 @@ namespace TalentsoftTools
             yield return IsDefaultResetDatabases;
             yield return IsDefaultRunUri;
         }
+
 
         /// <summary>
         /// When register plugin. Before launching plugin and after choose repository.
@@ -164,10 +167,26 @@ namespace TalentsoftTools
                         List<string> remotes = NeedToUpdate(item);
                         if (remotes.Any())
                         {
-                            var resultFormDialog = new MonitorActionsForm(Settings, _currentGitUiCommands, remotes, item).ShowDialog();
-                            if (resultFormDialog == DialogResult.OK)
+                            var localBranch = GitHelper.GetLocalsBranch(item, _currentGitUiCommands);
+                            if (!remotes.Contains(string.Format("{0}/{1}", localBranch.TrackingRemote, localBranch.LocalName)))
                             {
-                                break;
+                                continue;
+                            }
+                            DialogResult resultFormDialog = DialogResult.None;
+                            if (Application.OpenForms.Count > 0)
+                            {
+                                IAsyncResult iSyncResult = Application.OpenForms[0].BeginInvoke((ThreadStart) delegate
+                                {
+                                    resultFormDialog =
+                                        new MonitorActionsForm(Settings, _currentGitUiCommands, localBranch).ShowDialog(
+                                            Application.OpenForms[0]);
+
+                                });
+                                iSyncResult.AsyncWaitHandle.WaitOne();
+                                if (resultFormDialog == DialogResult.OK)
+                                {
+                                    break;
+                                }
                             }
                         }
                     }

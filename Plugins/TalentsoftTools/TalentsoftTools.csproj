@@ -75,6 +75,7 @@
     <Compile Include="Helpers\DatabaseHelper.cs" />
     <Compile Include="Helpers\GenericHelper.cs" />
     <Compile Include="Helpers\GitHelper.cs" />
+    <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="MonitorActionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,10 +100,13 @@
     <Compile Include="TalentsoftToolsForm.Designer.cs">
       <DependentUpon>TalentsoftToolsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TalentsoftToolsForm.FirstTab.cs">
+    <Compile Include="TalentsoftToolsForm.NotificationsTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TalentsoftToolsForm.ThirdTab.cs">
+    <Compile Include="TalentsoftToolsForm.ProcessTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TalentsoftToolsForm.DashboardTab.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="TalentsoftToolsPlugin.cs" />
@@ -140,7 +144,7 @@
     <None Include="packages.config" />
     <None Include="Properties\DataSources\BranchDto.datasource" />
     <None Include="Resources\Arrow_Direction_Move_Next_Forward_Right.png" />
-    <Compile Include="TalentsoftToolsForm.SecondTab.cs">
+    <Compile Include="TalentsoftToolsForm.BranchesTab.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

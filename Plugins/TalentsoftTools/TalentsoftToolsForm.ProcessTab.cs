@@ -257,6 +257,8 @@ namespace TalentsoftTools
                 PbxLoadingProcess.Visible = false;
                 TbcMain.TabPages[2].Enabled = true;
                 LoadLocalBranches();
+                InitLocalBranchTab();
+                InitNotificationsTab();
                 UpdateNotifications();
             }
         }

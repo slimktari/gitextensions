@@ -1,29 +1,27 @@
-﻿using GitUIPluginInterfaces;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using TalentsoftTools.Helpers;
-
-namespace TalentsoftTools
+﻿namespace TalentsoftTools
 {
+    using System;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Linq;
+    using System.Windows.Forms;
+    using GitUIPluginInterfaces;
+    using Helpers;
+
     public partial class TalentsoftToolsForm
     {
         #region Methods
 
-        public int UnmergedBranchesCounter { get; set; }
+        public int BranchesUpToDateCounter { get; set; }
         public int BranchesNeedToUpdateCounter { get; set; }
         public BindingList<BranchDto> LbrGridBranches { get; set; }
 
-        public void LoadLocalBranches()
+        public void InitLocalBranchTab()
         {
-            LocalBranches = GitHelper.GetLocalsBranches();
             string[] unmerged = GitHelper.GetUnmergerBranches();
             LbrGridBranches = new BindingList<BranchDto>();
             BranchesNeedToUpdateCounter = 0;
-            UnmergedBranchesCounter = 0;
+            BranchesUpToDateCounter = 0;
             foreach (var branchName in LocalBranches.Select(b => b.Name))
             {
                 string[] info = GitHelper.GetBranchInfo(branchName);
@@ -33,9 +31,9 @@ namespace TalentsoftTools
                 {
                     BranchesNeedToUpdateCounter++;
                 }
-                if (!isMerged)
+                else
                 {
-                    UnmergedBranchesCounter++;
+                    BranchesUpToDateCounter++;
                 }
                 var item = new BranchDto
                 {
@@ -50,41 +48,25 @@ namespace TalentsoftTools
                 }
                 LbrGridBranches.Add(item);
             }
+
+            DgvLocalsBranches.DataSource = LbrGridBranches;
+
+            //DgvLocalsBranches.RefreshEdit();
         }
 
-        public void SetLocalBranchesGrid()
+        public void UpdateLocalBranchBackColor()
         {
-            string[] branchesMonitors = new string[0];
-            if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.BranchesToMonitor[_settings]))
-            {
-                branchesMonitors = TalentsoftToolsPlugin.BranchesToMonitor[_settings].Split(';');
-            }
-            DgvLocalsBranches.DataSource = LbrGridBranches;
             foreach (DataGridViewRow row in DgvLocalsBranches.Rows)
             {
-                if (row.Cells[1].Value != null)
+                if (row.Cells[4].Value != null && row.Cells[4].Value.ToString() == "True")
                 {
-                    row.Cells[0].Value = branchesMonitors.Contains(row.Cells[1].Value);
-                }
-                if (row.Cells[5].Value != null && row.Cells[5].Value.ToString() == "True")
-                {
-                    row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.Red };
-                }
-                else if (row.Cells[4].Value != null && row.Cells[4].Value.ToString() == "False")
-                {
-                    row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.Coral };
+                    row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Generic.ColorBranchNeedUpdate };
                 }
                 else
                 {
-                    row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Color.MediumSeaGreen };
+                    row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Generic.ColorBranchUpToDate };
                 }
             }
-            DgvLocalsBranches.RefreshEdit();
-        }
-
-        private void InitLocalBranchTab()
-        {
-            SetLocalBranchesGrid();
         }
 
         public void UpdateNotifications()
@@ -102,17 +84,17 @@ namespace TalentsoftTools
                 LblNeedToUpdate.Text = BranchesNeedToUpdateCounter + " branches must be updated.";
             }
 
-            if (UnmergedBranchesCounter == 0)
+            if (BranchesUpToDateCounter == 0)
             {
-                LblUnmergedBranches.Text = "All branches are merged.";
+                LblUnmergedBranches.Text = "All branches are outdated.";
             }
-            else if (UnmergedBranchesCounter == 1)
+            else if (BranchesUpToDateCounter == 1)
             {
-                LblUnmergedBranches.Text = "One branch is not merged.";
+                LblUnmergedBranches.Text = "One branch is up to date.";
             }
             else
             {
-                LblUnmergedBranches.Text = UnmergedBranchesCounter + " branches are not merged.";
+                LblUnmergedBranches.Text = BranchesUpToDateCounter + " branches are up to date.";
             }
         }
 
@@ -121,7 +103,7 @@ namespace TalentsoftTools
             foreach (DataGridViewRow row in DgvLocalsBranches.SelectedRows)
             {
                 string branchToDelete = row.Cells[1].Value.ToString();
-                bool isMerged = Convert.ToBoolean(row.Cells[4].Value);
+                bool isMerged = Convert.ToBoolean(row.Cells[3].Value);
                 CmdResult gitResult = new CmdResult();
                 if (!isMerged)
                 {
@@ -146,7 +128,8 @@ namespace TalentsoftTools
             }
             GitHelper.NotifyGitExtensions();
             LoadLocalBranches();
-            SetLocalBranchesGrid();
+            InitLocalBranchTab();
+            InitNotificationsTab();
             UpdateNotifications();
         }
 

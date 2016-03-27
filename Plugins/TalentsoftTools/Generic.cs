@@ -1,4 +1,6 @@
-﻿namespace TalentsoftTools
+﻿using System.Drawing;
+
+namespace TalentsoftTools
 {
     public class Generic
     {
@@ -7,6 +9,9 @@
             Build = 0,
             Rebuild = 1
         }
+
+        public static Color ColorBranchUpToDate = Color.MediumSeaGreen;
+        public static Color ColorBranchNeedUpdate = Color.Tomato;
 
         public const string PluginName = "Talentsoft Tools";
         public const string DefaultDatabaseUserName = "ASPNET";

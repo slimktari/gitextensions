@@ -19,7 +19,6 @@ namespace TalentsoftTools
 
         #endregion
 
-
         public TalentsoftToolsForm(ISettingsSource settings)
         {
             IsProcessAborted = true;
@@ -35,10 +34,11 @@ namespace TalentsoftTools
             Application.DoEvents();
             SplashScreen.SetStatus("Initialize component");
             InitializeComponent();
+            Text = Generic.PluginName;
+            PbxBranchesMustUpdate.BackColor = Generic.ColorBranchNeedUpdate;
+            PbxBranchesUpToDate.BackColor = Generic.ColorBranchUpToDate;
             Translate();
             SplashScreen.SetStatus("Fetching remote");
-            //_gitUiCommands.GitModule.RunGitCmdResult("fetch -q -n --all");
-            //_gitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
             GitHelper.FetchAll();
             GitHelper.NotifyGitExtensions();
             SplashScreen.SetStatus("Loading solutions files");
@@ -48,16 +48,27 @@ namespace TalentsoftTools
             ResetControls();
             SplashScreen.SetStatus("Loading locals branches informations");
             LoadLocalBranches();
+            InitLocalBranchTab();
+            InitNotificationsTab();
             UpdateNotifications();
             SplashScreen.CloseForm();
+        }
+
+        public void LoadLocalBranches()
+        {
+            LocalBranches = GitHelper.GetLocalsBranches();
         }
 
         void TbcMainSelectedIndexChanged(object sender, EventArgs e)
         {
             if (TbcMain.SelectedIndex == 1)
             {
-                InitLocalBranchTab();
+                UpdateLocalBranchBackColor();
             }
+            //if (TbcMain.SelectedIndex == 2)
+            //{
+            //    UpdateMonitorBranchBackColor();
+            //}
         }
 
         void TalentsoftToolsFormClosing(object sender, FormClosingEventArgs e)
@@ -86,31 +97,11 @@ namespace TalentsoftTools
             }
         }
 
-        private void PbxUnmergedBranchesClick(object sender, EventArgs e)
+        private void PbxBranchesUpToDateClick(object sender, EventArgs e)
         {
             if (TbcMain.Enabled)
             {
-                TbcMain.SelectedIndex = 1;
-            }
-        }
-
-        private void DgvLocalsBranches_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == 0 && e.RowIndex != -1)
-            {
-                var checkBoxCell = (DataGridViewCheckBoxCell)DgvLocalsBranches.Rows[DgvLocalsBranches.CurrentRow.Index].Cells[0];
-                bool isChecked = checkBoxCell.Value.ToString() == "False";
-                List<string> branchesMonitors = TalentsoftToolsPlugin.BranchesToMonitor[_settings].Split(';').ToList();
-                string branchName = DgvLocalsBranches[1, e.RowIndex].Value.ToString();
-                if (isChecked && branchesMonitors.All(x => x != DgvLocalsBranches[1, e.RowIndex].Value.ToString()))
-                {
-                    branchesMonitors.Add(branchName);
-                }
-                if (!isChecked && branchesMonitors.Any(x => x == branchName))
-                {
-                    branchesMonitors.Remove(branchName);
-                }
-                TalentsoftToolsPlugin.BranchesToMonitor[_settings] = string.Join(";", branchesMonitors);
+                TbcMain.SelectedIndex = 2;
             }
         }
     }

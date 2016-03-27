@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using GitCommands;
 using GitUIPluginInterfaces;
 
 namespace TalentsoftTools
@@ -11,23 +12,21 @@ namespace TalentsoftTools
     {
         private ISettingsSource _settings;
         private IGitUICommands _gitCommands;
-        private List<string> _remotesDiff;
-        private string _currentItem;
+        private GitRef _currentItem;
 
-        public MonitorActionsForm(ISettingsSource settings, IGitUICommands gitCommands, List<string> remotesDiff, string branchName)
+        public MonitorActionsForm(ISettingsSource settings, IGitUICommands gitCommands, GitRef localBranch)
         {
             InitializeComponent();
             _settings = settings;
             _gitCommands = gitCommands;
-            _remotesDiff = remotesDiff;
-            _currentItem = branchName;
-            LblBranchName.Text = branchName;
-            CblRemotesList.DataSource = _remotesDiff;
-
-            CmdResult result = gitCommands.GitModule.RunGitCmdResult(string.Format("log -n 1 --pretty=format:\" % an : % cr\" {0}", branchName));
-            if (result.ExitCode == 0 && !string.IsNullOrWhiteSpace(result.StdOutput) && result.StdOutput.Contains(";"))
+            _currentItem = localBranch;
+            Text = string.Format("{0} Monitor", Generic.PluginName);
+            LblDescription.Text = localBranch.LocalName + LblDescription.Text;
+            LblInfosRemoteBranch.Text = string.Format("Tracking branch : {0}/{1}", _currentItem.TrackingRemote, _currentItem.LocalName);
+            CmdResult result = gitCommands.GitModule.RunGitCmdResult(string.Format("log -n 1 --pretty=format:\"Author : %an %cr\" {0}/{1}", _currentItem.TrackingRemote, _currentItem.LocalName));
+            if (result.ExitCode == 0 && !string.IsNullOrWhiteSpace(result.StdOutput))
             {
-                LblInfos.Text = result.StdOutput;
+                LblInfosAuthor.Text = result.StdOutput;
             }
         }
 
@@ -51,10 +50,9 @@ namespace TalentsoftTools
             {
                 RemoveFromMonitor();
             }
-            string selectedRemote = CblRemotesList.SelectedItem.ToString();
             Application.OpenForms[0].BeginInvoke((ThreadStart)delegate
             {
-                _gitCommands.StartRebaseDialog(selectedRemote);
+                _gitCommands.StartRebaseDialog(string.Format("{0}/{1}", _currentItem.TrackingRemote, _currentItem.LocalName));
             });
             DialogResult = DialogResult.OK;
             Close();
@@ -66,10 +64,9 @@ namespace TalentsoftTools
             {
                 RemoveFromMonitor();
             }
-            string selectedRemote = CblRemotesList.SelectedItem.ToString();
             Application.OpenForms[0].BeginInvoke((ThreadStart)delegate
             {
-                _gitCommands.StartMergeBranchDialog(selectedRemote);
+                _gitCommands.StartMergeBranchDialog(string.Format("{0}/{1}", _currentItem.TrackingRemote, _currentItem.LocalName));
             });
             DialogResult = DialogResult.OK;
             Close();
@@ -90,13 +87,13 @@ namespace TalentsoftTools
 
         void RemoveFromMonitor()
         {
-            TalentsoftToolsPlugin.BranchesToMonitor[_settings] = string.Join(";", TalentsoftToolsPlugin.BranchesToMonitor[_settings].Split(';').Where(x => !string.IsNullOrWhiteSpace(x)).Where(x => x != _currentItem).ToList());
+            TalentsoftToolsPlugin.BranchesToMonitor[_settings] = string.Join(";", TalentsoftToolsPlugin.BranchesToMonitor[_settings].Split(';').Where(x => !string.IsNullOrWhiteSpace(x)).Where(x => x != _currentItem.LocalName).ToList());
             foreach (var form in Application.OpenForms)
             {
                 var pluginForm = form as TalentsoftToolsForm;
                 if (pluginForm != null)
                 {
-                    pluginForm.SetLocalBranchesGrid();
+                    pluginForm.InitNotificationsTab();
                 }
             }
         }
