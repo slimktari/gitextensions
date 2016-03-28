@@ -1,19 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Concurrency;
-using System.Reactive.Linq;
-using System.Windows.Forms;
-using GitUIPluginInterfaces;
-using ResourceManager;
-
-namespace TalentsoftTools
+﻿namespace TalentsoftTools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reactive.Concurrency;
+    using System.Reactive.Linq;
+    using System.Threading;
+    using System.Windows.Forms;
+    using GitUIPluginInterfaces;
+    using ResourceManager;
+    using Helpers;
+
     public class TalentsoftToolsPlugin : GitPluginBase, IGitPluginForRepository
     {
-        public static BoolSetting IsDefaultExitAndStartVisualStudio =
-            new BoolSetting("Is default exit and start Visual Studio", true);
+        #region Settings
 
+        public static BoolSetting IsDefaultExitVisualStudio = new BoolSetting("Is default exit Visual Studio", true);
+        public static BoolSetting IsDefaultStartVisualStudio = new BoolSetting("Is default start Visual Studio", true);
         public static BoolSetting IsDefaultStashChanges = new BoolSetting("Is default stash changes", true);
         public static BoolSetting IsDefaultCheckoutBranch = new BoolSetting("Is default checkout branch", true);
         public static BoolSetting IsDefaultGitClean = new BoolSetting("Is default git clean", true);
@@ -22,71 +25,84 @@ namespace TalentsoftTools
         public static BoolSetting IsDefaultNugetRestore = new BoolSetting("Is default Nuget restore", true);
         public static BoolSetting IsDefaultBuildSolution = new BoolSetting("Is default build solution", true);
         public static BoolSetting IsDefaultRunUri = new BoolSetting("Is default execute URI", true);
-        public static StringSetting LocalUriWebApplication =
-            new StringSetting("Local URIs web application (separator ;)", string.Empty);
-        public static StringSetting DefaultSolutionFileName =
-            new StringSetting("Default solution file (Eg: TalentSoft.sln)", string.Empty);
-        public static StringSetting ExcludePatternGitClean = new StringSetting("Pattern exclude files Git Clean",
-            "*.mdf *.ldf");
+        public static BoolSetting IsDefaultPreBuildScripts = new BoolSetting("Is default PreBuild scripts", true);
+        public static BoolSetting IsDefaultPostBuildProcess = new BoolSetting("Is default PostBuild scripts", true);
+        public static StringSetting LocalUriWebApplication = new StringSetting("Local URIs web application (separator ;)", string.Empty);
+        public static StringSetting DefaultSolutionFileName = new StringSetting("Default solution file (Eg: TalentSoft.sln)", Generic.DefaultSolutionFileName);
+        public static StringSetting ExcludePatternGitClean = new StringSetting("Pattern exclude files Git Clean", Generic.DefaultGitCleanExcludePattern);
         public static StringSetting NewBranchPrefix = new StringSetting("Branch name prefix", string.Empty);
         public static StringSetting PreBuildBatch = new StringSetting("Pre-Build batch (separator ;)", string.Empty);
         public static StringSetting PostBuildBatch = new StringSetting("Post-Build batch (separator ;)", string.Empty);
-        public static StringSetting DatabaseConnectionParams = new StringSetting("Database connection parameters",
-            @"Data Source=.;User ID=ASPNET;Password=aspasp;RelocateDataFilePath=C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\DATA\");
-        public static StringSetting DatabasesToRestore = new StringSetting("Databases to restore",
-            @"Initial Catalog=TSDEV;BackupFilePath=;");
-        public static NumberSetting<int> CheckInterval =
-                    new NumberSetting<int>("Check branch if update every (seconds) - set to 0 to disable", 0);
-
-        private bool _isMonitorRunnig;
-        private IDisposable cancellationToken;
-        private static IGitUICommands currentGitUiCommands;
+        public static StringSetting DatabaseServerName = new StringSetting("Database server name", Generic.DefaultDatabaseServer);
+        public static StringSetting DatabaseUserName = new StringSetting("Database user name", Generic.DefaultDatabaseUserName);
+        public static StringSetting DatabasePassword = new StringSetting("Database password", Generic.DefaultDatabasePassword);
+        public static StringSetting DatabaseRelocateFile = new StringSetting("Database relocate file", Generic.DefaultDatabaseRelocateFilePath);
+        public static StringSetting DatabasesToRestore = new StringSetting("Databases to restore", @"Initial Catalog=TSDEV;BackupFilePath=;");
+        public static NumberSetting<int> CheckInterval = new NumberSetting<int>("Check branch if update every (seconds) - set to 0 to disable", Generic.DisableValueCheckMonitoInterval);
         public static StringSetting BranchesToMonitor = new StringSetting("Branches to monitor", string.Empty);
 
+
+        #endregion
+
+        private bool _isMonitorRunnig;
+        private IDisposable _cancellationToken;
+        private static IGitUICommands _currentGitUiCommands;
+        public static GitUIBaseEventArgs GitUiCommands;
+        public static ISettingsSource PluginSettings;
+
+        /// <summary>
+        /// Constructor of plugin.
+        /// </summary>
         public TalentsoftToolsPlugin()
         {
-            Description = "Talentsoft tools";
+            Description = Generic.PluginName;
             //Translate();
         }
 
 
+        /// <summary>
+        /// When register plugin. Before launching plugin and after choose repository.
+        /// </summary>
+        /// <param name="gitUiCommands">The <see cref="IGitUICommands"/>.</param>
         public override void Register(IGitUICommands gitUiCommands)
         {
             base.Register(gitUiCommands);
-            currentGitUiCommands = gitUiCommands;
-            currentGitUiCommands.PostSettings += OnPostSettings;
+            _currentGitUiCommands = gitUiCommands;
+            PluginSettings = Settings;
+            _currentGitUiCommands.PostSettings += OnPostSettings;
             RecreateObservable();
         }
 
+        /// <summary>
+        /// When launching plugin.
+        /// </summary>
+        /// <param name="gitUiCommands">The <see cref="GitUIBaseEventArgs"/>.</param>
+        /// <returns></returns>
         public override bool Execute(GitUIBaseEventArgs gitUiCommands)
         {
-            using (var frm = new TalentsoftToolsForm(gitUiCommands, Settings))
+            GitUiCommands = gitUiCommands;
+            PluginSettings = Settings;
+            using (var frm = new TalentsoftToolsForm(Settings))
             {
                 frm.ShowDialog(gitUiCommands.OwnerForm);
                 return true;
             }
         }
 
-        public override IEnumerable<ISetting> GetSettings()
+        /// <summary>
+        /// When exit GitExtension or changes repository.
+        /// </summary>
+        /// <param name="gitUiCommands">The <see cref="IGitUICommands"/>.</param>
+        public override void Unregister(IGitUICommands gitUiCommands)
         {
-            yield return LocalUriWebApplication;
-            yield return PreBuildBatch;
-            yield return PostBuildBatch;
-            yield return DefaultSolutionFileName;
-            yield return NewBranchPrefix;
-            yield return ExcludePatternGitClean;
-            yield return DatabaseConnectionParams;
-            yield return DatabasesToRestore;
-            yield return CheckInterval;
-            yield return IsDefaultExitAndStartVisualStudio;
-            yield return IsDefaultStashChanges;
-            yield return IsDefaultCheckoutBranch;
-            yield return IsDefaultGitClean;
-            yield return IsDefaultStashPop;
-            yield return IsDefaultNugetRestore;
-            yield return IsDefaultBuildSolution;
-            yield return IsDefaultResetDatabases;
-            yield return IsDefaultRunUri;
+            CancelBackgroundOperation();
+            if (_currentGitUiCommands != null)
+            {
+                _currentGitUiCommands.PostSettings -= OnPostSettings;
+                _currentGitUiCommands = null;
+            }
+
+            base.Unregister(gitUiCommands);
         }
 
         private void OnPostSettings(object sender, GitUIPostActionEventArgs e)
@@ -98,21 +114,21 @@ namespace TalentsoftTools
         {
             CancelBackgroundOperation();
             int fetchInterval = CheckInterval[Settings];
-            IGitModule gitModule = currentGitUiCommands.GitModule;
+            IGitModule gitModule = _currentGitUiCommands.GitModule;
             if (fetchInterval > 0 && gitModule.IsValidGitWorkingDir())
             {
-                cancellationToken =
+                _cancellationToken =
                     Observable.Timer(TimeSpan.FromSeconds(Math.Max(5, fetchInterval)))
                         .SkipWhile(
-                            i => gitModule.IsRunningGitProcess() || _isMonitorRunnig || CheckInterval[Settings] == 0)
+                            i => gitModule.IsRunningGitProcess() || _isMonitorRunnig || CheckInterval[Settings] == Generic.DisableValueCheckMonitoInterval)
                         .Repeat()
                         .ObserveOn(ThreadPoolScheduler.Instance)
                         .Subscribe(i =>
                         {
-                            if (currentGitUiCommands != null)
+                            if (_currentGitUiCommands != null)
                             {
-                                currentGitUiCommands.GitModule.RunGitCmdResult("fetch -q --all");
-                                currentGitUiCommands.RepoChangedNotifier.Notify();
+                                _currentGitUiCommands.GitModule.RunGitCmdResult("fetch -q --all");
+                                _currentGitUiCommands.RepoChangedNotifier.Notify();
                             }
                             MonitorTask();
                         });
@@ -132,10 +148,26 @@ namespace TalentsoftTools
                         List<string> remotes = NeedToUpdate(item);
                         if (remotes.Any())
                         {
-                            var resultFormDialog = new MonitorActionsForm(Settings, currentGitUiCommands, remotes, item).ShowDialog();
-                            if (resultFormDialog == DialogResult.OK)
+                            var localBranch = GitHelper.GetLocalsBranch(item, _currentGitUiCommands);
+                            if (!remotes.Contains(string.Format("{0}/{1}", localBranch.TrackingRemote, localBranch.LocalName)))
                             {
-                                break;
+                                continue;
+                            }
+                            DialogResult resultFormDialog = DialogResult.None;
+                            if (Application.OpenForms.Count > Generic.DisableValueCheckMonitoInterval)
+                            {
+                                IAsyncResult iSyncResult = Application.OpenForms[0].BeginInvoke((ThreadStart) delegate
+                                {
+                                    resultFormDialog =
+                                        new MonitorActionsForm(Settings, _currentGitUiCommands, localBranch).ShowDialog(
+                                            Application.OpenForms[0]);
+
+                                });
+                                iSyncResult.AsyncWaitHandle.WaitOne();
+                                if (resultFormDialog == DialogResult.OK)
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
@@ -146,30 +178,18 @@ namespace TalentsoftTools
 
         private void CancelBackgroundOperation()
         {
-            if (cancellationToken != null)
+            if (_cancellationToken != null)
             {
-                cancellationToken.Dispose();
-                cancellationToken = null;
+                _cancellationToken.Dispose();
+                _cancellationToken = null;
             }
-        }
-
-        public override void Unregister(IGitUICommands gitUiCommands)
-        {
-            CancelBackgroundOperation();
-            if (currentGitUiCommands != null)
-            {
-                currentGitUiCommands.PostSettings -= OnPostSettings;
-                currentGitUiCommands = null;
-            }
-
-            base.Unregister(gitUiCommands);
         }
 
         public List<string> NeedToUpdate(string brancheName)
         {
-            if (currentGitUiCommands != null)
+            if (_currentGitUiCommands != null)
             {
-                CmdResult gitResult = currentGitUiCommands.GitModule.RunGitCmdResult("show-ref " + brancheName);
+                CmdResult gitResult = _currentGitUiCommands.GitModule.RunGitCmdResult("show-ref " + brancheName);
                 if (gitResult.ExitCode == 0)
                 {
                     List<string> results = gitResult.StdOutput.SplitLines().Where(x => !string.IsNullOrWhiteSpace(x)).ToList();

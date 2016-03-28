@@ -44,20 +44,20 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Reactive.Core, Version=2.1.30214.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Rx-Core.2.1.30214.0\lib\Net45\System.Reactive.Core.dll</HintPath>
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=2.1.30214.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Rx-Interfaces.2.1.30214.0\lib\Net45\System.Reactive.Interfaces.dll</HintPath>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.Linq, Version=2.1.30214.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Rx-Linq.2.1.30214.0\lib\Net45\System.Reactive.Linq.dll</HintPath>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.PlatformServices, Version=2.1.30214.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Rx-PlatformServices.2.1.30214.0\lib\Net45\System.Reactive.PlatformServices.dll</HintPath>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Windows.Forms" />
@@ -71,8 +71,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DatabaseDto.cs" />
-    <Compile Include="DatabaseHelper.cs" />
-    <Compile Include="Helper.cs" />
+    <Compile Include="Generic.cs" />
+    <Compile Include="Helpers\DatabaseHelper.cs" />
+    <Compile Include="Helpers\GenericHelper.cs" />
+    <Compile Include="Helpers\GitHelper.cs" />
+    <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="MonitorActionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,10 +100,16 @@
     <Compile Include="TalentsoftToolsForm.Designer.cs">
       <DependentUpon>TalentsoftToolsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TalentsoftToolsForm.FirstTab.cs">
+    <Compile Include="TalentsoftToolsForm.NotificationsTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TalentsoftToolsForm.ThirdTab.cs">
+    <Compile Include="TalentsoftToolsForm.ProcessTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TalentsoftToolsForm.DashboardTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TalentsoftToolsForm.SettingsTab.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="TalentsoftToolsPlugin.cs" />
@@ -138,7 +147,7 @@
     <None Include="packages.config" />
     <None Include="Properties\DataSources\BranchDto.datasource" />
     <None Include="Resources\Arrow_Direction_Move_Next_Forward_Right.png" />
-    <Compile Include="TalentsoftToolsForm.SecondTab.cs">
+    <Compile Include="TalentsoftToolsForm.BranchesTab.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

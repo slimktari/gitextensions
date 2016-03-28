@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using GitUIPluginInterfaces;
-
-namespace TalentsoftTools
+﻿namespace TalentsoftTools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Windows.Forms;
+    using GitUIPluginInterfaces;
+    using Helpers;
+
     public partial class TalentsoftToolsForm
     {
         private void BtnDsbExitSolutionClick(object sender, EventArgs e)
         {
             PbxDsbLoadingAction.Visible = true;
             string message;
-            bool isExited = Helper.ExitVisualStudio(CblDsbSolutions.SelectedItem.ToString());
+            bool isExited = GenericHelper.ExitVisualStudio(CblDsbSolutions.SelectedItem.ToString());
             if (isExited)
             {
                 message = CblDsbSolutions.SelectedItem + " is exited !";
@@ -23,7 +24,7 @@ namespace TalentsoftTools
                 message = "Error when exiting " + CblDsbSolutions.SelectedItem + " !";
             }
             PbxDsbLoadingAction.Visible = false;
-            MessageBox.Show(message, "Talentsoft Tools", MessageBoxButtons.OK);
+            MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
         }
 
         private void BtnDsbBuildSolutionClick(object sender, EventArgs e)
@@ -43,7 +44,7 @@ namespace TalentsoftTools
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
             }));
-            if (string.IsNullOrWhiteSpace(Helper.Build(solutionFileFullPath, "Build")))
+            if (string.IsNullOrWhiteSpace(GenericHelper.Build(solutionFileFullPath, Generic.GenrateSolutionArguments.Build)))
             {
                 message = "Success of Building solution " + solutionFile;
             }
@@ -55,7 +56,7 @@ namespace TalentsoftTools
             {
                 TbcMain.Enabled = true;
                 PbxDsbLoadingAction.Visible = false;
-                MessageBox.Show(message, "Talentsoft Tools", MessageBoxButtons.OK);
+                MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
             }));
         }
 
@@ -76,7 +77,7 @@ namespace TalentsoftTools
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
             }));
-            if (Helper.RunCommandLine(new List<string>
+            if (GenericHelper.RunCommandLine(new List<string>
                 {
                     string.Format("nuget restore {0}", solutionFileFullPath)
                 }))
@@ -91,7 +92,7 @@ namespace TalentsoftTools
             {
                 TbcMain.Enabled = true;
                 PbxDsbLoadingAction.Visible = false;
-                MessageBox.Show(message, "Talentsoft Tools", MessageBoxButtons.OK);
+                MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
             }));
         }
 
@@ -112,7 +113,7 @@ namespace TalentsoftTools
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
             }));
-            if (string.IsNullOrWhiteSpace(Helper.Build(solutionFileFullPath, "ReBuild")))
+            if (string.IsNullOrWhiteSpace(GenericHelper.Build(solutionFileFullPath, Generic.GenrateSolutionArguments.Rebuild)))
             {
                 message = "Success of Rebuilding solution " + solutionFile;
             }
@@ -124,7 +125,7 @@ namespace TalentsoftTools
             {
                 TbcMain.Enabled = true;
                 PbxDsbLoadingAction.Visible = false;
-                MessageBox.Show(message, "Talentsoft Tools", MessageBoxButtons.OK);
+                MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
             }));
         }
 
@@ -133,7 +134,7 @@ namespace TalentsoftTools
             PbxDsbLoadingAction.Visible = true;
             string message;
             string solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
-            if (Helper.LaunchVisualStudio(solutionFileFullPath))
+            if (GenericHelper.LaunchVisualStudio(solutionFileFullPath))
             {
                 message = "Success of launching solution " + CblDsbSolutions.SelectedItem;
             }
@@ -142,11 +143,12 @@ namespace TalentsoftTools
                 message = "Error when launching solution " + CblDsbSolutions.SelectedItem;
             }
             PbxDsbLoadingAction.Visible = false;
-            MessageBox.Show(message, "Talentsoft Tools", MessageBoxButtons.OK);
+            MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
         }
 
         private void BtnDsbRestoreDatabasesClick(object sender, EventArgs e)
         {
+            Databases = DatabaseHelper.GetDatabasesFromSettings(TxbDsbDatabasesToRestore.Text);
             if (ValidateRestoreDatabasesFromDashboard())
             {
                 System.Threading.Tasks.Task.Factory.StartNew(RunDsbRestoreDatabases);
@@ -164,8 +166,8 @@ namespace TalentsoftTools
             foreach (var database in Databases)
             {
                 if (DatabaseHelper.RestoreDatabase(database.DatabaseName, database.BackupFilePath,
-                    database.ServerName, database.UserId, database.Password, database.PathToRelocate,
-                    database.PathToRelocate))
+                    TalentsoftToolsPlugin.DatabaseServerName[_settings], TalentsoftToolsPlugin.DatabaseUserName[_settings], TalentsoftToolsPlugin.DatabasePassword[_settings], TalentsoftToolsPlugin.DatabaseRelocateFile[_settings],
+                    TalentsoftToolsPlugin.DatabaseRelocateFile[_settings]))
                 {
                     message.Append(string.Format("\r\nSuccess of the restoration {0} database.", database.DatabaseName));
                 }
@@ -178,15 +180,14 @@ namespace TalentsoftTools
             {
                 TbcMain.Enabled = true;
                 PbxDsbLoadingAction.Visible = false;
-                MessageBox.Show(message.ToString(), "Talentsoft Tools", MessageBoxButtons.OK);
+                MessageBox.Show(message.ToString(), Generic.PluginName, MessageBoxButtons.OK);
             }));
         }
 
         bool ValidateRestoreDatabasesFromDashboard()
         {
             string message = string.Empty;
-            Databases = Helper.GetDatabasesFromPameters(TalentsoftToolsPlugin.DatabaseConnectionParams[_settings], TxbDatabases.Text);
-            if (string.IsNullOrWhiteSpace(TxbDsbDatabases.Text) || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath)))
+            if (string.IsNullOrWhiteSpace(TxbDsbDatabasesToRestore.Text) || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath)))
             {
                 message = "Databases not correctly defined.";
             }
@@ -217,7 +218,7 @@ namespace TalentsoftTools
                     excludeCommand = string.Format(" -e=\"{0}\"", TxbDsbGitClean.Text);
                 }
             }));
-            CmdResult gitCleanResult = _gitUiCommands.GitModule.RunGitCmdResult(string.Format("clean -d -x -f{0}", excludeCommand));
+            CmdResult gitCleanResult = GitHelper.Clean(excludeCommand);
             if (gitCleanResult.ExitCode != 0)
             {
                 message = gitCleanResult.StdError;
@@ -230,21 +231,22 @@ namespace TalentsoftTools
             {
                 TbcMain.Enabled = true;
                 PbxDsbLoadingAction.Visible = false;
-                MessageBox.Show(message, "Talentsoft Tools", MessageBoxButtons.OK);
+                MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
             }));
         }
 
         private void BtnDsbFetchAllClick(object sender, EventArgs e)
         {
             PbxDsbLoadingAction.Visible = true;
-            CmdResult results = Helper.FetchAll(_gitUiCommands);
+            CmdResult results = GitHelper.FetchAll();
+            GitHelper.NotifyGitExtensions();
             if (results.ExitCode != 0)
             {
                 MessageBox.Show(results.StdError, "Error", MessageBoxButtons.OK);
             }
             else
             {
-                MessageBox.Show("Fetching success !", "Talentsoft tools", MessageBoxButtons.OK);
+                MessageBox.Show("Fetching success !", Generic.PluginName, MessageBoxButtons.OK);
             }
             PbxDsbLoadingAction.Visible = false;
         }
@@ -253,7 +255,7 @@ namespace TalentsoftTools
         {
             PbxDsbLoadingAction.Visible = true;
             string message;
-            bool isExited = Helper.ExitVisualStudio(string.Empty);
+            bool isExited = GenericHelper.ExitVisualStudio(string.Empty);
             if (isExited)
             {
                 message = "All Visual Studio instances are exited !";
@@ -263,7 +265,7 @@ namespace TalentsoftTools
                 message = "Error when exiting all Visual Studio instances !";
             }
             PbxDsbLoadingAction.Visible = false;
-            MessageBox.Show(message, "Talentsoft Tools", MessageBoxButtons.OK);
+            MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
         }
 
         private void BtnDsbStashChangesClick(object sender, EventArgs e)
@@ -273,7 +275,7 @@ namespace TalentsoftTools
 
         void RunStashChanges()
         {
-            bool canStash = Helper.IfChangedFiles(_gitUiCommands);
+            bool canStash = GitHelper.IfChangedFiles();
             if (!canStash)
             {
                 MessageBox.Show("There is no change to stash !", "Error", MessageBoxButtons.OK);
@@ -285,14 +287,14 @@ namespace TalentsoftTools
                     TbcMain.Enabled = false;
                     PbxDsbLoadingAction.Visible = true;
                 }));
-                CmdResult gitStashResult = _gitUiCommands.GitModule.RunGitCmdResult("stash --include-untracked");
+                CmdResult gitStashResult = GitHelper.StashChanges();
                 if (gitStashResult.ExitCode != 0)
                 {
                     MessageBox.Show(gitStashResult.StdError, "Error", MessageBoxButtons.OK);
                 }
                 else
                 {
-                    MessageBox.Show("Stash changes success", "Talentsoft Tools", MessageBoxButtons.OK);
+                    MessageBox.Show("Stash changes success", Generic.PluginName, MessageBoxButtons.OK);
                 }
                 Invoke((MethodInvoker)(() =>
                 {
@@ -309,7 +311,7 @@ namespace TalentsoftTools
 
         void RunStashPop()
         {
-            bool canStashPop = Helper.GetStashs(_gitUiCommands).Any();
+            bool canStashPop = GitHelper.GetStashs().Any();
             if (!canStashPop)
             {
                 MessageBox.Show("There is no stash to pop !", "Error", MessageBoxButtons.OK);
@@ -321,7 +323,7 @@ namespace TalentsoftTools
                     TbcMain.Enabled = false;
                     PbxDsbLoadingAction.Visible = true;
                 }));
-                CmdResult gitStashPopResult = _gitUiCommands.GitModule.RunGitCmdResult("stash pop");
+                CmdResult gitStashPopResult = GitHelper.StashPop();
                 if (gitStashPopResult.ExitCode != 0)
                 {
                     MessageBox.Show(gitStashPopResult.StdError, "Error", MessageBoxButtons.OK);
@@ -350,9 +352,9 @@ namespace TalentsoftTools
                 TbcMain.Enabled = false;
                 PbxDsbLoadingAction.Visible = true;
             }));
-            if (Helper.RunCommandLine(PreBuildFiles.ToList()))
+            if (GenericHelper.RunCommandLine(PreBuildFiles.ToList()))
             {
-                MessageBox.Show("Commands PreBuild success !", "Talentsoft Tools", MessageBoxButtons.OK);
+                MessageBox.Show("Commands PreBuild success !", Generic.PluginName, MessageBoxButtons.OK);
             }
             else
             {
@@ -377,9 +379,9 @@ namespace TalentsoftTools
                 TbcMain.Enabled = false;
                 PbxDsbLoadingAction.Visible = true;
             }));
-            if (Helper.RunCommandLine(PostBuildFiles.ToList()))
+            if (GenericHelper.RunCommandLine(PostBuildFiles.ToList()))
             {
-                MessageBox.Show("Commands PostBuild success !", "Talentsoft Tools", MessageBoxButtons.OK);
+                MessageBox.Show("Commands PostBuild success !", Generic.PluginName, MessageBoxButtons.OK);
             }
             else
             {
