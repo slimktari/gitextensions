@@ -71,7 +71,7 @@
 
             int checkInterval;
             int.TryParse(TxbSettingsNotificationsCheckIntrerval.Text, out checkInterval);
-            CbxSettingsNotificationsEnable.Checked = checkInterval > 0;
+            CbxSettingsNotificationsEnable.Checked = checkInterval > Generic.DisableValueCheckMonitoInterval;
             TxbSettingsNotificationsCheckIntrerval.Enabled = checkInterval > 0;
             TxbSettingsNotificationsMonitorBranches.Enabled = checkInterval > 0;
         }
@@ -89,7 +89,7 @@
             }
             if (!IsProcessAborted)
             {
-                MessageBox.Show("Unable to save plugin settings.\r\n.The process is running.", Generic.PluginName, MessageBoxButtons.OK);
+                MessageBox.Show("Unable to save plugin settings.\r\nThe process is running.", Generic.PluginName, MessageBoxButtons.OK);
                 return;
             }
 
@@ -125,16 +125,16 @@
 
         private void CbxSettingsNotificationsEnableCheckedChanged(object sender, EventArgs e)
         {
-            if (CbxSettingsNotificationsEnable.Checked && TxbSettingsNotificationsCheckIntrerval.Text == "0")
+            if (CbxSettingsNotificationsEnable.Checked && TxbSettingsNotificationsCheckIntrerval.Text == Generic.DisableValueCheckMonitoInterval.ToString())
             {
                 TxbSettingsNotificationsCheckIntrerval.Enabled = true;
-                TxbSettingsNotificationsCheckIntrerval.Text = "60";
+                TxbSettingsNotificationsCheckIntrerval.Text = Generic.DefaultValueCheckMonitoInterval.ToString();
                 TxbSettingsNotificationsMonitorBranches.Enabled = true;
             }
             else if (!CbxSettingsNotificationsEnable.Checked)
             {
                 TxbSettingsNotificationsCheckIntrerval.Enabled = false;
-                TxbSettingsNotificationsCheckIntrerval.Text = "0";
+                TxbSettingsNotificationsCheckIntrerval.Text = Generic.DisableValueCheckMonitoInterval.ToString();
                 TxbSettingsNotificationsMonitorBranches.Enabled = false;
             }
         }

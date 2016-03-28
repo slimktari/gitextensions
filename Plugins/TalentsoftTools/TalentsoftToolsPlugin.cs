@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Concurrency;
-using System.Reactive.Linq;
-using System.Threading;
-using System.Windows.Forms;
-using GitUIPluginInterfaces;
-using ResourceManager;
-using TalentsoftTools.Helpers;
-
-namespace TalentsoftTools
+﻿namespace TalentsoftTools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reactive.Concurrency;
+    using System.Reactive.Linq;
+    using System.Threading;
+    using System.Windows.Forms;
+    using GitUIPluginInterfaces;
+    using ResourceManager;
+    using Helpers;
+
     public class TalentsoftToolsPlugin : GitPluginBase, IGitPluginForRepository
     {
         #region Settings
@@ -28,17 +28,17 @@ namespace TalentsoftTools
         public static BoolSetting IsDefaultPreBuildScripts = new BoolSetting("Is default PreBuild scripts", true);
         public static BoolSetting IsDefaultPostBuildProcess = new BoolSetting("Is default PostBuild scripts", true);
         public static StringSetting LocalUriWebApplication = new StringSetting("Local URIs web application (separator ;)", string.Empty);
-        public static StringSetting DefaultSolutionFileName = new StringSetting("Default solution file (Eg: TalentSoft.sln)", string.Empty);
-        public static StringSetting ExcludePatternGitClean = new StringSetting("Pattern exclude files Git Clean", "*.mdf *.ldf");
+        public static StringSetting DefaultSolutionFileName = new StringSetting("Default solution file (Eg: TalentSoft.sln)", Generic.DefaultSolutionFileName);
+        public static StringSetting ExcludePatternGitClean = new StringSetting("Pattern exclude files Git Clean", Generic.DefaultGitCleanExcludePattern);
         public static StringSetting NewBranchPrefix = new StringSetting("Branch name prefix", string.Empty);
         public static StringSetting PreBuildBatch = new StringSetting("Pre-Build batch (separator ;)", string.Empty);
         public static StringSetting PostBuildBatch = new StringSetting("Post-Build batch (separator ;)", string.Empty);
-        public static StringSetting DatabaseServerName = new StringSetting("Database server name", ".");
-        public static StringSetting DatabaseUserName = new StringSetting("Database user name", "ASPNET");
-        public static StringSetting DatabasePassword = new StringSetting("Database password", "aspasp");
-        public static StringSetting DatabaseRelocateFile = new StringSetting("Database relocate file", @"C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\DATA\");
+        public static StringSetting DatabaseServerName = new StringSetting("Database server name", Generic.DefaultDatabaseServer);
+        public static StringSetting DatabaseUserName = new StringSetting("Database user name", Generic.DefaultDatabaseUserName);
+        public static StringSetting DatabasePassword = new StringSetting("Database password", Generic.DefaultDatabasePassword);
+        public static StringSetting DatabaseRelocateFile = new StringSetting("Database relocate file", Generic.DefaultDatabaseRelocateFilePath);
         public static StringSetting DatabasesToRestore = new StringSetting("Databases to restore", @"Initial Catalog=TSDEV;BackupFilePath=;");
-        public static NumberSetting<int> CheckInterval = new NumberSetting<int>("Check branch if update every (seconds) - set to 0 to disable", 0);
+        public static NumberSetting<int> CheckInterval = new NumberSetting<int>("Check branch if update every (seconds) - set to 0 to disable", Generic.DisableValueCheckMonitoInterval);
         public static StringSetting BranchesToMonitor = new StringSetting("Branches to monitor", string.Empty);
 
 
@@ -58,32 +58,6 @@ namespace TalentsoftTools
             Description = Generic.PluginName;
             //Translate();
         }
-
-        /// <summary>
-        /// Lets showing parameters in GitExtensions settings view.
-        /// </summary>
-        /// <returns></returns>
-        //public override IEnumerable<ISetting> GetSettings()
-        //{
-        //    //yield return LocalUriWebApplication;
-        //    //yield return PreBuildBatch;
-        //    //yield return PostBuildBatch;
-        //    //yield return DefaultSolutionFileName;
-        //    //yield return NewBranchPrefix;
-        //    //yield return ExcludePatternGitClean;
-        //    //yield return DatabaseConnectionParams;
-        //    //yield return DatabasesToRestore;
-        //    //yield return CheckInterval;
-        //    //yield return IsDefaultExitVisualStudio;
-        //    //yield return IsDefaultStashChanges;
-        //    //yield return IsDefaultCheckoutBranch;
-        //    //yield return IsDefaultGitClean;
-        //    //yield return IsDefaultStashPop;
-        //    //yield return IsDefaultNugetRestore;
-        //    //yield return IsDefaultBuildSolution;
-        //    //yield return IsDefaultResetDatabases;
-        //    //yield return IsDefaultRunUri;
-        //}
 
 
         /// <summary>
@@ -146,7 +120,7 @@ namespace TalentsoftTools
                 _cancellationToken =
                     Observable.Timer(TimeSpan.FromSeconds(Math.Max(5, fetchInterval)))
                         .SkipWhile(
-                            i => gitModule.IsRunningGitProcess() || _isMonitorRunnig || CheckInterval[Settings] == 0)
+                            i => gitModule.IsRunningGitProcess() || _isMonitorRunnig || CheckInterval[Settings] == Generic.DisableValueCheckMonitoInterval)
                         .Repeat()
                         .ObserveOn(ThreadPoolScheduler.Instance)
                         .Subscribe(i =>
@@ -180,7 +154,7 @@ namespace TalentsoftTools
                                 continue;
                             }
                             DialogResult resultFormDialog = DialogResult.None;
-                            if (Application.OpenForms.Count > 0)
+                            if (Application.OpenForms.Count > Generic.DisableValueCheckMonitoInterval)
                             {
                                 IAsyncResult iSyncResult = Application.OpenForms[0].BeginInvoke((ThreadStart) delegate
                                 {

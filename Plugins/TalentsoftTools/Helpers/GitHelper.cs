@@ -107,6 +107,21 @@
         }
 
         /// <summary>
+        /// Gets branch informations from remote tracking.
+        /// </summary>
+        /// <param name="localBranch">Local branch.</param>
+        /// <returns>List of branch informations.</returns>
+        public static string[] GetBranchInfoFromRemote(GitRef localBranch)
+        {
+            CmdResult result = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("log -n 1 --pretty=format:\" % an;% cr\" {0}/{1}", localBranch.TrackingRemote, localBranch.LocalName));
+            if (result.ExitCode == 0 && !string.IsNullOrWhiteSpace(result.StdOutput) && result.StdOutput.Contains(";"))
+            {
+                return result.StdOutput.Split(';');
+            }
+            return new string[0];
+        }
+
+        /// <summary>
         /// Gets all branches.
         /// </summary>
         /// <param name="iGitUiCommands">The <see cref="IGitUICommands"/>.</param>

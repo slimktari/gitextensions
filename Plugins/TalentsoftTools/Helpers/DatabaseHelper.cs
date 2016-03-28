@@ -29,7 +29,7 @@
             }
             if (string.IsNullOrWhiteSpace(serverName))
             {
-                serverName = ".";
+                serverName = Generic.DefaultDatabaseServer;
             }
             if (string.IsNullOrWhiteSpace(userName))
             {

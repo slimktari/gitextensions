@@ -23,6 +23,7 @@ namespace TalentsoftTools
 
         public TalentsoftToolsForm(ISettingsSource settings)
         {
+            var d = GitCommandHelpers.MergedBranches();
             IsProcessAborted = true;
             _settings = settings;
             WorkingDirectory = TalentsoftToolsPlugin.GitUiCommands.GitModule.WorkingDir;
@@ -135,6 +136,10 @@ namespace TalentsoftTools
                 CbxIsRestoreDatabases.Checked = TalentsoftToolsPlugin.IsDefaultResetDatabases[_settings].Value;
                 TxbProcessDatabasesToRestore.Text = TalentsoftToolsPlugin.DatabasesToRestore[_settings];
                 TxbDsbDatabasesToRestore.Text = TalentsoftToolsPlugin.DatabasesToRestore[_settings];
+                CbxIsRestoreDatabases.Enabled = true;
+                TxbProcessDatabasesToRestore.Enabled = true;
+                TxbDsbDatabasesToRestore.Enabled = true;
+                BtnDsbRestoreDatabases.Enabled = true;
             }
             else
             {
@@ -215,6 +220,15 @@ namespace TalentsoftTools
                     CbxIsPreBuild.Enabled = false;
                     BtnDsbRunScriptPrebuild.Enabled = false;
                 }
+                else
+                {
+                    CbxIsPreBuild.Enabled = true;
+                    BtnDsbRunScriptPrebuild.Enabled = true;
+                    if (TalentsoftToolsPlugin.IsDefaultPreBuildScripts[_settings].HasValue)
+                    {
+                        CbxIsPreBuild.Checked = TalentsoftToolsPlugin.IsDefaultPreBuildScripts[_settings].Value;
+                    }
+                }
             }
             else
             {
@@ -243,6 +257,15 @@ namespace TalentsoftTools
                     CbxIsPostBuild.Checked = false;
                     CbxIsPostBuild.Enabled = false;
                     BtnDsbRunScriptPostbuild.Enabled = false;
+                }
+                else
+                {
+                    CbxIsPostBuild.Enabled = true;
+                    BtnDsbRunScriptPostbuild.Enabled = true;
+                    if (TalentsoftToolsPlugin.IsDefaultPostBuildProcess[_settings].HasValue)
+                    {
+                        CbxIsPostBuild.Checked = TalentsoftToolsPlugin.IsDefaultPostBuildProcess[_settings].Value;
+                    }
                 }
             }
             else

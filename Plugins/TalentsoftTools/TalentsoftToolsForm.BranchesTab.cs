@@ -1,8 +1,9 @@
-﻿namespace TalentsoftTools
+﻿using GitCommands;
+
+namespace TalentsoftTools
 {
     using System;
     using System.ComponentModel;
-    using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
     using GitUIPluginInterfaces;
@@ -22,11 +23,11 @@
             LbrGridBranches = new BindingList<BranchDto>();
             BranchesNeedToUpdateCounter = 0;
             BranchesUpToDateCounter = 0;
-            foreach (var branchName in LocalBranches.Select(b => b.Name))
+            foreach (GitRef branch in LocalBranches)
             {
-                string[] info = GitHelper.GetBranchInfo(branchName);
-                bool isMerged = !unmerged.Contains(branchName);
-                bool needToUpdate = GitHelper.NeedToUpdate(branchName);
+                string[] info = GitHelper.GetBranchInfoFromRemote(branch);
+                bool isMerged = !unmerged.Contains(branch.LocalName);
+                bool needToUpdate = GitHelper.NeedToUpdate(branch.LocalName);
                 if (needToUpdate)
                 {
                     BranchesNeedToUpdateCounter++;
@@ -37,7 +38,7 @@
                 }
                 var item = new BranchDto
                 {
-                    Name = branchName,
+                    Name = branch.LocalName,
                     IsMerged = isMerged.ToString(),
                     NeedUpdate = needToUpdate.ToString()
                 };
@@ -48,10 +49,7 @@
                 }
                 LbrGridBranches.Add(item);
             }
-
             DgvLocalsBranches.DataSource = LbrGridBranches;
-
-            //DgvLocalsBranches.RefreshEdit();
         }
 
         public void UpdateLocalBranchBackColor()
@@ -129,7 +127,6 @@
             GitHelper.NotifyGitExtensions();
             LoadLocalBranches();
             InitLocalBranchTab();
-            InitNotificationsTab();
             UpdateNotifications();
         }
 

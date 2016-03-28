@@ -1396,9 +1396,9 @@
             this.CbxSettingsProcessBuild.AutoSize = true;
             this.CbxSettingsProcessBuild.Location = new System.Drawing.Point(156, 47);
             this.CbxSettingsProcessBuild.Name = "CbxSettingsProcessBuild";
-            this.CbxSettingsProcessBuild.Size = new System.Drawing.Size(134, 19);
+            this.CbxSettingsProcessBuild.Size = new System.Drawing.Size(110, 19);
             this.CbxSettingsProcessBuild.TabIndex = 22;
-            this.CbxSettingsProcessBuild.Text = "Run build or Rebuild";
+            this.CbxSettingsProcessBuild.Text = "Build or Rebuild";
             this.CbxSettingsProcessBuild.UseVisualStyleBackColor = true;
             // 
             // groupBox3
