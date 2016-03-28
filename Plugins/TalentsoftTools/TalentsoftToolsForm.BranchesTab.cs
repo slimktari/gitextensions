@@ -66,6 +66,7 @@
         {
             foreach (DataGridViewRow row in DgvLocalsBranches.Rows)
             {
+                row.Selected = false;
                 if (row.Cells[5].Value != null && row.Cells[5].Value.ToString() == "True")
                 {
                     row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Generic.ColorBranchObsolete };
@@ -98,7 +99,7 @@
 
             if (BranchesObsoletesCounter == 0)
             {
-                LblBranchesObsoletes.Text = "0 obsoletes branches.";
+                LblBranchesObsoletes.Text = "0 obsolete branch.";
             }
             else if (BranchesObsoletesCounter == 1)
             {

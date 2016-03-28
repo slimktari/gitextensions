@@ -79,7 +79,7 @@
             {
                 UpdateLocalBranchBackColor();
             }
-            if (TbcMain.SelectedIndex == 1)
+            if (TbcMain.SelectedIndex == 2)
             {
                 InitNotificationsTab();
             }

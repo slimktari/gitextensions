@@ -1,7 +1,7 @@
-﻿using System.Drawing;
-
-namespace TalentsoftTools
+﻿namespace TalentsoftTools
 {
+    using System.Drawing;
+
     public class Generic
     {
         public enum GenrateSolutionArguments
@@ -10,9 +10,13 @@ namespace TalentsoftTools
             Rebuild = 1
         }
 
-        public static Color ColorBranchUpToDate = Color.MediumSeaGreen;
+        public static Color ColorBranchUpToDate = Color.LimeGreen;
         public static Color ColorBranchNeedUpdate = Color.Tomato;
         public static Color ColorBranchObsolete = Color.Gray;
+        public static Color ColorProcessTaskFailed = Color.Red;
+        public static Color ColorProcessTaskSuccess = Color.LimeGreen;
+        public static Color ColorProcessTaskInProgress = Color.DodgerBlue;
+        public static Color ColorProcessTaskWarning = Color.Gold;
 
         public const string PluginName = "Talentsoft Tools";
         public const int DefaultValueCheckMonitoInterval = 60;

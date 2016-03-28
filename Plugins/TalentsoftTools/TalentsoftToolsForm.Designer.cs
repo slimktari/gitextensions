@@ -832,6 +832,7 @@
             // 
             this.DgvLocalsBranches.AllowUserToAddRows = false;
             this.DgvLocalsBranches.AllowUserToDeleteRows = false;
+            this.DgvLocalsBranches.AllowUserToOrderColumns = true;
             this.DgvLocalsBranches.AutoGenerateColumns = false;
             this.DgvLocalsBranches.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.DgvLocalsBranches.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -920,6 +921,7 @@
             // 
             this.DgvNtfNotifications.AllowUserToAddRows = false;
             this.DgvNtfNotifications.AllowUserToDeleteRows = false;
+            this.DgvNtfNotifications.AllowUserToOrderColumns = true;
             this.DgvNtfNotifications.AllowUserToResizeRows = false;
             this.DgvNtfNotifications.AutoGenerateColumns = false;
             this.DgvNtfNotifications.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
@@ -931,7 +933,7 @@
             this.DgvNtfNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DgvNtfNotifications.Location = new System.Drawing.Point(0, 0);
             this.DgvNtfNotifications.Name = "DgvNtfNotifications";
-            this.DgvNtfNotifications.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DgvNtfNotifications.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.DgvNtfNotifications.Size = new System.Drawing.Size(887, 622);
             this.DgvNtfNotifications.TabIndex = 1;
             this.DgvNtfNotifications.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvNtfNotificationsCellContentClick);

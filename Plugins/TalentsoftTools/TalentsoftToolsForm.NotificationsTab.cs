@@ -17,9 +17,11 @@
             DgvNtfNotifications.DataSource = LocalBranches.Select(x => new { Name = x.LocalName }).ToList();
             foreach (DataGridViewRow row in DgvNtfNotifications.Rows)
             {
+                row.Selected = false;
                 if (row.Cells[1].Value != null)
                 {
-                    row.Cells[0].Value  = branchesMonitors.Contains(row.Cells[1].Value);
+                    bool isMonitor = branchesMonitors.Contains(row.Cells[1].Value);
+                    row.Cells[0].Value = isMonitor;
                 }
             }
             DgvNtfNotifications.RefreshEdit();
