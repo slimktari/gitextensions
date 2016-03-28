@@ -239,11 +239,11 @@
         /// <summary>
         /// Test if branch need updates according to his remote.
         /// </summary>
-        /// <param name="brancheName">Branch name to verify.</param>
+        /// <param name="branchName">Branch name to verify.</param>
         /// <returns>True if need to update, otherwise false.</returns>
-        public static bool NeedToUpdate(string brancheName)
+        public static bool NeedToUpdate(string branchName)
         {
-            CmdResult gitResult = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("show-ref -s " + brancheName);
+            CmdResult gitResult = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("show-ref -s " + branchName);
             if (gitResult.ExitCode == 0)
             {
                 string[] results = gitResult.StdOutput.SplitLines();
@@ -252,6 +252,21 @@
                     return results.Any(x => !string.IsNullOrWhiteSpace(x) && x != results.FirstOrDefault());
                 }
                 return false;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Test if branch is exist.
+        /// </summary>
+        /// <param name="branchName">Branch name.</param>
+        /// <returns>True if branch exist.</returns>
+        public static bool IsBranchExist(string branchName)
+        {
+            CmdResult gitResult = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("rev-parse --verify " + branchName);
+            if (gitResult.ExitCode == 0)
+            {
+                return true;
             }
             return false;
         }

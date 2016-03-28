@@ -7,5 +7,6 @@
         public string LastUpdate { get; set; }
         public string IsMerged { get; set; }
         public string NeedUpdate { get; set; }
+        public string IsObsolete { get; set; }
     }
 }

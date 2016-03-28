@@ -1,11 +1,10 @@
-﻿using GitCommands;
-
-namespace TalentsoftTools
+﻿namespace TalentsoftTools
 {
     using System;
     using System.ComponentModel;
     using System.Linq;
     using System.Windows.Forms;
+    using GitCommands;
     using GitUIPluginInterfaces;
     using Helpers;
 
@@ -13,7 +12,7 @@ namespace TalentsoftTools
     {
         #region Methods
 
-        public int BranchesUpToDateCounter { get; set; }
+        public int BranchesObsoletesCounter { get; set; }
         public int BranchesNeedToUpdateCounter { get; set; }
         public BindingList<BranchDto> LbrGridBranches { get; set; }
 
@@ -22,30 +21,41 @@ namespace TalentsoftTools
             string[] unmerged = GitHelper.GetUnmergerBranches();
             LbrGridBranches = new BindingList<BranchDto>();
             BranchesNeedToUpdateCounter = 0;
-            BranchesUpToDateCounter = 0;
+            BranchesObsoletesCounter = 0;
             foreach (GitRef branch in LocalBranches)
             {
-                string[] info = GitHelper.GetBranchInfoFromRemote(branch);
+                bool isObsolete = !GitHelper.IsBranchExist(string.Format("{0}/{1}", branch.TrackingRemote, branch.LocalName));
                 bool isMerged = !unmerged.Contains(branch.LocalName);
-                bool needToUpdate = GitHelper.NeedToUpdate(branch.LocalName);
-                if (needToUpdate)
+                bool needToUpdate = false;
+                if (isObsolete)
                 {
-                    BranchesNeedToUpdateCounter++;
+                    BranchesObsoletesCounter++;
                 }
                 else
                 {
-                    BranchesUpToDateCounter++;
+                    needToUpdate = GitHelper.NeedToUpdate(branch.LocalName);
+                }
+                if (needToUpdate)
+                {
+                    BranchesNeedToUpdateCounter++;
                 }
                 var item = new BranchDto
                 {
                     Name = branch.LocalName,
                     IsMerged = isMerged.ToString(),
-                    NeedUpdate = needToUpdate.ToString()
+                    NeedUpdate = needToUpdate.ToString(),
+                    IsObsolete = isObsolete.ToString()
                 };
-                if (info.Count() == 2)
+
+                // Load author info.
+                if (!isObsolete)
                 {
-                    item.LastAuthor = info[0];
-                    item.LastUpdate = info[1];
+                    string[] info = GitHelper.GetBranchInfoFromRemote(branch);
+                    if (info.Count() == 2)
+                    {
+                        item.LastAuthor = info[0];
+                        item.LastUpdate = info[1];
+                    }
                 }
                 LbrGridBranches.Add(item);
             }
@@ -56,7 +66,11 @@ namespace TalentsoftTools
         {
             foreach (DataGridViewRow row in DgvLocalsBranches.Rows)
             {
-                if (row.Cells[4].Value != null && row.Cells[4].Value.ToString() == "True")
+                if (row.Cells[5].Value != null && row.Cells[5].Value.ToString() == "True")
+                {
+                    row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Generic.ColorBranchObsolete };
+                }
+                else if (row.Cells[4].Value != null && row.Cells[4].Value.ToString() == "True")
                 {
                     row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Generic.ColorBranchNeedUpdate };
                 }
@@ -82,17 +96,17 @@ namespace TalentsoftTools
                 LblNeedToUpdate.Text = BranchesNeedToUpdateCounter + " branches must be updated.";
             }
 
-            if (BranchesUpToDateCounter == 0)
+            if (BranchesObsoletesCounter == 0)
             {
-                LblUnmergedBranches.Text = "All branches are outdated.";
+                LblBranchesObsoletes.Text = "0 obsoletes branches.";
             }
-            else if (BranchesUpToDateCounter == 1)
+            else if (BranchesObsoletesCounter == 1)
             {
-                LblUnmergedBranches.Text = "One branch is up to date.";
+                LblBranchesObsoletes.Text = "One obsolete branch.";
             }
             else
             {
-                LblUnmergedBranches.Text = BranchesUpToDateCounter + " branches are up to date.";
+                LblBranchesObsoletes.Text = BranchesObsoletesCounter + " obsoletes branches.";
             }
         }
 
@@ -151,6 +165,19 @@ namespace TalentsoftTools
                         break;
                     case DialogResult.No:
                         break;
+                }
+            }
+        }
+
+        private void BtnLocalsBranchesSelectObsoletesClick(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in DgvLocalsBranches.Rows)
+            {
+                row.Selected = false;
+                if (row.Cells[5].Value != null && row.Cells[5].Value.ToString() == "True")
+                {
+                    row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Generic.ColorBranchObsolete };
+                    row.Selected = true;
                 }
             }
         }

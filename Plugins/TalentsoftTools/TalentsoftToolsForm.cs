@@ -1,7 +1,4 @@
-﻿
-using System.Threading;
-
-namespace TalentsoftTools
+﻿namespace TalentsoftTools
 {
     using System;
     using System.Collections.Generic;
@@ -50,7 +47,10 @@ namespace TalentsoftTools
             InitializeComponent();
             Text = Generic.PluginName;
             PbxBranchesMustUpdate.BackColor = Generic.ColorBranchNeedUpdate;
-            PbxBranchesUpToDate.BackColor = Generic.ColorBranchUpToDate;
+            PbxBranchesObsoletesBranches.BackColor = Generic.ColorBranchObsolete;
+            PbxLocalsBranchesObsoletes.BackColor = Generic.ColorBranchObsolete;
+            PbxLocalsBranchesMustBeUpdate.BackColor = Generic.ColorBranchNeedUpdate;
+            PbxLocalsBranchesUpToDate.BackColor = Generic.ColorBranchUpToDate;
             Translate();
             SplashScreen.SetStatus("Fetching remote");
             GitHelper.FetchAll();
@@ -79,7 +79,7 @@ namespace TalentsoftTools
             {
                 UpdateLocalBranchBackColor();
             }
-            if (TbcMain.SelectedIndex == 2)
+            if (TbcMain.SelectedIndex == 1)
             {
                 InitNotificationsTab();
             }

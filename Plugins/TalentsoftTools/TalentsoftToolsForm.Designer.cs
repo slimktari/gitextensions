@@ -76,13 +76,13 @@
             this.CbxIsBuildSolution = new System.Windows.Forms.CheckBox();
             this.TbpLocalsBranches = new System.Windows.Forms.TabPage();
             this.GbxLocalsBranchesActions = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.pictureBox14 = new System.Windows.Forms.PictureBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox13 = new System.Windows.Forms.PictureBox();
-            this.pictureBox12 = new System.Windows.Forms.PictureBox();
-            this.BtnDeleteWithRemote = new System.Windows.Forms.Button();
+            this.PbxLocalsBranchesObsoletes = new System.Windows.Forms.PictureBox();
+            this.BtnLocalsBranchesSelectObsoletes = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.PbxLocalsBranchesMustBeUpdate = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.PbxLocalsBranchesUpToDate = new System.Windows.Forms.PictureBox();
             this.BtnDeleteLocalsBranches = new System.Windows.Forms.Button();
             this.DgvLocalsBranches = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -90,6 +90,7 @@
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NeedUpdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsObsolete = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.branchDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.TpbNotifications = new System.Windows.Forms.TabPage();
             this.DgvNtfNotifications = new System.Windows.Forms.DataGridView();
@@ -168,8 +169,8 @@
             this.PbxDsbLoadingAction = new System.Windows.Forms.PictureBox();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GbxActualInfos = new System.Windows.Forms.GroupBox();
-            this.LblUnmergedBranches = new System.Windows.Forms.Label();
-            this.PbxBranchesUpToDate = new System.Windows.Forms.PictureBox();
+            this.LblBranchesObsoletes = new System.Windows.Forms.Label();
+            this.PbxBranchesObsoletesBranches = new System.Windows.Forms.PictureBox();
             this.LblNeedToUpdate = new System.Windows.Forms.Label();
             this.PbxBranchesMustUpdate = new System.Windows.Forms.PictureBox();
             this.LblActualRepository = new System.Windows.Forms.Label();
@@ -197,9 +198,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.TbpLocalsBranches.SuspendLayout();
             this.GbxLocalsBranchesActions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxLocalsBranchesObsoletes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxLocalsBranchesMustBeUpdate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxLocalsBranchesUpToDate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).BeginInit();
             this.TpbNotifications.SuspendLayout();
@@ -216,7 +217,7 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbxDsbLoadingAction)).BeginInit();
             this.GbxActualInfos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesUpToDate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesObsoletesBranches)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesMustUpdate)).BeginInit();
             this.SuspendLayout();
             // 
@@ -291,7 +292,7 @@
             this.CblSolutions.Location = new System.Drawing.Point(119, 28);
             this.CblSolutions.Name = "CblSolutions";
             this.CblSolutions.Size = new System.Drawing.Size(740, 23);
-            this.CblSolutions.TabIndex = 3;
+            this.CblSolutions.TabIndex = 0;
             // 
             // LblTargetSolutionFileNameLabel
             // 
@@ -331,7 +332,7 @@
             this.ActBranches.Location = new System.Drawing.Point(352, 30);
             this.ActBranches.Name = "ActBranches";
             this.ActBranches.Size = new System.Drawing.Size(505, 23);
-            this.ActBranches.TabIndex = 6;
+            this.ActBranches.TabIndex = 3;
             this.ActBranches.Values = null;
             // 
             // TxbNewBranchName
@@ -367,7 +368,7 @@
             this.RbtIsRemoteTargetBranch.Location = new System.Drawing.Point(117, 31);
             this.RbtIsRemoteTargetBranch.Name = "RbtIsRemoteTargetBranch";
             this.RbtIsRemoteTargetBranch.Size = new System.Drawing.Size(106, 19);
-            this.RbtIsRemoteTargetBranch.TabIndex = 1;
+            this.RbtIsRemoteTargetBranch.TabIndex = 2;
             this.RbtIsRemoteTargetBranch.TabStop = true;
             this.RbtIsRemoteTargetBranch.Text = "Remote branch";
             this.RbtIsRemoteTargetBranch.UseVisualStyleBackColor = true;
@@ -379,7 +380,7 @@
             this.RbtIsLocalTargetBranch.Location = new System.Drawing.Point(15, 31);
             this.RbtIsLocalTargetBranch.Name = "RbtIsLocalTargetBranch";
             this.RbtIsLocalTargetBranch.Size = new System.Drawing.Size(93, 19);
-            this.RbtIsLocalTargetBranch.TabIndex = 0;
+            this.RbtIsLocalTargetBranch.TabIndex = 1;
             this.RbtIsLocalTargetBranch.TabStop = true;
             this.RbtIsLocalTargetBranch.Text = "Local branch";
             this.RbtIsLocalTargetBranch.UseVisualStyleBackColor = true;
@@ -440,7 +441,7 @@
             this.CbxIsNugetRestore.Location = new System.Drawing.Point(181, 67);
             this.CbxIsNugetRestore.Name = "CbxIsNugetRestore";
             this.CbxIsNugetRestore.Size = new System.Drawing.Size(98, 19);
-            this.CbxIsNugetRestore.TabIndex = 37;
+            this.CbxIsNugetRestore.TabIndex = 12;
             this.CbxIsNugetRestore.Text = "Nuget restore";
             this.CbxIsNugetRestore.UseVisualStyleBackColor = true;
             // 
@@ -459,7 +460,7 @@
             this.TxbProcessDatabasesToRestore.Location = new System.Drawing.Point(142, 104);
             this.TxbProcessDatabasesToRestore.Name = "TxbProcessDatabasesToRestore";
             this.TxbProcessDatabasesToRestore.Size = new System.Drawing.Size(346, 23);
-            this.TxbProcessDatabasesToRestore.TabIndex = 35;
+            this.TxbProcessDatabasesToRestore.TabIndex = 17;
             // 
             // pictureBox8
             // 
@@ -479,7 +480,8 @@
             this.CbxIsRestoreDatabases.Location = new System.Drawing.Point(13, 106);
             this.CbxIsRestoreDatabases.Name = "CbxIsRestoreDatabases";
             this.CbxIsRestoreDatabases.Size = new System.Drawing.Size(120, 19);
-            this.CbxIsRestoreDatabases.TabIndex = 33;
+            this.CbxIsRestoreDatabases.TabIndex = 16;
+            this.CbxIsRestoreDatabases.Tag = "";
             this.CbxIsRestoreDatabases.Text = "Restore databases";
             this.CbxIsRestoreDatabases.UseVisualStyleBackColor = true;
             this.CbxIsRestoreDatabases.CheckedChanged += new System.EventHandler(this.CbxIsRestoreDatabasesCheckedChanged);
@@ -502,7 +504,7 @@
             this.CbxIsPreBuild.Location = new System.Drawing.Point(13, 67);
             this.CbxIsPreBuild.Name = "CbxIsPreBuild";
             this.CbxIsPreBuild.Size = new System.Drawing.Size(94, 19);
-            this.CbxIsPreBuild.TabIndex = 31;
+            this.CbxIsPreBuild.TabIndex = 11;
             this.CbxIsPreBuild.Text = "Run PreBuild";
             this.CbxIsPreBuild.UseVisualStyleBackColor = true;
             // 
@@ -524,7 +526,7 @@
             this.CbxIsPostBuild.Location = new System.Drawing.Point(532, 67);
             this.CbxIsPostBuild.Name = "CbxIsPostBuild";
             this.CbxIsPostBuild.Size = new System.Drawing.Size(103, 19);
-            this.CbxIsPostBuild.TabIndex = 29;
+            this.CbxIsPostBuild.TabIndex = 14;
             this.CbxIsPostBuild.Text = "Run post build";
             this.CbxIsPostBuild.UseVisualStyleBackColor = true;
             // 
@@ -533,7 +535,7 @@
             this.TxbUri.Location = new System.Drawing.Point(644, 104);
             this.TxbUri.Name = "TxbUri";
             this.TxbUri.Size = new System.Drawing.Size(215, 23);
-            this.TxbUri.TabIndex = 27;
+            this.TxbUri.TabIndex = 19;
             // 
             // pictureBox7
             // 
@@ -553,7 +555,7 @@
             this.CbxIsStashPop.Location = new System.Drawing.Point(688, 25);
             this.CbxIsStashPop.Name = "CbxIsStashPop";
             this.CbxIsStashPop.Size = new System.Drawing.Size(78, 19);
-            this.CbxIsStashPop.TabIndex = 25;
+            this.CbxIsStashPop.TabIndex = 10;
             this.CbxIsStashPop.Text = "Stash pop";
             this.CbxIsStashPop.UseVisualStyleBackColor = true;
             // 
@@ -622,7 +624,7 @@
             this.BtnStopProcess.Location = new System.Drawing.Point(7, 139);
             this.BtnStopProcess.Name = "BtnStopProcess";
             this.BtnStopProcess.Size = new System.Drawing.Size(118, 32);
-            this.BtnStopProcess.TabIndex = 17;
+            this.BtnStopProcess.TabIndex = 21;
             this.BtnStopProcess.Text = "Stop process";
             this.BtnStopProcess.UseVisualStyleBackColor = true;
             this.BtnStopProcess.Click += new System.EventHandler(this.BtnStopProcessClick);
@@ -635,7 +637,7 @@
             this.CbxLaunchUri.Location = new System.Drawing.Point(532, 106);
             this.CbxLaunchUri.Name = "CbxLaunchUri";
             this.CbxLaunchUri.Size = new System.Drawing.Size(86, 19);
-            this.CbxLaunchUri.TabIndex = 16;
+            this.CbxLaunchUri.TabIndex = 18;
             this.CbxLaunchUri.Text = "Launch URI";
             this.CbxLaunchUri.UseVisualStyleBackColor = true;
             // 
@@ -647,7 +649,7 @@
             this.CbxIsGitClean.Location = new System.Drawing.Point(532, 25);
             this.CbxIsGitClean.Name = "CbxIsGitClean";
             this.CbxIsGitClean.Size = new System.Drawing.Size(72, 19);
-            this.CbxIsGitClean.TabIndex = 14;
+            this.CbxIsGitClean.TabIndex = 9;
             this.CbxIsGitClean.Text = "Git clean";
             this.CbxIsGitClean.UseVisualStyleBackColor = true;
             // 
@@ -656,7 +658,7 @@
             this.BtnRunProcess.Location = new System.Drawing.Point(741, 139);
             this.BtnRunProcess.Name = "BtnRunProcess";
             this.BtnRunProcess.Size = new System.Drawing.Size(118, 32);
-            this.BtnRunProcess.TabIndex = 13;
+            this.BtnRunProcess.TabIndex = 20;
             this.BtnRunProcess.Text = "Run process";
             this.BtnRunProcess.UseVisualStyleBackColor = true;
             this.BtnRunProcess.Click += new System.EventHandler(this.BtnRunProcessClick);
@@ -669,7 +671,7 @@
             this.CbxIsExitVisualStudio.Location = new System.Drawing.Point(13, 25);
             this.CbxIsExitVisualStudio.Name = "CbxIsExitVisualStudio";
             this.CbxIsExitVisualStudio.Size = new System.Drawing.Size(115, 19);
-            this.CbxIsExitVisualStudio.TabIndex = 0;
+            this.CbxIsExitVisualStudio.TabIndex = 6;
             this.CbxIsExitVisualStudio.Text = "Exit Visual Studio";
             this.CbxIsExitVisualStudio.UseVisualStyleBackColor = true;
             // 
@@ -681,7 +683,7 @@
             this.CbxIsRunVisualStudio.Location = new System.Drawing.Point(688, 67);
             this.CbxIsRunVisualStudio.Name = "CbxIsRunVisualStudio";
             this.CbxIsRunVisualStudio.Size = new System.Drawing.Size(118, 19);
-            this.CbxIsRunVisualStudio.TabIndex = 12;
+            this.CbxIsRunVisualStudio.TabIndex = 15;
             this.CbxIsRunVisualStudio.Text = "Run Visual Studio";
             this.CbxIsRunVisualStudio.UseVisualStyleBackColor = true;
             // 
@@ -693,7 +695,7 @@
             this.CbxIsStashChanges.Location = new System.Drawing.Point(181, 25);
             this.CbxIsStashChanges.Name = "CbxIsStashChanges";
             this.CbxIsStashChanges.Size = new System.Drawing.Size(101, 19);
-            this.CbxIsStashChanges.TabIndex = 1;
+            this.CbxIsStashChanges.TabIndex = 7;
             this.CbxIsStashChanges.Text = "Stash changes";
             this.CbxIsStashChanges.UseVisualStyleBackColor = true;
             this.CbxIsStashChanges.CheckedChanged += new System.EventHandler(this.CbxIsStashChanges_CheckedChanged);
@@ -706,7 +708,7 @@
             this.CbxIsCheckoutBranch.Location = new System.Drawing.Point(326, 25);
             this.CbxIsCheckoutBranch.Name = "CbxIsCheckoutBranch";
             this.CbxIsCheckoutBranch.Size = new System.Drawing.Size(162, 19);
-            this.CbxIsCheckoutBranch.TabIndex = 2;
+            this.CbxIsCheckoutBranch.TabIndex = 8;
             this.CbxIsCheckoutBranch.Text = "Checkout / Create branch";
             this.CbxIsCheckoutBranch.UseVisualStyleBackColor = true;
             // 
@@ -718,7 +720,7 @@
             this.CbxIsBuildSolution.Location = new System.Drawing.Point(326, 67);
             this.CbxIsBuildSolution.Name = "CbxIsBuildSolution";
             this.CbxIsBuildSolution.Size = new System.Drawing.Size(99, 19);
-            this.CbxIsBuildSolution.TabIndex = 8;
+            this.CbxIsBuildSolution.TabIndex = 13;
             this.CbxIsBuildSolution.Text = "Build solution";
             this.CbxIsBuildSolution.UseVisualStyleBackColor = true;
             // 
@@ -736,13 +738,13 @@
             // 
             // GbxLocalsBranchesActions
             // 
-            this.GbxLocalsBranchesActions.Controls.Add(this.label4);
-            this.GbxLocalsBranchesActions.Controls.Add(this.pictureBox14);
-            this.GbxLocalsBranchesActions.Controls.Add(this.label3);
             this.GbxLocalsBranchesActions.Controls.Add(this.label1);
-            this.GbxLocalsBranchesActions.Controls.Add(this.pictureBox13);
-            this.GbxLocalsBranchesActions.Controls.Add(this.pictureBox12);
-            this.GbxLocalsBranchesActions.Controls.Add(this.BtnDeleteWithRemote);
+            this.GbxLocalsBranchesActions.Controls.Add(this.PbxLocalsBranchesObsoletes);
+            this.GbxLocalsBranchesActions.Controls.Add(this.BtnLocalsBranchesSelectObsoletes);
+            this.GbxLocalsBranchesActions.Controls.Add(this.label4);
+            this.GbxLocalsBranchesActions.Controls.Add(this.PbxLocalsBranchesMustBeUpdate);
+            this.GbxLocalsBranchesActions.Controls.Add(this.label3);
+            this.GbxLocalsBranchesActions.Controls.Add(this.PbxLocalsBranchesUpToDate);
             this.GbxLocalsBranchesActions.Controls.Add(this.BtnDeleteLocalsBranches);
             this.GbxLocalsBranchesActions.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.GbxLocalsBranchesActions.Location = new System.Drawing.Point(3, 545);
@@ -752,23 +754,51 @@
             this.GbxLocalsBranchesActions.TabStop = false;
             this.GbxLocalsBranchesActions.Text = "Actions";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(337, 36);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(110, 15);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Obsoletes branches";
+            // 
+            // PbxLocalsBranchesObsoletes
+            // 
+            this.PbxLocalsBranchesObsoletes.BackColor = System.Drawing.Color.Gray;
+            this.PbxLocalsBranchesObsoletes.Location = new System.Drawing.Point(311, 34);
+            this.PbxLocalsBranchesObsoletes.Name = "PbxLocalsBranchesObsoletes";
+            this.PbxLocalsBranchesObsoletes.Size = new System.Drawing.Size(20, 20);
+            this.PbxLocalsBranchesObsoletes.TabIndex = 11;
+            this.PbxLocalsBranchesObsoletes.TabStop = false;
+            // 
+            // BtnLocalsBranchesSelectObsoletes
+            // 
+            this.BtnLocalsBranchesSelectObsoletes.Location = new System.Drawing.Point(517, 29);
+            this.BtnLocalsBranchesSelectObsoletes.Name = "BtnLocalsBranchesSelectObsoletes";
+            this.BtnLocalsBranchesSelectObsoletes.Size = new System.Drawing.Size(176, 29);
+            this.BtnLocalsBranchesSelectObsoletes.TabIndex = 0;
+            this.BtnLocalsBranchesSelectObsoletes.Text = "Select obsoletes branches";
+            this.BtnLocalsBranchesSelectObsoletes.UseVisualStyleBackColor = true;
+            this.BtnLocalsBranchesSelectObsoletes.Click += new System.EventHandler(this.BtnLocalsBranchesSelectObsoletesClick);
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(320, 37);
+            this.label4.Location = new System.Drawing.Point(180, 36);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(125, 15);
             this.label4.TabIndex = 9;
             this.label4.Text = "Branches must update";
             // 
-            // pictureBox14
+            // PbxLocalsBranchesMustBeUpdate
             // 
-            this.pictureBox14.BackColor = System.Drawing.Color.Red;
-            this.pictureBox14.Location = new System.Drawing.Point(297, 34);
-            this.pictureBox14.Name = "pictureBox14";
-            this.pictureBox14.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox14.TabIndex = 8;
-            this.pictureBox14.TabStop = false;
+            this.PbxLocalsBranchesMustBeUpdate.BackColor = System.Drawing.Color.Tomato;
+            this.PbxLocalsBranchesMustBeUpdate.Location = new System.Drawing.Point(154, 34);
+            this.PbxLocalsBranchesMustBeUpdate.Name = "PbxLocalsBranchesMustBeUpdate";
+            this.PbxLocalsBranchesMustBeUpdate.Size = new System.Drawing.Size(20, 20);
+            this.PbxLocalsBranchesMustBeUpdate.TabIndex = 8;
+            this.PbxLocalsBranchesMustBeUpdate.TabStop = false;
             // 
             // label3
             // 
@@ -779,50 +809,22 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "Branches up to date";
             // 
-            // label1
+            // PbxLocalsBranchesUpToDate
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(177, 37);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(114, 15);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Unmerged branches";
-            // 
-            // pictureBox13
-            // 
-            this.pictureBox13.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.pictureBox13.Location = new System.Drawing.Point(13, 34);
-            this.pictureBox13.Name = "pictureBox13";
-            this.pictureBox13.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox13.TabIndex = 5;
-            this.pictureBox13.TabStop = false;
-            // 
-            // pictureBox12
-            // 
-            this.pictureBox12.BackColor = System.Drawing.Color.Coral;
-            this.pictureBox12.Location = new System.Drawing.Point(154, 34);
-            this.pictureBox12.Name = "pictureBox12";
-            this.pictureBox12.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox12.TabIndex = 4;
-            this.pictureBox12.TabStop = false;
-            // 
-            // BtnDeleteWithRemote
-            // 
-            this.BtnDeleteWithRemote.Enabled = false;
-            this.BtnDeleteWithRemote.Location = new System.Drawing.Point(741, 26);
-            this.BtnDeleteWithRemote.Name = "BtnDeleteWithRemote";
-            this.BtnDeleteWithRemote.Size = new System.Drawing.Size(135, 34);
-            this.BtnDeleteWithRemote.TabIndex = 3;
-            this.BtnDeleteWithRemote.Text = "Delete with remote";
-            this.BtnDeleteWithRemote.UseVisualStyleBackColor = true;
+            this.PbxLocalsBranchesUpToDate.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.PbxLocalsBranchesUpToDate.Location = new System.Drawing.Point(13, 34);
+            this.PbxLocalsBranchesUpToDate.Name = "PbxLocalsBranchesUpToDate";
+            this.PbxLocalsBranchesUpToDate.Size = new System.Drawing.Size(20, 20);
+            this.PbxLocalsBranchesUpToDate.TabIndex = 5;
+            this.PbxLocalsBranchesUpToDate.TabStop = false;
             // 
             // BtnDeleteLocalsBranches
             // 
-            this.BtnDeleteLocalsBranches.Location = new System.Drawing.Point(600, 26);
+            this.BtnDeleteLocalsBranches.Location = new System.Drawing.Point(699, 29);
             this.BtnDeleteLocalsBranches.Name = "BtnDeleteLocalsBranches";
-            this.BtnDeleteLocalsBranches.Size = new System.Drawing.Size(135, 34);
-            this.BtnDeleteLocalsBranches.TabIndex = 2;
-            this.BtnDeleteLocalsBranches.Text = "Delete";
+            this.BtnDeleteLocalsBranches.Size = new System.Drawing.Size(176, 29);
+            this.BtnDeleteLocalsBranches.TabIndex = 1;
+            this.BtnDeleteLocalsBranches.Text = "Delete selected branches";
             this.BtnDeleteLocalsBranches.UseVisualStyleBackColor = true;
             this.BtnDeleteLocalsBranches.Click += new System.EventHandler(this.BtnDeleteLocalsBranchesClick);
             // 
@@ -830,7 +832,6 @@
             // 
             this.DgvLocalsBranches.AllowUserToAddRows = false;
             this.DgvLocalsBranches.AllowUserToDeleteRows = false;
-            this.DgvLocalsBranches.AllowUserToResizeRows = false;
             this.DgvLocalsBranches.AutoGenerateColumns = false;
             this.DgvLocalsBranches.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.DgvLocalsBranches.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -839,11 +840,13 @@
             this.dataGridViewTextBoxColumn7,
             this.dataGridViewTextBoxColumn8,
             this.dataGridViewTextBoxColumn9,
-            this.NeedUpdate});
+            this.NeedUpdate,
+            this.IsObsolete});
             this.DgvLocalsBranches.DataSource = this.branchDtoBindingSource;
             this.DgvLocalsBranches.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DgvLocalsBranches.Location = new System.Drawing.Point(3, 3);
             this.DgvLocalsBranches.Name = "DgvLocalsBranches";
+            this.DgvLocalsBranches.ReadOnly = true;
             this.DgvLocalsBranches.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DgvLocalsBranches.Size = new System.Drawing.Size(881, 616);
             this.DgvLocalsBranches.TabIndex = 0;
@@ -890,6 +893,14 @@
             this.NeedUpdate.Name = "NeedUpdate";
             this.NeedUpdate.ReadOnly = true;
             this.NeedUpdate.Width = 99;
+            // 
+            // IsObsolete
+            // 
+            this.IsObsolete.DataPropertyName = "IsObsolete";
+            this.IsObsolete.HeaderText = "Is obsolete";
+            this.IsObsolete.Name = "IsObsolete";
+            this.IsObsolete.ReadOnly = true;
+            this.IsObsolete.Width = 88;
             // 
             // branchDtoBindingSource
             // 
@@ -959,7 +970,7 @@
             this.BtnDsbCancelAction.Location = new System.Drawing.Point(725, 318);
             this.BtnDsbCancelAction.Name = "BtnDsbCancelAction";
             this.BtnDsbCancelAction.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbCancelAction.TabIndex = 18;
+            this.BtnDsbCancelAction.TabIndex = 16;
             this.BtnDsbCancelAction.Text = "Cancel action";
             this.BtnDsbCancelAction.UseVisualStyleBackColor = true;
             this.BtnDsbCancelAction.Click += new System.EventHandler(this.BtnDsbCancelActionClick);
@@ -987,7 +998,7 @@
             this.CblDsbSolutions.Location = new System.Drawing.Point(105, 22);
             this.CblDsbSolutions.Name = "CblDsbSolutions";
             this.CblDsbSolutions.Size = new System.Drawing.Size(764, 23);
-            this.CblDsbSolutions.TabIndex = 2;
+            this.CblDsbSolutions.TabIndex = 0;
             // 
             // BtnDsbExitSolution
             // 
@@ -1013,7 +1024,7 @@
             this.BtnDsbRebuildSolution.Location = new System.Drawing.Point(567, 51);
             this.BtnDsbRebuildSolution.Name = "BtnDsbRebuildSolution";
             this.BtnDsbRebuildSolution.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbRebuildSolution.TabIndex = 18;
+            this.BtnDsbRebuildSolution.TabIndex = 4;
             this.BtnDsbRebuildSolution.Text = "Rebuild solution";
             this.BtnDsbRebuildSolution.UseVisualStyleBackColor = true;
             this.BtnDsbRebuildSolution.Click += new System.EventHandler(this.BtnDsbRebuildSolutionClick);
@@ -1023,7 +1034,7 @@
             this.BtnDsbStartSolution.Location = new System.Drawing.Point(721, 51);
             this.BtnDsbStartSolution.Name = "BtnDsbStartSolution";
             this.BtnDsbStartSolution.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbStartSolution.TabIndex = 4;
+            this.BtnDsbStartSolution.TabIndex = 5;
             this.BtnDsbStartSolution.Text = "Start Visual Studio";
             this.BtnDsbStartSolution.UseVisualStyleBackColor = true;
             this.BtnDsbStartSolution.Click += new System.EventHandler(this.BtnDsbStartSolutionClick);
@@ -1033,7 +1044,7 @@
             this.BtnDsbNugetRestore.Location = new System.Drawing.Point(259, 51);
             this.BtnDsbNugetRestore.Name = "BtnDsbNugetRestore";
             this.BtnDsbNugetRestore.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbNugetRestore.TabIndex = 13;
+            this.BtnDsbNugetRestore.TabIndex = 2;
             this.BtnDsbNugetRestore.Text = "Nuget restore";
             this.BtnDsbNugetRestore.UseVisualStyleBackColor = true;
             this.BtnDsbNugetRestore.Click += new System.EventHandler(this.BtnDsbNugetRestoreClick);
@@ -1043,7 +1054,7 @@
             this.BtnDsbBuildSolution.Location = new System.Drawing.Point(413, 51);
             this.BtnDsbBuildSolution.Name = "BtnDsbBuildSolution";
             this.BtnDsbBuildSolution.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbBuildSolution.TabIndex = 14;
+            this.BtnDsbBuildSolution.TabIndex = 3;
             this.BtnDsbBuildSolution.Text = "Build solution";
             this.BtnDsbBuildSolution.UseVisualStyleBackColor = true;
             this.BtnDsbBuildSolution.Click += new System.EventHandler(this.BtnDsbBuildSolutionClick);
@@ -1084,7 +1095,7 @@
             this.TxbDsbDatabasesToRestore.Location = new System.Drawing.Point(105, 26);
             this.TxbDsbDatabasesToRestore.Name = "TxbDsbDatabasesToRestore";
             this.TxbDsbDatabasesToRestore.Size = new System.Drawing.Size(610, 23);
-            this.TxbDsbDatabasesToRestore.TabIndex = 8;
+            this.TxbDsbDatabasesToRestore.TabIndex = 6;
             // 
             // GbxDsbGeneric
             // 
@@ -1118,7 +1129,7 @@
             this.BtnDsbStashChanges.Location = new System.Drawing.Point(259, 58);
             this.BtnDsbStashChanges.Name = "BtnDsbStashChanges";
             this.BtnDsbStashChanges.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbStashChanges.TabIndex = 0;
+            this.BtnDsbStashChanges.TabIndex = 11;
             this.BtnDsbStashChanges.Text = "Stash changes";
             this.BtnDsbStashChanges.UseVisualStyleBackColor = true;
             this.BtnDsbStashChanges.Click += new System.EventHandler(this.BtnDsbStashChangesClick);
@@ -1128,7 +1139,7 @@
             this.BtnDsbGitClean.Location = new System.Drawing.Point(721, 23);
             this.BtnDsbGitClean.Name = "BtnDsbGitClean";
             this.BtnDsbGitClean.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbGitClean.TabIndex = 10;
+            this.BtnDsbGitClean.TabIndex = 9;
             this.BtnDsbGitClean.Text = "Git clean";
             this.BtnDsbGitClean.UseVisualStyleBackColor = true;
             this.BtnDsbGitClean.Click += new System.EventHandler(this.BtnDsbGitCleanClick);
@@ -1138,7 +1149,7 @@
             this.BtnDsbFetchAll.Location = new System.Drawing.Point(721, 93);
             this.BtnDsbFetchAll.Name = "BtnDsbFetchAll";
             this.BtnDsbFetchAll.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbFetchAll.TabIndex = 6;
+            this.BtnDsbFetchAll.TabIndex = 15;
             this.BtnDsbFetchAll.Text = "Fetch all";
             this.BtnDsbFetchAll.UseVisualStyleBackColor = true;
             this.BtnDsbFetchAll.Click += new System.EventHandler(this.BtnDsbFetchAllClick);
@@ -1148,14 +1159,14 @@
             this.TxbDsbGitClean.Location = new System.Drawing.Point(105, 27);
             this.TxbDsbGitClean.Name = "TxbDsbGitClean";
             this.TxbDsbGitClean.Size = new System.Drawing.Size(610, 23);
-            this.TxbDsbGitClean.TabIndex = 11;
+            this.TxbDsbGitClean.TabIndex = 8;
             // 
             // BtnDsbStashPop
             // 
             this.BtnDsbStashPop.Location = new System.Drawing.Point(413, 58);
             this.BtnDsbStashPop.Name = "BtnDsbStashPop";
             this.BtnDsbStashPop.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbStashPop.TabIndex = 5;
+            this.BtnDsbStashPop.TabIndex = 12;
             this.BtnDsbStashPop.Text = "Stash pop";
             this.BtnDsbStashPop.UseVisualStyleBackColor = true;
             this.BtnDsbStashPop.Click += new System.EventHandler(this.BtnDsbStashPopClick);
@@ -1165,7 +1176,7 @@
             this.BtnDsbRunScriptPostbuild.Location = new System.Drawing.Point(721, 58);
             this.BtnDsbRunScriptPostbuild.Name = "BtnDsbRunScriptPostbuild";
             this.BtnDsbRunScriptPostbuild.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbRunScriptPostbuild.TabIndex = 16;
+            this.BtnDsbRunScriptPostbuild.TabIndex = 14;
             this.BtnDsbRunScriptPostbuild.Text = "Run script Post-Build";
             this.BtnDsbRunScriptPostbuild.UseVisualStyleBackColor = true;
             this.BtnDsbRunScriptPostbuild.Click += new System.EventHandler(this.BtnDsbRunScriptPostbuildClick);
@@ -1175,7 +1186,7 @@
             this.BtnDsbExitAllVisualStudio.Location = new System.Drawing.Point(105, 58);
             this.BtnDsbExitAllVisualStudio.Name = "BtnDsbExitAllVisualStudio";
             this.BtnDsbExitAllVisualStudio.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbExitAllVisualStudio.TabIndex = 17;
+            this.BtnDsbExitAllVisualStudio.TabIndex = 10;
             this.BtnDsbExitAllVisualStudio.Text = "Exit All Visual Studio";
             this.BtnDsbExitAllVisualStudio.UseVisualStyleBackColor = true;
             this.BtnDsbExitAllVisualStudio.Click += new System.EventHandler(this.BtnDsbExitAllVisualStudioClick);
@@ -1185,7 +1196,7 @@
             this.BtnDsbRunScriptPrebuild.Location = new System.Drawing.Point(567, 58);
             this.BtnDsbRunScriptPrebuild.Name = "BtnDsbRunScriptPrebuild";
             this.BtnDsbRunScriptPrebuild.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbRunScriptPrebuild.TabIndex = 15;
+            this.BtnDsbRunScriptPrebuild.TabIndex = 13;
             this.BtnDsbRunScriptPrebuild.Text = "Run script Pre-Build";
             this.BtnDsbRunScriptPrebuild.UseVisualStyleBackColor = true;
             this.BtnDsbRunScriptPrebuild.Click += new System.EventHandler(this.BtnDsbRunScriptPrebuildClick);
@@ -1658,8 +1669,8 @@
             // GbxActualInfos
             // 
             this.GbxActualInfos.Controls.Add(this.PbxDsbLoadingAction);
-            this.GbxActualInfos.Controls.Add(this.LblUnmergedBranches);
-            this.GbxActualInfos.Controls.Add(this.PbxBranchesUpToDate);
+            this.GbxActualInfos.Controls.Add(this.LblBranchesObsoletes);
+            this.GbxActualInfos.Controls.Add(this.PbxBranchesObsoletesBranches);
             this.GbxActualInfos.Controls.Add(this.LblNeedToUpdate);
             this.GbxActualInfos.Controls.Add(this.PbxBranchesMustUpdate);
             this.GbxActualInfos.Controls.Add(this.LblActualRepository);
@@ -1674,24 +1685,24 @@
             this.GbxActualInfos.TabStop = false;
             this.GbxActualInfos.Text = "Current state";
             // 
-            // LblUnmergedBranches
+            // LblBranchesObsoletes
             // 
-            this.LblUnmergedBranches.AutoSize = true;
-            this.LblUnmergedBranches.Location = new System.Drawing.Point(678, 44);
-            this.LblUnmergedBranches.Name = "LblUnmergedBranches";
-            this.LblUnmergedBranches.Size = new System.Drawing.Size(0, 15);
-            this.LblUnmergedBranches.TabIndex = 13;
+            this.LblBranchesObsoletes.AutoSize = true;
+            this.LblBranchesObsoletes.Location = new System.Drawing.Point(678, 44);
+            this.LblBranchesObsoletes.Name = "LblBranchesObsoletes";
+            this.LblBranchesObsoletes.Size = new System.Drawing.Size(0, 15);
+            this.LblBranchesObsoletes.TabIndex = 13;
             // 
-            // PbxBranchesUpToDate
+            // PbxBranchesObsoletesBranches
             // 
-            this.PbxBranchesUpToDate.BackColor = System.Drawing.Color.LightGray;
-            this.PbxBranchesUpToDate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PbxBranchesUpToDate.Location = new System.Drawing.Point(655, 41);
-            this.PbxBranchesUpToDate.Name = "PbxBranchesUpToDate";
-            this.PbxBranchesUpToDate.Size = new System.Drawing.Size(20, 20);
-            this.PbxBranchesUpToDate.TabIndex = 12;
-            this.PbxBranchesUpToDate.TabStop = false;
-            this.PbxBranchesUpToDate.Click += new System.EventHandler(this.PbxBranchesUpToDateClick);
+            this.PbxBranchesObsoletesBranches.BackColor = System.Drawing.Color.Gray;
+            this.PbxBranchesObsoletesBranches.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PbxBranchesObsoletesBranches.Location = new System.Drawing.Point(655, 41);
+            this.PbxBranchesObsoletesBranches.Name = "PbxBranchesObsoletesBranches";
+            this.PbxBranchesObsoletesBranches.Size = new System.Drawing.Size(20, 20);
+            this.PbxBranchesObsoletesBranches.TabIndex = 12;
+            this.PbxBranchesObsoletesBranches.TabStop = false;
+            this.PbxBranchesObsoletesBranches.Click += new System.EventHandler(this.PbxBranchesUpToDateClick);
             // 
             // LblNeedToUpdate
             // 
@@ -1794,9 +1805,9 @@
             this.TbpLocalsBranches.ResumeLayout(false);
             this.GbxLocalsBranchesActions.ResumeLayout(false);
             this.GbxLocalsBranchesActions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxLocalsBranchesObsoletes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxLocalsBranchesMustBeUpdate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxLocalsBranchesUpToDate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvLocalsBranches)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.branchDtoBindingSource)).EndInit();
             this.TpbNotifications.ResumeLayout(false);
@@ -1822,7 +1833,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PbxDsbLoadingAction)).EndInit();
             this.GbxActualInfos.ResumeLayout(false);
             this.GbxActualInfos.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesUpToDate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesObsoletesBranches)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesMustUpdate)).EndInit();
             this.ResumeLayout(false);
 
@@ -1854,7 +1865,6 @@
         private System.Windows.Forms.GroupBox BgxLogInfo;
         private System.Windows.Forms.TextBox TbxLogInfo;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.Button BtnDeleteWithRemote;
         private System.Windows.Forms.Button BtnDeleteLocalsBranches;
         private System.Windows.Forms.CheckBox CbxLaunchUri;
         private System.Windows.Forms.Button BtnStopProcess;
@@ -1887,15 +1897,13 @@
         private System.Windows.Forms.PictureBox pictureBox11;
         private System.Windows.Forms.CheckBox CbxIsNugetRestore;
         private System.Windows.Forms.PictureBox pictureBox6;
-        private System.Windows.Forms.PictureBox pictureBox12;
-        private System.Windows.Forms.PictureBox pictureBox13;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox PbxLocalsBranchesUpToDate;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.PictureBox pictureBox14;
+        private System.Windows.Forms.PictureBox PbxLocalsBranchesMustBeUpdate;
         private System.Windows.Forms.Label LblNeedToUpdate;
         private System.Windows.Forms.PictureBox PbxBranchesMustUpdate;
-        private System.Windows.Forms.Label LblUnmergedBranches;
-        private System.Windows.Forms.PictureBox PbxBranchesUpToDate;
+        private System.Windows.Forms.Label LblBranchesObsoletes;
+        private System.Windows.Forms.PictureBox PbxBranchesObsoletesBranches;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TabPage TpbDashboard;
         private System.Windows.Forms.PictureBox PbxDsbLoadingAction;
@@ -1903,11 +1911,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TabPage TpbNotifications;
         private System.Windows.Forms.DataGridView DgvNtfNotifications;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NeedUpdate;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -1977,5 +1980,14 @@
         private System.Windows.Forms.Button BtnDsbExitAllVisualStudio;
         private System.Windows.Forms.Button BtnDsbRunScriptPrebuild;
         private System.Windows.Forms.Button BtnDsbCancelAction;
+        private System.Windows.Forms.Button BtnLocalsBranchesSelectObsoletes;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NeedUpdate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IsObsolete;
+        private System.Windows.Forms.PictureBox PbxLocalsBranchesObsoletes;
+        private System.Windows.Forms.Label label1;
     }
 }

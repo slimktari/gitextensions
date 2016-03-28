@@ -12,6 +12,7 @@ namespace TalentsoftTools
 
         public static Color ColorBranchUpToDate = Color.MediumSeaGreen;
         public static Color ColorBranchNeedUpdate = Color.Tomato;
+        public static Color ColorBranchObsolete = Color.Gray;
 
         public const string PluginName = "Talentsoft Tools";
         public const int DefaultValueCheckMonitoInterval = 60;
