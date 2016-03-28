@@ -78,6 +78,10 @@
 
         private void BtnSettingsSaveClick(object sender, EventArgs e)
         {
+            if (!CheckIfCanRunProcess())
+            {
+                return;
+            }
             int checkInterval = 0;
             if (TxbSettingsNotificationsCheckIntrerval.Enabled && !string.IsNullOrWhiteSpace(TxbSettingsNotificationsCheckIntrerval.Text))
             {
@@ -86,11 +90,6 @@
                     MessageBox.Show("Unable to save plugin settings.\r\nNotification check interval must be int value.", Generic.PluginName, MessageBoxButtons.OK);
                     return;
                 }
-            }
-            if (!IsProcessAborted)
-            {
-                MessageBox.Show("Unable to save plugin settings.\r\nThe process is running.", Generic.PluginName, MessageBoxButtons.OK);
-                return;
             }
 
             TalentsoftToolsPlugin.IsDefaultExitVisualStudio[_settings] = CbxSettingsProcessExitVisualStudio.Checked;

@@ -4,12 +4,31 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using System.Windows.Forms;
     using GitUIPluginInterfaces;
     using Helpers;
 
     public partial class TalentsoftToolsForm
     {
+        void DashboardProcess(bool isEnabled)
+        {
+            GbxDsbDatabases.Enabled = isEnabled;
+            GbxDsbGeneric.Enabled = isEnabled;
+            GbxDsbVisualStudioSolution.Enabled = isEnabled;
+            BtnDsbCancelAction.Enabled = !isEnabled;
+        }
+
+        private void BtnDsbCancelActionClick(object sender, EventArgs e)
+        {
+            if (_workerThread != null && _workerThread.IsAlive)
+            {
+                _workerThread.Abort();
+                DashboardProcess(true);
+                PbxDsbLoadingAction.Visible = false;
+            }
+        }
+
         private void BtnDsbExitSolutionClick(object sender, EventArgs e)
         {
             PbxDsbLoadingAction.Visible = true;
@@ -29,7 +48,12 @@
 
         private void BtnDsbBuildSolutionClick(object sender, EventArgs e)
         {
-            System.Threading.Tasks.Task.Factory.StartNew(RunDsbBuildSolution);
+            if (!CheckIfCanRunProcess())
+            {
+                return;
+            }
+            _workerThread = new Thread(RunDsbBuildSolution);
+            _workerThread.Start();
         }
 
         void RunDsbBuildSolution()
@@ -39,7 +63,7 @@
             string solutionFile = null;
             Invoke((MethodInvoker)(() =>
             {
-                TbcMain.Enabled = false;
+                DashboardProcess(false);
                 PbxDsbLoadingAction.Visible = true;
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
@@ -54,7 +78,7 @@
             }
             Invoke((MethodInvoker)(() =>
             {
-                TbcMain.Enabled = true;
+                DashboardProcess(true);
                 PbxDsbLoadingAction.Visible = false;
                 MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
             }));
@@ -62,7 +86,12 @@
 
         private void BtnDsbNugetRestoreClick(object sender, EventArgs e)
         {
-            System.Threading.Tasks.Task.Factory.StartNew(RunDsbNugetRestore);
+            if (!CheckIfCanRunProcess())
+            {
+                return;
+            }
+            _workerThread = new Thread(RunDsbNugetRestore);
+            _workerThread.Start();
         }
 
         void RunDsbNugetRestore()
@@ -72,7 +101,7 @@
             string solutionFile = null;
             Invoke((MethodInvoker)(() =>
             {
-                TbcMain.Enabled = false;
+                DashboardProcess(false);
                 PbxDsbLoadingAction.Visible = true;
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
@@ -90,7 +119,7 @@
             }
             Invoke((MethodInvoker)(() =>
             {
-                TbcMain.Enabled = true;
+                DashboardProcess(true);
                 PbxDsbLoadingAction.Visible = false;
                 MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
             }));
@@ -98,7 +127,12 @@
 
         private void BtnDsbRebuildSolutionClick(object sender, EventArgs e)
         {
-            System.Threading.Tasks.Task.Factory.StartNew(RunDsbRebuildSolution);
+            if (!CheckIfCanRunProcess())
+            {
+                return;
+            }
+            _workerThread = new Thread(RunDsbRebuildSolution);
+            _workerThread.Start();
         }
 
         void RunDsbRebuildSolution()
@@ -108,7 +142,7 @@
             string solutionFile = null;
             Invoke((MethodInvoker)(() =>
             {
-                TbcMain.Enabled = false;
+                DashboardProcess(false);
                 PbxDsbLoadingAction.Visible = true;
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
@@ -123,7 +157,7 @@
             }
             Invoke((MethodInvoker)(() =>
             {
-                TbcMain.Enabled = true;
+                DashboardProcess(true);
                 PbxDsbLoadingAction.Visible = false;
                 MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
             }));
@@ -148,10 +182,15 @@
 
         private void BtnDsbRestoreDatabasesClick(object sender, EventArgs e)
         {
+            if (!CheckIfCanRunProcess())
+            {
+                return;
+            }
             Databases = DatabaseHelper.GetDatabasesFromSettings(TxbDsbDatabasesToRestore.Text);
             if (ValidateRestoreDatabasesFromDashboard())
             {
-                System.Threading.Tasks.Task.Factory.StartNew(RunDsbRestoreDatabases);
+                _workerThread = new Thread(RunDsbRestoreDatabases);
+                _workerThread.Start();
             }
         }
 
@@ -160,7 +199,7 @@
             StringBuilder message = new StringBuilder();
             Invoke((MethodInvoker)(() =>
             {
-                TbcMain.Enabled = false;
+                DashboardProcess(false);
                 PbxDsbLoadingAction.Visible = true;
                 }));
             foreach (var database in Databases)
@@ -178,7 +217,7 @@
             }
             Invoke((MethodInvoker)(() =>
             {
-                TbcMain.Enabled = true;
+                DashboardProcess(true);
                 PbxDsbLoadingAction.Visible = false;
                 MessageBox.Show(message.ToString(), Generic.PluginName, MessageBoxButtons.OK);
             }));
@@ -201,7 +240,12 @@
 
         private void BtnDsbGitCleanClick(object sender, EventArgs e)
         {
-            System.Threading.Tasks.Task.Factory.StartNew(RunDsbGitClean);
+            if (!CheckIfCanRunProcess())
+            {
+                return;
+            }
+            _workerThread = new Thread(RunDsbGitClean);
+            _workerThread.Start();
         }
 
         void RunDsbGitClean()
@@ -211,7 +255,7 @@
 
             Invoke((MethodInvoker)(() =>
             {
-                TbcMain.Enabled = false;
+                DashboardProcess(false);
                 PbxDsbLoadingAction.Visible = true;
                 if (!string.IsNullOrWhiteSpace(TxbDsbGitClean.Text))
                 {
@@ -229,7 +273,7 @@
             }
             Invoke((MethodInvoker)(() =>
             {
-                TbcMain.Enabled = true;
+                DashboardProcess(true);
                 PbxDsbLoadingAction.Visible = false;
                 MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
             }));
@@ -237,6 +281,10 @@
 
         private void BtnDsbFetchAllClick(object sender, EventArgs e)
         {
+            if (!CheckIfCanRunProcess())
+            {
+                return;
+            }
             PbxDsbLoadingAction.Visible = true;
             CmdResult results = GitHelper.FetchAll();
             GitHelper.NotifyGitExtensions();
@@ -270,7 +318,12 @@
 
         private void BtnDsbStashChangesClick(object sender, EventArgs e)
         {
-            System.Threading.Tasks.Task.Factory.StartNew(RunStashChanges);
+            if (!CheckIfCanRunProcess())
+            {
+                return;
+            }
+            _workerThread = new Thread(RunStashChanges);
+            _workerThread.Start();
         }
 
         void RunStashChanges()
@@ -284,7 +337,7 @@
             {
                 Invoke((MethodInvoker)(() =>
                 {
-                    TbcMain.Enabled = false;
+                    DashboardProcess(false);
                     PbxDsbLoadingAction.Visible = true;
                 }));
                 CmdResult gitStashResult = GitHelper.StashChanges();
@@ -298,7 +351,7 @@
                 }
                 Invoke((MethodInvoker)(() =>
                 {
-                    TbcMain.Enabled = true;
+                    DashboardProcess(true);
                     PbxDsbLoadingAction.Visible = false;
                 }));
             }
@@ -306,7 +359,12 @@
 
         private void BtnDsbStashPopClick(object sender, EventArgs e)
         {
-            System.Threading.Tasks.Task.Factory.StartNew(RunStashPop);
+            if (!CheckIfCanRunProcess())
+            {
+                return;
+            }
+            _workerThread = new Thread(RunStashPop);
+            _workerThread.Start();
         }
 
         void RunStashPop()
@@ -320,7 +378,7 @@
             {
                 Invoke((MethodInvoker)(() =>
                 {
-                    TbcMain.Enabled = false;
+                    DashboardProcess(false);
                     PbxDsbLoadingAction.Visible = true;
                 }));
                 CmdResult gitStashPopResult = GitHelper.StashPop();
@@ -334,7 +392,7 @@
                 }
                 Invoke((MethodInvoker)(() =>
                 {
-                    TbcMain.Enabled = true;
+                    DashboardProcess(true);
                     PbxDsbLoadingAction.Visible = false;
                 }));
             }
@@ -342,14 +400,19 @@
 
         private void BtnDsbRunScriptPrebuildClick(object sender, EventArgs e)
         {
-            System.Threading.Tasks.Task.Factory.StartNew(RunPreBuild);
+            if (!CheckIfCanRunProcess())
+            {
+                return;
+            }
+            _workerThread = new Thread(RunPreBuild);
+            _workerThread.Start();
         }
 
         void RunPreBuild()
         {
             Invoke((MethodInvoker)(() =>
             {
-                TbcMain.Enabled = false;
+                DashboardProcess(false);
                 PbxDsbLoadingAction.Visible = true;
             }));
             if (GenericHelper.RunCommandLine(PreBuildFiles.ToList()))
@@ -362,21 +425,26 @@
             }
             Invoke((MethodInvoker)(() =>
             {
-                TbcMain.Enabled = true;
+                DashboardProcess(true);
                 PbxDsbLoadingAction.Visible = false;
             }));
         }
 
         private void BtnDsbRunScriptPostbuildClick(object sender, EventArgs e)
         {
-            System.Threading.Tasks.Task.Factory.StartNew(RunPostBuild);
+            if (!CheckIfCanRunProcess())
+            {
+                return;
+            }
+            _workerThread = new Thread(RunPostBuild);
+            _workerThread.Start();
         }
 
         void RunPostBuild()
         {
             Invoke((MethodInvoker)(() =>
             {
-                TbcMain.Enabled = false;
+                DashboardProcess(false);
                 PbxDsbLoadingAction.Visible = true;
             }));
             if (GenericHelper.RunCommandLine(PostBuildFiles.ToList()))
@@ -389,7 +457,7 @@
             }
             Invoke((MethodInvoker)(() =>
             {
-                TbcMain.Enabled = true;
+                DashboardProcess(true);
                 PbxDsbLoadingAction.Visible = false;
             }));
         }

@@ -5,7 +5,6 @@
     using System.Drawing;
     using System.Linq;
     using System.Threading;
-    using System.Threading.Tasks;
     using System.Windows.Forms;
     using GitCommands;
     using GitUIPluginInterfaces;
@@ -37,8 +36,7 @@
         string TargetSolutionName { get; set; }
         GitRef TargetBranch { get; set; }
         bool IsProcessAborted { get; set; }
-        private Task Task { get; set; }
-        private CancellationTokenSource TokenTask { get; set; }
+        private Thread _workerThread;
         private string WorkingDirectory { get; set; }
         private List<DatabaseDto> Databases { get; set; }
         private Dictionary<string, string> SolutionDictionary { get; set; }
@@ -100,10 +98,9 @@
 
         void ExitProcess()
         {
-            if (TokenTask != null && !TokenTask.IsCancellationRequested)
+            if (_workerThread != null && _workerThread.IsAlive)
             {
-                TokenTask.Cancel();
-                TokenTask.Dispose();
+                _workerThread.Abort();
                 IsProcessAborted = true;
                 BtnRunProcess.Enabled = true;
                 BtnStopProcess.Enabled = false;
@@ -120,109 +117,89 @@
         {
             string solutionFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == TargetSolutionName).Value;
             DateTime startDateTime = DateTime.Now;
-            if (TokenTask != null && !TokenTask.IsCancellationRequested)
+            Invoke((MethodInvoker)(() =>
             {
-                Invoke((MethodInvoker)(() =>
+                TbxLogInfo.AppendText(string.Format("Start at: {0}\r\nCurrent branch: {1}", startDateTime,
+                    GitHelper.GetSelectedBranch()));
+                if (CbxIsCheckoutBranch.Checked && TargetBranch != null)
                 {
-                    TbxLogInfo.AppendText(string.Format("Start at: {0}\r\nCurrent branch: {1}", startDateTime,
-                        GitHelper.GetSelectedBranch()));
-                    if (CbxIsCheckoutBranch.Checked && TargetBranch != null)
-                    {
-                        TbxLogInfo.AppendText(string.Format("\r\nTarget branch: {0}\r\nTarget solution: {1}\r\n",
-                            TargetBranch.Name, TargetSolutionName));
-                    }
-                    if (CbxIsBuildSolution.Checked || CbxIsGitClean.Checked)
-                    {
-                        TbxLogInfo.AppendText(string.Format("\r\nTarget solution: {0}\r\n", TargetSolutionName));
-                    }
-                }));
-            }
+                    TbxLogInfo.AppendText(string.Format("\r\nTarget branch: {0}\r\nTarget solution: {1}\r\n",
+                        TargetBranch.Name, TargetSolutionName));
+                }
+                if (CbxIsBuildSolution.Checked || CbxIsGitClean.Checked)
+                {
+                    TbxLogInfo.AppendText(string.Format("\r\nTarget solution: {0}\r\n", TargetSolutionName));
+                }
+            }));
 
             if (IsExitVisualStudio)
             {
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                Invoke((MethodInvoker)(() =>
                 {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsExitVisualStudio.BackColor = Color.DodgerBlue;
-                        TbxLogInfo.AppendText("\r\nExiting Visual Studio...");
-                    }));
-                }
+                    CbxIsExitVisualStudio.BackColor = Color.DodgerBlue;
+                    TbxLogInfo.AppendText("\r\nExiting Visual Studio...");
+                }));
                 bool isExited = GenericHelper.ExitVisualStudio(TargetSolutionName);
                 if (!isExited)
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsExitVisualStudio.BackColor = Color.Red;
-                            TbxLogInfo.AppendText("\r\nError when exit Visual Studio.");
-                            TbxLogInfo.AppendText("\r\nProcess aborted.");
-                        }));
-                    }
+                        CbxIsExitVisualStudio.BackColor = Color.Red;
+                        TbxLogInfo.AppendText("\r\nError when exit Visual Studio.");
+                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                    }));
                     IsProcessAborted = true;
                 }
                 else
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsExitVisualStudio.BackColor = Color.LimeGreen;
-                        }));
-                    }
+                        CbxIsExitVisualStudio.BackColor = Color.LimeGreen;
+                    }));
                 }
             }
             if (IsStashCahnges && !IsProcessAborted)
             {
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+
+                Invoke((MethodInvoker)(() =>
                 {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsStashChanges.BackColor = Color.DodgerBlue;
-                        TbxLogInfo.AppendText("\r\nStashing changes... 'stash --include-untracked'.");
-                    }));
-                }
+                    CbxIsStashChanges.BackColor = Color.DodgerBlue;
+                    TbxLogInfo.AppendText("\r\nStashing changes... 'stash --include-untracked'.");
+                }));
 
                 CmdResult gitStashResult = GitHelper.StashChanges();
                 if (gitStashResult.ExitCode != 0)
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsStashChanges.BackColor = Color.Red;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when stashing changes. {0}.",
-                                gitStashResult.StdError));
-                            TbxLogInfo.AppendText("\r\nProcess aborted.");
-                        }));
-                    }
+                        CbxIsStashChanges.BackColor = Color.Red;
+                        TbxLogInfo.AppendText(string.Format("\r\nError when stashing changes. {0}.",
+                            gitStashResult.StdError));
+                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                    }));
                     IsProcessAborted = true;
                 }
                 else
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsStashChanges.BackColor = Color.LimeGreen;
-                        }));
-                    }
+                        CbxIsStashChanges.BackColor = Color.LimeGreen;
+                    }));
                 }
             }
             if (IsCheckoutBranch && !IsProcessAborted)
             {
                 bool isLocal = false;
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                Invoke((MethodInvoker)(() =>
                 {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsCheckoutBranch.BackColor = Color.DodgerBlue;
-                        TbxLogInfo.AppendText(string.Format("\r\nCheckout branch {0}...", TargetBranch.Name));
-                        TbxLogInfo.AppendText(string.Format(" 'checkout -B {0} {1}'.", TargetBranch.LocalName, TargetBranch.Name));
-                        isLocal = RbtIsLocalTargetBranch.Checked;
-                    }));
-                }
+                    CbxIsCheckoutBranch.BackColor = Color.DodgerBlue;
+                    TbxLogInfo.AppendText(string.Format("\r\nCheckout branch {0}...", TargetBranch.Name));
+                    TbxLogInfo.AppendText(string.Format(" 'checkout -B {0} {1}'.", TargetBranch.LocalName,
+                        TargetBranch.Name));
+                    isLocal = RbtIsLocalTargetBranch.Checked;
+                }));
                 CmdResult gitCheckoutResult;
                 if (isLocal)
                 {
@@ -235,439 +212,332 @@
 
                 if (gitCheckoutResult.ExitCode != 0)
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsCheckoutBranch.BackColor = Color.Red;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when checkout branch. {0}.",
-                                gitCheckoutResult.StdError));
-                            TbxLogInfo.AppendText("\r\nProcess aborted.");
-                        }));
-                    }
+                        CbxIsCheckoutBranch.BackColor = Color.Red;
+                        TbxLogInfo.AppendText(string.Format("\r\nError when checkout branch. {0}.",
+                            gitCheckoutResult.StdError));
+                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                    }));
                     IsProcessAborted = true;
                 }
 
                 if (!IsProcessAborted && IsCreateNewBranch && !string.IsNullOrWhiteSpace(NewBranchName))
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            TbxLogInfo.AppendText(
-                                string.Format("\r\nCreating new local branch {0}... 'checkout -b {1}'.", NewBranchName,
-                                    NewBranchName));
-                        }));
-                    }
+                        TbxLogInfo.AppendText(
+                            string.Format("\r\nCreating new local branch {0}... 'checkout -b {1}'.", NewBranchName,
+                                NewBranchName));
+                    }));
                     CmdResult gitCreateNewBranchResult = GitHelper.CreateAndCheckoutBranch(NewBranchName);
                     if (gitCreateNewBranchResult.ExitCode != 0)
                     {
-                        if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                        Invoke((MethodInvoker)(() =>
                         {
-                            Invoke((MethodInvoker)(() =>
-                            {
-                                CbxIsCheckoutBranch.BackColor = Color.Red;
-                                TbxLogInfo.AppendText(string.Format("\r\nError when Creating new branch {0}. {1}.",
-                                    NewBranchName, gitCheckoutResult.StdError));
-                                TbxLogInfo.AppendText("\r\nProcess aborted.");
-                            }));
-                        }
+                            CbxIsCheckoutBranch.BackColor = Color.Red;
+                            TbxLogInfo.AppendText(string.Format("\r\nError when Creating new branch {0}. {1}.",
+                                NewBranchName, gitCheckoutResult.StdError));
+                            TbxLogInfo.AppendText("\r\nProcess aborted.");
+                        }));
                         IsProcessAborted = true;
                     }
                 }
-                if (!IsProcessAborted && TokenTask != null && !TokenTask.IsCancellationRequested)
+                Invoke((MethodInvoker)(() =>
                 {
-                    Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsCheckoutBranch.BackColor = Color.LimeGreen;
-                        }));
-                }
+                    CbxIsCheckoutBranch.BackColor = Color.LimeGreen;
+                }));
             }
             if (IsGitClean && !IsProcessAborted)
             {
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                {
-                    Invoke((MethodInvoker)(() => { CbxIsGitClean.BackColor = Color.DodgerBlue; }));
-                }
+                Invoke((MethodInvoker)(() => { CbxIsGitClean.BackColor = Color.DodgerBlue; }));
                 string excludeCommand = string.Empty;
                 if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]))
                 {
-                    excludeCommand = string.Format(" -e=\"{0}\"", TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]);
+                    excludeCommand = string.Format(" -e=\"{0}\"",
+                        TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]);
                 }
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                Invoke((MethodInvoker)(() =>
                 {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        TbxLogInfo.AppendText(string.Format("\r\nCleaning solution: {0}... \"clean -d -x -f{1}\".",
-                            TargetSolutionName, excludeCommand));
-                    }));
-                }
-
+                    TbxLogInfo.AppendText(string.Format("\r\nCleaning solution: {0}... \"clean -d -x -f{1}\".",
+                        TargetSolutionName, excludeCommand));
+                }));
                 CmdResult gitCleanResult = GitHelper.Clean(excludeCommand);
                 if (gitCleanResult.ExitCode != 0)
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsGitClean.BackColor = Color.Red;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when cleaning solution: {0}. {1}.",
-                                TargetSolutionName, gitCleanResult.StdError));
-                        }));
-                    }
+                        CbxIsGitClean.BackColor = Color.Red;
+                        TbxLogInfo.AppendText(string.Format("\r\nError when cleaning solution: {0}. {1}.",
+                            TargetSolutionName, gitCleanResult.StdError));
+                    }));
                 }
                 else
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsGitClean.BackColor = Color.LimeGreen;
-                        }));
-                    }
+                        CbxIsGitClean.BackColor = Color.LimeGreen;
+                    }));
                 }
             }
             if (IsStashPop && !IsProcessAborted)
             {
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                Invoke((MethodInvoker)(() =>
                 {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsStashPop.BackColor = Color.DodgerBlue;
-                        TbxLogInfo.AppendText("\r\nPopping stash... \"stash pop");
-                    }));
-                }
+                    CbxIsStashPop.BackColor = Color.DodgerBlue;
+                    TbxLogInfo.AppendText("\r\nPopping stash... \"stash pop");
+                }));
                 CmdResult gitStashPopResult = GitHelper.StashPop();
                 if (gitStashPopResult.ExitCode != 0)
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsStashPop.BackColor = Color.Red;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when popping stash. {0}",
-                                gitStashPopResult.StdError));
-                            TbxLogInfo.AppendText("\r\nProcess aborted.");
-                        }));
-                    }
+                        CbxIsStashPop.BackColor = Color.Red;
+                        TbxLogInfo.AppendText(string.Format("\r\nError when popping stash. {0}",
+                            gitStashPopResult.StdError));
+                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                    }));
                     IsProcessAborted = true;
                 }
                 else
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsStashPop.BackColor = Color.LimeGreen;
-                        }));
-                    }
+                        CbxIsStashPop.BackColor = Color.LimeGreen;
+                    }));
                 }
             }
             if (IsPreBuildSolution && !IsProcessAborted)
             {
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                Invoke((MethodInvoker)(() =>
                 {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsPreBuild.BackColor = Color.DodgerBlue;
-                        TbxLogInfo.AppendText(string.Format("\r\nRunning Pre-Build scripts:\r\n{0}",
-                            string.Join("\r\n", PreBuildFiles)));
-                    }));
-                }
+                    CbxIsPreBuild.BackColor = Color.DodgerBlue;
+                    TbxLogInfo.AppendText(string.Format("\r\nRunning Pre-Build scripts:\r\n{0}",
+                        string.Join("\r\n", PreBuildFiles)));
+                }));
                 bool result = GenericHelper.RunCommandLine(PreBuildFiles.ToList());
                 if (!result)
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsPreBuild.BackColor = Color.Red;
-                            TbxLogInfo.AppendText("\r\nError when running Pre-Build scripts.");
-                            TbxLogInfo.AppendText("\r\nProcess aborted.");
-                        }));
-                    }
+                        CbxIsPreBuild.BackColor = Color.Red;
+                        TbxLogInfo.AppendText("\r\nError when running Pre-Build scripts.");
+                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                    }));
                     IsProcessAborted = true;
                 }
                 else
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsPreBuild.BackColor = Color.LimeGreen;
-                        }));
-                    }
+                        CbxIsPreBuild.BackColor = Color.LimeGreen;
+                    }));
                 }
             }
             if (IsNugetRestore && !IsProcessAborted)
             {
-
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                Invoke((MethodInvoker)(() =>
                 {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsNugetRestore.BackColor = Color.DodgerBlue;
-                        TbxLogInfo.AppendText(
-                            string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.",
-                                TargetSolutionName, solutionFullPath));
-                    }));
-                }
+                    CbxIsNugetRestore.BackColor = Color.DodgerBlue;
+                    TbxLogInfo.AppendText(
+                        string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.",
+                            TargetSolutionName, solutionFullPath));
+                }));
                 if (GenericHelper.RunCommandLine(new List<string>
                 {
                     string.Format("nuget restore {0}", solutionFullPath)
                 }))
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsNugetRestore.BackColor = Color.LimeGreen;
-                        }));
-                    }
+                        CbxIsNugetRestore.BackColor = Color.LimeGreen;
+                    }));
                 }
                 else
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsNugetRestore.BackColor = Color.Red;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.", solutionFullPath));
-                        }));
-                    }
+                        CbxIsNugetRestore.BackColor = Color.Red;
+                        TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.",
+                            solutionFullPath));
+                    }));
                 }
             }
             if (IsBuildSolution && !IsProcessAborted)
             {
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                Invoke((MethodInvoker)(() =>
                 {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsBuildSolution.BackColor = Color.DodgerBlue;
-                        TbxLogInfo.AppendText(
-                                string.Format(
-                                    "\r\nBuilding solution: {0}...",
-                                    TargetSolutionName));
-                    }));
-                }
+                    CbxIsBuildSolution.BackColor = Color.DodgerBlue;
+                    TbxLogInfo.AppendText(
+                        string.Format(
+                            "\r\nBuilding solution: {0}...",
+                            TargetSolutionName));
+                }));
                 string errorResult = GenericHelper.Build(solutionFullPath, Generic.GenrateSolutionArguments.Build);
                 if (!string.IsNullOrWhiteSpace(errorResult))
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                    {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsBuildSolution.BackColor = Color.Red;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.", solutionFullPath));
-                            TbxLogInfo.AppendText(errorResult);
-                            TbxLogInfo.AppendText("\r\nProcess aborted.");
-                        }));
-                    }
-                    IsProcessAborted = true;
-                }
-                else if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                {
                     Invoke((MethodInvoker)(() =>
                     {
-                        CbxIsBuildSolution.BackColor = Color.LimeGreen;
+                        CbxIsBuildSolution.BackColor = Color.Red;
+                        TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.", solutionFullPath));
+                        TbxLogInfo.AppendText(errorResult);
+                        TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
+                    IsProcessAborted = true;
                 }
+                Invoke((MethodInvoker)(() =>
+                {
+                    CbxIsBuildSolution.BackColor = Color.LimeGreen;
+                }));
             }
             if (IsPostBuildSolution && !IsProcessAborted)
             {
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                Invoke((MethodInvoker)(() =>
                 {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsPostBuild.BackColor = Color.DodgerBlue;
-                        TbxLogInfo.AppendText(string.Format("\r\nRunning Post-Build scripts:\r\n{0}",
-                            string.Join("\r\n", PostBuildFiles)));
-                    }));
-                }
+                    CbxIsPostBuild.BackColor = Color.DodgerBlue;
+                    TbxLogInfo.AppendText(string.Format("\r\nRunning Post-Build scripts:\r\n{0}",
+                        string.Join("\r\n", PostBuildFiles)));
+                }));
                 bool result = GenericHelper.RunCommandLine(PostBuildFiles.ToList());
                 if (!result)
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsPostBuild.BackColor = Color.Red;
-                            TbxLogInfo.AppendText("\r\nError when running Post-Build scripts.");
-                            TbxLogInfo.AppendText("\r\nProcess aborted.");
-                        }));
-                    }
+                        CbxIsPostBuild.BackColor = Color.Red;
+                        TbxLogInfo.AppendText("\r\nError when running Post-Build scripts.");
+                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                    }));
                 }
                 else
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsPostBuild.BackColor = Color.LimeGreen;
-                        }));
-                    }
+                        CbxIsPostBuild.BackColor = Color.LimeGreen;
+                    }));
                 }
             }
             if (IsRunVisualStudio && !IsProcessAborted)
             {
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                Invoke((MethodInvoker)(() =>
+                {
+                    CbxIsRunVisualStudio.BackColor = Color.DodgerBlue;
+                    TbxLogInfo.AppendText(string.Format("\r\nRunning Visual Studio with: {0}...", TargetSolutionName));
+                }));
+                if (!GenericHelper.LaunchVisualStudio(solutionFullPath))
                 {
                     Invoke((MethodInvoker)(() =>
                     {
-                        CbxIsRunVisualStudio.BackColor = Color.DodgerBlue;
-                        TbxLogInfo.AppendText(string.Format("\r\nRunning Visual Studio with: {0}...", TargetSolutionName));
+                        CbxIsRunVisualStudio.BackColor = Color.Red;
+                        TbxLogInfo.AppendText(string.Format("\r\nError when running Visual Studio with: {0}.",
+                            solutionFullPath));
+                        TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
-                }
-                if (!GenericHelper.LaunchVisualStudio(solutionFullPath))
-                {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                    {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsRunVisualStudio.BackColor = Color.Red;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when running Visual Studio with: {0}.", solutionFullPath));
-                            TbxLogInfo.AppendText("\r\nProcess aborted.");
-                        }));
-                    }
                 }
                 else
                 {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            CbxIsRunVisualStudio.BackColor = Color.LimeGreen;
-                        }));
-                    }
+                        CbxIsRunVisualStudio.BackColor = Color.LimeGreen;
+                    }));
                 }
             }
             if (!IsProcessAborted && IsRestoreDatabase && Databases.Any())
             {
                 bool isRestore = false;
                 bool isError = false;
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                Invoke((MethodInvoker)(() =>
+                {
+                    CbxIsRestoreDatabases.BackColor = Color.DodgerBlue;
+                }));
+                foreach (var database in Databases)
                 {
                     Invoke((MethodInvoker)(() =>
                     {
-                        CbxIsRestoreDatabases.BackColor = Color.DodgerBlue;
+                        TbxLogInfo.AppendText("\r\nRestoring database : " + database.DatabaseName);
                     }));
-                }
-                foreach (var database in Databases)
-                {
-                    if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                    {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            TbxLogInfo.AppendText("\r\nRestoring database : " + database.DatabaseName);
-                        }));
-                    }
                     if (DatabaseHelper.RestoreDatabase(database.DatabaseName, database.BackupFilePath,
-                        TalentsoftToolsPlugin.DatabaseServerName[_settings], TalentsoftToolsPlugin.DatabaseUserName[_settings], TalentsoftToolsPlugin.DatabasePassword[_settings], TalentsoftToolsPlugin.DatabaseRelocateFile[_settings],
+                        TalentsoftToolsPlugin.DatabaseServerName[_settings],
+                        TalentsoftToolsPlugin.DatabaseUserName[_settings],
+                        TalentsoftToolsPlugin.DatabasePassword[_settings],
+                        TalentsoftToolsPlugin.DatabaseRelocateFile[_settings],
                         TalentsoftToolsPlugin.DatabaseRelocateFile[_settings]))
                     {
                         isRestore = true;
-                        if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                        Invoke((MethodInvoker)(() =>
                         {
-                            Invoke((MethodInvoker)(() =>
-                            {
-                                TbxLogInfo.AppendText(string.Format("\r\nSuccess of the restoration {0} database.",
-                                    database.DatabaseName));
-                            }));
-                        }
+                            TbxLogInfo.AppendText(string.Format("\r\nSuccess of the restoration {0} database.",
+                                database.DatabaseName));
+                        }));
                     }
                     else
                     {
                         isError = true;
-                        if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                        Invoke((MethodInvoker)(() =>
                         {
-                            Invoke((MethodInvoker)(() =>
-                            {
-                                CbxIsRestoreDatabases.BackColor = Color.Red;
-                                TbxLogInfo.AppendText(string.Format("\r\nError when restoring {0} database.",
-                                    database.DatabaseName));
-                            }));
-                        }
+                            CbxIsRestoreDatabases.BackColor = Color.Red;
+                            TbxLogInfo.AppendText(string.Format("\r\nError when restoring {0} database.",
+                                database.DatabaseName));
+                        }));
                     }
                     if (isRestore && isError)
                     {
-                        if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                        Invoke((MethodInvoker)(() =>
                         {
-                            Invoke((MethodInvoker)(() =>
-                            {
-                                CbxIsRestoreDatabases.BackColor = Color.Gold;
-                                TbxLogInfo.AppendText("\r\nSome database was not restored.");
-                            }));
-                        }
+                            CbxIsRestoreDatabases.BackColor = Color.Gold;
+                            TbxLogInfo.AppendText("\r\nSome database was not restored.");
+                        }));
                     }
                     else if (isRestore)
                     {
-                        if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                        Invoke((MethodInvoker)(() =>
                         {
-                            Invoke((MethodInvoker)(() =>
-                            {
-                                CbxIsRestoreDatabases.BackColor = Color.LimeGreen;
-                            }));
-                        }
+                            CbxIsRestoreDatabases.BackColor = Color.LimeGreen;
+                        }));
                     }
                 }
             }
             if (IsRunUri && !IsProcessAborted)
             {
-                if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                Invoke((MethodInvoker)(() =>
                 {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxLaunchUri.BackColor = Color.DodgerBlue;
-                    }));
-                }
+                    CbxLaunchUri.BackColor = Color.DodgerBlue;
+                }));
                 foreach (var uri in Uris.Split(';'))
                 {
                     if (!string.IsNullOrWhiteSpace(uri))
                     {
-                        if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                        Invoke((MethodInvoker)(() =>
+                        {
+                            TbxLogInfo.AppendText(string.Format("\r\nLaunching web URI: {0}...", Uris));
+                        }));
+                        if (!GenericHelper.LaunchWebUri(uri))
                         {
                             Invoke((MethodInvoker)(() =>
                             {
-                                TbxLogInfo.AppendText(string.Format("\r\nLaunching web URI: {0}...", Uris));
+                                CbxLaunchUri.BackColor = Color.Red;
+                                TbxLogInfo.AppendText(string.Format("\r\nError when launching web URI: {0}.", uri));
                             }));
-                        }
-                        if (!GenericHelper.LaunchWebUri(uri))
-                        {
-                            if (TokenTask != null && !TokenTask.IsCancellationRequested)
-                            {
-                                Invoke((MethodInvoker)(() =>
-                                {
-                                    CbxLaunchUri.BackColor = Color.Red;
-                                    TbxLogInfo.AppendText(string.Format("\r\nError when launching web URI: {0}.", uri));
-                                }));
-                            }
                         }
                         else
                         {
-                            if (TokenTask != null && !TokenTask.IsCancellationRequested)
+                            Invoke((MethodInvoker)(() =>
                             {
-                                Invoke((MethodInvoker)(() =>
-                                {
-                                    CbxLaunchUri.BackColor = Color.LimeGreen;
-                                }));
-                            }
+                                CbxLaunchUri.BackColor = Color.LimeGreen;
+                            }));
                         }
                     }
                 }
             }
             DateTime endateDateTime = DateTime.Now;
-            if (TokenTask != null && !TokenTask.IsCancellationRequested)
+            Invoke((MethodInvoker)(() =>
             {
-                Invoke((MethodInvoker)(() =>
-                {
-                    TbxLogInfo.AppendText(string.Format("\r\nEnd at: {0}.", endateDateTime));
-                    TbxLogInfo.AppendText(string.Format("\r\nElapsed time: {0}.", endateDateTime - startDateTime));
-                    GitHelper.NotifyGitExtensions();
-                    LblActualBranchName.Text = GitHelper.GetSelectedBranch();
-                    LblActualRepository.Text = GitHelper.GetWorkingDirectory();
-                    ExitProcess();
-                }));
-            }
+                TbxLogInfo.AppendText(string.Format("\r\nEnd at: {0}.", endateDateTime));
+                TbxLogInfo.AppendText(string.Format("\r\nElapsed time: {0}.", endateDateTime - startDateTime));
+                GitHelper.NotifyGitExtensions();
+                LblActualBranchName.Text = GitHelper.GetSelectedBranch();
+                LblActualRepository.Text = GitHelper.GetWorkingDirectory();
+                ExitProcess();
+            }));
         }
 
         bool ValidateUri()
@@ -766,13 +636,16 @@
 
         private void BtnRunProcessClick(object sender, EventArgs e)
         {
+            if (!CheckIfCanRunProcess())
+            {
+                return;
+            }
             Databases = DatabaseHelper.GetDatabasesFromSettings(TxbProcessDatabasesToRestore.Text);
             if (!ValidateCheckoutBranch() || !ValidateCreateBranch() || !ValidateUri() || !ValidateRestoreDatabases())
             {
                 return;
             }
             PbxLoadingProcess.Visible = true;
-            TokenTask = new CancellationTokenSource();
             if (CblSolutions.Items.Count > 0)
             {
                 TargetSolutionName = CblSolutions.SelectedItem.ToString();
@@ -797,7 +670,8 @@
             BtnStopProcess.Enabled = true;
             NewBranchName = TxbNewBranchName.Text;
             Uris = TxbUri.Text;
-            Task = Task.Factory.StartNew(RunProcess, TokenTask.Token).ContinueWith(t => t.Dispose());
+            _workerThread = new Thread(RunProcess);
+            _workerThread.Start();
         }
 
         void RbtIsRemoteOrLocalTargetBranchCheckedChanged(object sender, EventArgs e)

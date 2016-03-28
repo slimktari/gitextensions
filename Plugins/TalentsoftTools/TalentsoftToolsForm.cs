@@ -1,4 +1,6 @@
 ﻿
+using System.Threading;
+
 namespace TalentsoftTools
 {
     using System;
@@ -28,6 +30,16 @@ namespace TalentsoftTools
             WorkingDirectory = TalentsoftToolsPlugin.GitUiCommands.GitModule.WorkingDir;
             //Icon = _gitUiCommands.GitUICommands.FormIcon;
             LunchSplashScreen();
+        }
+
+        bool CheckIfCanRunProcess()
+        {
+            if (_workerThread != null && _workerThread.IsAlive)
+            {
+                MessageBox.Show("Unable to run process!\r\nAnother process is already running.", Generic.PluginName, MessageBoxButtons.OK);
+                return false;
+            }
+            return true;
         }
 
         void LunchSplashScreen()
@@ -75,13 +87,16 @@ namespace TalentsoftTools
 
         void TalentsoftToolsFormClosing(object sender, FormClosingEventArgs e)
         {
-            if (TokenTask != null && !TokenTask.IsCancellationRequested)
+            if (_workerThread != null && _workerThread.IsAlive)
             {
                 DialogResult response = MessageBox.Show("The process is running, are you sure to stop it ?", Generic.PluginName, MessageBoxButtons.YesNo);
                 switch (response)
                 {
                     case DialogResult.Yes:
-                        ExitProcess();
+                        if (_workerThread != null && _workerThread.IsAlive)
+                        {
+                            _workerThread.Abort();
+                        }
                         break;
                     case DialogResult.No:
                         e.Cancel = true;
@@ -273,71 +288,6 @@ namespace TalentsoftTools
                 CbxIsPostBuild.Enabled = false;
                 BtnDsbRunScriptPostbuild.Enabled = false;
             }
-        }
-
-        private void BtnDsbExitSolutionClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnDsbRebuildSolutionClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnDsbStartSolutionClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnDsbNugetRestoreClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnDsbBuildSolutionClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnDsbRestoreDatabasesClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnDsbStashChangesClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnDsbGitCleanClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnDsbFetchAllClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnDsbStashPopClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnDsbRunScriptPostbuildClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnDsbExitAllVisualStudioClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BtnDsbRunScriptPrebuildClick(object sender, EventArgs e)
-        {
-
         }
     }
 }
