@@ -96,26 +96,6 @@
             this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TpbDashboard = new System.Windows.Forms.TabPage();
-            this.GbxDashboardActions = new System.Windows.Forms.GroupBox();
-            this.BtnDsbRebuildSolution = new System.Windows.Forms.Button();
-            this.BtnDsbExitAllVisualStudio = new System.Windows.Forms.Button();
-            this.BtnDsbRunScriptPostbuild = new System.Windows.Forms.Button();
-            this.BtnDsbRunScriptPrebuild = new System.Windows.Forms.Button();
-            this.BtnDsbBuildSolution = new System.Windows.Forms.Button();
-            this.BtnDsbNugetRestore = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.TxbDsbGitClean = new System.Windows.Forms.TextBox();
-            this.BtnDsbGitClean = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.TxbDsbDatabasesToRestore = new System.Windows.Forms.TextBox();
-            this.BtnDsbRestoreDatabases = new System.Windows.Forms.Button();
-            this.BtnDsbFetchAll = new System.Windows.Forms.Button();
-            this.BtnDsbStashPop = new System.Windows.Forms.Button();
-            this.BtnDsbStartSolution = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.CblDsbSolutions = new System.Windows.Forms.ComboBox();
-            this.BtnDsbExitSolution = new System.Windows.Forms.Button();
-            this.BtnDsbStashChanges = new System.Windows.Forms.Button();
             this.TpbSettings = new System.Windows.Forms.TabPage();
             this.BtnSettingsSave = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -174,6 +154,28 @@
             this.LblActualBranchName = new System.Windows.Forms.Label();
             this.LblActualBranchNameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.CblDsbSolutions = new System.Windows.Forms.ComboBox();
+            this.BtnDsbExitSolution = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.BtnDsbRebuildSolution = new System.Windows.Forms.Button();
+            this.BtnDsbStartSolution = new System.Windows.Forms.Button();
+            this.BtnDsbNugetRestore = new System.Windows.Forms.Button();
+            this.BtnDsbBuildSolution = new System.Windows.Forms.Button();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.BtnDsbRestoreDatabases = new System.Windows.Forms.Button();
+            this.TxbDsbDatabasesToRestore = new System.Windows.Forms.TextBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.BtnDsbStashChanges = new System.Windows.Forms.Button();
+            this.BtnDsbGitClean = new System.Windows.Forms.Button();
+            this.BtnDsbFetchAll = new System.Windows.Forms.Button();
+            this.TxbDsbGitClean = new System.Windows.Forms.TextBox();
+            this.BtnDsbStashPop = new System.Windows.Forms.Button();
+            this.BtnDsbRunScriptPostbuild = new System.Windows.Forms.Button();
+            this.BtnDsbExitAllVisualStudio = new System.Windows.Forms.Button();
+            this.BtnDsbRunScriptPrebuild = new System.Windows.Forms.Button();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
             this.BgxLogInfo.SuspendLayout();
@@ -202,7 +204,6 @@
             this.TpbNotifications.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvNtfNotifications)).BeginInit();
             this.TpbDashboard.SuspendLayout();
-            this.GbxDashboardActions.SuspendLayout();
             this.TpbSettings.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -213,6 +214,9 @@
             this.GbxActualInfos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesUpToDate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesMustUpdate)).BeginInit();
+            this.groupBox8.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // TbcMain
@@ -937,222 +941,15 @@
             // 
             // TpbDashboard
             // 
-            this.TpbDashboard.Controls.Add(this.GbxDashboardActions);
+            this.TpbDashboard.Controls.Add(this.groupBox8);
+            this.TpbDashboard.Controls.Add(this.groupBox7);
+            this.TpbDashboard.Controls.Add(this.groupBox6);
             this.TpbDashboard.Location = new System.Drawing.Point(4, 24);
             this.TpbDashboard.Name = "TpbDashboard";
             this.TpbDashboard.Size = new System.Drawing.Size(887, 622);
             this.TpbDashboard.TabIndex = 3;
             this.TpbDashboard.Text = "Dashboard";
             this.TpbDashboard.UseVisualStyleBackColor = true;
-            // 
-            // GbxDashboardActions
-            // 
-            this.GbxDashboardActions.Controls.Add(this.BtnDsbRebuildSolution);
-            this.GbxDashboardActions.Controls.Add(this.BtnDsbExitAllVisualStudio);
-            this.GbxDashboardActions.Controls.Add(this.BtnDsbRunScriptPostbuild);
-            this.GbxDashboardActions.Controls.Add(this.BtnDsbRunScriptPrebuild);
-            this.GbxDashboardActions.Controls.Add(this.BtnDsbBuildSolution);
-            this.GbxDashboardActions.Controls.Add(this.BtnDsbNugetRestore);
-            this.GbxDashboardActions.Controls.Add(this.label7);
-            this.GbxDashboardActions.Controls.Add(this.TxbDsbGitClean);
-            this.GbxDashboardActions.Controls.Add(this.BtnDsbGitClean);
-            this.GbxDashboardActions.Controls.Add(this.label6);
-            this.GbxDashboardActions.Controls.Add(this.TxbDsbDatabasesToRestore);
-            this.GbxDashboardActions.Controls.Add(this.BtnDsbRestoreDatabases);
-            this.GbxDashboardActions.Controls.Add(this.BtnDsbFetchAll);
-            this.GbxDashboardActions.Controls.Add(this.BtnDsbStashPop);
-            this.GbxDashboardActions.Controls.Add(this.BtnDsbStartSolution);
-            this.GbxDashboardActions.Controls.Add(this.label5);
-            this.GbxDashboardActions.Controls.Add(this.CblDsbSolutions);
-            this.GbxDashboardActions.Controls.Add(this.BtnDsbExitSolution);
-            this.GbxDashboardActions.Controls.Add(this.BtnDsbStashChanges);
-            this.GbxDashboardActions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GbxDashboardActions.Location = new System.Drawing.Point(0, 0);
-            this.GbxDashboardActions.Name = "GbxDashboardActions";
-            this.GbxDashboardActions.Size = new System.Drawing.Size(887, 622);
-            this.GbxDashboardActions.TabIndex = 0;
-            this.GbxDashboardActions.TabStop = false;
-            this.GbxDashboardActions.Text = "Actions";
-            // 
-            // BtnDsbRebuildSolution
-            // 
-            this.BtnDsbRebuildSolution.Location = new System.Drawing.Point(576, 51);
-            this.BtnDsbRebuildSolution.Name = "BtnDsbRebuildSolution";
-            this.BtnDsbRebuildSolution.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbRebuildSolution.TabIndex = 18;
-            this.BtnDsbRebuildSolution.Text = "Rebuild solution";
-            this.BtnDsbRebuildSolution.UseVisualStyleBackColor = true;
-            this.BtnDsbRebuildSolution.Click += new System.EventHandler(this.BtnDsbRebuildSolutionClick);
-            // 
-            // BtnDsbExitAllVisualStudio
-            // 
-            this.BtnDsbExitAllVisualStudio.Location = new System.Drawing.Point(114, 154);
-            this.BtnDsbExitAllVisualStudio.Name = "BtnDsbExitAllVisualStudio";
-            this.BtnDsbExitAllVisualStudio.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbExitAllVisualStudio.TabIndex = 17;
-            this.BtnDsbExitAllVisualStudio.Text = "Exit All Visual Studio";
-            this.BtnDsbExitAllVisualStudio.UseVisualStyleBackColor = true;
-            this.BtnDsbExitAllVisualStudio.Click += new System.EventHandler(this.BtnDsbExitAllVisualStudioClick);
-            // 
-            // BtnDsbRunScriptPostbuild
-            // 
-            this.BtnDsbRunScriptPostbuild.Location = new System.Drawing.Point(730, 156);
-            this.BtnDsbRunScriptPostbuild.Name = "BtnDsbRunScriptPostbuild";
-            this.BtnDsbRunScriptPostbuild.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbRunScriptPostbuild.TabIndex = 16;
-            this.BtnDsbRunScriptPostbuild.Text = "Run script Post-Build";
-            this.BtnDsbRunScriptPostbuild.UseVisualStyleBackColor = true;
-            this.BtnDsbRunScriptPostbuild.Click += new System.EventHandler(this.BtnDsbRunScriptPostbuildClick);
-            // 
-            // BtnDsbRunScriptPrebuild
-            // 
-            this.BtnDsbRunScriptPrebuild.Location = new System.Drawing.Point(576, 154);
-            this.BtnDsbRunScriptPrebuild.Name = "BtnDsbRunScriptPrebuild";
-            this.BtnDsbRunScriptPrebuild.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbRunScriptPrebuild.TabIndex = 15;
-            this.BtnDsbRunScriptPrebuild.Text = "Run script Pre-Build";
-            this.BtnDsbRunScriptPrebuild.UseVisualStyleBackColor = true;
-            this.BtnDsbRunScriptPrebuild.Click += new System.EventHandler(this.BtnDsbRunScriptPrebuildClick);
-            // 
-            // BtnDsbBuildSolution
-            // 
-            this.BtnDsbBuildSolution.Location = new System.Drawing.Point(422, 51);
-            this.BtnDsbBuildSolution.Name = "BtnDsbBuildSolution";
-            this.BtnDsbBuildSolution.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbBuildSolution.TabIndex = 14;
-            this.BtnDsbBuildSolution.Text = "Build solution";
-            this.BtnDsbBuildSolution.UseVisualStyleBackColor = true;
-            this.BtnDsbBuildSolution.Click += new System.EventHandler(this.BtnDsbBuildSolutionClick);
-            // 
-            // BtnDsbNugetRestore
-            // 
-            this.BtnDsbNugetRestore.Location = new System.Drawing.Point(268, 51);
-            this.BtnDsbNugetRestore.Name = "BtnDsbNugetRestore";
-            this.BtnDsbNugetRestore.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbNugetRestore.TabIndex = 13;
-            this.BtnDsbNugetRestore.Text = "Nuget restore";
-            this.BtnDsbNugetRestore.UseVisualStyleBackColor = true;
-            this.BtnDsbNugetRestore.Click += new System.EventHandler(this.BtnDsbNugetRestoreClick);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(15, 129);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(88, 15);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "Exclude pattern";
-            // 
-            // TxbDsbGitClean
-            // 
-            this.TxbDsbGitClean.Location = new System.Drawing.Point(114, 125);
-            this.TxbDsbGitClean.Name = "TxbDsbGitClean";
-            this.TxbDsbGitClean.Size = new System.Drawing.Size(610, 23);
-            this.TxbDsbGitClean.TabIndex = 11;
-            // 
-            // BtnDsbGitClean
-            // 
-            this.BtnDsbGitClean.Location = new System.Drawing.Point(730, 121);
-            this.BtnDsbGitClean.Name = "BtnDsbGitClean";
-            this.BtnDsbGitClean.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbGitClean.TabIndex = 10;
-            this.BtnDsbGitClean.Text = "Git clean";
-            this.BtnDsbGitClean.UseVisualStyleBackColor = true;
-            this.BtnDsbGitClean.Click += new System.EventHandler(this.BtnDsbGitCleanClick);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(15, 94);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(60, 15);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "Databases";
-            // 
-            // TxbDsbDatabasesToRestore
-            // 
-            this.TxbDsbDatabasesToRestore.Location = new System.Drawing.Point(114, 90);
-            this.TxbDsbDatabasesToRestore.Name = "TxbDsbDatabasesToRestore";
-            this.TxbDsbDatabasesToRestore.Size = new System.Drawing.Size(610, 23);
-            this.TxbDsbDatabasesToRestore.TabIndex = 8;
-            // 
-            // BtnDsbRestoreDatabases
-            // 
-            this.BtnDsbRestoreDatabases.Location = new System.Drawing.Point(730, 86);
-            this.BtnDsbRestoreDatabases.Name = "BtnDsbRestoreDatabases";
-            this.BtnDsbRestoreDatabases.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbRestoreDatabases.TabIndex = 7;
-            this.BtnDsbRestoreDatabases.Text = "Restore databases";
-            this.BtnDsbRestoreDatabases.UseVisualStyleBackColor = true;
-            this.BtnDsbRestoreDatabases.Click += new System.EventHandler(this.BtnDsbRestoreDatabasesClick);
-            // 
-            // BtnDsbFetchAll
-            // 
-            this.BtnDsbFetchAll.Location = new System.Drawing.Point(730, 191);
-            this.BtnDsbFetchAll.Name = "BtnDsbFetchAll";
-            this.BtnDsbFetchAll.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbFetchAll.TabIndex = 6;
-            this.BtnDsbFetchAll.Text = "Fetch all";
-            this.BtnDsbFetchAll.UseVisualStyleBackColor = true;
-            this.BtnDsbFetchAll.Click += new System.EventHandler(this.BtnDsbFetchAllClick);
-            // 
-            // BtnDsbStashPop
-            // 
-            this.BtnDsbStashPop.Location = new System.Drawing.Point(422, 154);
-            this.BtnDsbStashPop.Name = "BtnDsbStashPop";
-            this.BtnDsbStashPop.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbStashPop.TabIndex = 5;
-            this.BtnDsbStashPop.Text = "Stash pop";
-            this.BtnDsbStashPop.UseVisualStyleBackColor = true;
-            this.BtnDsbStashPop.Click += new System.EventHandler(this.BtnDsbStashPopClick);
-            // 
-            // BtnDsbStartSolution
-            // 
-            this.BtnDsbStartSolution.Location = new System.Drawing.Point(730, 51);
-            this.BtnDsbStartSolution.Name = "BtnDsbStartSolution";
-            this.BtnDsbStartSolution.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbStartSolution.TabIndex = 4;
-            this.BtnDsbStartSolution.Text = "Start Visual Studio";
-            this.BtnDsbStartSolution.UseVisualStyleBackColor = true;
-            this.BtnDsbStartSolution.Click += new System.EventHandler(this.BtnDsbStartSolutionClick);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(15, 25);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 15);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "Solutions";
-            // 
-            // CblDsbSolutions
-            // 
-            this.CblDsbSolutions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CblDsbSolutions.FormattingEnabled = true;
-            this.CblDsbSolutions.Location = new System.Drawing.Point(114, 22);
-            this.CblDsbSolutions.Name = "CblDsbSolutions";
-            this.CblDsbSolutions.Size = new System.Drawing.Size(764, 23);
-            this.CblDsbSolutions.TabIndex = 2;
-            // 
-            // BtnDsbExitSolution
-            // 
-            this.BtnDsbExitSolution.Location = new System.Drawing.Point(114, 51);
-            this.BtnDsbExitSolution.Name = "BtnDsbExitSolution";
-            this.BtnDsbExitSolution.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbExitSolution.TabIndex = 1;
-            this.BtnDsbExitSolution.Text = "Exit Visual Studio";
-            this.BtnDsbExitSolution.UseVisualStyleBackColor = true;
-            this.BtnDsbExitSolution.Click += new System.EventHandler(this.BtnDsbExitSolutionClick);
-            // 
-            // BtnDsbStashChanges
-            // 
-            this.BtnDsbStashChanges.Location = new System.Drawing.Point(268, 154);
-            this.BtnDsbStashChanges.Name = "BtnDsbStashChanges";
-            this.BtnDsbStashChanges.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbStashChanges.TabIndex = 0;
-            this.BtnDsbStashChanges.Text = "Stash changes";
-            this.BtnDsbStashChanges.UseVisualStyleBackColor = true;
-            this.BtnDsbStashChanges.Click += new System.EventHandler(this.BtnDsbStashChangesClick);
             // 
             // TpbSettings
             // 
@@ -1719,6 +1516,219 @@
             this.label2.Size = new System.Drawing.Size(0, 15);
             this.label2.TabIndex = 0;
             // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.CblDsbSolutions);
+            this.groupBox8.Controls.Add(this.BtnDsbExitSolution);
+            this.groupBox8.Controls.Add(this.label5);
+            this.groupBox8.Controls.Add(this.BtnDsbRebuildSolution);
+            this.groupBox8.Controls.Add(this.BtnDsbStartSolution);
+            this.groupBox8.Controls.Add(this.BtnDsbNugetRestore);
+            this.groupBox8.Controls.Add(this.BtnDsbBuildSolution);
+            this.groupBox8.Location = new System.Drawing.Point(4, 3);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(875, 100);
+            this.groupBox8.TabIndex = 24;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Visual Studio Solution";
+            // 
+            // CblDsbSolutions
+            // 
+            this.CblDsbSolutions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CblDsbSolutions.FormattingEnabled = true;
+            this.CblDsbSolutions.Location = new System.Drawing.Point(105, 22);
+            this.CblDsbSolutions.Name = "CblDsbSolutions";
+            this.CblDsbSolutions.Size = new System.Drawing.Size(764, 23);
+            this.CblDsbSolutions.TabIndex = 2;
+            // 
+            // BtnDsbExitSolution
+            // 
+            this.BtnDsbExitSolution.Location = new System.Drawing.Point(105, 51);
+            this.BtnDsbExitSolution.Name = "BtnDsbExitSolution";
+            this.BtnDsbExitSolution.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbExitSolution.TabIndex = 1;
+            this.BtnDsbExitSolution.Text = "Exit Visual Studio";
+            this.BtnDsbExitSolution.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 25);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 15);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Solutions";
+            // 
+            // BtnDsbRebuildSolution
+            // 
+            this.BtnDsbRebuildSolution.Location = new System.Drawing.Point(567, 51);
+            this.BtnDsbRebuildSolution.Name = "BtnDsbRebuildSolution";
+            this.BtnDsbRebuildSolution.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbRebuildSolution.TabIndex = 18;
+            this.BtnDsbRebuildSolution.Text = "Rebuild solution";
+            this.BtnDsbRebuildSolution.UseVisualStyleBackColor = true;
+            // 
+            // BtnDsbStartSolution
+            // 
+            this.BtnDsbStartSolution.Location = new System.Drawing.Point(721, 51);
+            this.BtnDsbStartSolution.Name = "BtnDsbStartSolution";
+            this.BtnDsbStartSolution.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbStartSolution.TabIndex = 4;
+            this.BtnDsbStartSolution.Text = "Start Visual Studio";
+            this.BtnDsbStartSolution.UseVisualStyleBackColor = true;
+            // 
+            // BtnDsbNugetRestore
+            // 
+            this.BtnDsbNugetRestore.Location = new System.Drawing.Point(259, 51);
+            this.BtnDsbNugetRestore.Name = "BtnDsbNugetRestore";
+            this.BtnDsbNugetRestore.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbNugetRestore.TabIndex = 13;
+            this.BtnDsbNugetRestore.Text = "Nuget restore";
+            this.BtnDsbNugetRestore.UseVisualStyleBackColor = true;
+            // 
+            // BtnDsbBuildSolution
+            // 
+            this.BtnDsbBuildSolution.Location = new System.Drawing.Point(413, 51);
+            this.BtnDsbBuildSolution.Name = "BtnDsbBuildSolution";
+            this.BtnDsbBuildSolution.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbBuildSolution.TabIndex = 14;
+            this.BtnDsbBuildSolution.Text = "Build solution";
+            this.BtnDsbBuildSolution.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.label6);
+            this.groupBox7.Controls.Add(this.BtnDsbRestoreDatabases);
+            this.groupBox7.Controls.Add(this.TxbDsbDatabasesToRestore);
+            this.groupBox7.Location = new System.Drawing.Point(4, 109);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(875, 64);
+            this.groupBox7.TabIndex = 23;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Databases";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 30);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(75, 15);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "DB to restore";
+            // 
+            // BtnDsbRestoreDatabases
+            // 
+            this.BtnDsbRestoreDatabases.Location = new System.Drawing.Point(721, 22);
+            this.BtnDsbRestoreDatabases.Name = "BtnDsbRestoreDatabases";
+            this.BtnDsbRestoreDatabases.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbRestoreDatabases.TabIndex = 7;
+            this.BtnDsbRestoreDatabases.Text = "Restore databases";
+            this.BtnDsbRestoreDatabases.UseVisualStyleBackColor = true;
+            // 
+            // TxbDsbDatabasesToRestore
+            // 
+            this.TxbDsbDatabasesToRestore.Location = new System.Drawing.Point(105, 26);
+            this.TxbDsbDatabasesToRestore.Name = "TxbDsbDatabasesToRestore";
+            this.TxbDsbDatabasesToRestore.Size = new System.Drawing.Size(610, 23);
+            this.TxbDsbDatabasesToRestore.TabIndex = 8;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.label7);
+            this.groupBox6.Controls.Add(this.BtnDsbStashChanges);
+            this.groupBox6.Controls.Add(this.BtnDsbGitClean);
+            this.groupBox6.Controls.Add(this.BtnDsbFetchAll);
+            this.groupBox6.Controls.Add(this.TxbDsbGitClean);
+            this.groupBox6.Controls.Add(this.BtnDsbStashPop);
+            this.groupBox6.Controls.Add(this.BtnDsbRunScriptPostbuild);
+            this.groupBox6.Controls.Add(this.BtnDsbExitAllVisualStudio);
+            this.groupBox6.Controls.Add(this.BtnDsbRunScriptPrebuild);
+            this.groupBox6.Location = new System.Drawing.Point(4, 179);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(875, 133);
+            this.groupBox6.TabIndex = 22;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Generic";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 31);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(88, 15);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "Exclude pattern";
+            // 
+            // BtnDsbStashChanges
+            // 
+            this.BtnDsbStashChanges.Location = new System.Drawing.Point(259, 58);
+            this.BtnDsbStashChanges.Name = "BtnDsbStashChanges";
+            this.BtnDsbStashChanges.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbStashChanges.TabIndex = 0;
+            this.BtnDsbStashChanges.Text = "Stash changes";
+            this.BtnDsbStashChanges.UseVisualStyleBackColor = true;
+            // 
+            // BtnDsbGitClean
+            // 
+            this.BtnDsbGitClean.Location = new System.Drawing.Point(721, 23);
+            this.BtnDsbGitClean.Name = "BtnDsbGitClean";
+            this.BtnDsbGitClean.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbGitClean.TabIndex = 10;
+            this.BtnDsbGitClean.Text = "Git clean";
+            this.BtnDsbGitClean.UseVisualStyleBackColor = true;
+            // 
+            // BtnDsbFetchAll
+            // 
+            this.BtnDsbFetchAll.Location = new System.Drawing.Point(721, 93);
+            this.BtnDsbFetchAll.Name = "BtnDsbFetchAll";
+            this.BtnDsbFetchAll.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbFetchAll.TabIndex = 6;
+            this.BtnDsbFetchAll.Text = "Fetch all";
+            this.BtnDsbFetchAll.UseVisualStyleBackColor = true;
+            // 
+            // TxbDsbGitClean
+            // 
+            this.TxbDsbGitClean.Location = new System.Drawing.Point(105, 27);
+            this.TxbDsbGitClean.Name = "TxbDsbGitClean";
+            this.TxbDsbGitClean.Size = new System.Drawing.Size(610, 23);
+            this.TxbDsbGitClean.TabIndex = 11;
+            // 
+            // BtnDsbStashPop
+            // 
+            this.BtnDsbStashPop.Location = new System.Drawing.Point(413, 58);
+            this.BtnDsbStashPop.Name = "BtnDsbStashPop";
+            this.BtnDsbStashPop.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbStashPop.TabIndex = 5;
+            this.BtnDsbStashPop.Text = "Stash pop";
+            this.BtnDsbStashPop.UseVisualStyleBackColor = true;
+            // 
+            // BtnDsbRunScriptPostbuild
+            // 
+            this.BtnDsbRunScriptPostbuild.Location = new System.Drawing.Point(721, 58);
+            this.BtnDsbRunScriptPostbuild.Name = "BtnDsbRunScriptPostbuild";
+            this.BtnDsbRunScriptPostbuild.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbRunScriptPostbuild.TabIndex = 16;
+            this.BtnDsbRunScriptPostbuild.Text = "Run script Post-Build";
+            this.BtnDsbRunScriptPostbuild.UseVisualStyleBackColor = true;
+            // 
+            // BtnDsbExitAllVisualStudio
+            // 
+            this.BtnDsbExitAllVisualStudio.Location = new System.Drawing.Point(105, 58);
+            this.BtnDsbExitAllVisualStudio.Name = "BtnDsbExitAllVisualStudio";
+            this.BtnDsbExitAllVisualStudio.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbExitAllVisualStudio.TabIndex = 17;
+            this.BtnDsbExitAllVisualStudio.Text = "Exit All Visual Studio";
+            this.BtnDsbExitAllVisualStudio.UseVisualStyleBackColor = true;
+            // 
+            // BtnDsbRunScriptPrebuild
+            // 
+            this.BtnDsbRunScriptPrebuild.Location = new System.Drawing.Point(567, 58);
+            this.BtnDsbRunScriptPrebuild.Name = "BtnDsbRunScriptPrebuild";
+            this.BtnDsbRunScriptPrebuild.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbRunScriptPrebuild.TabIndex = 15;
+            this.BtnDsbRunScriptPrebuild.Text = "Run script Pre-Build";
+            this.BtnDsbRunScriptPrebuild.UseVisualStyleBackColor = true;
+            // 
             // TalentsoftToolsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1766,8 +1776,6 @@
             this.TpbNotifications.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvNtfNotifications)).EndInit();
             this.TpbDashboard.ResumeLayout(false);
-            this.GbxDashboardActions.ResumeLayout(false);
-            this.GbxDashboardActions.PerformLayout();
             this.TpbSettings.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
@@ -1784,6 +1792,12 @@
             this.GbxActualInfos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesUpToDate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesMustUpdate)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1858,26 +1872,6 @@
         private System.Windows.Forms.PictureBox PbxBranchesUpToDate;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TabPage TpbDashboard;
-        private System.Windows.Forms.GroupBox GbxDashboardActions;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox CblDsbSolutions;
-        private System.Windows.Forms.Button BtnDsbExitSolution;
-        private System.Windows.Forms.Button BtnDsbStashChanges;
-        private System.Windows.Forms.Button BtnDsbStartSolution;
-        private System.Windows.Forms.Button BtnDsbStashPop;
-        private System.Windows.Forms.Button BtnDsbFetchAll;
-        private System.Windows.Forms.Button BtnDsbRestoreDatabases;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox TxbDsbDatabasesToRestore;
-        private System.Windows.Forms.Button BtnDsbGitClean;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox TxbDsbGitClean;
-        private System.Windows.Forms.Button BtnDsbNugetRestore;
-        private System.Windows.Forms.Button BtnDsbBuildSolution;
-        private System.Windows.Forms.Button BtnDsbRunScriptPrebuild;
-        private System.Windows.Forms.Button BtnDsbRunScriptPostbuild;
-        private System.Windows.Forms.Button BtnDsbExitAllVisualStudio;
-        private System.Windows.Forms.Button BtnDsbRebuildSolution;
         private System.Windows.Forms.PictureBox PbxDsbLoadingAction;
         private System.Windows.Forms.TabPage TpbSettings;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -1934,5 +1928,27 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button BtnSettingsSave;
         private System.Windows.Forms.CheckBox CbxSettingsNotificationsEnable;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.ComboBox CblDsbSolutions;
+        private System.Windows.Forms.Button BtnDsbExitSolution;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button BtnDsbRebuildSolution;
+        private System.Windows.Forms.Button BtnDsbStartSolution;
+        private System.Windows.Forms.Button BtnDsbNugetRestore;
+        private System.Windows.Forms.Button BtnDsbBuildSolution;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button BtnDsbRestoreDatabases;
+        private System.Windows.Forms.TextBox TxbDsbDatabasesToRestore;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button BtnDsbStashChanges;
+        private System.Windows.Forms.Button BtnDsbGitClean;
+        private System.Windows.Forms.Button BtnDsbFetchAll;
+        private System.Windows.Forms.TextBox TxbDsbGitClean;
+        private System.Windows.Forms.Button BtnDsbStashPop;
+        private System.Windows.Forms.Button BtnDsbRunScriptPostbuild;
+        private System.Windows.Forms.Button BtnDsbExitAllVisualStudio;
+        private System.Windows.Forms.Button BtnDsbRunScriptPrebuild;
     }
 }

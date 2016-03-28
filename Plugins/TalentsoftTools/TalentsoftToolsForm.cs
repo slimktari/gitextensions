@@ -23,7 +23,6 @@ namespace TalentsoftTools
 
         public TalentsoftToolsForm(ISettingsSource settings)
         {
-            var d = GitCommandHelpers.MergedBranches();
             IsProcessAborted = true;
             _settings = settings;
             WorkingDirectory = TalentsoftToolsPlugin.GitUiCommands.GitModule.WorkingDir;
@@ -274,6 +273,71 @@ namespace TalentsoftTools
                 CbxIsPostBuild.Enabled = false;
                 BtnDsbRunScriptPostbuild.Enabled = false;
             }
+        }
+
+        private void BtnDsbExitSolutionClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnDsbRebuildSolutionClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnDsbStartSolutionClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnDsbNugetRestoreClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnDsbBuildSolutionClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnDsbRestoreDatabasesClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnDsbStashChangesClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnDsbGitCleanClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnDsbFetchAllClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnDsbStashPopClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnDsbRunScriptPostbuildClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnDsbExitAllVisualStudioClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnDsbRunScriptPrebuildClick(object sender, EventArgs e)
+        {
+
         }
     }
 }
