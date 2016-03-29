@@ -17,10 +17,10 @@
 
         public static BoolSetting IsDefaultExitVisualStudio = new BoolSetting("Is default exit Visual Studio", true);
         public static BoolSetting IsDefaultStartVisualStudio = new BoolSetting("Is default start Visual Studio", true);
-        public static BoolSetting IsDefaultStashChanges = new BoolSetting("Is default stash changes", true);
+        public static BoolSetting IsDefaultStashChanges = new BoolSetting("Is default stash changes", false);
         public static BoolSetting IsDefaultCheckoutBranch = new BoolSetting("Is default checkout branch", true);
-        public static BoolSetting IsDefaultGitClean = new BoolSetting("Is default git clean", true);
-        public static BoolSetting IsDefaultStashPop = new BoolSetting("Is default stash pop", true);
+        public static BoolSetting IsDefaultGitClean = new BoolSetting("Is default git clean", false);
+        public static BoolSetting IsDefaultStashPop = new BoolSetting("Is default stash pop", false);
         public static BoolSetting IsDefaultResetDatabases = new BoolSetting("Is default reset databases", true);
         public static BoolSetting IsDefaultNugetRestore = new BoolSetting("Is default Nuget restore", true);
         public static BoolSetting IsDefaultBuildSolution = new BoolSetting("Is default build solution", true);

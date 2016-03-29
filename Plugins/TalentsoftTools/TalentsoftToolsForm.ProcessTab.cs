@@ -104,7 +104,6 @@
                 IsProcessAborted = true;
                 BtnRunProcess.Enabled = true;
                 BtnStopProcess.Enabled = false;
-                PbxLoadingProcess.Visible = false;
                 PbxDsbLoadingAction.Visible = false;
                 TbcMain.TabPages[2].Enabled = true;
                 LoadLocalBranches();
@@ -532,7 +531,7 @@
             DateTime endateDateTime = DateTime.Now;
             Invoke((MethodInvoker)(() =>
             {
-                TbxLogInfo.AppendText(string.Format("\r\nEnd at: {0}.", endateDateTime));
+                TbxLogInfo.AppendText(string.Format("\r\n\r\nEnd at: {0}.", endateDateTime));
                 TbxLogInfo.AppendText(string.Format("\r\nElapsed time: {0}.", endateDateTime - startDateTime));
                 GitHelper.NotifyGitExtensions();
                 LblActualBranchName.Text = GitHelper.GetSelectedBranch();
@@ -646,7 +645,6 @@
             {
                 return;
             }
-            PbxLoadingProcess.Visible = true;
             PbxDsbLoadingAction.Visible = true;
             if (CblSolutions.Items.Count > 0)
             {

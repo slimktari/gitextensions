@@ -37,7 +37,7 @@
             // 
             // lblTimeRemaining
             // 
-            this.lblTimeRemaining.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lblTimeRemaining.BackColor = System.Drawing.Color.White;
             this.lblTimeRemaining.Location = new System.Drawing.Point(3, 156);
             this.lblTimeRemaining.Name = "lblTimeRemaining";
             this.lblTimeRemaining.Size = new System.Drawing.Size(279, 16);
@@ -56,7 +56,7 @@
             // 
             // lblStatus
             // 
-            this.lblStatus.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lblStatus.BackColor = System.Drawing.Color.White;
             this.lblStatus.Location = new System.Drawing.Point(3, 103);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(279, 14);

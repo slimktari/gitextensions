@@ -59,7 +59,6 @@
             this.TxbUri = new System.Windows.Forms.TextBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.CbxIsStashPop = new System.Windows.Forms.CheckBox();
-            this.PbxLoadingProcess = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -190,7 +189,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbxLoadingProcess)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -401,7 +399,6 @@
             this.GbxProcess.Controls.Add(this.TxbUri);
             this.GbxProcess.Controls.Add(this.pictureBox7);
             this.GbxProcess.Controls.Add(this.CbxIsStashPop);
-            this.GbxProcess.Controls.Add(this.PbxLoadingProcess);
             this.GbxProcess.Controls.Add(this.pictureBox5);
             this.GbxProcess.Controls.Add(this.pictureBox4);
             this.GbxProcess.Controls.Add(this.pictureBox3);
@@ -558,16 +555,6 @@
             this.CbxIsStashPop.TabIndex = 10;
             this.CbxIsStashPop.Text = "Stash pop";
             this.CbxIsStashPop.UseVisualStyleBackColor = true;
-            // 
-            // PbxLoadingProcess
-            // 
-            this.PbxLoadingProcess.Image = global::TalentsoftTools.Properties.Resources.SwitchingCircleGreenBlueTransparentM;
-            this.PbxLoadingProcess.Location = new System.Drawing.Point(704, 146);
-            this.PbxLoadingProcess.Name = "PbxLoadingProcess";
-            this.PbxLoadingProcess.Size = new System.Drawing.Size(37, 19);
-            this.PbxLoadingProcess.TabIndex = 24;
-            this.PbxLoadingProcess.TabStop = false;
-            this.PbxLoadingProcess.Visible = false;
             // 
             // pictureBox5
             // 
@@ -933,7 +920,7 @@
             this.DgvNtfNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DgvNtfNotifications.Location = new System.Drawing.Point(0, 0);
             this.DgvNtfNotifications.Name = "DgvNtfNotifications";
-            this.DgvNtfNotifications.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.DgvNtfNotifications.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DgvNtfNotifications.Size = new System.Drawing.Size(887, 622);
             this.DgvNtfNotifications.TabIndex = 1;
             this.DgvNtfNotifications.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvNtfNotificationsCellContentClick);
@@ -1798,7 +1785,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PbxLoadingProcess)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
@@ -1878,7 +1864,6 @@
         private System.Windows.Forms.TextBox TxbNewBranchName;
         private System.Windows.Forms.CheckBox CbxIsCreateNewBranch;
         private System.Windows.Forms.BindingSource branchDtoBindingSource;
-        private System.Windows.Forms.PictureBox PbxLoadingProcess;
         private System.Windows.Forms.PictureBox pictureBox7;
         private System.Windows.Forms.CheckBox CbxIsStashPop;
         private System.Windows.Forms.TextBox TxbUri;
