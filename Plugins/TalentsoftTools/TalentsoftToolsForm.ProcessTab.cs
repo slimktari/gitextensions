@@ -159,7 +159,7 @@
                     }));
                 }
             }
-            if (IsStashCahnges && !IsProcessAborted)
+            if (IsStashCahnges)
             {
 
                 Invoke((MethodInvoker)(() =>
@@ -179,7 +179,6 @@
                             gitStashResult.StdError));
                         TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
-                    IsProcessAborted = true;
                 }
                 else
                 {
@@ -189,7 +188,7 @@
                     }));
                 }
             }
-            if (IsCheckoutBranch && !IsProcessAborted)
+            if (IsCheckoutBranch)
             {
                 bool isLocal = false;
                 Invoke((MethodInvoker)(() =>
@@ -219,10 +218,9 @@
                             gitCheckoutResult.StdError));
                         TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
-                    IsProcessAborted = true;
                 }
 
-                if (!IsProcessAborted && IsCreateNewBranch && !string.IsNullOrWhiteSpace(NewBranchName))
+                if (IsCreateNewBranch && !string.IsNullOrWhiteSpace(NewBranchName))
                 {
                     Invoke((MethodInvoker)(() =>
                     {
@@ -240,7 +238,6 @@
                                 NewBranchName, gitCheckoutResult.StdError));
                             TbxLogInfo.AppendText("\r\nProcess aborted.");
                         }));
-                        IsProcessAborted = true;
                     }
                 }
                 Invoke((MethodInvoker)(() =>
@@ -248,7 +245,7 @@
                     CbxIsCheckoutBranch.BackColor = Generic.ColorProcessTaskSuccess;
                 }));
             }
-            if (IsGitClean && !IsProcessAborted)
+            if (IsGitClean)
             {
                 Invoke((MethodInvoker)(() => { CbxIsGitClean.BackColor = Generic.ColorProcessTaskInProgress; }));
                 string excludeCommand = string.Empty;
@@ -280,7 +277,7 @@
                     }));
                 }
             }
-            if (IsStashPop && !IsProcessAborted)
+            if (IsStashPop)
             {
                 Invoke((MethodInvoker)(() =>
                 {
@@ -297,7 +294,6 @@
                             gitStashPopResult.StdError));
                         TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
-                    IsProcessAborted = true;
                 }
                 else
                 {
@@ -307,141 +303,7 @@
                     }));
                 }
             }
-            if (IsPreBuildSolution && !IsProcessAborted)
-            {
-                Invoke((MethodInvoker)(() =>
-                {
-                    CbxIsPreBuild.BackColor = Generic.ColorProcessTaskInProgress;
-                    TbxLogInfo.AppendText(string.Format("\r\nRunning Pre-Build scripts:\r\n{0}",
-                        string.Join("\r\n", PreBuildFiles)));
-                }));
-                bool result = GenericHelper.RunCommandLine(PreBuildFiles.ToList());
-                if (!result)
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsPreBuild.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText("\r\nError when running Pre-Build scripts.");
-                        TbxLogInfo.AppendText("\r\nProcess aborted.");
-                    }));
-                    IsProcessAborted = true;
-                }
-                else
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsPreBuild.BackColor = Generic.ColorProcessTaskSuccess;
-                    }));
-                }
-            }
-            if (IsNugetRestore && !IsProcessAborted)
-            {
-                Invoke((MethodInvoker)(() =>
-                {
-                    CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskInProgress;
-                    TbxLogInfo.AppendText(
-                        string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.",
-                            TargetSolutionName, solutionFullPath));
-                }));
-                if (GenericHelper.RunCommandLine(new List<string>
-                {
-                    string.Format("nuget restore {0}", solutionFullPath)
-                }))
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskSuccess;
-                    }));
-                }
-                else
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.",
-                            solutionFullPath));
-                    }));
-                }
-            }
-            if (IsBuildSolution && !IsProcessAborted)
-            {
-                Invoke((MethodInvoker)(() =>
-                {
-                    CbxIsBuildSolution.BackColor = Generic.ColorProcessTaskInProgress;
-                    TbxLogInfo.AppendText(
-                        string.Format(
-                            "\r\nBuilding solution: {0}...",
-                            TargetSolutionName));
-                }));
-                string errorResult = GenericHelper.Build(solutionFullPath, Generic.GenrateSolutionArguments.Build);
-                if (!string.IsNullOrWhiteSpace(errorResult))
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsBuildSolution.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.", solutionFullPath));
-                        TbxLogInfo.AppendText(errorResult);
-                        TbxLogInfo.AppendText("\r\nProcess aborted.");
-                    }));
-                    IsProcessAborted = true;
-                }
-                Invoke((MethodInvoker)(() =>
-                {
-                    CbxIsBuildSolution.BackColor = Generic.ColorProcessTaskSuccess;
-                }));
-            }
-            if (IsPostBuildSolution && !IsProcessAborted)
-            {
-                Invoke((MethodInvoker)(() =>
-                {
-                    CbxIsPostBuild.BackColor = Generic.ColorProcessTaskInProgress;
-                    TbxLogInfo.AppendText(string.Format("\r\nRunning Post-Build scripts:\r\n{0}",
-                        string.Join("\r\n", PostBuildFiles)));
-                }));
-                bool result = GenericHelper.RunCommandLine(PostBuildFiles.ToList());
-                if (!result)
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsPostBuild.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText("\r\nError when running Post-Build scripts.");
-                        TbxLogInfo.AppendText("\r\nProcess aborted.");
-                    }));
-                }
-                else
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsPostBuild.BackColor = Generic.ColorProcessTaskSuccess;
-                    }));
-                }
-            }
-            if (IsRunVisualStudio && !IsProcessAborted)
-            {
-                Invoke((MethodInvoker)(() =>
-                {
-                    CbxIsRunVisualStudio.BackColor = Generic.ColorProcessTaskInProgress;
-                    TbxLogInfo.AppendText(string.Format("\r\nRunning Visual Studio with: {0}...", TargetSolutionName));
-                }));
-                if (!GenericHelper.LaunchVisualStudio(solutionFullPath))
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsRunVisualStudio.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when running Visual Studio with: {0}.",
-                            solutionFullPath));
-                        TbxLogInfo.AppendText("\r\nProcess aborted.");
-                    }));
-                }
-                else
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsRunVisualStudio.BackColor = Generic.ColorProcessTaskSuccess;
-                    }));
-                }
-            }
-            if (!IsProcessAborted && IsRestoreDatabase && Databases.Any())
+            if (IsRestoreDatabase && Databases.Any())
             {
                 bool isRestore = false;
                 bool isError = false;
@@ -496,7 +358,139 @@
                     }
                 }
             }
-            if (IsRunUri && !IsProcessAborted)
+            if (IsPreBuildSolution)
+            {
+                Invoke((MethodInvoker)(() =>
+                {
+                    CbxIsPreBuild.BackColor = Generic.ColorProcessTaskInProgress;
+                    TbxLogInfo.AppendText(string.Format("\r\nRunning Pre-Build scripts:\r\n{0}",
+                        string.Join("\r\n", PreBuildFiles)));
+                }));
+                bool result = GenericHelper.RunCommandLine(PreBuildFiles.ToList());
+                if (!result)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsPreBuild.BackColor = Generic.ColorProcessTaskFailed;
+                        TbxLogInfo.AppendText("\r\nError when running Pre-Build scripts.");
+                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                    }));
+                }
+                else
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsPreBuild.BackColor = Generic.ColorProcessTaskSuccess;
+                    }));
+                }
+            }
+            if (IsNugetRestore)
+            {
+                Invoke((MethodInvoker)(() =>
+                {
+                    CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskInProgress;
+                    TbxLogInfo.AppendText(
+                        string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.",
+                            TargetSolutionName, solutionFullPath));
+                }));
+                if (GenericHelper.RunCommandLine(new List<string>
+                {
+                    string.Format("nuget restore {0}", solutionFullPath)
+                }))
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskSuccess;
+                    }));
+                }
+                else
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskFailed;
+                        TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.",
+                            solutionFullPath));
+                    }));
+                }
+            }
+            if (IsBuildSolution)
+            {
+                Invoke((MethodInvoker)(() =>
+                {
+                    CbxIsBuildSolution.BackColor = Generic.ColorProcessTaskInProgress;
+                    TbxLogInfo.AppendText(
+                        string.Format(
+                            "\r\nBuilding solution: {0}...",
+                            TargetSolutionName));
+                }));
+                string errorResult = GenericHelper.Build(solutionFullPath, Generic.GenrateSolutionArguments.Build);
+                if (!string.IsNullOrWhiteSpace(errorResult))
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsBuildSolution.BackColor = Generic.ColorProcessTaskFailed;
+                        TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.", solutionFullPath));
+                        TbxLogInfo.AppendText(errorResult);
+                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                    }));
+                }
+                Invoke((MethodInvoker)(() =>
+                {
+                    CbxIsBuildSolution.BackColor = Generic.ColorProcessTaskSuccess;
+                }));
+            }
+            if (IsPostBuildSolution)
+            {
+                Invoke((MethodInvoker)(() =>
+                {
+                    CbxIsPostBuild.BackColor = Generic.ColorProcessTaskInProgress;
+                    TbxLogInfo.AppendText(string.Format("\r\nRunning Post-Build scripts:\r\n{0}",
+                        string.Join("\r\n", PostBuildFiles)));
+                }));
+                bool result = GenericHelper.RunCommandLine(PostBuildFiles.ToList());
+                if (!result)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsPostBuild.BackColor = Generic.ColorProcessTaskFailed;
+                        TbxLogInfo.AppendText("\r\nError when running Post-Build scripts.");
+                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                    }));
+                }
+                else
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsPostBuild.BackColor = Generic.ColorProcessTaskSuccess;
+                    }));
+                }
+            }
+            if (IsRunVisualStudio)
+            {
+                Invoke((MethodInvoker)(() =>
+                {
+                    CbxIsRunVisualStudio.BackColor = Generic.ColorProcessTaskInProgress;
+                    TbxLogInfo.AppendText(string.Format("\r\nRunning Visual Studio with: {0}...", TargetSolutionName));
+                }));
+                if (!GenericHelper.LaunchVisualStudio(solutionFullPath))
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsRunVisualStudio.BackColor = Generic.ColorProcessTaskFailed;
+                        TbxLogInfo.AppendText(string.Format("\r\nError when running Visual Studio with: {0}.",
+                            solutionFullPath));
+                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                    }));
+                }
+                else
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsRunVisualStudio.BackColor = Generic.ColorProcessTaskSuccess;
+                    }));
+                }
+            }
+            if (IsRunUri)
             {
                 Invoke((MethodInvoker)(() =>
                 {

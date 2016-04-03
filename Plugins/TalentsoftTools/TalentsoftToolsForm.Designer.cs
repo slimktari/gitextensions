@@ -423,7 +423,7 @@
             // pictureBox6
             // 
             this.pictureBox6.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox6.Location = new System.Drawing.Point(493, 100);
+            this.pictureBox6.Location = new System.Drawing.Point(503, 100);
             this.pictureBox6.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(33, 30);
@@ -435,7 +435,7 @@
             this.CbxIsNugetRestore.AutoSize = true;
             this.CbxIsNugetRestore.Checked = true;
             this.CbxIsNugetRestore.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsNugetRestore.Location = new System.Drawing.Point(181, 67);
+            this.CbxIsNugetRestore.Location = new System.Drawing.Point(694, 67);
             this.CbxIsNugetRestore.Name = "CbxIsNugetRestore";
             this.CbxIsNugetRestore.Size = new System.Drawing.Size(98, 19);
             this.CbxIsNugetRestore.TabIndex = 12;
@@ -445,7 +445,7 @@
             // pictureBox11
             // 
             this.pictureBox11.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox11.Location = new System.Drawing.Point(644, 60);
+            this.pictureBox11.Location = new System.Drawing.Point(142, 100);
             this.pictureBox11.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox11.Name = "pictureBox11";
             this.pictureBox11.Size = new System.Drawing.Size(33, 30);
@@ -454,15 +454,15 @@
             // 
             // TxbProcessDatabasesToRestore
             // 
-            this.TxbProcessDatabasesToRestore.Location = new System.Drawing.Point(142, 104);
+            this.TxbProcessDatabasesToRestore.Location = new System.Drawing.Point(142, 65);
             this.TxbProcessDatabasesToRestore.Name = "TxbProcessDatabasesToRestore";
-            this.TxbProcessDatabasesToRestore.Size = new System.Drawing.Size(346, 23);
+            this.TxbProcessDatabasesToRestore.Size = new System.Drawing.Size(355, 23);
             this.TxbProcessDatabasesToRestore.TabIndex = 17;
             // 
             // pictureBox8
             // 
             this.pictureBox8.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox8.Location = new System.Drawing.Point(287, 60);
+            this.pictureBox8.Location = new System.Drawing.Point(298, 100);
             this.pictureBox8.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox8.Name = "pictureBox8";
             this.pictureBox8.Size = new System.Drawing.Size(33, 30);
@@ -474,7 +474,7 @@
             this.CbxIsRestoreDatabases.AutoSize = true;
             this.CbxIsRestoreDatabases.Checked = true;
             this.CbxIsRestoreDatabases.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsRestoreDatabases.Location = new System.Drawing.Point(13, 106);
+            this.CbxIsRestoreDatabases.Location = new System.Drawing.Point(13, 67);
             this.CbxIsRestoreDatabases.Name = "CbxIsRestoreDatabases";
             this.CbxIsRestoreDatabases.Size = new System.Drawing.Size(120, 19);
             this.CbxIsRestoreDatabases.TabIndex = 16;
@@ -486,7 +486,7 @@
             // pictureBox10
             // 
             this.pictureBox10.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox10.Location = new System.Drawing.Point(142, 60);
+            this.pictureBox10.Location = new System.Drawing.Point(645, 60);
             this.pictureBox10.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox10.Name = "pictureBox10";
             this.pictureBox10.Size = new System.Drawing.Size(33, 30);
@@ -498,7 +498,7 @@
             this.CbxIsPreBuild.AutoSize = true;
             this.CbxIsPreBuild.Checked = true;
             this.CbxIsPreBuild.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsPreBuild.Location = new System.Drawing.Point(13, 67);
+            this.CbxIsPreBuild.Location = new System.Drawing.Point(542, 67);
             this.CbxIsPreBuild.Name = "CbxIsPreBuild";
             this.CbxIsPreBuild.Size = new System.Drawing.Size(94, 19);
             this.CbxIsPreBuild.TabIndex = 11;
@@ -520,7 +520,7 @@
             this.CbxIsPostBuild.AutoSize = true;
             this.CbxIsPostBuild.Checked = true;
             this.CbxIsPostBuild.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsPostBuild.Location = new System.Drawing.Point(532, 67);
+            this.CbxIsPostBuild.Location = new System.Drawing.Point(181, 106);
             this.CbxIsPostBuild.Name = "CbxIsPostBuild";
             this.CbxIsPostBuild.Size = new System.Drawing.Size(103, 19);
             this.CbxIsPostBuild.TabIndex = 14;
@@ -529,15 +529,15 @@
             // 
             // TxbUri
             // 
-            this.TxbUri.Location = new System.Drawing.Point(644, 104);
+            this.TxbUri.Location = new System.Drawing.Point(645, 104);
             this.TxbUri.Name = "TxbUri";
-            this.TxbUri.Size = new System.Drawing.Size(215, 23);
+            this.TxbUri.Size = new System.Drawing.Size(214, 23);
             this.TxbUri.TabIndex = 19;
             // 
             // pictureBox7
             // 
             this.pictureBox7.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox7.Location = new System.Drawing.Point(644, 19);
+            this.pictureBox7.Location = new System.Drawing.Point(645, 19);
             this.pictureBox7.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Size = new System.Drawing.Size(33, 30);
@@ -549,7 +549,7 @@
             this.CbxIsStashPop.AutoSize = true;
             this.CbxIsStashPop.Checked = true;
             this.CbxIsStashPop.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsStashPop.Location = new System.Drawing.Point(688, 25);
+            this.CbxIsStashPop.Location = new System.Drawing.Point(694, 25);
             this.CbxIsStashPop.Name = "CbxIsStashPop";
             this.CbxIsStashPop.Size = new System.Drawing.Size(78, 19);
             this.CbxIsStashPop.TabIndex = 10;
@@ -559,7 +559,7 @@
             // pictureBox5
             // 
             this.pictureBox5.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox5.Location = new System.Drawing.Point(493, 60);
+            this.pictureBox5.Location = new System.Drawing.Point(503, 60);
             this.pictureBox5.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(33, 30);
@@ -579,7 +579,7 @@
             // pictureBox3
             // 
             this.pictureBox3.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox3.Location = new System.Drawing.Point(493, 19);
+            this.pictureBox3.Location = new System.Drawing.Point(503, 19);
             this.pictureBox3.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(33, 30);
@@ -589,7 +589,7 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
-            this.pictureBox2.Location = new System.Drawing.Point(287, 19);
+            this.pictureBox2.Location = new System.Drawing.Point(298, 19);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(33, 30);
@@ -621,7 +621,7 @@
             this.CbxLaunchUri.AutoSize = true;
             this.CbxLaunchUri.Checked = true;
             this.CbxLaunchUri.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxLaunchUri.Location = new System.Drawing.Point(532, 106);
+            this.CbxLaunchUri.Location = new System.Drawing.Point(542, 106);
             this.CbxLaunchUri.Name = "CbxLaunchUri";
             this.CbxLaunchUri.Size = new System.Drawing.Size(86, 19);
             this.CbxLaunchUri.TabIndex = 18;
@@ -633,7 +633,7 @@
             this.CbxIsGitClean.AutoSize = true;
             this.CbxIsGitClean.Checked = true;
             this.CbxIsGitClean.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsGitClean.Location = new System.Drawing.Point(532, 25);
+            this.CbxIsGitClean.Location = new System.Drawing.Point(542, 25);
             this.CbxIsGitClean.Name = "CbxIsGitClean";
             this.CbxIsGitClean.Size = new System.Drawing.Size(72, 19);
             this.CbxIsGitClean.TabIndex = 9;
@@ -667,7 +667,7 @@
             this.CbxIsRunVisualStudio.AutoSize = true;
             this.CbxIsRunVisualStudio.Checked = true;
             this.CbxIsRunVisualStudio.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsRunVisualStudio.Location = new System.Drawing.Point(688, 67);
+            this.CbxIsRunVisualStudio.Location = new System.Drawing.Point(345, 106);
             this.CbxIsRunVisualStudio.Name = "CbxIsRunVisualStudio";
             this.CbxIsRunVisualStudio.Size = new System.Drawing.Size(118, 19);
             this.CbxIsRunVisualStudio.TabIndex = 15;
@@ -692,7 +692,7 @@
             this.CbxIsCheckoutBranch.AutoSize = true;
             this.CbxIsCheckoutBranch.Checked = true;
             this.CbxIsCheckoutBranch.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsCheckoutBranch.Location = new System.Drawing.Point(326, 25);
+            this.CbxIsCheckoutBranch.Location = new System.Drawing.Point(337, 25);
             this.CbxIsCheckoutBranch.Name = "CbxIsCheckoutBranch";
             this.CbxIsCheckoutBranch.Size = new System.Drawing.Size(162, 19);
             this.CbxIsCheckoutBranch.TabIndex = 8;
@@ -704,7 +704,7 @@
             this.CbxIsBuildSolution.AutoSize = true;
             this.CbxIsBuildSolution.Checked = true;
             this.CbxIsBuildSolution.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CbxIsBuildSolution.Location = new System.Drawing.Point(326, 67);
+            this.CbxIsBuildSolution.Location = new System.Drawing.Point(13, 106);
             this.CbxIsBuildSolution.Name = "CbxIsBuildSolution";
             this.CbxIsBuildSolution.Size = new System.Drawing.Size(99, 19);
             this.CbxIsBuildSolution.TabIndex = 13;

@@ -115,7 +115,7 @@
         {
             foreach (DataGridViewRow row in DgvLocalsBranches.SelectedRows)
             {
-                string branchToDelete = row.Cells[1].Value.ToString();
+                string branchToDelete = row.Cells[0].Value.ToString();
                 bool isMerged = Convert.ToBoolean(row.Cells[3].Value);
                 CmdResult gitResult = new CmdResult();
                 if (!isMerged)
@@ -142,6 +142,7 @@
             GitHelper.NotifyGitExtensions();
             LoadLocalBranches();
             InitLocalBranchTab();
+            UpdateLocalBranchBackColor();
             UpdateNotifications();
         }
 

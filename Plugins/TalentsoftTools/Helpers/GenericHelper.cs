@@ -138,6 +138,7 @@
             processStartInfo.RedirectStandardInput = true;
             processStartInfo.UseShellExecute = false;
             processStartInfo.CreateNoWindow = true;
+            processStartInfo.Verb = "runas";
 
             Process process = Process.Start(processStartInfo);
 

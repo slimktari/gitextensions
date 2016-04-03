@@ -113,14 +113,14 @@
         private void RecreateObservable()
         {
             CancelBackgroundOperation();
-            int fetchInterval = CheckInterval[Settings];
+            int fetchInterval = CheckInterval[PluginSettings];
             IGitModule gitModule = _currentGitUiCommands.GitModule;
             if (fetchInterval > 0 && gitModule.IsValidGitWorkingDir())
             {
                 _cancellationToken =
                     Observable.Timer(TimeSpan.FromSeconds(Math.Max(5, fetchInterval)))
                         .SkipWhile(
-                            i => gitModule.IsRunningGitProcess() || _isMonitorRunnig || CheckInterval[Settings] == Generic.DisableValueCheckMonitoInterval)
+                            i => gitModule.IsRunningGitProcess() || _isMonitorRunnig || CheckInterval[PluginSettings] == Generic.DisableValueCheckMonitoInterval)
                         .Repeat()
                         .ObserveOn(ThreadPoolScheduler.Instance)
                         .Subscribe(i =>
@@ -137,9 +137,9 @@
 
         void MonitorTask()
         {
-            if (!string.IsNullOrWhiteSpace(BranchesToMonitor[Settings]))
+            if (!string.IsNullOrWhiteSpace(BranchesToMonitor[PluginSettings]))
             {
-                var tab = BranchesToMonitor[Settings].Split(';').Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+                var tab = BranchesToMonitor[PluginSettings].Split(';').Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
                 if (tab.Any())
                 {
                     _isMonitorRunnig = true;
@@ -159,7 +159,7 @@
                                 IAsyncResult iSyncResult = Application.OpenForms[0].BeginInvoke((ThreadStart) delegate
                                 {
                                     resultFormDialog =
-                                        new MonitorActionsForm(Settings, _currentGitUiCommands, localBranch).ShowDialog(
+                                        new MonitorActionsForm(PluginSettings, _currentGitUiCommands, localBranch).ShowDialog(
                                             Application.OpenForms[0]);
 
                                 });
