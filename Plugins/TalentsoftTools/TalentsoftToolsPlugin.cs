@@ -117,21 +117,25 @@
             IGitModule gitModule = _currentGitUiCommands.GitModule;
             if (fetchInterval > 0 && gitModule.IsValidGitWorkingDir())
             {
-                _cancellationToken =
-                    Observable.Timer(TimeSpan.FromSeconds(Math.Max(5, fetchInterval)))
+                IObservable<long> source =
+                    Observable.Timer(TimeSpan.FromSeconds(fetchInterval))
                         .SkipWhile(
-                            i => gitModule.IsRunningGitProcess() || _isMonitorRunnig || CheckInterval[PluginSettings] == Generic.DisableValueCheckMonitoInterval)
+                            i =>
+                                gitModule.IsRunningGitProcess() || _isMonitorRunnig ||
+                                CheckInterval[PluginSettings] == Generic.DisableValueCheckMonitoInterval)
                         .Repeat()
-                        .ObserveOn(ThreadPoolScheduler.Instance)
-                        .Subscribe(i =>
-                        {
-                            if (_currentGitUiCommands != null)
-                            {
-                                _currentGitUiCommands.GitModule.RunGitCmdResult("fetch -q --all");
-                                _currentGitUiCommands.RepoChangedNotifier.Notify();
-                            }
-                            MonitorTask();
-                        });
+                        .ObserveOn(ThreadPoolScheduler.Instance);
+
+                _cancellationToken = source.Subscribe(i =>
+                {
+                    if (_currentGitUiCommands != null)
+                    {
+                        _currentGitUiCommands.GitModule.RunGitCmdResult("fetch -q --all");
+                        _currentGitUiCommands.RepoChangedNotifier.Notify();
+                        MonitorTask();
+                        //source.Buffer(TimeSpan.FromSeconds(CheckInterval[PluginSettings]));
+                    }
+                });
             }
         }
 
@@ -156,7 +160,7 @@
                             DialogResult resultFormDialog = DialogResult.None;
                             if (Application.OpenForms.Count > Generic.DisableValueCheckMonitoInterval)
                             {
-                                IAsyncResult iSyncResult = Application.OpenForms[0].BeginInvoke((ThreadStart) delegate
+                                IAsyncResult iSyncResult = Application.OpenForms[0].BeginInvoke((ThreadStart)delegate
                                 {
                                     resultFormDialog =
                                         new MonitorActionsForm(PluginSettings, _currentGitUiCommands, localBranch).ShowDialog(

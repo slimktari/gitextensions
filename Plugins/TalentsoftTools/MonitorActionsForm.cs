@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Windows.Forms;
-using GitCommands;
-using GitUIPluginInterfaces;
-
-namespace TalentsoftTools
+﻿namespace TalentsoftTools
 {
+    using System;
+    using System.Linq;
+    using System.Threading;
+    using System.Windows.Forms;
+    using GitCommands;
+    using GitUIPluginInterfaces;
+
     public partial class MonitorActionsForm : Form
     {
         private ISettingsSource _settings;
@@ -93,7 +92,7 @@ namespace TalentsoftTools
                 var pluginForm = form as TalentsoftToolsForm;
                 if (pluginForm != null)
                 {
-                    pluginForm.InitNotificationsTab();
+                    pluginForm.InitNotifications();
                 }
             }
         }

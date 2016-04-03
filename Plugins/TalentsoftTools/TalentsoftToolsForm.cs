@@ -139,10 +139,16 @@
                 BtnDsbRebuildSolution.Enabled = false;
                 BtnDsbStartSolution.Enabled = false;
             }
-            else if (TalentsoftToolsPlugin.IsDefaultExitVisualStudio[_settings].HasValue)
+            else
             {
-                CbxIsExitVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultExitVisualStudio[_settings].Value;
-                CbxIsRunVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultExitVisualStudio[_settings].Value;
+                if (TalentsoftToolsPlugin.IsDefaultStartVisualStudio[_settings].HasValue)
+                {
+                    CbxIsRunVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultStartVisualStudio[_settings].Value;
+                }
+                if (TalentsoftToolsPlugin.IsDefaultExitVisualStudio[_settings].HasValue)
+                {
+                    CbxIsExitVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultExitVisualStudio[_settings].Value;
+                }
             }
             if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.DatabasesToRestore[_settings]) &&
                 TalentsoftToolsPlugin.IsDefaultResetDatabases[_settings].HasValue)
@@ -288,6 +294,15 @@
                 CbxIsPostBuild.Enabled = false;
                 BtnDsbRunScriptPostbuild.Enabled = false;
             }
+        }
+
+        /// <summary>
+        /// Init all notifications controls.
+        /// </summary>
+        public void InitNotifications()
+        {
+            InitNotificationsTab();
+            TxbSettingsNotificationsMonitorBranches.Text = TalentsoftToolsPlugin.BranchesToMonitor[TalentsoftToolsPlugin.PluginSettings];
         }
     }
 }
