@@ -141,6 +141,10 @@
             }
             else
             {
+                if (TalentsoftToolsPlugin.IsDefaultBuildSolution[_settings].HasValue)
+                {
+                    CbxIsBuildSolution.Checked = TalentsoftToolsPlugin.IsDefaultBuildSolution[_settings].Value;
+                }
                 if (TalentsoftToolsPlugin.IsDefaultStartVisualStudio[_settings].HasValue)
                 {
                     CbxIsRunVisualStudio.Checked = TalentsoftToolsPlugin.IsDefaultStartVisualStudio[_settings].Value;
@@ -205,10 +209,6 @@
             if (TalentsoftToolsPlugin.IsDefaultNugetRestore[_settings].HasValue)
             {
                 CbxIsNugetRestore.Checked = TalentsoftToolsPlugin.IsDefaultNugetRestore[_settings].Value;
-            }
-            if (TalentsoftToolsPlugin.IsDefaultBuildSolution[_settings].HasValue)
-            {
-                CbxIsBuildSolution.Checked = TalentsoftToolsPlugin.IsDefaultBuildSolution[_settings].Value;
             }
             if (TalentsoftToolsPlugin.IsDefaultRunUri[_settings].HasValue)
             {

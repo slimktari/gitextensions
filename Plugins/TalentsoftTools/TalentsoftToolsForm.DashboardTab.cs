@@ -187,7 +187,7 @@
                 return;
             }
             Databases = DatabaseHelper.GetDatabasesFromSettings(TxbDsbDatabasesToRestore.Text);
-            if (ValidateRestoreDatabasesFromDashboard())
+            if (ValidateRestoreDatabases())
             {
                 _workerThread = new Thread(RunDsbRestoreDatabases);
                 _workerThread.Start();
@@ -204,15 +204,16 @@
                 }));
             foreach (var database in Databases)
             {
+                string errorMessages = string.Empty;
                 if (DatabaseHelper.RestoreDatabase(database.DatabaseName, database.BackupFilePath,
                     TalentsoftToolsPlugin.DatabaseServerName[_settings], TalentsoftToolsPlugin.DatabaseUserName[_settings], TalentsoftToolsPlugin.DatabasePassword[_settings], TalentsoftToolsPlugin.DatabaseRelocateFile[_settings],
-                    TalentsoftToolsPlugin.DatabaseRelocateFile[_settings]))
+                    TalentsoftToolsPlugin.DatabaseRelocateFile[_settings], ref errorMessages))
                 {
                     message.Append(string.Format("\r\nSuccess of the restoration {0} database.", database.DatabaseName));
                 }
                 else
                 {
-                    message.Append(string.Format("\r\nError when restoring {0} database.", database.DatabaseName));
+                    message.Append(string.Format("\r\nError when restoring {0} database.{1}\r\n", database.DatabaseName, errorMessages));
                 }
             }
             Invoke((MethodInvoker)(() =>
@@ -221,21 +222,6 @@
                 PbxDsbLoadingAction.Visible = false;
                 MessageBox.Show(message.ToString(), Generic.PluginName, MessageBoxButtons.OK);
             }));
-        }
-
-        bool ValidateRestoreDatabasesFromDashboard()
-        {
-            string message = string.Empty;
-            if (string.IsNullOrWhiteSpace(TxbDsbDatabasesToRestore.Text) || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath)))
-            {
-                message = "Databases not correctly defined.";
-            }
-            if (!string.IsNullOrEmpty(message))
-            {
-                MessageBox.Show(message, "Error", MessageBoxButtons.OK);
-                return false;
-            }
-            return true;
         }
 
         private void BtnDsbGitCleanClick(object sender, EventArgs e)

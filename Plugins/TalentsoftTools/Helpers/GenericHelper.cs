@@ -189,7 +189,7 @@
             {
                 Process.Start(processStartInfo);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

@@ -1,5 +1,6 @@
 ﻿namespace TalentsoftTools
 {
+    using System.IO;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -317,12 +318,13 @@
                     {
                         TbxLogInfo.AppendText("\r\nRestoring database : " + database.DatabaseName);
                     }));
+                    string errorMessages = string.Empty;
                     if (DatabaseHelper.RestoreDatabase(database.DatabaseName, database.BackupFilePath,
                         TalentsoftToolsPlugin.DatabaseServerName[_settings],
                         TalentsoftToolsPlugin.DatabaseUserName[_settings],
                         TalentsoftToolsPlugin.DatabasePassword[_settings],
                         TalentsoftToolsPlugin.DatabaseRelocateFile[_settings],
-                        TalentsoftToolsPlugin.DatabaseRelocateFile[_settings]))
+                        TalentsoftToolsPlugin.DatabaseRelocateFile[_settings], ref errorMessages))
                     {
                         isRestore = true;
                         Invoke((MethodInvoker)(() =>
@@ -337,8 +339,8 @@
                         Invoke((MethodInvoker)(() =>
                         {
                             CbxIsRestoreDatabases.BackColor = Generic.ColorProcessTaskFailed;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when restoring {0} database.",
-                                database.DatabaseName));
+                            TbxLogInfo.AppendText(string.Format("\r\nError when restoring {0} database.\r\n{1}",
+                                database.DatabaseName, errorMessages));
                         }));
                     }
                     if (isRestore && isError)
@@ -551,7 +553,7 @@
         bool ValidateRestoreDatabases()
         {
             string message = string.Empty;
-            if (CbxIsRestoreDatabases.Checked && (string.IsNullOrWhiteSpace(TxbProcessDatabasesToRestore.Text) || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath))))
+            if (!Databases.Any() || Databases.Any(d => string.IsNullOrWhiteSpace(d.DatabaseName) || string.IsNullOrWhiteSpace(d.BackupFilePath) || !File.Exists(d.BackupFilePath)))
             {
                 message = "Databases not correctly defined.";
             }
@@ -635,7 +637,7 @@
                 return;
             }
             Databases = DatabaseHelper.GetDatabasesFromSettings(TxbProcessDatabasesToRestore.Text);
-            if (!ValidateCheckoutBranch() || !ValidateCreateBranch() || !ValidateUri() || !ValidateRestoreDatabases())
+            if (!ValidateCheckoutBranch() || !ValidateCreateBranch() || !ValidateUri() ||  (CbxIsRestoreDatabases.Checked && !ValidateRestoreDatabases()))
             {
                 return;
             }

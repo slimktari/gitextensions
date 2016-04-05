@@ -1,4 +1,7 @@
-﻿namespace TalentsoftTools.Helpers
+﻿using System.Data;
+using System.Text;
+
+namespace TalentsoftTools.Helpers
 {
     using System;
     using System.Collections.Generic;
@@ -20,8 +23,9 @@
         /// <param name="password">Password to server connect.</param>
         /// <param name="dataFilePath">Path to relocate database file.</param>
         /// <param name="logFilePath">Path to relocate database log file.</param>
-        /// <returns></returns>
-        public static bool RestoreDatabase(String databaseName, String filePath, String serverName, String userName, String password, String dataFilePath, String logFilePath)
+        /// <param name="errorMessages">Error messages.</param>
+        /// <returns>True if database is restored, false otherwise.</returns>
+        public static bool RestoreDatabase(String databaseName, String filePath, String serverName, String userName, String password, String dataFilePath, String logFilePath, ref string errorMessages)
         {
             if (string.IsNullOrWhiteSpace(databaseName) || string.IsNullOrWhiteSpace(filePath))
             {
@@ -48,40 +52,38 @@
                 logFilePath = Generic.DefaultDatabaseRelocateLogFilePath;
             }
             Restore sqlRestore = new Restore();
-
-            BackupDeviceItem deviceItem = new BackupDeviceItem(filePath, DeviceType.File);
-            sqlRestore.Devices.Add(deviceItem);
-            sqlRestore.Database = databaseName;
-
-            ServerConnection connection = new ServerConnection(serverName, userName, password);
-            Server sqlServer = new Server(connection);
-
-            Database db = sqlServer.Databases[databaseName];
-            sqlRestore.Action = RestoreActionType.Database;
-            String dataFileLocation = dataFilePath + databaseName + "_0.mdf";
-            String logFileLocation = logFilePath + databaseName + "_1.ldf";
-            db = sqlServer.Databases[databaseName];
-            if (db != null)
-            {
-                sqlServer.KillAllProcesses(db.Name);
-            }
-            RelocateFile rf = new RelocateFile(databaseName, dataFileLocation);
-
-            var logicalRestoreFiles = sqlRestore.ReadFileList(sqlServer);
-            sqlRestore.RelocateFiles.Add(new RelocateFile(logicalRestoreFiles.Rows[0][0].ToString(), dataFileLocation));
-            sqlRestore.RelocateFiles.Add(new RelocateFile(logicalRestoreFiles.Rows[1][0].ToString(), logFileLocation));
-
-            sqlRestore.ReplaceDatabase = true;
             try
             {
+                BackupDeviceItem deviceItem = new BackupDeviceItem(filePath, DeviceType.File);
+                sqlRestore.Devices.Add(deviceItem);
+                sqlRestore.Database = databaseName;
+
+                ServerConnection connection = new ServerConnection(serverName, userName, password);
+                Server sqlServer = new Server(connection);
+
+                Database db = sqlServer.Databases[databaseName];
+                sqlRestore.Action = RestoreActionType.Database;
+                String dataFileLocation = dataFilePath + databaseName + "_0.mdf";
+                String logFileLocation = logFilePath + databaseName + "_1.ldf";
+                db = sqlServer.Databases[databaseName];
+                if (db != null)
+                {
+                    sqlServer.KillAllProcesses(db.Name);
+                }
+                RelocateFile rf = new RelocateFile(databaseName, dataFileLocation);
+                DataTable logicalRestoreFiles = sqlRestore.ReadFileList(sqlServer);
+                sqlRestore.RelocateFiles.Add(new RelocateFile(logicalRestoreFiles.Rows[0][0].ToString(), dataFileLocation));
+                sqlRestore.RelocateFiles.Add(new RelocateFile(logicalRestoreFiles.Rows[1][0].ToString(), logFileLocation));
+                sqlRestore.ReplaceDatabase = true;
                 sqlRestore.SqlRestore(sqlServer);
                 db = sqlServer.Databases[databaseName];
                 db.SetOnline();
                 sqlServer.Refresh();
                 return true;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                errorMessages = exception.Message;
                 return false;
             }
         }

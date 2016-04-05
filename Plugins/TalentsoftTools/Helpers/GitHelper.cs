@@ -20,7 +20,7 @@
         /// <returns>The <see cref="CmdResult"/>.</returns>
         public static CmdResult CheckoutBranch(string localBranchName, string remoteBranchName = "")
         {
-            if (string.IsNullOrWhiteSpace(remoteBranchName))
+            if (!string.IsNullOrWhiteSpace(remoteBranchName))
             {
                 return TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout -B {0} {1}", localBranchName, remoteBranchName));
             }
