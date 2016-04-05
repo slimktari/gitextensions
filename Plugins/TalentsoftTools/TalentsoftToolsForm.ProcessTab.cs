@@ -474,23 +474,26 @@
                     CbxIsRunVisualStudio.BackColor = Generic.ColorProcessTaskInProgress;
                     TbxLogInfo.AppendText(string.Format("\r\nRunning Visual Studio with: {0}...", TargetSolutionName));
                 }));
-                if (!GenericHelper.LaunchVisualStudio(solutionFullPath))
+
+                new Thread(() => GenericHelper.LaunchVisualStudio(solutionFullPath)).Start();
+
+                //if (!GenericHelper.LaunchVisualStudio(solutionFullPath))
+                //{
+                //    Invoke((MethodInvoker)(() =>
+                //    {
+                //        CbxIsRunVisualStudio.BackColor = Generic.ColorProcessTaskFailed;
+                //        TbxLogInfo.AppendText(string.Format("\r\nError when running Visual Studio with: {0}.",
+                //            solutionFullPath));
+                //        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                //    }));
+                //}
+                //else
+                //{
+                Invoke((MethodInvoker)(() =>
                 {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsRunVisualStudio.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when running Visual Studio with: {0}.",
-                            solutionFullPath));
-                        TbxLogInfo.AppendText("\r\nProcess aborted.");
-                    }));
-                }
-                else
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsRunVisualStudio.BackColor = Generic.ColorProcessTaskSuccess;
-                    }));
-                }
+                    CbxIsRunVisualStudio.BackColor = Generic.ColorProcessTaskSuccess;
+                }));
+                //  }
             }
             if (IsRunUri)
             {
@@ -637,7 +640,7 @@
                 return;
             }
             Databases = DatabaseHelper.GetDatabasesFromSettings(TxbProcessDatabasesToRestore.Text);
-            if (!ValidateCheckoutBranch() || !ValidateCreateBranch() || !ValidateUri() ||  (CbxIsRestoreDatabases.Checked && !ValidateRestoreDatabases()))
+            if (!ValidateCheckoutBranch() || !ValidateCreateBranch() || !ValidateUri() || (CbxIsRestoreDatabases.Checked && !ValidateRestoreDatabases()))
             {
                 return;
             }
