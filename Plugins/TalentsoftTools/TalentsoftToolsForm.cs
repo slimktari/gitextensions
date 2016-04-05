@@ -231,7 +231,7 @@
                     }
                     else
                     {
-                        PreBuildFiles.Add(file);
+                        PreBuildFiles.Add("\"" + file + "\"");
                     }
                 }
                 if (!PreBuildFiles.Any() || isError)
@@ -269,7 +269,7 @@
                     }
                     else
                     {
-                        PostBuildFiles.Add(file);
+                        PostBuildFiles.Add("\"" + file + "\"");
                     }
                 }
                 if (!PostBuildFiles.Any() || isError)

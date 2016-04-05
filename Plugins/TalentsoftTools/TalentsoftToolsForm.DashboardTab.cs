@@ -106,16 +106,17 @@
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
             }));
+            string errorMessages = string.Empty;
             if (GenericHelper.RunCommandLine(new List<string>
                 {
                     string.Format("nuget restore {0}", solutionFileFullPath)
-                }))
+                }, ref errorMessages))
             {
                 message = "Nuget restored for solution " + solutionFile;
             }
             else
             {
-                message = "Error when restoring nuget for solution " + solutionFile;
+                message = "Error when restoring nuget for solution " + solutionFile + "\r\n" + errorMessages;
             }
             Invoke((MethodInvoker)(() =>
             {
@@ -201,7 +202,7 @@
             {
                 DashboardProcess(false);
                 PbxDsbLoadingAction.Visible = true;
-                }));
+            }));
             foreach (var database in Databases)
             {
                 string errorMessages = string.Empty;
@@ -401,13 +402,14 @@
                 DashboardProcess(false);
                 PbxDsbLoadingAction.Visible = true;
             }));
-            if (GenericHelper.RunCommandLine(PreBuildFiles.ToList()))
+            string errorMessages = string.Empty;
+            if (GenericHelper.RunCommandLine(PreBuildFiles.ToList(), ref errorMessages))
             {
                 MessageBox.Show("Commands PreBuild success !", Generic.PluginName, MessageBoxButtons.OK);
             }
             else
             {
-                MessageBox.Show("Error when launching commands PreBuild !", "Error", MessageBoxButtons.OK);
+                MessageBox.Show("Error when launching commands PreBuild !\r\n" + errorMessages, "Error", MessageBoxButtons.OK);
             }
             Invoke((MethodInvoker)(() =>
             {
@@ -433,13 +435,14 @@
                 DashboardProcess(false);
                 PbxDsbLoadingAction.Visible = true;
             }));
-            if (GenericHelper.RunCommandLine(PostBuildFiles.ToList()))
+            string errorMessages = string.Empty;
+            if (GenericHelper.RunCommandLine(PostBuildFiles.ToList(), ref errorMessages))
             {
                 MessageBox.Show("Commands PostBuild success !", Generic.PluginName, MessageBoxButtons.OK);
             }
             else
             {
-                MessageBox.Show("Error when launching commands PostBuild !", "Error", MessageBoxButtons.OK);
+                MessageBox.Show("Error when launching commands PostBuild !\r\n" + errorMessages, "Error", MessageBoxButtons.OK);
             }
             Invoke((MethodInvoker)(() =>
             {

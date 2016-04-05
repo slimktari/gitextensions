@@ -125,12 +125,11 @@
         /// Run command line.
         /// </summary>
         /// <param name="commands">Commands texts.</param>
+        /// <param name="errorMessages">Error messages.</param>
         /// <returns>True if there is no exceptions, false otherwise.</returns>
-        public static bool RunCommandLine(List<string> commands)
+        public static bool RunCommandLine(List<string> commands, ref string errorMessages)
         {
             string output = string.Empty;
-            string error = string.Empty;
-
             ProcessStartInfo processStartInfo = new ProcessStartInfo("cmd.exe");
             processStartInfo.RedirectStandardOutput = true;
             processStartInfo.RedirectStandardError = true;
@@ -160,10 +159,10 @@
 
             using (StreamReader streamReader = process.StandardError)
             {
-                error = streamReader.ReadToEnd();
+                errorMessages = streamReader.ReadToEnd();
             }
             process.WaitForExit();
-            if (!string.IsNullOrEmpty(error) || process.ExitCode != 0)
+            if (!string.IsNullOrEmpty(errorMessages) || process.ExitCode != 0)
             {
                 return false;
             }

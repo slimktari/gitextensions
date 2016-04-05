@@ -147,7 +147,6 @@
                     {
                         CbxIsExitVisualStudio.BackColor = Generic.ColorProcessTaskFailed;
                         TbxLogInfo.AppendText("\r\nError when exit Visual Studio.");
-                        TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
                     IsProcessAborted = true;
                 }
@@ -176,9 +175,7 @@
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsStashChanges.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when stashing changes. {0}.",
-                            gitStashResult.StdError));
-                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                        TbxLogInfo.AppendText(string.Format("\r\nError when stashing changes. {0}.", gitStashResult.StdError));
                     }));
                 }
                 else
@@ -215,9 +212,7 @@
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsCheckoutBranch.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when checkout branch. {0}.",
-                            gitCheckoutResult.StdError));
-                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                        TbxLogInfo.AppendText(string.Format("\r\nError when checkout branch. {0}.", gitCheckoutResult.StdError));
                     }));
                 }
 
@@ -235,9 +230,7 @@
                         Invoke((MethodInvoker)(() =>
                         {
                             CbxIsCheckoutBranch.BackColor = Generic.ColorProcessTaskFailed;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when Creating new branch {0}. {1}.",
-                                NewBranchName, gitCheckoutResult.StdError));
-                            TbxLogInfo.AppendText("\r\nProcess aborted.");
+                            TbxLogInfo.AppendText(string.Format("\r\nError when Creating new branch {0}. {1}.", NewBranchName, gitCheckoutResult.StdError));
                         }));
                     }
                 }
@@ -291,9 +284,7 @@
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsStashPop.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when popping stash. {0}",
-                            gitStashPopResult.StdError));
-                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                        TbxLogInfo.AppendText(string.Format("\r\nError when popping stash. {0}", gitStashPopResult.StdError));
                     }));
                 }
                 else
@@ -368,14 +359,14 @@
                     TbxLogInfo.AppendText(string.Format("\r\nRunning Pre-Build scripts:\r\n{0}",
                         string.Join("\r\n", PreBuildFiles)));
                 }));
-                bool result = GenericHelper.RunCommandLine(PreBuildFiles.ToList());
+                string errorMessages = string.Empty;
+                bool result = GenericHelper.RunCommandLine(PreBuildFiles.ToList(), ref errorMessages);
                 if (!result)
                 {
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsPreBuild.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText("\r\nError when running Pre-Build scripts.");
-                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                        TbxLogInfo.AppendText("\r\nError when running Pre-Build scripts.\r\n" + errorMessages);
                     }));
                 }
                 else
@@ -395,10 +386,11 @@
                         string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.",
                             TargetSolutionName, solutionFullPath));
                 }));
+                string errorMessages = string.Empty;
                 if (GenericHelper.RunCommandLine(new List<string>
                 {
                     string.Format("nuget restore {0}", solutionFullPath)
-                }))
+                }, ref errorMessages))
                 {
                     Invoke((MethodInvoker)(() =>
                     {
@@ -410,8 +402,8 @@
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.",
-                            solutionFullPath));
+                        TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.\r\n{1}",
+                            solutionFullPath, errorMessages));
                     }));
                 }
             }
@@ -433,7 +425,6 @@
                         CbxIsBuildSolution.BackColor = Generic.ColorProcessTaskFailed;
                         TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.", solutionFullPath));
                         TbxLogInfo.AppendText(errorResult);
-                        TbxLogInfo.AppendText("\r\nProcess aborted.");
                     }));
                 }
                 Invoke((MethodInvoker)(() =>
@@ -449,14 +440,14 @@
                     TbxLogInfo.AppendText(string.Format("\r\nRunning Post-Build scripts:\r\n{0}",
                         string.Join("\r\n", PostBuildFiles)));
                 }));
-                bool result = GenericHelper.RunCommandLine(PostBuildFiles.ToList());
+                string errorMessages = string.Empty;
+                bool result = GenericHelper.RunCommandLine(PostBuildFiles.ToList(), ref errorMessages);
                 if (!result)
                 {
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsPostBuild.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText("\r\nError when running Post-Build scripts.");
-                        TbxLogInfo.AppendText("\r\nProcess aborted.");
+                        TbxLogInfo.AppendText("\r\nError when running Post-Build scripts.\r\n" + errorMessages);
                     }));
                 }
                 else
