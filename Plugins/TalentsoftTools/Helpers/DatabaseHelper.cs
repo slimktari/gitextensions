@@ -1,10 +1,8 @@
-﻿using System.Data;
-using System.Text;
-
-namespace TalentsoftTools.Helpers
+﻿namespace TalentsoftTools.Helpers
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using Microsoft.SqlServer.Management.Common;
     using Microsoft.SqlServer.Management.Smo;
 
@@ -25,7 +23,7 @@ namespace TalentsoftTools.Helpers
         /// <param name="logFilePath">Path to relocate database log file.</param>
         /// <param name="errorMessages">Error messages.</param>
         /// <returns>True if database is restored, false otherwise.</returns>
-        public static bool RestoreDatabase(String databaseName, String filePath, String serverName, String userName, String password, String dataFilePath, String logFilePath, ref string errorMessages)
+        public static bool RestoreDatabase(String databaseName, String filePath, String serverName, String dataFilePath, String logFilePath, ref string errorMessages)
         {
             if (string.IsNullOrWhiteSpace(databaseName) || string.IsNullOrWhiteSpace(filePath))
             {
@@ -34,14 +32,6 @@ namespace TalentsoftTools.Helpers
             if (string.IsNullOrWhiteSpace(serverName))
             {
                 serverName = Generic.DefaultDatabaseServer;
-            }
-            if (string.IsNullOrWhiteSpace(userName))
-            {
-                userName = Generic.DefaultDatabaseUserName;
-            }
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                password = Generic.DefaultDatabasePassword;
             }
             if (string.IsNullOrWhiteSpace(dataFilePath))
             {
@@ -58,7 +48,7 @@ namespace TalentsoftTools.Helpers
                 sqlRestore.Devices.Add(deviceItem);
                 sqlRestore.Database = databaseName;
 
-                ServerConnection connection = new ServerConnection(serverName, userName, password);
+                ServerConnection connection = new ServerConnection(serverName);
                 Server sqlServer = new Server(connection);
 
                 Database db = sqlServer.Databases[databaseName];

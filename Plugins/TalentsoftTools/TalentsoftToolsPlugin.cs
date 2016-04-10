@@ -34,8 +34,6 @@
         public static StringSetting PreBuildBatch = new StringSetting("Pre-Build batch (separator ;)", string.Empty);
         public static StringSetting PostBuildBatch = new StringSetting("Post-Build batch (separator ;)", string.Empty);
         public static StringSetting DatabaseServerName = new StringSetting("Database server name", Generic.DefaultDatabaseServer);
-        public static StringSetting DatabaseUserName = new StringSetting("Database user name", Generic.DefaultDatabaseUserName);
-        public static StringSetting DatabasePassword = new StringSetting("Database password", Generic.DefaultDatabasePassword);
         public static StringSetting DatabaseRelocateFile = new StringSetting("Database relocate file", Generic.DefaultDatabaseRelocateFilePath);
         public static StringSetting DatabasesToRestore = new StringSetting("Databases to restore", @"Initial Catalog=TSDEV;BackupFilePath=;");
         public static NumberSetting<int> CheckInterval = new NumberSetting<int>("Check branch if update every (seconds) - set to 0 to disable", Generic.DisableValueCheckMonitoInterval);

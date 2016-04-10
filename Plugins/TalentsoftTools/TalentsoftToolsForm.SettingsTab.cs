@@ -65,8 +65,6 @@
             TxbSettingsNotificationsCheckIntrerval.Text = TalentsoftToolsPlugin.CheckInterval[TalentsoftToolsPlugin.PluginSettings].ToString();
             TxbSettingsNotificationsMonitorBranches.Text = TalentsoftToolsPlugin.BranchesToMonitor[TalentsoftToolsPlugin.PluginSettings];
             TxbSettingsDatabaseServerName.Text = TalentsoftToolsPlugin.DatabaseServerName[TalentsoftToolsPlugin.PluginSettings];
-            TxbSettingsDatabaseUserName.Text = TalentsoftToolsPlugin.DatabaseUserName[TalentsoftToolsPlugin.PluginSettings];
-            TxbSettingsDatabasePassword.Text = TalentsoftToolsPlugin.DatabasePassword[TalentsoftToolsPlugin.PluginSettings];
             TxbSettingsDatabaseRelocateFile.Text = TalentsoftToolsPlugin.DatabaseRelocateFile[TalentsoftToolsPlugin.PluginSettings];
 
             int checkInterval;
@@ -114,8 +112,6 @@
             TalentsoftToolsPlugin.CheckInterval[TalentsoftToolsPlugin.PluginSettings] = checkInterval;
             TalentsoftToolsPlugin.BranchesToMonitor[TalentsoftToolsPlugin.PluginSettings] = TxbSettingsNotificationsMonitorBranches.Text;
             TalentsoftToolsPlugin.DatabaseServerName[TalentsoftToolsPlugin.PluginSettings] = TxbSettingsDatabaseServerName.Text;
-            TalentsoftToolsPlugin.DatabaseUserName[TalentsoftToolsPlugin.PluginSettings] = TxbSettingsDatabaseUserName.Text;
-            TalentsoftToolsPlugin.DatabasePassword[TalentsoftToolsPlugin.PluginSettings] = TxbSettingsDatabasePassword.Text;
             TalentsoftToolsPlugin.DatabaseRelocateFile[TalentsoftToolsPlugin.PluginSettings] = TxbSettingsDatabaseRelocateFile.Text;
             LoadDefaultStepsValuesFromSettings();
 

@@ -153,10 +153,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.TxbSettingsDatabaseRelocateFile = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.TxbSettingsDatabaseUserName = new System.Windows.Forms.TextBox();
-            this.TxbSettingsDatabasePassword = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.TxbSettingsDatabaseServerName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -1488,10 +1484,6 @@
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.TxbSettingsDatabaseRelocateFile);
             this.groupBox2.Controls.Add(this.label11);
-            this.groupBox2.Controls.Add(this.TxbSettingsDatabaseUserName);
-            this.groupBox2.Controls.Add(this.TxbSettingsDatabasePassword);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.TxbSettingsDatabaseServerName);
             this.groupBox2.Location = new System.Drawing.Point(8, 93);
@@ -1532,38 +1524,6 @@
             this.label11.Size = new System.Drawing.Size(103, 15);
             this.label11.TabIndex = 6;
             this.label11.Text = "Relocate files path";
-            // 
-            // TxbSettingsDatabaseUserName
-            // 
-            this.TxbSettingsDatabaseUserName.Location = new System.Drawing.Point(446, 29);
-            this.TxbSettingsDatabaseUserName.Name = "TxbSettingsDatabaseUserName";
-            this.TxbSettingsDatabaseUserName.Size = new System.Drawing.Size(124, 23);
-            this.TxbSettingsDatabaseUserName.TabIndex = 6;
-            // 
-            // TxbSettingsDatabasePassword
-            // 
-            this.TxbSettingsDatabasePassword.Location = new System.Drawing.Point(741, 29);
-            this.TxbSettingsDatabasePassword.Name = "TxbSettingsDatabasePassword";
-            this.TxbSettingsDatabasePassword.Size = new System.Drawing.Size(124, 23);
-            this.TxbSettingsDatabasePassword.TabIndex = 7;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(592, 32);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(57, 15);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Password";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(319, 32);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(63, 15);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "User name";
             // 
             // label8
             // 
@@ -1903,10 +1863,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox TxbSettingsDatabaseServerName;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox TxbSettingsDatabasePassword;
-        private System.Windows.Forms.TextBox TxbSettingsDatabaseUserName;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox TxbSettingsDatabaseRelocateFile;
         private System.Windows.Forms.Label label12;

@@ -312,8 +312,6 @@
                     string errorMessages = string.Empty;
                     if (DatabaseHelper.RestoreDatabase(database.DatabaseName, database.BackupFilePath,
                         TalentsoftToolsPlugin.DatabaseServerName[_settings],
-                        TalentsoftToolsPlugin.DatabaseUserName[_settings],
-                        TalentsoftToolsPlugin.DatabasePassword[_settings],
                         TalentsoftToolsPlugin.DatabaseRelocateFile[_settings],
                         TalentsoftToolsPlugin.DatabaseRelocateFile[_settings], ref errorMessages))
                     {
