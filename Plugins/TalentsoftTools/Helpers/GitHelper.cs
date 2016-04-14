@@ -292,13 +292,23 @@
         }
 
         /// <summary>
-        /// Fetch all objects quiet.
+        /// Fetch all objects quiet and notify GitExtensions.
         /// </summary>
         /// <returns>The <see cref="CmdResult"/>.</returns>
-        public static CmdResult FetchAll()
+        public static CmdResult FetchAllWithNotify()
         {
             CmdResult results = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("fetch -q --all");
             TalentsoftToolsPlugin.GitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
+            return results;
+        }
+
+        /// <summary>
+        /// Deletes trackers..
+        /// </summary>
+        /// <returns>The <see cref="CmdResult"/>.</returns>
+        public static CmdResult Prune()
+        {
+            CmdResult results = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("fetch -p -q");
             return results;
         }
 

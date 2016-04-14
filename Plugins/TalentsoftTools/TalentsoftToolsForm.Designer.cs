@@ -173,6 +173,10 @@
             this.LblActualBranchName = new System.Windows.Forms.Label();
             this.LblActualBranchNameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.BtnDsbShowBranch = new System.Windows.Forms.Button();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.TxbDsbBranchPrefix = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
             this.BgxLogInfo.SuspendLayout();
@@ -213,6 +217,7 @@
             this.GbxActualInfos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesObsoletesBranches)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesMustUpdate)).BeginInit();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // TbcMain
@@ -938,6 +943,7 @@
             // 
             // TpbDashboard
             // 
+            this.TpbDashboard.Controls.Add(this.groupBox6);
             this.TpbDashboard.Controls.Add(this.BtnDsbCancelAction);
             this.TpbDashboard.Controls.Add(this.GbxDsbVisualStudioSolution);
             this.TpbDashboard.Controls.Add(this.GbxDsbDatabases);
@@ -952,7 +958,7 @@
             // BtnDsbCancelAction
             // 
             this.BtnDsbCancelAction.Enabled = false;
-            this.BtnDsbCancelAction.Location = new System.Drawing.Point(725, 318);
+            this.BtnDsbCancelAction.Location = new System.Drawing.Point(725, 384);
             this.BtnDsbCancelAction.Name = "BtnDsbCancelAction";
             this.BtnDsbCancelAction.Size = new System.Drawing.Size(148, 29);
             this.BtnDsbCancelAction.TabIndex = 16;
@@ -1715,6 +1721,44 @@
             this.label2.Size = new System.Drawing.Size(0, 15);
             this.label2.TabIndex = 0;
             // 
+            // BtnDsbShowBranch
+            // 
+            this.BtnDsbShowBranch.Location = new System.Drawing.Point(722, 22);
+            this.BtnDsbShowBranch.Name = "BtnDsbShowBranch";
+            this.BtnDsbShowBranch.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbShowBranch.TabIndex = 25;
+            this.BtnDsbShowBranch.Text = "Show remotes branches";
+            this.BtnDsbShowBranch.UseVisualStyleBackColor = true;
+            this.BtnDsbShowBranch.Click += new System.EventHandler(this.BtnDsbShowBranchClick);
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.label9);
+            this.groupBox6.Controls.Add(this.TxbDsbBranchPrefix);
+            this.groupBox6.Controls.Add(this.BtnDsbShowBranch);
+            this.groupBox6.Location = new System.Drawing.Point(3, 318);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(876, 60);
+            this.groupBox6.TabIndex = 26;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Branches";
+            // 
+            // TxbDsbBranchPrefix
+            // 
+            this.TxbDsbBranchPrefix.Location = new System.Drawing.Point(106, 26);
+            this.TxbDsbBranchPrefix.Name = "TxbDsbBranchPrefix";
+            this.TxbDsbBranchPrefix.Size = new System.Drawing.Size(610, 23);
+            this.TxbDsbBranchPrefix.TabIndex = 26;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(7, 29);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(76, 15);
+            this.label9.TabIndex = 16;
+            this.label9.Text = "Branch prefix";
+            // 
             // TalentsoftToolsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1783,6 +1827,8 @@
             this.GbxActualInfos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesObsoletesBranches)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesMustUpdate)).EndInit();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1932,5 +1978,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn IsObsolete;
         private System.Windows.Forms.PictureBox PbxLocalsBranchesObsoletes;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Button BtnDsbShowBranch;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox TxbDsbBranchPrefix;
     }
 }

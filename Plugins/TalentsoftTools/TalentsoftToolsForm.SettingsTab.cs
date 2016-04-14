@@ -76,7 +76,7 @@
 
         private void BtnSettingsSaveClick(object sender, EventArgs e)
         {
-            if (!CheckIfCanRunProcess())
+            if (!CheckIfCanRunProcess("Unable to save plugin settings!\r\nAnother process is already running."))
             {
                 return;
             }
@@ -85,7 +85,7 @@
             {
                 if (!int.TryParse(TxbSettingsNotificationsCheckIntrerval.Text, out checkInterval))
                 {
-                    MessageBox.Show("Unable to save plugin settings.\r\nNotification check interval must be int value.", Generic.PluginName, MessageBoxButtons.OK);
+                    MessageBox.Show("Unable to save plugin settings!\r\nNotification check interval must be int value.", Generic.PluginName, MessageBoxButtons.OK);
                     return;
                 }
             }

@@ -29,11 +29,11 @@
             LunchSplashScreen();
         }
 
-        bool CheckIfCanRunProcess()
+        bool CheckIfCanRunProcess(string message)
         {
             if (_workerThread != null && _workerThread.IsAlive)
             {
-                MessageBox.Show("Unable to run process!\r\nAnother process is already running.", Generic.PluginName, MessageBoxButtons.OK);
+                MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
                 return false;
             }
             return true;
@@ -52,8 +52,10 @@
             PbxLocalsBranchesMustBeUpdate.BackColor = Generic.ColorBranchNeedUpdate;
             PbxLocalsBranchesUpToDate.BackColor = Generic.ColorBranchUpToDate;
             Translate();
+            SplashScreen.SetStatus("Update tracking branches");
+            GitHelper.Prune();
             SplashScreen.SetStatus("Fetching remote");
-            GitHelper.FetchAll();
+            GitHelper.FetchAllWithNotify();
             GitHelper.NotifyGitExtensions();
             SplashScreen.SetStatus("Loading solutions files");
             LoadSolutionsFiles();

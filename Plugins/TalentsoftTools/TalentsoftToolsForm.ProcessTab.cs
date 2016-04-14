@@ -624,7 +624,7 @@
 
         private void BtnRunProcessClick(object sender, EventArgs e)
         {
-            if (!CheckIfCanRunProcess())
+            if (!CheckIfCanRunProcess("Unable to run process!\r\nAnother process is already running."))
             {
                 return;
             }

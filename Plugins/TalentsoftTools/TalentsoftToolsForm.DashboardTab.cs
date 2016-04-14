@@ -6,6 +6,7 @@
     using System.Text;
     using System.Threading;
     using System.Windows.Forms;
+    using GitCommands;
     using GitUIPluginInterfaces;
     using Helpers;
 
@@ -48,7 +49,7 @@
 
         private void BtnDsbBuildSolutionClick(object sender, EventArgs e)
         {
-            if (!CheckIfCanRunProcess())
+            if (!CheckIfCanRunProcess("Unable to run process!\r\nAnother process is already running."))
             {
                 return;
             }
@@ -86,7 +87,7 @@
 
         private void BtnDsbNugetRestoreClick(object sender, EventArgs e)
         {
-            if (!CheckIfCanRunProcess())
+            if (!CheckIfCanRunProcess("Unable to run process!\r\nAnother process is already running."))
             {
                 return;
             }
@@ -128,7 +129,7 @@
 
         private void BtnDsbRebuildSolutionClick(object sender, EventArgs e)
         {
-            if (!CheckIfCanRunProcess())
+            if (!CheckIfCanRunProcess("Unable to run process!\r\nAnother process is already running."))
             {
                 return;
             }
@@ -183,7 +184,7 @@
 
         private void BtnDsbRestoreDatabasesClick(object sender, EventArgs e)
         {
-            if (!CheckIfCanRunProcess())
+            if (!CheckIfCanRunProcess("Unable to run process!\r\nAnother process is already running."))
             {
                 return;
             }
@@ -229,7 +230,7 @@
 
         private void BtnDsbGitCleanClick(object sender, EventArgs e)
         {
-            if (!CheckIfCanRunProcess())
+            if (!CheckIfCanRunProcess("Unable to run process!\r\nAnother process is already running."))
             {
                 return;
             }
@@ -270,12 +271,12 @@
 
         private void BtnDsbFetchAllClick(object sender, EventArgs e)
         {
-            if (!CheckIfCanRunProcess())
+            if (!CheckIfCanRunProcess("Unable to run process!\r\nAnother process is already running."))
             {
                 return;
             }
             PbxDsbLoadingAction.Visible = true;
-            CmdResult results = GitHelper.FetchAll();
+            CmdResult results = GitHelper.FetchAllWithNotify();
             GitHelper.NotifyGitExtensions();
             if (results.ExitCode != 0)
             {
@@ -307,7 +308,7 @@
 
         private void BtnDsbStashChangesClick(object sender, EventArgs e)
         {
-            if (!CheckIfCanRunProcess())
+            if (!CheckIfCanRunProcess("Unable to run process!\r\nAnother process is already running."))
             {
                 return;
             }
@@ -348,7 +349,7 @@
 
         private void BtnDsbStashPopClick(object sender, EventArgs e)
         {
-            if (!CheckIfCanRunProcess())
+            if (!CheckIfCanRunProcess("Unable to run process!\r\nAnother process is already running."))
             {
                 return;
             }
@@ -389,7 +390,7 @@
 
         private void BtnDsbRunScriptPrebuildClick(object sender, EventArgs e)
         {
-            if (!CheckIfCanRunProcess())
+            if (!CheckIfCanRunProcess("Unable to run process!\r\nAnother process is already running."))
             {
                 return;
             }
@@ -422,7 +423,7 @@
 
         private void BtnDsbRunScriptPostbuildClick(object sender, EventArgs e)
         {
-            if (!CheckIfCanRunProcess())
+            if (!CheckIfCanRunProcess("Unable to run process!\r\nAnother process is already running."))
             {
                 return;
             }
@@ -451,6 +452,37 @@
                 DashboardProcess(true);
                 PbxDsbLoadingAction.Visible = false;
             }));
+        }
+
+        private void BtnDsbShowBranchClick(object sender, EventArgs e)
+        {
+            RemoteBranches = GitHelper.GetRemotesBranches();
+            string message = string.Empty;
+            if (!string.IsNullOrWhiteSpace(TxbDsbBranchPrefix.Text))
+            {
+                List<GitRef> results =
+                    RemoteBranches.Where(
+                        x =>
+                            x.IsRemote &&
+                            x.Name.StartsWith(TxbDsbBranchPrefix.Text, StringComparison.InvariantCultureIgnoreCase))
+                        .ToList();
+                if (results.Any())
+                {
+                    new ShowBranchesForm(results.Select(x => x.Name).ToList()).ShowDialog(this);
+                }
+                else
+                {
+                    message = "There is no branch that begins with : " + TxbDsbBranchPrefix.Text;
+                }
+            }
+            else
+            {
+                message = "Please specify the branches prefix !";
+            }
+            if (!string.IsNullOrEmpty(message))
+            {
+                MessageBox.Show(message, Generic.PluginName, MessageBoxButtons.OK);
+            }
         }
     }
 }
