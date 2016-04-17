@@ -39,7 +39,6 @@
         public static NumberSetting<int> CheckInterval = new NumberSetting<int>("Check branch if update every (seconds) - set to 0 to disable", Generic.DisableValueCheckMonitoInterval);
         public static StringSetting BranchesToMonitor = new StringSetting("Branches to monitor", string.Empty);
 
-
         #endregion
 
         private bool _isMonitorRunnig;
@@ -56,7 +55,6 @@
             Description = Generic.PluginName;
             //Translate();
         }
-
 
         /// <summary>
         /// When register plugin. Before launching plugin and after choose repository.

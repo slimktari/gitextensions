@@ -303,6 +303,16 @@
         }
 
         /// <summary>
+        /// Fetch all objects quiet.
+        /// </summary>
+        /// <returns>The <see cref="CmdResult"/>.</returns>
+        public static CmdResult FetchAll()
+        {
+            CmdResult results = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("fetch -q --all");
+            return results;
+        }
+
+        /// <summary>
         /// Deletes trackers..
         /// </summary>
         /// <returns>The <see cref="CmdResult"/>.</returns>
