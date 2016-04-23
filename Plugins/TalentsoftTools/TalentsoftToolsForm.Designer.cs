@@ -1,4 +1,6 @@
-﻿namespace TalentsoftTools
+﻿using TalentsoftTools.Dto;
+
+namespace TalentsoftTools
 {
     partial class TalentsoftToolsForm
     {
@@ -893,7 +895,7 @@
             // 
             // branchDtoBindingSource
             // 
-            this.branchDtoBindingSource.DataSource = typeof(TalentsoftTools.BranchDto);
+            this.branchDtoBindingSource.DataSource = typeof(BranchDto);
             // 
             // TpbNotifications
             // 

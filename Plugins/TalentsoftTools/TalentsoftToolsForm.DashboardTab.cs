@@ -1,4 +1,6 @@
-﻿namespace TalentsoftTools
+﻿using TalentsoftTools.Dto;
+
+namespace TalentsoftTools
 {
     using System;
     using System.Collections.Generic;
@@ -69,13 +71,14 @@
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
             }));
-            if (string.IsNullOrWhiteSpace(GenericHelper.Build(solutionFileFullPath, Generic.GenrateSolutionArguments.Build)))
+            string errors = string.Empty;
+            if (GenericHelper.InvokeMsBuild(solutionFileFullPath, Generic.GenrateSolutionArguments.Build, ref errors))
             {
-                message = "Success of Building solution " + solutionFile;
+                message = $"Success of Building solution {solutionFile}";
             }
             else
             {
-                message = "Error when Building solution " + solutionFile;
+                message = $"Error when Building solution {solutionFile}\r\n{errors}";
             }
             Invoke((MethodInvoker)(() =>
             {
@@ -149,13 +152,14 @@
                 solutionFile = CblDsbSolutions.SelectedItem.ToString();
                 solutionFileFullPath = SolutionDictionary.FirstOrDefault(x => x.Key == CblDsbSolutions.SelectedItem.ToString()).Value;
             }));
-            if (string.IsNullOrWhiteSpace(GenericHelper.Build(solutionFileFullPath, Generic.GenrateSolutionArguments.Rebuild)))
+            string errors = string.Empty;
+            if (GenericHelper.InvokeMsBuild(solutionFileFullPath, Generic.GenrateSolutionArguments.Rebuild, ref errors))
             {
-                message = "Success of Rebuilding solution " + solutionFile;
+                message = $"Success of Rebuilding solution {solutionFile}";
             }
             else
             {
-                message = "Error when Rebuilding solution " + solutionFile;
+                message = $"Error when Rebuilding solution {solutionFile}\r\n{errors}";
             }
             Invoke((MethodInvoker)(() =>
             {

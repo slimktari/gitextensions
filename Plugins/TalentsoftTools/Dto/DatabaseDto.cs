@@ -1,4 +1,4 @@
-﻿namespace TalentsoftTools
+﻿namespace TalentsoftTools.Dto
 {
     public class DatabaseDto
     {

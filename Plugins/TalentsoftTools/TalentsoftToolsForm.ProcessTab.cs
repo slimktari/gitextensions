@@ -10,6 +10,7 @@
     using GitCommands;
     using GitUIPluginInterfaces;
     using Helpers;
+    using Dto;
 
     public partial class TalentsoftToolsForm
     {
@@ -410,19 +411,16 @@
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxIsBuildSolution.BackColor = Generic.ColorProcessTaskInProgress;
-                    TbxLogInfo.AppendText(
-                        string.Format(
-                            "\r\nBuilding solution: {0}...",
-                            TargetSolutionName));
+                    TbxLogInfo.AppendText($"\r\nBuilding solution: {TargetSolutionName}...");
                 }));
-                string errorResult = GenericHelper.Build(solutionFullPath, Generic.GenrateSolutionArguments.Build);
-                if (!string.IsNullOrWhiteSpace(errorResult))
+                string errorResult = string.Empty;
+                if (GenericHelper.InvokeMsBuild(solutionFullPath, Generic.GenrateSolutionArguments.Build, ref errorResult))
                 {
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsBuildSolution.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when building solution: {0}.", solutionFullPath));
-                        TbxLogInfo.AppendText(errorResult);
+                        TbxLogInfo.AppendText($"\r\nError when building solution: {solutionFullPath}.");
+                        TbxLogInfo.AppendText($"\r\n{errorResult}");
                     }));
                 }
                 Invoke((MethodInvoker)(() =>

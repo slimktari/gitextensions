@@ -1,4 +1,6 @@
-﻿namespace TalentsoftTools
+﻿using TalentsoftTools.Dto;
+
+namespace TalentsoftTools
 {
     using System;
     using System.ComponentModel;

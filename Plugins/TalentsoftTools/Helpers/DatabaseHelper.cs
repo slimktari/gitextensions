@@ -1,4 +1,6 @@
-﻿namespace TalentsoftTools.Helpers
+﻿using TalentsoftTools.Dto;
+
+namespace TalentsoftTools.Helpers
 {
     using System;
     using System.Collections.Generic;
@@ -17,8 +19,6 @@
         /// <param name="databaseName">Database name.</param>
         /// <param name="filePath">Backup database file to restore.</param>
         /// <param name="serverName">Database server.</param>
-        /// <param name="userName">User name to server connect.</param>
-        /// <param name="password">Password to server connect.</param>
         /// <param name="dataFilePath">Path to relocate database file.</param>
         /// <param name="logFilePath">Path to relocate database log file.</param>
         /// <param name="errorMessages">Error messages.</param>
