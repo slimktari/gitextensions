@@ -1,12 +1,11 @@
-﻿using TalentsoftTools.Dto;
-
-namespace TalentsoftTools.Helpers
+﻿namespace TalentsoftTools.Helpers
 {
     using System;
     using System.Collections.Generic;
     using System.Data;
     using Microsoft.SqlServer.Management.Common;
     using Microsoft.SqlServer.Management.Smo;
+    using Dto;
 
     /// <summary>
     /// Helper for manage databases.
@@ -33,14 +32,7 @@ namespace TalentsoftTools.Helpers
             {
                 serverName = Generic.DefaultDatabaseServer;
             }
-            if (string.IsNullOrWhiteSpace(dataFilePath))
-            {
-                dataFilePath = Generic.DefaultDatabaseRelocateFilePath;
-            }
-            if (string.IsNullOrWhiteSpace(logFilePath))
-            {
-                logFilePath = Generic.DefaultDatabaseRelocateLogFilePath;
-            }
+            
             Restore sqlRestore = new Restore();
             try
             {
@@ -53,17 +45,23 @@ namespace TalentsoftTools.Helpers
 
                 Database db = sqlServer.Databases[databaseName];
                 sqlRestore.Action = RestoreActionType.Database;
-                String dataFileLocation = dataFilePath + databaseName + "_0.mdf";
-                String logFileLocation = logFilePath + databaseName + "_1.ldf";
                 db = sqlServer.Databases[databaseName];
                 if (db != null)
                 {
                     sqlServer.KillAllProcesses(db.Name);
                 }
-                RelocateFile rf = new RelocateFile(databaseName, dataFileLocation);
                 DataTable logicalRestoreFiles = sqlRestore.ReadFileList(sqlServer);
-                sqlRestore.RelocateFiles.Add(new RelocateFile(logicalRestoreFiles.Rows[0][0].ToString(), dataFileLocation));
-                sqlRestore.RelocateFiles.Add(new RelocateFile(logicalRestoreFiles.Rows[1][0].ToString(), logFileLocation));
+                if (!string.IsNullOrWhiteSpace(dataFilePath))
+                {
+                    String dataFileLocation = dataFilePath + databaseName + "_0.mdf";
+                    RelocateFile rf = new RelocateFile(databaseName, dataFileLocation);
+                    sqlRestore.RelocateFiles.Add(new RelocateFile(logicalRestoreFiles.Rows[0][0].ToString(), dataFileLocation));
+                }
+                if (!string.IsNullOrWhiteSpace(logFilePath))
+                {
+                    String logFileLocation = logFilePath + databaseName + "_1.ldf";
+                    sqlRestore.RelocateFiles.Add(new RelocateFile(logicalRestoreFiles.Rows[1][0].ToString(), logFileLocation));
+                }
                 sqlRestore.ReplaceDatabase = true;
                 sqlRestore.SqlRestore(sqlServer);
                 db = sqlServer.Databases[databaseName];
