@@ -78,7 +78,7 @@
         {
             GitUiCommands = gitUiCommands;
             PluginSettings = Settings;
-            using (var frm = new TalentsoftToolsForm(Settings))
+            using (var frm = new TalentsoftToolsForm(Settings, this))
             {
                 frm.ShowDialog(gitUiCommands.OwnerForm);
                 return true;
@@ -106,7 +106,7 @@
             RecreateObservable();
         }
 
-        private void RecreateObservable()
+        public void RecreateObservable()
         {
             CancelBackgroundOperation();
             int fetchInterval = CheckInterval[PluginSettings];
@@ -176,7 +176,7 @@
             }
         }
 
-        private void CancelBackgroundOperation()
+        public void CancelBackgroundOperation()
         {
             if (_cancellationToken != null)
             {

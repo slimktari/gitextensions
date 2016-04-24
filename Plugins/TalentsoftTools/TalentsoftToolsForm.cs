@@ -17,13 +17,15 @@
         readonly ISettingsSource _settings;
         List<GitRef> RemoteBranches { get; set; }
         List<GitRef> LocalBranches { get; set; }
+        public TalentsoftToolsPlugin _plugin;
 
         #endregion
 
-        public TalentsoftToolsForm(ISettingsSource settings)
+        public TalentsoftToolsForm(ISettingsSource settings, TalentsoftToolsPlugin plugin)
         {
             IsProcessAborted = true;
             _settings = settings;
+            _plugin = plugin;
             WorkingDirectory = TalentsoftToolsPlugin.GitUiCommands.GitModule.WorkingDir;
             //Icon = _gitUiCommands.GitUICommands.FormIcon;
             LunchSplashScreen();
@@ -120,7 +122,7 @@
         {
             if (TbcMain.Enabled)
             {
-                TbcMain.SelectedIndex = 2;
+                TbcMain.SelectedIndex = 1;
             }
         }
 

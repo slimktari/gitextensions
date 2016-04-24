@@ -80,6 +80,7 @@
             {
                 return;
             }
+            _plugin.CancelBackgroundOperation();
             int checkInterval = 0;
             if (TxbSettingsNotificationsCheckIntrerval.Enabled && !string.IsNullOrWhiteSpace(TxbSettingsNotificationsCheckIntrerval.Text))
             {
@@ -88,6 +89,12 @@
                     MessageBox.Show("Unable to save plugin settings!\r\nNotification check interval must be int value.", Generic.PluginName, MessageBoxButtons.OK);
                     return;
                 }
+            }
+
+            TalentsoftToolsPlugin.CheckInterval[TalentsoftToolsPlugin.PluginSettings] = checkInterval;
+            if (checkInterval > 0)
+            {
+                _plugin.RecreateObservable();
             }
 
             TalentsoftToolsPlugin.IsDefaultExitVisualStudio[TalentsoftToolsPlugin.PluginSettings] = CbxSettingsProcessExitVisualStudio.Checked;
@@ -109,7 +116,6 @@
             TalentsoftToolsPlugin.PreBuildBatch[TalentsoftToolsPlugin.PluginSettings] = TxbSettingsBatchPreBuildScripts.Text;
             TalentsoftToolsPlugin.PostBuildBatch[TalentsoftToolsPlugin.PluginSettings] = TxbSettingsBatchPostBuildScripts.Text;
             TalentsoftToolsPlugin.DatabasesToRestore[TalentsoftToolsPlugin.PluginSettings] = TxbSettingsDatabasesRestore.Text;
-            TalentsoftToolsPlugin.CheckInterval[TalentsoftToolsPlugin.PluginSettings] = checkInterval;
             TalentsoftToolsPlugin.BranchesToMonitor[TalentsoftToolsPlugin.PluginSettings] = TxbSettingsNotificationsMonitorBranches.Text;
             TalentsoftToolsPlugin.DatabaseServerName[TalentsoftToolsPlugin.PluginSettings] = TxbSettingsDatabaseServerName.Text;
             TalentsoftToolsPlugin.DatabaseRelocateFile[TalentsoftToolsPlugin.PluginSettings] = TxbSettingsDatabaseRelocateFile.Text;
