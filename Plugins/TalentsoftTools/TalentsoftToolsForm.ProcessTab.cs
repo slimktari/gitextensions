@@ -243,7 +243,7 @@
                 string excludeCommand = string.Empty;
                 if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]))
                 {
-                    excludeCommand = $"-e \"{TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]}\"";
+                    excludeCommand = $"{TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]}";
                 }
                 Invoke((MethodInvoker)(() =>
                 {

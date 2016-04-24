@@ -251,7 +251,7 @@
                 PbxDsbLoadingAction.Visible = true;
                 if (!string.IsNullOrWhiteSpace(TxbDsbGitClean.Text))
                 {
-                    excludeCommand = $"-e \"{TxbDsbGitClean.Text}\"";
+                    excludeCommand = $"{TxbDsbGitClean.Text}";
                 }
             }));
             CmdResult gitCleanResult = GitHelper.Clean(excludeCommand);

@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using TalentsoftTools.Dto;
-
-namespace TalentsoftTools.Helpers
+﻿namespace TalentsoftTools.Helpers
 {
     using System;
     using System.Collections.Generic;
