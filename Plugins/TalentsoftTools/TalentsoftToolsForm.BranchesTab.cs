@@ -13,7 +13,7 @@ namespace TalentsoftTools
     public partial class TalentsoftToolsForm
     {
         #region Methods
-
+        
         public int BranchesObsoletesCounter { get; set; }
         public int BranchesNeedToUpdateCounter { get; set; }
         public BindingList<BranchDto> LbrGridBranches { get; set; }
@@ -26,7 +26,7 @@ namespace TalentsoftTools
             BranchesObsoletesCounter = 0;
             foreach (GitRef branch in LocalBranches)
             {
-                bool isObsolete = !GitHelper.IsBranchExist(string.Format("{0}/{1}", branch.TrackingRemote, branch.LocalName));
+                bool isObsolete = !GitHelper.IsBranchExist($"{branch.TrackingRemote}/{branch.LocalName}");
                 bool isMerged = !unmerged.Contains(branch.LocalName);
                 bool needToUpdate = false;
                 if (isObsolete)
@@ -46,7 +46,8 @@ namespace TalentsoftTools
                     Name = branch.LocalName,
                     IsMerged = isMerged.ToString(),
                     NeedUpdate = needToUpdate.ToString(),
-                    IsObsolete = isObsolete.ToString()
+                    IsObsolete = isObsolete.ToString(),
+                    Remote = branch.TrackingRemote
                 };
 
                 // Load author info.
@@ -69,11 +70,11 @@ namespace TalentsoftTools
             foreach (DataGridViewRow row in DgvLocalsBranches.Rows)
             {
                 row.Selected = false;
-                if (row.Cells[5].Value != null && row.Cells[5].Value.ToString() == "True")
+                if (row.Cells[Convert.ToInt32(Generic.LocalBranchesColumn.IsObsolete)].Value != null && row.Cells[Convert.ToInt32(Generic.LocalBranchesColumn.IsObsolete)].Value.ToString() == "True")
                 {
                     row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Generic.ColorBranchObsolete };
                 }
-                else if (row.Cells[4].Value != null && row.Cells[4].Value.ToString() == "True")
+                else if (row.Cells[Convert.ToInt32(Generic.LocalBranchesColumn.MustUpdate)].Value != null && row.Cells[Convert.ToInt32(Generic.LocalBranchesColumn.MustUpdate)].Value.ToString() == "True")
                 {
                     row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Generic.ColorBranchNeedUpdate };
                 }
@@ -117,12 +118,12 @@ namespace TalentsoftTools
         {
             foreach (DataGridViewRow row in DgvLocalsBranches.SelectedRows)
             {
-                string branchToDelete = row.Cells[0].Value.ToString();
-                bool isMerged = Convert.ToBoolean(row.Cells[3].Value);
+                string branchToDelete = row.Cells[Convert.ToInt32(Generic.LocalBranchesColumn.BranchName)].Value.ToString();
+                bool isMerged = Convert.ToBoolean(row.Cells[Convert.ToInt32(Generic.LocalBranchesColumn.IsMerged)].Value);
                 CmdResult gitResult = new CmdResult();
                 if (!isMerged)
                 {
-                    DialogResult response = MessageBox.Show(string.Format("{0} branch is not merged. Are you sure you want delete it ?", branchToDelete), Generic.PluginName, MessageBoxButtons.YesNo);
+                    DialogResult response = MessageBox.Show($"{branchToDelete} branch is not merged. Are you sure you want delete it ?", Generic.PluginName, MessageBoxButtons.YesNo);
                     switch (response)
                     {
                         case DialogResult.Yes:
@@ -138,7 +139,7 @@ namespace TalentsoftTools
                 }
                 if (gitResult.ExitCode != 0)
                 {
-                    MessageBox.Show(string.Format("Error when deleting {0}. {1}", branchToDelete, gitResult.StdError), "Error");
+                    MessageBox.Show($"Error when deleting {branchToDelete}. {gitResult.StdError}", "Error");
                 }
             }
             GitHelper.NotifyGitExtensions();
@@ -178,14 +179,13 @@ namespace TalentsoftTools
             foreach (DataGridViewRow row in DgvLocalsBranches.Rows)
             {
                 row.Selected = false;
-                if (row.Cells[5].Value != null && row.Cells[5].Value.ToString() == "True")
+                if (row.Cells[Convert.ToInt32(Generic.LocalBranchesColumn.IsObsolete)].Value != null && row.Cells[Convert.ToInt32(Generic.LocalBranchesColumn.IsObsolete)].Value.ToString() == "True")
                 {
                     row.DefaultCellStyle = new DataGridViewCellStyle { BackColor = Generic.ColorBranchObsolete };
                     row.Selected = true;
                 }
             }
         }
-
         #endregion
     }
 }

@@ -4,6 +4,38 @@
 
     public class Generic
     {
+        public enum TabItems
+        {
+            ProcessTab = 0,
+            LocalBranchesTab = 1,
+            NotificationsTab = 2,
+            Dashboard = 3,
+            Settigns = 4
+        }
+
+        public enum LocalBranchesColumn
+        {
+            RemoteName = 0,
+            BranchName = 1,
+            LastAuthor = 2,
+            LastUpdate = 3,
+            IsMerged = 4,
+            MustUpdate = 5,
+            IsObsolete = 6
+        }
+
+        public enum NotificationsColumn
+        {
+            IsNotificationWhenUpdate = 0,
+            RemoteName = 1,
+            BrancheName = 2,
+            LastAuthor = 3,
+            LastUpdate = 4,
+            IsMerged = 5,
+            MustUpdate = 6,
+            IsObsolete = 7
+        }
+
         public enum GenrateSolutionArguments
         {
             Build = 0,
@@ -23,7 +55,7 @@
         }
 
         public const string PathToVsLauncher = "C:\\Program Files (x86)\\Common Files\\Microsoft Shared\\MSEnv\\VSLauncher.exe";
-        
+
         public const string PathToVisualStudio8 = @"C:\Program Files (x86)\MSBuild\8.0\Bin\MSBuild.exe";
         public const string PathToVisualStudio9 = @"C:\Program Files (x86)\MSBuild\9.0\Bin\MSBuild.exe";
         public const string PathToVisualStudio10 = @"C:\Program Files (x86)\MSBuild\10.0\Bin\MSBuild.exe";
@@ -43,9 +75,7 @@
         public const int DefaultValueCheckMonitoInterval = 60;
         public const int DisableValueCheckMonitoInterval = 0;
         public const string DefaultDatabaseServer = ".";
-        public const string DefaultGitCleanExcludePattern = "*.mdf *.ldf";
+        public const string DefaultGitCleanExcludePattern = "-e '*.mdf' -e '*.ldf'";
         public const string DefaultSolutionFileName = "TalentSoft.sln";
-        public const string DefaultDatabaseRelocateFilePath = @"C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\DATA\";
-        public const string DefaultDatabaseRelocateLogFilePath = @"C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\DATA\";
     }
 }

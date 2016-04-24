@@ -86,6 +86,7 @@ namespace TalentsoftTools
             this.PbxLocalsBranchesUpToDate = new System.Windows.Forms.PictureBox();
             this.BtnDeleteLocalsBranches = new System.Windows.Forms.Button();
             this.DgvLocalsBranches = new System.Windows.Forms.DataGridView();
+            this.Remote = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -95,9 +96,11 @@ namespace TalentsoftTools
             this.branchDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.TpbNotifications = new System.Windows.Forms.TabPage();
             this.DgvNtfNotifications = new System.Windows.Forms.DataGridView();
-            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TpbDashboard = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.TxbDsbBranchPrefix = new System.Windows.Forms.TextBox();
+            this.BtnDsbShowBranch = new System.Windows.Forms.Button();
             this.BtnDsbCancelAction = new System.Windows.Forms.Button();
             this.GbxDsbVisualStudioSolution = new System.Windows.Forms.GroupBox();
             this.CblDsbSolutions = new System.Windows.Forms.ComboBox();
@@ -175,10 +178,14 @@ namespace TalentsoftTools
             this.LblActualBranchName = new System.Windows.Forms.Label();
             this.LblActualBranchNameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.BtnDsbShowBranch = new System.Windows.Forms.Button();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.TxbDsbBranchPrefix = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LastAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LastUpdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsMerged = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
             this.BgxLogInfo.SuspendLayout();
@@ -206,6 +213,7 @@ namespace TalentsoftTools
             this.TpbNotifications.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvNtfNotifications)).BeginInit();
             this.TpbDashboard.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.GbxDsbVisualStudioSolution.SuspendLayout();
             this.GbxDsbDatabases.SuspendLayout();
             this.GbxDsbGeneric.SuspendLayout();
@@ -219,7 +227,6 @@ namespace TalentsoftTools
             this.GbxActualInfos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesObsoletesBranches)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesMustUpdate)).BeginInit();
-            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // TbcMain
@@ -827,6 +834,7 @@ namespace TalentsoftTools
             this.DgvLocalsBranches.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.DgvLocalsBranches.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DgvLocalsBranches.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Remote,
             this.dataGridViewTextBoxColumn6,
             this.dataGridViewTextBoxColumn7,
             this.dataGridViewTextBoxColumn8,
@@ -842,11 +850,21 @@ namespace TalentsoftTools
             this.DgvLocalsBranches.Size = new System.Drawing.Size(881, 616);
             this.DgvLocalsBranches.TabIndex = 0;
             // 
+            // Remote
+            // 
+            this.Remote.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Remote.DataPropertyName = "Remote";
+            this.Remote.HeaderText = "Remote";
+            this.Remote.MinimumWidth = 70;
+            this.Remote.Name = "Remote";
+            this.Remote.ReadOnly = true;
+            // 
             // dataGridViewTextBoxColumn6
             // 
             this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn6.DataPropertyName = "Name";
             this.dataGridViewTextBoxColumn6.HeaderText = "Branch name";
+            this.dataGridViewTextBoxColumn6.MinimumWidth = 250;
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             this.dataGridViewTextBoxColumn6.ReadOnly = true;
             // 
@@ -854,19 +872,17 @@ namespace TalentsoftTools
             // 
             this.dataGridViewTextBoxColumn7.DataPropertyName = "LastAuthor";
             this.dataGridViewTextBoxColumn7.HeaderText = "Last author";
-            this.dataGridViewTextBoxColumn7.MinimumWidth = 160;
+            this.dataGridViewTextBoxColumn7.MinimumWidth = 100;
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
             this.dataGridViewTextBoxColumn7.ReadOnly = true;
-            this.dataGridViewTextBoxColumn7.Width = 160;
             // 
             // dataGridViewTextBoxColumn8
             // 
             this.dataGridViewTextBoxColumn8.DataPropertyName = "LastUpdate";
             this.dataGridViewTextBoxColumn8.HeaderText = "Last update";
-            this.dataGridViewTextBoxColumn8.MinimumWidth = 120;
+            this.dataGridViewTextBoxColumn8.MinimumWidth = 100;
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
-            this.dataGridViewTextBoxColumn8.Width = 120;
             // 
             // dataGridViewTextBoxColumn9
             // 
@@ -881,6 +897,7 @@ namespace TalentsoftTools
             // 
             this.NeedUpdate.DataPropertyName = "NeedUpdate";
             this.NeedUpdate.HeaderText = "Must update";
+            this.NeedUpdate.MinimumWidth = 60;
             this.NeedUpdate.Name = "NeedUpdate";
             this.NeedUpdate.ReadOnly = true;
             this.NeedUpdate.Width = 99;
@@ -889,13 +906,14 @@ namespace TalentsoftTools
             // 
             this.IsObsolete.DataPropertyName = "IsObsolete";
             this.IsObsolete.HeaderText = "Is obsolete";
+            this.IsObsolete.MinimumWidth = 60;
             this.IsObsolete.Name = "IsObsolete";
             this.IsObsolete.ReadOnly = true;
             this.IsObsolete.Width = 88;
             // 
             // branchDtoBindingSource
             // 
-            this.branchDtoBindingSource.DataSource = typeof(BranchDto);
+            this.branchDtoBindingSource.DataSource = typeof(TalentsoftTools.Dto.BranchDto);
             // 
             // TpbNotifications
             // 
@@ -918,7 +936,13 @@ namespace TalentsoftTools
             this.DgvNtfNotifications.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DgvNtfNotifications.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewCheckBoxColumn1,
-            this.dataGridViewTextBoxColumn2});
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3,
+            this.LastAuthor,
+            this.LastUpdate,
+            this.IsMerged,
+            this.dataGridViewTextBoxColumn4,
+            this.dataGridViewTextBoxColumn5});
             this.DgvNtfNotifications.DataSource = this.branchDtoBindingSource;
             this.DgvNtfNotifications.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DgvNtfNotifications.Location = new System.Drawing.Point(0, 0);
@@ -927,21 +951,6 @@ namespace TalentsoftTools
             this.DgvNtfNotifications.Size = new System.Drawing.Size(887, 622);
             this.DgvNtfNotifications.TabIndex = 1;
             this.DgvNtfNotifications.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvNtfNotificationsCellContentClick);
-            // 
-            // dataGridViewCheckBoxColumn1
-            // 
-            this.dataGridViewCheckBoxColumn1.HeaderText = "Notif when update";
-            this.dataGridViewCheckBoxColumn1.MinimumWidth = 140;
-            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            this.dataGridViewCheckBoxColumn1.Width = 140;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "Name";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Branch name";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
             // 
             // TpbDashboard
             // 
@@ -956,6 +965,44 @@ namespace TalentsoftTools
             this.TpbDashboard.TabIndex = 3;
             this.TpbDashboard.Text = "Dashboard";
             this.TpbDashboard.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.label9);
+            this.groupBox6.Controls.Add(this.TxbDsbBranchPrefix);
+            this.groupBox6.Controls.Add(this.BtnDsbShowBranch);
+            this.groupBox6.Location = new System.Drawing.Point(3, 318);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(876, 60);
+            this.groupBox6.TabIndex = 26;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Branches";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(7, 29);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(76, 15);
+            this.label9.TabIndex = 16;
+            this.label9.Text = "Branch prefix";
+            // 
+            // TxbDsbBranchPrefix
+            // 
+            this.TxbDsbBranchPrefix.Location = new System.Drawing.Point(106, 26);
+            this.TxbDsbBranchPrefix.Name = "TxbDsbBranchPrefix";
+            this.TxbDsbBranchPrefix.Size = new System.Drawing.Size(610, 23);
+            this.TxbDsbBranchPrefix.TabIndex = 26;
+            // 
+            // BtnDsbShowBranch
+            // 
+            this.BtnDsbShowBranch.Location = new System.Drawing.Point(722, 22);
+            this.BtnDsbShowBranch.Name = "BtnDsbShowBranch";
+            this.BtnDsbShowBranch.Size = new System.Drawing.Size(148, 29);
+            this.BtnDsbShowBranch.TabIndex = 25;
+            this.BtnDsbShowBranch.Text = "Show remotes branches";
+            this.BtnDsbShowBranch.UseVisualStyleBackColor = true;
+            this.BtnDsbShowBranch.Click += new System.EventHandler(this.BtnDsbShowBranchClick);
             // 
             // BtnDsbCancelAction
             // 
@@ -1723,43 +1770,73 @@ namespace TalentsoftTools
             this.label2.Size = new System.Drawing.Size(0, 15);
             this.label2.TabIndex = 0;
             // 
-            // BtnDsbShowBranch
+            // dataGridViewCheckBoxColumn1
             // 
-            this.BtnDsbShowBranch.Location = new System.Drawing.Point(722, 22);
-            this.BtnDsbShowBranch.Name = "BtnDsbShowBranch";
-            this.BtnDsbShowBranch.Size = new System.Drawing.Size(148, 29);
-            this.BtnDsbShowBranch.TabIndex = 25;
-            this.BtnDsbShowBranch.Text = "Show remotes branches";
-            this.BtnDsbShowBranch.UseVisualStyleBackColor = true;
-            this.BtnDsbShowBranch.Click += new System.EventHandler(this.BtnDsbShowBranchClick);
+            this.dataGridViewCheckBoxColumn1.HeaderText = "Notif when update";
+            this.dataGridViewCheckBoxColumn1.MinimumWidth = 130;
+            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            this.dataGridViewCheckBoxColumn1.Width = 130;
             // 
-            // groupBox6
+            // dataGridViewTextBoxColumn2
             // 
-            this.groupBox6.Controls.Add(this.label9);
-            this.groupBox6.Controls.Add(this.TxbDsbBranchPrefix);
-            this.groupBox6.Controls.Add(this.BtnDsbShowBranch);
-            this.groupBox6.Location = new System.Drawing.Point(3, 318);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(876, 60);
-            this.groupBox6.TabIndex = 26;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Branches";
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "Remote";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Remote";
+            this.dataGridViewTextBoxColumn2.MinimumWidth = 100;
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
             // 
-            // TxbDsbBranchPrefix
+            // dataGridViewTextBoxColumn3
             // 
-            this.TxbDsbBranchPrefix.Location = new System.Drawing.Point(106, 26);
-            this.TxbDsbBranchPrefix.Name = "TxbDsbBranchPrefix";
-            this.TxbDsbBranchPrefix.Size = new System.Drawing.Size(610, 23);
-            this.TxbDsbBranchPrefix.TabIndex = 26;
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Name";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Branch name";
+            this.dataGridViewTextBoxColumn3.MinimumWidth = 250;
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
-            // label9
+            // LastAuthor
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(7, 29);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(76, 15);
-            this.label9.TabIndex = 16;
-            this.label9.Text = "Branch prefix";
+            this.LastAuthor.DataPropertyName = "LastAuthor";
+            this.LastAuthor.HeaderText = "LastAuthor";
+            this.LastAuthor.MinimumWidth = 100;
+            this.LastAuthor.Name = "LastAuthor";
+            this.LastAuthor.ReadOnly = true;
+            // 
+            // LastUpdate
+            // 
+            this.LastUpdate.DataPropertyName = "LastUpdate";
+            this.LastUpdate.HeaderText = "LastUpdate";
+            this.LastUpdate.MinimumWidth = 90;
+            this.LastUpdate.Name = "LastUpdate";
+            this.LastUpdate.ReadOnly = true;
+            this.LastUpdate.Width = 91;
+            // 
+            // IsMerged
+            // 
+            this.IsMerged.DataPropertyName = "IsMerged";
+            this.IsMerged.HeaderText = "IsMerged";
+            this.IsMerged.MinimumWidth = 60;
+            this.IsMerged.Name = "IsMerged";
+            this.IsMerged.ReadOnly = true;
+            this.IsMerged.Width = 81;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.DataPropertyName = "NeedUpdate";
+            this.dataGridViewTextBoxColumn4.HeaderText = "NeedUpdate";
+            this.dataGridViewTextBoxColumn4.MinimumWidth = 60;
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.Width = 98;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.DataPropertyName = "IsObsolete";
+            this.dataGridViewTextBoxColumn5.HeaderText = "IsObsolete";
+            this.dataGridViewTextBoxColumn5.MinimumWidth = 60;
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            this.dataGridViewTextBoxColumn5.Width = 87;
             // 
             // TalentsoftToolsForm
             // 
@@ -1807,6 +1884,8 @@ namespace TalentsoftTools
             this.TpbNotifications.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvNtfNotifications)).EndInit();
             this.TpbDashboard.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.GbxDsbVisualStudioSolution.ResumeLayout(false);
             this.GbxDsbVisualStudioSolution.PerformLayout();
             this.GbxDsbDatabases.ResumeLayout(false);
@@ -1829,8 +1908,6 @@ namespace TalentsoftTools
             this.GbxActualInfos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesObsoletesBranches)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PbxBranchesMustUpdate)).EndInit();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1906,8 +1983,6 @@ namespace TalentsoftTools
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TabPage TpbNotifications;
         private System.Windows.Forms.DataGridView DgvNtfNotifications;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox TxbSettingsDatabaseServerName;
@@ -1972,17 +2047,26 @@ namespace TalentsoftTools
         private System.Windows.Forms.Button BtnDsbRunScriptPrebuild;
         private System.Windows.Forms.Button BtnDsbCancelAction;
         private System.Windows.Forms.Button BtnLocalsBranchesSelectObsoletes;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NeedUpdate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IsObsolete;
         private System.Windows.Forms.PictureBox PbxLocalsBranchesObsoletes;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Button BtnDsbShowBranch;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox TxbDsbBranchPrefix;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Remote;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NeedUpdate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IsObsolete;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LastAuthor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LastUpdate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IsMerged;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
     }
 }

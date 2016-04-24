@@ -79,13 +79,14 @@
 
         void TbcMainSelectedIndexChanged(object sender, EventArgs e)
         {
-            if (TbcMain.SelectedIndex == 1)
+            if (TbcMain.SelectedIndex == Convert.ToInt32(Generic.TabItems.LocalBranchesTab))
             {
                 UpdateLocalBranchBackColor();
             }
-            if (TbcMain.SelectedIndex == 2)
+            if (TbcMain.SelectedIndex == Convert.ToInt32(Generic.TabItems.NotificationsTab))
             {
                 InitNotificationsTab();
+                UpdateNotificationsBackColor();
             }
         }
 
@@ -114,7 +115,7 @@
         {
             if (TbcMain.Enabled)
             {
-                TbcMain.SelectedIndex = 1;
+                TbcMain.SelectedIndex = Convert.ToInt32(Generic.TabItems.LocalBranchesTab);
             }
         }
 
@@ -122,7 +123,7 @@
         {
             if (TbcMain.Enabled)
             {
-                TbcMain.SelectedIndex = 1;
+                TbcMain.SelectedIndex = Convert.ToInt32(Generic.TabItems.LocalBranchesTab);
             }
         }
 

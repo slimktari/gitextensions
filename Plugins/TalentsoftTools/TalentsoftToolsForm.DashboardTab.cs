@@ -1,6 +1,4 @@
-﻿using TalentsoftTools.Dto;
-
-namespace TalentsoftTools
+﻿namespace TalentsoftTools
 {
     using System;
     using System.Collections.Generic;
@@ -253,7 +251,7 @@ namespace TalentsoftTools
                 PbxDsbLoadingAction.Visible = true;
                 if (!string.IsNullOrWhiteSpace(TxbDsbGitClean.Text))
                 {
-                    excludeCommand = string.Format(" -e=\"{0}\"", TxbDsbGitClean.Text);
+                    excludeCommand = $"-e \"{TxbDsbGitClean.Text}\"";
                 }
             }));
             CmdResult gitCleanResult = GitHelper.Clean(excludeCommand);

@@ -149,7 +149,7 @@
                         if (remotes.Any())
                         {
                             var localBranch = GitHelper.GetLocalsBranch(item, _currentGitUiCommands);
-                            if (!remotes.Contains(string.Format("{0}/{1}", localBranch.TrackingRemote, localBranch.LocalName)))
+                            if (!remotes.Contains($"{localBranch.TrackingRemote}/{localBranch.LocalName}"))
                             {
                                 continue;
                             }
@@ -158,9 +158,8 @@
                             {
                                 IAsyncResult iSyncResult = Application.OpenForms[0].BeginInvoke((ThreadStart)delegate
                                 {
-                                    resultFormDialog =
-                                        new MonitorActionsForm(PluginSettings, _currentGitUiCommands, localBranch).ShowDialog(
-                                            Application.OpenForms[0]);
+                                    resultFormDialog = new MonitorActionsForm(PluginSettings, _currentGitUiCommands, localBranch)
+                                                        .ShowDialog(Application.OpenForms[0]);
 
                                 });
                                 iSyncResult.AsyncWaitHandle.WaitOne();
@@ -185,6 +184,11 @@
             }
         }
 
+        /// <summary>
+        /// Gets remotes name where branch must update.
+        /// </summary>
+        /// <param name="brancheName">The branch name to check.</param>
+        /// <returns>List of remotes.</returns>
         public List<string> NeedToUpdate(string brancheName)
         {
             if (_currentGitUiCommands != null)
@@ -196,7 +200,11 @@
                     string localBranch = results.FirstOrDefault(x => !x.Contains("refs/remotes/"));
                     if (!string.IsNullOrWhiteSpace(localBranch) && results.Any(x => x.Split(' ')[0] != localBranch.Split(' ')[0]))
                     {
-                        return results.Where(x => !string.IsNullOrWhiteSpace(x) && x.Contains(" ") && x != localBranch).Select(x => x.Split(' ')[1]).Where(x => !string.IsNullOrWhiteSpace(x) && x.Contains("refs/remotes/")).Select(x => x.Replace("refs/remotes/", string.Empty)).ToList();
+                        return results.Where(x => !string.IsNullOrWhiteSpace(x) && x.Contains(" ") && x != localBranch)
+                                      .Select(x => x.Split(' ')[1])
+                                      .Where(x => !string.IsNullOrWhiteSpace(x) && x.Contains("refs/remotes/"))
+                                      .Select(x => x.Replace("refs/remotes/", string.Empty))
+                                      .ToList();
                     }
                     return new List<string>();
                 }

@@ -44,7 +44,7 @@
         /// <returns>The <see cref="CmdResult"/>.</returns>
         public static CmdResult Clean(string excludePattern)
         {
-            return TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("clean -d -x -f{0}", excludePattern));
+            return TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult($"clean -d -x -f {excludePattern}");
         }
 
         /// <summary>

@@ -8,5 +8,6 @@
         public string IsMerged { get; set; }
         public string NeedUpdate { get; set; }
         public string IsObsolete { get; set; }
+        public string Remote { get; set; }
     }
 }

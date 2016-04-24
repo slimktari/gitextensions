@@ -176,7 +176,7 @@
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsStashChanges.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when stashing changes. {0}.", gitStashResult.StdError));
+                        TbxLogInfo.AppendText($"\r\nError when stashing changes. {gitStashResult.StdError}.");
                     }));
                 }
                 else
@@ -193,9 +193,8 @@
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxIsCheckoutBranch.BackColor = Generic.ColorProcessTaskInProgress;
-                    TbxLogInfo.AppendText(string.Format("\r\nCheckout branch {0}...", TargetBranch.Name));
-                    TbxLogInfo.AppendText(string.Format(" 'checkout -B {0} {1}'.", TargetBranch.LocalName,
-                        TargetBranch.Name));
+                    TbxLogInfo.AppendText($"\r\nCheckout branch {TargetBranch.Name}...");
+                    TbxLogInfo.AppendText($" 'checkout -B {TargetBranch.LocalName} {TargetBranch.Name}'.");
                     isLocal = RbtIsLocalTargetBranch.Checked;
                 }));
                 CmdResult gitCheckoutResult;
@@ -213,7 +212,7 @@
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsCheckoutBranch.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when checkout branch. {0}.", gitCheckoutResult.StdError));
+                        TbxLogInfo.AppendText($"\r\nError when checkout branch. {gitCheckoutResult.StdError}.");
                     }));
                 }
 
@@ -221,9 +220,7 @@
                 {
                     Invoke((MethodInvoker)(() =>
                     {
-                        TbxLogInfo.AppendText(
-                            string.Format("\r\nCreating new local branch {0}... 'checkout -b {1}'.", NewBranchName,
-                                NewBranchName));
+                        TbxLogInfo.AppendText($"\r\nCreating new local branch {NewBranchName}... 'checkout -b {NewBranchName}'.");
                     }));
                     CmdResult gitCreateNewBranchResult = GitHelper.CreateAndCheckoutBranch(NewBranchName);
                     if (gitCreateNewBranchResult.ExitCode != 0)
@@ -231,7 +228,7 @@
                         Invoke((MethodInvoker)(() =>
                         {
                             CbxIsCheckoutBranch.BackColor = Generic.ColorProcessTaskFailed;
-                            TbxLogInfo.AppendText(string.Format("\r\nError when Creating new branch {0}. {1}.", NewBranchName, gitCheckoutResult.StdError));
+                            TbxLogInfo.AppendText($"\r\nError when Creating new branch {NewBranchName}. {gitCheckoutResult.StdError}.");
                         }));
                     }
                 }
@@ -246,13 +243,11 @@
                 string excludeCommand = string.Empty;
                 if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]))
                 {
-                    excludeCommand = string.Format(" -e=\"{0}\"",
-                        TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]);
+                    excludeCommand = $"-e \"{TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]}\"";
                 }
                 Invoke((MethodInvoker)(() =>
                 {
-                    TbxLogInfo.AppendText(string.Format("\r\nCleaning solution: {0}... \"clean -d -x -f{1}\".",
-                        TargetSolutionName, excludeCommand));
+                    TbxLogInfo.AppendText($"\r\nCleaning solution: {TargetSolutionName}...");
                 }));
                 CmdResult gitCleanResult = GitHelper.Clean(excludeCommand);
                 if (gitCleanResult.ExitCode != 0)
@@ -260,8 +255,7 @@
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsGitClean.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when cleaning solution: {0}. {1}.",
-                            TargetSolutionName, gitCleanResult.StdError));
+                        TbxLogInfo.AppendText($"\r\nError when cleaning solution: {TargetSolutionName}. {gitCleanResult.StdError}.");
                     }));
                 }
                 else
@@ -285,7 +279,7 @@
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsStashPop.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when popping stash. {0}", gitStashPopResult.StdError));
+                        TbxLogInfo.AppendText($"\r\nError when popping stash. {gitStashPopResult.StdError}");
                     }));
                 }
                 else
@@ -319,8 +313,7 @@
                         isRestore = true;
                         Invoke((MethodInvoker)(() =>
                         {
-                            TbxLogInfo.AppendText(string.Format("\r\nSuccess of the restoration {0} database.",
-                                database.DatabaseName));
+                            TbxLogInfo.AppendText($"\r\nSuccess of the restoration {database.DatabaseName} database.");
                         }));
                     }
                     else
@@ -355,8 +348,7 @@
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxIsPreBuild.BackColor = Generic.ColorProcessTaskInProgress;
-                    TbxLogInfo.AppendText(string.Format("\r\nRunning Pre-Build scripts:\r\n{0}",
-                        string.Join("\r\n", PreBuildFiles)));
+                    TbxLogInfo.AppendText($"\r\nRunning Pre-Build scripts:\r\n{string.Join("\r\n", PreBuildFiles)}");
                 }));
                 string errorMessages = string.Empty;
                 bool result = GenericHelper.RunCommandLine(PreBuildFiles.ToList(), ref errorMessages);
@@ -381,15 +373,10 @@
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskInProgress;
-                    TbxLogInfo.AppendText(
-                        string.Format("\r\nRestoring Nugets in solution: {0}... 'nuget restore {1}'.",
-                            TargetSolutionName, solutionFullPath));
+                    TbxLogInfo.AppendText($"\r\nRestoring Nugets in solution: {TargetSolutionName}... 'nuget restore {solutionFullPath}'.");
                 }));
                 string errorMessages = string.Empty;
-                if (GenericHelper.RunCommandLine(new List<string>
-                {
-                    string.Format("nuget restore {0}", solutionFullPath)
-                }, ref errorMessages))
+                if (GenericHelper.RunCommandLine(new List<string> { $"nuget restore {solutionFullPath}" }, ref errorMessages))
                 {
                     Invoke((MethodInvoker)(() =>
                     {
@@ -401,8 +388,7 @@
                     Invoke((MethodInvoker)(() =>
                     {
                         CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText(string.Format("\r\nError when restoring nugets in solution: {0}.\r\n{1}",
-                            solutionFullPath, errorMessages));
+                        TbxLogInfo.AppendText($"\r\nError when restoring nugets in solution: {solutionFullPath}.\r\n{errorMessages}");
                     }));
                 }
             }
@@ -433,8 +419,7 @@
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxIsPostBuild.BackColor = Generic.ColorProcessTaskInProgress;
-                    TbxLogInfo.AppendText(string.Format("\r\nRunning Post-Build scripts:\r\n{0}",
-                        string.Join("\r\n", PostBuildFiles)));
+                    TbxLogInfo.AppendText($"\r\nRunning Post-Build scripts:\r\n{string.Join("\r\n", PostBuildFiles)}");
                 }));
                 string errorMessages = string.Empty;
                 bool result = GenericHelper.RunCommandLine(PostBuildFiles.ToList(), ref errorMessages);
@@ -459,28 +444,14 @@
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxIsRunVisualStudio.BackColor = Generic.ColorProcessTaskInProgress;
-                    TbxLogInfo.AppendText(string.Format("\r\nRunning Visual Studio with: {0}...", TargetSolutionName));
+                    TbxLogInfo.AppendText($"\r\nRunning Visual Studio with: {TargetSolutionName}...");
                 }));
 
                 new Thread(() => GenericHelper.LaunchVisualStudio(solutionFullPath)).Start();
-
-                //if (!GenericHelper.LaunchVisualStudio(solutionFullPath))
-                //{
-                //    Invoke((MethodInvoker)(() =>
-                //    {
-                //        CbxIsRunVisualStudio.BackColor = Generic.ColorProcessTaskFailed;
-                //        TbxLogInfo.AppendText(string.Format("\r\nError when running Visual Studio with: {0}.",
-                //            solutionFullPath));
-                //        TbxLogInfo.AppendText("\r\nProcess aborted.");
-                //    }));
-                //}
-                //else
-                //{
                 Invoke((MethodInvoker)(() =>
                 {
                     CbxIsRunVisualStudio.BackColor = Generic.ColorProcessTaskSuccess;
                 }));
-                //  }
             }
             if (IsRunUri)
             {
@@ -494,14 +465,14 @@
                     {
                         Invoke((MethodInvoker)(() =>
                         {
-                            TbxLogInfo.AppendText(string.Format("\r\nLaunching web URI: {0}...", Uris));
+                            TbxLogInfo.AppendText($"\r\nLaunching web URI: {Uris}...");
                         }));
                         if (!GenericHelper.LaunchWebUri(uri))
                         {
                             Invoke((MethodInvoker)(() =>
                             {
                                 CbxLaunchUri.BackColor = Generic.ColorProcessTaskFailed;
-                                TbxLogInfo.AppendText(string.Format("\r\nError when launching web URI: {0}.", uri));
+                                TbxLogInfo.AppendText($"\r\nError when launching web URI: {uri}.");
                             }));
                         }
                         else
@@ -517,8 +488,8 @@
             DateTime endateDateTime = DateTime.Now;
             Invoke((MethodInvoker)(() =>
             {
-                TbxLogInfo.AppendText(string.Format("\r\n\r\nEnd at: {0}.", endateDateTime));
-                TbxLogInfo.AppendText(string.Format("\r\nElapsed time: {0}.", endateDateTime - startDateTime));
+                TbxLogInfo.AppendText($"\r\n\r\nEnd at: {endateDateTime}.");
+                TbxLogInfo.AppendText($"\r\nElapsed time: {endateDateTime - startDateTime}.");
                 GitHelper.NotifyGitExtensions();
                 LblActualBranchName.Text = GitHelper.GetSelectedBranch();
                 LblActualRepository.Text = GitHelper.GetWorkingDirectory();
