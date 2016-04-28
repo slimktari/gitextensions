@@ -55,10 +55,8 @@
             PbxLocalsBranchesUpToDate.BackColor = Generic.ColorBranchUpToDate;
             Translate();
             SplashScreen.SetStatus("Fetching remotes");
-            GitHelper.FetchAll();
+            GitHelper.FetchAllWithNotify(true);
             SplashScreen.SetStatus("Update tracking branches");
-            GitHelper.Prune();
-            GitHelper.NotifyGitExtensions();
             SplashScreen.SetStatus("Loading solutions files");
             LoadSolutionsFiles();
             SplashScreen.SetStatus("Loading settings values");

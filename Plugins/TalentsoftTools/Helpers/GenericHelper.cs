@@ -115,6 +115,26 @@
                     {
                         return Generic.PathToVisualStudio14;
                     }
+                    if (File.Exists(Generic.PathToVisualStudio12))
+                    {
+                        return Generic.PathToVisualStudio12;
+                    }
+                    if (File.Exists(Generic.PathToVisualStudio11))
+                    {
+                        return Generic.PathToVisualStudio11;
+                    }
+                    if (File.Exists(Generic.PathToVisualStudio10))
+                    {
+                        return Generic.PathToVisualStudio10;
+                    }
+                    if (File.Exists(Generic.PathToVisualStudio9))
+                    {
+                        return Generic.PathToVisualStudio9;
+                    }
+                    if (File.Exists(Generic.PathToVisualStudio8))
+                    {
+                        return Generic.PathToVisualStudio8;
+                    }
                     return string.Empty;
             }
         }
@@ -248,7 +268,7 @@
                                "/p:BuildInParallel=true " +
                                "/p:Configuration=Debug " +
                                $"/maxcpucount \"{solutionFileFullPath}\"";
-            
+
             RunCommandLine(msBuildFile, arguments, ref errors);
 
             if (!string.IsNullOrWhiteSpace(errors))
@@ -309,7 +329,7 @@
             return true;
         }
 
-        public static bool RunCommandLine(string fileName,string arguments, ref string errorMessages)
+        public static bool RunCommandLine(string fileName, string arguments, ref string errorMessages)
         {
             string output;
             ProcessStartInfo processStartInfo = new ProcessStartInfo(Generic.PathToVisualStudio14);

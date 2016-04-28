@@ -75,7 +75,7 @@
         public const int DefaultValueCheckMonitoInterval = 60;
         public const int DisableValueCheckMonitoInterval = 0;
         public const string DefaultDatabaseServer = ".";
-        public const string DefaultGitCleanExcludePattern = "-e '*.mdf' -e '*.ldf'";
+        public const string DefaultGitCleanExcludePattern = "-e 'temp' -e '*.mdf' -e '*.ldf'";
         public const string DefaultSolutionFileName = "TalentSoft.sln";
     }
 }

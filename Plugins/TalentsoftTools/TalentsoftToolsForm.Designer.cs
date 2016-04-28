@@ -96,6 +96,14 @@ namespace TalentsoftTools
             this.branchDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.TpbNotifications = new System.Windows.Forms.TabPage();
             this.DgvNtfNotifications = new System.Windows.Forms.DataGridView();
+            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LastAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LastUpdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsMerged = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TpbDashboard = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -178,14 +186,6 @@ namespace TalentsoftTools
             this.LblActualBranchName = new System.Windows.Forms.Label();
             this.LblActualBranchNameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LastAuthor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LastUpdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IsMerged = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TbcMain.SuspendLayout();
             this.TbpProcess.SuspendLayout();
             this.BgxLogInfo.SuspendLayout();
@@ -952,6 +952,74 @@ namespace TalentsoftTools
             this.DgvNtfNotifications.TabIndex = 1;
             this.DgvNtfNotifications.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvNtfNotificationsCellContentClick);
             // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            this.dataGridViewCheckBoxColumn1.HeaderText = "Notif when update";
+            this.dataGridViewCheckBoxColumn1.MinimumWidth = 130;
+            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            this.dataGridViewCheckBoxColumn1.Width = 130;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "Remote";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Remote";
+            this.dataGridViewTextBoxColumn2.MinimumWidth = 100;
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Name";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Branch name";
+            this.dataGridViewTextBoxColumn3.MinimumWidth = 250;
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // LastAuthor
+            // 
+            this.LastAuthor.DataPropertyName = "LastAuthor";
+            this.LastAuthor.HeaderText = "LastAuthor";
+            this.LastAuthor.MinimumWidth = 100;
+            this.LastAuthor.Name = "LastAuthor";
+            this.LastAuthor.ReadOnly = true;
+            // 
+            // LastUpdate
+            // 
+            this.LastUpdate.DataPropertyName = "LastUpdate";
+            this.LastUpdate.HeaderText = "LastUpdate";
+            this.LastUpdate.MinimumWidth = 90;
+            this.LastUpdate.Name = "LastUpdate";
+            this.LastUpdate.ReadOnly = true;
+            this.LastUpdate.Width = 91;
+            // 
+            // IsMerged
+            // 
+            this.IsMerged.DataPropertyName = "IsMerged";
+            this.IsMerged.HeaderText = "IsMerged";
+            this.IsMerged.MinimumWidth = 60;
+            this.IsMerged.Name = "IsMerged";
+            this.IsMerged.ReadOnly = true;
+            this.IsMerged.Width = 81;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.DataPropertyName = "NeedUpdate";
+            this.dataGridViewTextBoxColumn4.HeaderText = "NeedUpdate";
+            this.dataGridViewTextBoxColumn4.MinimumWidth = 60;
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.Width = 98;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.DataPropertyName = "IsObsolete";
+            this.dataGridViewTextBoxColumn5.HeaderText = "IsObsolete";
+            this.dataGridViewTextBoxColumn5.MinimumWidth = 60;
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            this.dataGridViewTextBoxColumn5.Width = 87;
+            // 
             // TpbDashboard
             // 
             this.TpbDashboard.Controls.Add(this.groupBox6);
@@ -1258,7 +1326,7 @@ namespace TalentsoftTools
             // 
             // BtnSettingsSave
             // 
-            this.BtnSettingsSave.Location = new System.Drawing.Point(731, 512);
+            this.BtnSettingsSave.Location = new System.Drawing.Point(731, 554);
             this.BtnSettingsSave.Name = "BtnSettingsSave";
             this.BtnSettingsSave.Size = new System.Drawing.Size(148, 29);
             this.BtnSettingsSave.TabIndex = 27;
@@ -1278,14 +1346,14 @@ namespace TalentsoftTools
             this.groupBox5.Controls.Add(this.label18);
             this.groupBox5.Location = new System.Drawing.Point(8, 0);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(871, 87);
+            this.groupBox5.Size = new System.Drawing.Size(871, 113);
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Generic";
             // 
             // TxbSettingsDefaultSolutionFileName
             // 
-            this.TxbSettingsDefaultSolutionFileName.Location = new System.Drawing.Point(741, 19);
+            this.TxbSettingsDefaultSolutionFileName.Location = new System.Drawing.Point(468, 19);
             this.TxbSettingsDefaultSolutionFileName.Name = "TxbSettingsDefaultSolutionFileName";
             this.TxbSettingsDefaultSolutionFileName.Size = new System.Drawing.Size(124, 23);
             this.TxbSettingsDefaultSolutionFileName.TabIndex = 3;
@@ -1293,7 +1361,7 @@ namespace TalentsoftTools
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(592, 22);
+            this.label20.Location = new System.Drawing.Point(319, 22);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(143, 15);
             this.label20.TabIndex = 13;
@@ -1301,7 +1369,7 @@ namespace TalentsoftTools
             // 
             // TxbSettingsNewBranchPrefix
             // 
-            this.TxbSettingsNewBranchPrefix.Location = new System.Drawing.Point(446, 19);
+            this.TxbSettingsNewBranchPrefix.Location = new System.Drawing.Point(169, 19);
             this.TxbSettingsNewBranchPrefix.Name = "TxbSettingsNewBranchPrefix";
             this.TxbSettingsNewBranchPrefix.Size = new System.Drawing.Size(124, 23);
             this.TxbSettingsNewBranchPrefix.TabIndex = 2;
@@ -1309,7 +1377,7 @@ namespace TalentsoftTools
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(322, 22);
+            this.label19.Location = new System.Drawing.Point(15, 22);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(103, 15);
             this.label19.TabIndex = 11;
@@ -1317,15 +1385,15 @@ namespace TalentsoftTools
             // 
             // TxbSettingsExcludeGitCleanPattern
             // 
-            this.TxbSettingsExcludeGitCleanPattern.Location = new System.Drawing.Point(169, 19);
+            this.TxbSettingsExcludeGitCleanPattern.Location = new System.Drawing.Point(169, 77);
             this.TxbSettingsExcludeGitCleanPattern.Name = "TxbSettingsExcludeGitCleanPattern";
-            this.TxbSettingsExcludeGitCleanPattern.Size = new System.Drawing.Size(124, 23);
+            this.TxbSettingsExcludeGitCleanPattern.Size = new System.Drawing.Size(696, 23);
             this.TxbSettingsExcludeGitCleanPattern.TabIndex = 1;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(14, 51);
+            this.label17.Location = new System.Drawing.Point(15, 51);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(65, 15);
             this.label17.TabIndex = 4;
@@ -1341,7 +1409,7 @@ namespace TalentsoftTools
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(14, 22);
+            this.label18.Location = new System.Drawing.Point(15, 80);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(139, 15);
             this.label18.TabIndex = 2;
@@ -1361,7 +1429,7 @@ namespace TalentsoftTools
             this.groupBox4.Controls.Add(this.CbxSettingsProcessRunVisualStudio);
             this.groupBox4.Controls.Add(this.CbxSettingsProcessExitVisualStudio);
             this.groupBox4.Controls.Add(this.CbxSettingsProcessBuild);
-            this.groupBox4.Location = new System.Drawing.Point(8, 420);
+            this.groupBox4.Location = new System.Drawing.Point(8, 462);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(871, 86);
             this.groupBox4.TabIndex = 11;
@@ -1494,7 +1562,7 @@ namespace TalentsoftTools
             this.groupBox3.Controls.Add(this.label15);
             this.groupBox3.Controls.Add(this.TxbSettingsBatchPreBuildScripts);
             this.groupBox3.Controls.Add(this.label16);
-            this.groupBox3.Location = new System.Drawing.Point(8, 328);
+            this.groupBox3.Location = new System.Drawing.Point(8, 370);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(871, 86);
             this.groupBox3.TabIndex = 11;
@@ -1541,7 +1609,7 @@ namespace TalentsoftTools
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.TxbSettingsDatabaseServerName);
-            this.groupBox2.Location = new System.Drawing.Point(8, 93);
+            this.groupBox2.Location = new System.Drawing.Point(8, 135);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(870, 123);
             this.groupBox2.TabIndex = 2;
@@ -1603,7 +1671,7 @@ namespace TalentsoftTools
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.TxbSettingsNotificationsCheckIntrerval);
             this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Location = new System.Drawing.Point(8, 222);
+            this.groupBox1.Location = new System.Drawing.Point(8, 264);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(870, 100);
             this.groupBox1.TabIndex = 0;
@@ -1623,6 +1691,7 @@ namespace TalentsoftTools
             // 
             // TxbSettingsNotificationsMonitorBranches
             // 
+            this.TxbSettingsNotificationsMonitorBranches.Enabled = false;
             this.TxbSettingsNotificationsMonitorBranches.Location = new System.Drawing.Point(167, 55);
             this.TxbSettingsNotificationsMonitorBranches.Name = "TxbSettingsNotificationsMonitorBranches";
             this.TxbSettingsNotificationsMonitorBranches.Size = new System.Drawing.Size(698, 23);
@@ -1769,74 +1838,6 @@ namespace TalentsoftTools
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 15);
             this.label2.TabIndex = 0;
-            // 
-            // dataGridViewCheckBoxColumn1
-            // 
-            this.dataGridViewCheckBoxColumn1.HeaderText = "Notif when update";
-            this.dataGridViewCheckBoxColumn1.MinimumWidth = 130;
-            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            this.dataGridViewCheckBoxColumn1.Width = 130;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "Remote";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Remote";
-            this.dataGridViewTextBoxColumn2.MinimumWidth = 100;
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "Name";
-            this.dataGridViewTextBoxColumn3.HeaderText = "Branch name";
-            this.dataGridViewTextBoxColumn3.MinimumWidth = 250;
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // LastAuthor
-            // 
-            this.LastAuthor.DataPropertyName = "LastAuthor";
-            this.LastAuthor.HeaderText = "LastAuthor";
-            this.LastAuthor.MinimumWidth = 100;
-            this.LastAuthor.Name = "LastAuthor";
-            this.LastAuthor.ReadOnly = true;
-            // 
-            // LastUpdate
-            // 
-            this.LastUpdate.DataPropertyName = "LastUpdate";
-            this.LastUpdate.HeaderText = "LastUpdate";
-            this.LastUpdate.MinimumWidth = 90;
-            this.LastUpdate.Name = "LastUpdate";
-            this.LastUpdate.ReadOnly = true;
-            this.LastUpdate.Width = 91;
-            // 
-            // IsMerged
-            // 
-            this.IsMerged.DataPropertyName = "IsMerged";
-            this.IsMerged.HeaderText = "IsMerged";
-            this.IsMerged.MinimumWidth = 60;
-            this.IsMerged.Name = "IsMerged";
-            this.IsMerged.ReadOnly = true;
-            this.IsMerged.Width = 81;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.DataPropertyName = "NeedUpdate";
-            this.dataGridViewTextBoxColumn4.HeaderText = "NeedUpdate";
-            this.dataGridViewTextBoxColumn4.MinimumWidth = 60;
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Width = 98;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.DataPropertyName = "IsObsolete";
-            this.dataGridViewTextBoxColumn5.HeaderText = "IsObsolete";
-            this.dataGridViewTextBoxColumn5.MinimumWidth = 60;
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            this.dataGridViewTextBoxColumn5.Width = 87;
             // 
             // TalentsoftToolsForm
             // 

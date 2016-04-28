@@ -294,10 +294,16 @@
         /// <summary>
         /// Fetch all objects quiet and notify GitExtensions.
         /// </summary>
+        /// <param name="isPrune">Define if prune.</param>
         /// <returns>The <see cref="CmdResult"/>.</returns>
-        public static CmdResult FetchAllWithNotify()
+        public static CmdResult FetchAllWithNotify(bool isPrune)
         {
-            CmdResult results = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("fetch -q --all");
+            string cmdIfPrune = string.Empty;
+            if(isPrune)
+            {
+                cmdIfPrune = "--prune";
+            }
+            CmdResult results = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult($"fetch -q --all {cmdIfPrune}");
             TalentsoftToolsPlugin.GitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
             return results;
         }
@@ -309,16 +315,6 @@
         public static CmdResult FetchAll()
         {
             CmdResult results = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("fetch -q --all");
-            return results;
-        }
-
-        /// <summary>
-        /// Deletes trackers..
-        /// </summary>
-        /// <returns>The <see cref="CmdResult"/>.</returns>
-        public static CmdResult Prune()
-        {
-            CmdResult results = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("fetch -p -q");
             return results;
         }
 

@@ -278,8 +278,7 @@
                 return;
             }
             PbxDsbLoadingAction.Visible = true;
-            CmdResult results = GitHelper.FetchAllWithNotify();
-            GitHelper.NotifyGitExtensions();
+            CmdResult results = GitHelper.FetchAllWithNotify(false);
             if (results.ExitCode != 0)
             {
                 MessageBox.Show(results.StdError, "Error", MessageBoxButtons.OK);
