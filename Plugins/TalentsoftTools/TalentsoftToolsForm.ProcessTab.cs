@@ -290,6 +290,55 @@
                     }));
                 }
             }
+            if (IsPreBuildSolution)
+            {
+                Invoke((MethodInvoker)(() =>
+                {
+                    CbxIsPreBuild.BackColor = Generic.ColorProcessTaskInProgress;
+                    TbxLogInfo.AppendText($"\r\nRunning Pre-Build scripts:\r\n{string.Join("\r\n", PreBuildFiles)}");
+                }));
+                string errorMessages = string.Empty;
+                bool result = GenericHelper.RunCommandLine(PreBuildFiles.ToList(), ref errorMessages);
+                if (!result)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsPreBuild.BackColor = Generic.ColorProcessTaskFailed;
+                        TbxLogInfo.AppendText("\r\nError when running Pre-Build scripts.\r\n" + errorMessages);
+                    }));
+                }
+                else
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsPreBuild.BackColor = Generic.ColorProcessTaskSuccess;
+                    }));
+                }
+            }
+            if (IsNugetRestore)
+            {
+                Invoke((MethodInvoker)(() =>
+                {
+                    CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskInProgress;
+                    TbxLogInfo.AppendText($"\r\nRestoring Nugets in solution: {TargetSolutionName}... 'nuget restore {solutionFullPath}'.");
+                }));
+                string errorMessages = string.Empty;
+                if (GenericHelper.RunCommandLine(new List<string> { $"nuget restore {solutionFullPath}" }, ref errorMessages))
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskSuccess;
+                    }));
+                }
+                else
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskFailed;
+                        TbxLogInfo.AppendText($"\r\nError when restoring nugets in solution: {solutionFullPath}.\r\n{errorMessages}");
+                    }));
+                }
+            }
             if (IsRestoreDatabase && Databases.Any())
             {
                 bool isRestore = false;
@@ -341,55 +390,6 @@
                             CbxIsRestoreDatabases.BackColor = Generic.ColorProcessTaskSuccess;
                         }));
                     }
-                }
-            }
-            if (IsPreBuildSolution)
-            {
-                Invoke((MethodInvoker)(() =>
-                {
-                    CbxIsPreBuild.BackColor = Generic.ColorProcessTaskInProgress;
-                    TbxLogInfo.AppendText($"\r\nRunning Pre-Build scripts:\r\n{string.Join("\r\n", PreBuildFiles)}");
-                }));
-                string errorMessages = string.Empty;
-                bool result = GenericHelper.RunCommandLine(PreBuildFiles.ToList(), ref errorMessages);
-                if (!result)
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsPreBuild.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText("\r\nError when running Pre-Build scripts.\r\n" + errorMessages);
-                    }));
-                }
-                else
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsPreBuild.BackColor = Generic.ColorProcessTaskSuccess;
-                    }));
-                }
-            }
-            if (IsNugetRestore)
-            {
-                Invoke((MethodInvoker)(() =>
-                {
-                    CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskInProgress;
-                    TbxLogInfo.AppendText($"\r\nRestoring Nugets in solution: {TargetSolutionName}... 'nuget restore {solutionFullPath}'.");
-                }));
-                string errorMessages = string.Empty;
-                if (GenericHelper.RunCommandLine(new List<string> { $"nuget restore {solutionFullPath}" }, ref errorMessages))
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskSuccess;
-                    }));
-                }
-                else
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        CbxIsNugetRestore.BackColor = Generic.ColorProcessTaskFailed;
-                        TbxLogInfo.AppendText($"\r\nError when restoring nugets in solution: {solutionFullPath}.\r\n{errorMessages}");
-                    }));
                 }
             }
             if (IsBuildSolution)

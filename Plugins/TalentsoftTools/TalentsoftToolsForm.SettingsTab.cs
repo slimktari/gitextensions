@@ -71,7 +71,6 @@
             int.TryParse(TxbSettingsNotificationsCheckIntrerval.Text, out checkInterval);
             CbxSettingsNotificationsEnable.Checked = checkInterval > Generic.DisableValueCheckMonitoInterval;
             TxbSettingsNotificationsCheckIntrerval.Enabled = checkInterval > 0;
-            TxbSettingsNotificationsMonitorBranches.Enabled = checkInterval > 0;
         }
 
         private void BtnSettingsSaveClick(object sender, EventArgs e)
@@ -130,13 +129,23 @@
             {
                 TxbSettingsNotificationsCheckIntrerval.Enabled = true;
                 TxbSettingsNotificationsCheckIntrerval.Text = Generic.DefaultValueCheckMonitoInterval.ToString();
-                TxbSettingsNotificationsMonitorBranches.Enabled = true;
             }
             else if (!CbxSettingsNotificationsEnable.Checked)
             {
                 TxbSettingsNotificationsCheckIntrerval.Enabled = false;
                 TxbSettingsNotificationsCheckIntrerval.Text = Generic.DisableValueCheckMonitoInterval.ToString();
-                TxbSettingsNotificationsMonitorBranches.Enabled = false;
+            }
+        }
+
+        private void PbxSettingsResetMonitorBranchesClick(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(TxbSettingsNotificationsMonitorBranches.Text))
+            {
+                DialogResult response = MessageBox.Show("Are you sure to remove all branches from notifications ?", Generic.PluginName, MessageBoxButtons.YesNo);
+                if (response == DialogResult.Yes)
+                {
+                    TxbSettingsNotificationsMonitorBranches.Text = String.Empty;
+                }
             }
         }
     }
