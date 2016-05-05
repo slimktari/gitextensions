@@ -248,6 +248,8 @@ namespace TalentsoftTools
             this.TbpProcess.Controls.Add(this.BgxLogInfo);
             this.TbpProcess.Controls.Add(this.GbxTargetSolution);
             this.TbpProcess.Controls.Add(this.GbxProcess);
+            this.TbpProcess.Controls.Add(this.BtnStopProcess);
+            this.TbpProcess.Controls.Add(this.BtnRunProcess);
             this.TbpProcess.Location = new System.Drawing.Point(4, 24);
             this.TbpProcess.Name = "TbpProcess";
             this.TbpProcess.Size = new System.Drawing.Size(1049, 552);
@@ -404,10 +406,8 @@ namespace TalentsoftTools
             this.GbxProcess.Controls.Add(this.pictureBox3);
             this.GbxProcess.Controls.Add(this.pictureBox2);
             this.GbxProcess.Controls.Add(this.pictureBox1);
-            this.GbxProcess.Controls.Add(this.BtnStopProcess);
             this.GbxProcess.Controls.Add(this.CbxLaunchUri);
             this.GbxProcess.Controls.Add(this.CbxIsGitClean);
-            this.GbxProcess.Controls.Add(this.BtnRunProcess);
             this.GbxProcess.Controls.Add(this.CbxIsExitVisualStudio);
             this.GbxProcess.Controls.Add(this.CbxIsRunVisualStudio);
             this.GbxProcess.Controls.Add(this.CbxIsStashChanges);
@@ -415,7 +415,7 @@ namespace TalentsoftTools
             this.GbxProcess.Controls.Add(this.CbxIsBuildSolution);
             this.GbxProcess.Location = new System.Drawing.Point(4, 121);
             this.GbxProcess.Name = "GbxProcess";
-            this.GbxProcess.Size = new System.Drawing.Size(1039, 173);
+            this.GbxProcess.Size = new System.Drawing.Size(1039, 134);
             this.GbxProcess.TabIndex = 3;
             this.GbxProcess.TabStop = false;
             this.GbxProcess.Text = "Process";
@@ -608,7 +608,7 @@ namespace TalentsoftTools
             // 
             // BtnStopProcess
             // 
-            this.BtnStopProcess.Location = new System.Drawing.Point(14, 131);
+            this.BtnStopProcess.Location = new System.Drawing.Point(8, 261);
             this.BtnStopProcess.Name = "BtnStopProcess";
             this.BtnStopProcess.Size = new System.Drawing.Size(118, 32);
             this.BtnStopProcess.TabIndex = 21;
@@ -642,7 +642,7 @@ namespace TalentsoftTools
             // 
             // BtnRunProcess
             // 
-            this.BtnRunProcess.Location = new System.Drawing.Point(914, 131);
+            this.BtnRunProcess.Location = new System.Drawing.Point(925, 261);
             this.BtnRunProcess.Name = "BtnRunProcess";
             this.BtnRunProcess.Size = new System.Drawing.Size(118, 32);
             this.BtnRunProcess.TabIndex = 20;
