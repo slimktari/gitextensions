@@ -1757,7 +1757,7 @@ namespace TalentsoftTools
             // PbxDsbLoadingAction
             // 
             this.PbxDsbLoadingAction.Image = ((System.Drawing.Image)(resources.GetObject("PbxDsbLoadingAction.Image")));
-            this.PbxDsbLoadingAction.Location = new System.Drawing.Point(497, 29);
+            this.PbxDsbLoadingAction.Location = new System.Drawing.Point(508, 29);
             this.PbxDsbLoadingAction.Name = "PbxDsbLoadingAction";
             this.PbxDsbLoadingAction.Size = new System.Drawing.Size(78, 38);
             this.PbxDsbLoadingAction.TabIndex = 25;

@@ -21,7 +21,7 @@
         public static BoolSetting IsDefaultCheckoutBranch = new BoolSetting("Is default checkout branch", true);
         public static BoolSetting IsDefaultGitClean = new BoolSetting("Is default git clean", false);
         public static BoolSetting IsDefaultStashPop = new BoolSetting("Is default stash pop", false);
-        public static BoolSetting IsDefaultResetDatabases = new BoolSetting("Is default reset databases", true);
+        public static BoolSetting IsDefaultResetDatabases = new BoolSetting("Is default reset databases", false);
         public static BoolSetting IsDefaultNugetRestore = new BoolSetting("Is default Nuget restore", true);
         public static BoolSetting IsDefaultBuildSolution = new BoolSetting("Is default build solution", true);
         public static BoolSetting IsDefaultRunUri = new BoolSetting("Is default execute URI", true);
