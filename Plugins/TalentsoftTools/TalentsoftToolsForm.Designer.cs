@@ -1749,7 +1749,7 @@ namespace TalentsoftTools
             this.GbxActualInfos.Dock = System.Windows.Forms.DockStyle.Top;
             this.GbxActualInfos.Location = new System.Drawing.Point(0, 0);
             this.GbxActualInfos.Name = "GbxActualInfos";
-            this.GbxActualInfos.Size = new System.Drawing.Size(1056, 75);
+            this.GbxActualInfos.Size = new System.Drawing.Size(1059, 75);
             this.GbxActualInfos.TabIndex = 0;
             this.GbxActualInfos.TabStop = false;
             this.GbxActualInfos.Text = "Current state";
@@ -1849,7 +1849,8 @@ namespace TalentsoftTools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1056, 658);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(1059, 664);
             this.Controls.Add(this.GbxActualInfos);
             this.Controls.Add(this.TbcMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
