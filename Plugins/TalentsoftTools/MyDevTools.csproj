@@ -7,7 +7,7 @@
     <ProjectGuid>{C9ABE7BB-E08F-4B8A-95DC-49FA4F4321CF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TalentsoftTools</RootNamespace>
+    <RootNamespace>MyDevTools</RootNamespace>
     <AssemblyName>TalentsoftTools</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
