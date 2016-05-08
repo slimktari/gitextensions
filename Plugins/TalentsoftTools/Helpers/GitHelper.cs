@@ -237,23 +237,19 @@
         }
 
         /// <summary>
-        /// Test if branch need updates according to his remote.
+        /// Tests whether the given branch is behind its tracked upstream
         /// </summary>
-        /// <param name="branchName">Branch name to verify.</param>
-        /// <returns>True if need to update, otherwise false.</returns>
-        public static bool NeedToUpdate(string branchName)
+        /// <param name="branch">The branch name to verify.</param>
+        /// <param name="remote">The remote name to check against.</param>
+        /// <returns>True if the branch is behind upstream, otherwise false.</returns>
+        public static bool IsBranchBehindUpstream(string branch, string remote)
         {
-            CmdResult gitResult = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("show-ref -s " + branchName);
-            if (gitResult.ExitCode == 0)
-            {
-                string[] results = gitResult.StdOutput.SplitLines();
-                if (results.Any())
-                {
-                    return results.Any(x => !string.IsNullOrWhiteSpace(x) && x != results.FirstOrDefault());
-                }
-                return false;
-            }
-            return false;
+            // Result format : <number>
+            // The result is the commit count differences between the branch and the upstream.
+            string command = "rev-list --count {1}..{0}/{1}";
+            CmdResult commandResult = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format(command, remote, branch));
+
+            return commandResult.ExitCode == 0 && commandResult.StdOutput[0] > '0';
         }
 
         /// <summary>
