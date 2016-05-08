@@ -35,7 +35,7 @@ namespace TalentsoftTools
                 }
                 else
                 {
-                    needToUpdate = GitHelper.NeedToUpdate(branch.LocalName);
+                    needToUpdate = GitHelper.IsBranchBehindUpstream(branch.LocalName, branch.TrackingRemote);
                 }
                 if (needToUpdate)
                 {
