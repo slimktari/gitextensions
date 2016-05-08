@@ -1,4 +1,7 @@
-﻿namespace TalentsoftTools
+﻿using System.Diagnostics;
+using System.Reflection;
+
+namespace TalentsoftTools
 {
     using System;
     using System.Collections.Generic;
@@ -47,7 +50,7 @@
             Application.DoEvents();
             SplashScreen.SetStatus("Initialize component");
             InitializeComponent();
-            Text = Generic.PluginName;
+            Text = $"{Generic.PluginName} - {GenericHelper.GetProjectVersion()}";
             PbxBranchesMustUpdate.BackColor = Generic.ColorBranchNeedUpdate;
             PbxBranchesObsoletesBranches.BackColor = Generic.ColorBranchObsolete;
             PbxLocalsBranchesObsoletes.BackColor = Generic.ColorBranchObsolete;

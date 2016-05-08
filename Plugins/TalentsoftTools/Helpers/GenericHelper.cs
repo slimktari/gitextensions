@@ -399,5 +399,16 @@
                 return false;
             }
         }
+
+        /// <summary>
+        /// Gets current project version.
+        /// </summary>
+        /// <returns>Version of current project.</returns>
+        public static string GetProjectVersion()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            return fileVersionInfo.ProductVersion;
+        }
     }
 }
