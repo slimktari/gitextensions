@@ -100,25 +100,25 @@
     <Compile Include="SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="TalentsoftToolsForm.cs">
+    <Compile Include="MyDevToolsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TalentsoftToolsForm.Designer.cs">
-      <DependentUpon>TalentsoftToolsForm.cs</DependentUpon>
+    <Compile Include="MyDevToolsForm.Designer.cs">
+      <DependentUpon>MyDevToolsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TalentsoftToolsForm.NotificationsTab.cs">
+    <Compile Include="MyDevToolsForm.NotificationsTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TalentsoftToolsForm.ProcessTab.cs">
+    <Compile Include="MyDevToolsForm.ProcessTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TalentsoftToolsForm.DashboardTab.cs">
+    <Compile Include="MyDevToolsForm.DashboardTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TalentsoftToolsForm.SettingsTab.cs">
+    <Compile Include="MyDevToolsForm.SettingsTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TalentsoftToolsPlugin.cs" />
+    <Compile Include="MyDevToolsPlugin.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\GitCommands\GitCommands.csproj">
@@ -148,15 +148,15 @@
     <EmbeddedResource Include="SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TalentsoftToolsForm.resx">
-      <DependentUpon>TalentsoftToolsForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyDevToolsForm.resx">
+      <DependentUpon>MyDevToolsForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\BranchDto.datasource" />
     <None Include="Resources\Arrow_Direction_Move_Next_Forward_Right.png" />
-    <Compile Include="TalentsoftToolsForm.BranchesTab.cs">
+    <Compile Include="MyDevToolsForm.BranchesTab.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

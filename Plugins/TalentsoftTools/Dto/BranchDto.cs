@@ -1,4 +1,4 @@
-﻿namespace TalentsoftTools.Dto
+﻿namespace MyDevTools.Dto
 {
     public class BranchDto
     {

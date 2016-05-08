@@ -1,4 +1,4 @@
-﻿namespace TalentsoftTools
+﻿namespace MyDevTools
 {
     partial class MonitorActionsForm
     {

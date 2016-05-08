@@ -1,4 +1,4 @@
-﻿namespace TalentsoftTools
+﻿namespace MyDevTools
 {
     partial class SplashScreen
     {
@@ -71,7 +71,7 @@
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.BackColor = System.Drawing.Color.LightGray;
-            this.BackgroundImage = global::TalentsoftTools.Properties.Resources.SplashTs;
+            this.BackgroundImage = global::MyDevTools.Properties.Resources.SplashTs;
             this.ClientSize = new System.Drawing.Size(421, 221);
             this.Controls.Add(this.lblTimeRemaining);
             this.Controls.Add(this.pnlStatus);

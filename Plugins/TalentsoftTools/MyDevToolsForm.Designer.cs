@@ -1,8 +1,8 @@
-﻿using TalentsoftTools.Dto;
+﻿using MyDevTools.Dto;
 
-namespace TalentsoftTools
+namespace MyDevTools
 {
-    partial class TalentsoftToolsForm
+    partial class MyDevToolsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@ namespace TalentsoftTools
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TalentsoftToolsForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MyDevToolsForm));
             this.TbcMain = new System.Windows.Forms.TabControl();
             this.TbpProcess = new System.Windows.Forms.TabPage();
             this.BgxLogInfo = new System.Windows.Forms.GroupBox();
@@ -39,7 +39,7 @@ namespace TalentsoftTools
             this.GbxTargetSolution = new System.Windows.Forms.GroupBox();
             this.TxbNewBranchName = new System.Windows.Forms.TextBox();
             this.CbxIsCreateNewBranch = new System.Windows.Forms.CheckBox();
-            this.ActBranches = new TalentsoftTools.Components.AutoCompleteTextBox();
+            this.ActBranches = new MyDevTools.Components.AutoCompleteTextBox();
             this.CblSolutions = new System.Windows.Forms.ComboBox();
             this.LblTargetSolutionFileNameLabel = new System.Windows.Forms.Label();
             this.LblTargetSolutionFileName = new System.Windows.Forms.Label();
@@ -422,7 +422,7 @@ namespace TalentsoftTools
             // 
             // pictureBox6
             // 
-            this.pictureBox6.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox6.Image = global::MyDevTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
             this.pictureBox6.Location = new System.Drawing.Point(833, 60);
             this.pictureBox6.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox6.Name = "pictureBox6";
@@ -444,7 +444,7 @@ namespace TalentsoftTools
             // 
             // pictureBox11
             // 
-            this.pictureBox11.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox11.Image = global::MyDevTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
             this.pictureBox11.Location = new System.Drawing.Point(999, 60);
             this.pictureBox11.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox11.Name = "pictureBox11";
@@ -461,7 +461,7 @@ namespace TalentsoftTools
             // 
             // pictureBox8
             // 
-            this.pictureBox8.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox8.Image = global::MyDevTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
             this.pictureBox8.Location = new System.Drawing.Point(141, 100);
             this.pictureBox8.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox8.Name = "pictureBox8";
@@ -485,7 +485,7 @@ namespace TalentsoftTools
             // 
             // pictureBox10
             // 
-            this.pictureBox10.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox10.Image = global::MyDevTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
             this.pictureBox10.Location = new System.Drawing.Point(999, 19);
             this.pictureBox10.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox10.Name = "pictureBox10";
@@ -507,7 +507,7 @@ namespace TalentsoftTools
             // 
             // pictureBox9
             // 
-            this.pictureBox9.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox9.Image = global::MyDevTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
             this.pictureBox9.Location = new System.Drawing.Point(141, 60);
             this.pictureBox9.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox9.Name = "pictureBox9";
@@ -536,7 +536,7 @@ namespace TalentsoftTools
             // 
             // pictureBox7
             // 
-            this.pictureBox7.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox7.Image = global::MyDevTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
             this.pictureBox7.Location = new System.Drawing.Point(673, 19);
             this.pictureBox7.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox7.Name = "pictureBox7";
@@ -558,7 +558,7 @@ namespace TalentsoftTools
             // 
             // pictureBox5
             // 
-            this.pictureBox5.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox5.Image = global::MyDevTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
             this.pictureBox5.Location = new System.Drawing.Point(673, 60);
             this.pictureBox5.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox5.Name = "pictureBox5";
@@ -568,7 +568,7 @@ namespace TalentsoftTools
             // 
             // pictureBox4
             // 
-            this.pictureBox4.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox4.Image = global::MyDevTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
             this.pictureBox4.Location = new System.Drawing.Point(833, 19);
             this.pictureBox4.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox4.Name = "pictureBox4";
@@ -578,7 +578,7 @@ namespace TalentsoftTools
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox3.Image = global::MyDevTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
             this.pictureBox3.Location = new System.Drawing.Point(546, 19);
             this.pictureBox3.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox3.Name = "pictureBox3";
@@ -588,7 +588,7 @@ namespace TalentsoftTools
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox2.Image = global::MyDevTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
             this.pictureBox2.Location = new System.Drawing.Point(319, 19);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox2.Name = "pictureBox2";
@@ -598,7 +598,7 @@ namespace TalentsoftTools
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::TalentsoftTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
+            this.pictureBox1.Image = global::MyDevTools.Properties.Resources.Arrow_Direction_Move_Next_Forward_Right;
             this.pictureBox1.Location = new System.Drawing.Point(141, 19);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.Name = "pictureBox1";
@@ -903,7 +903,7 @@ namespace TalentsoftTools
             // 
             // branchDtoBindingSource
             // 
-            this.branchDtoBindingSource.DataSource = typeof(TalentsoftTools.Dto.BranchDto);
+            this.branchDtoBindingSource.DataSource = typeof(MyDevTools.Dto.BranchDto);
             // 
             // TpbNotifications
             // 
@@ -1672,7 +1672,7 @@ namespace TalentsoftTools
             // PbxSettingsResetMonitorBranches
             // 
             this.PbxSettingsResetMonitorBranches.BackColor = System.Drawing.Color.Transparent;
-            this.PbxSettingsResetMonitorBranches.BackgroundImage = global::TalentsoftTools.Properties.Resources.recycle;
+            this.PbxSettingsResetMonitorBranches.BackgroundImage = global::MyDevTools.Properties.Resources.recycle;
             this.PbxSettingsResetMonitorBranches.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PbxSettingsResetMonitorBranches.InitialImage = null;
             this.PbxSettingsResetMonitorBranches.Location = new System.Drawing.Point(1001, 55);
@@ -1845,7 +1845,7 @@ namespace TalentsoftTools
             this.label2.Size = new System.Drawing.Size(0, 15);
             this.label2.TabIndex = 0;
             // 
-            // TalentsoftToolsForm
+            // MyDevToolsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1856,9 +1856,9 @@ namespace TalentsoftTools
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
-            this.Name = "TalentsoftToolsForm";
+            this.Name = "MyDevToolsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TalentsoftToolsFormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MyDevToolsFormClosing);
             this.TbcMain.ResumeLayout(false);
             this.TbpProcess.ResumeLayout(false);
             this.BgxLogInfo.ResumeLayout(false);

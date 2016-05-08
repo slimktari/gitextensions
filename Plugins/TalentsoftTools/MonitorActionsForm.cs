@@ -1,4 +1,4 @@
-﻿namespace TalentsoftTools
+﻿namespace MyDevTools
 {
     using System;
     using System.Linq;
@@ -86,10 +86,10 @@
 
         void RemoveFromMonitor()
         {
-            TalentsoftToolsPlugin.BranchesToMonitor[_settings] = string.Join(";", TalentsoftToolsPlugin.BranchesToMonitor[_settings].Split(';').Where(x => !string.IsNullOrWhiteSpace(x)).Where(x => x != _currentItem.LocalName).ToList());
+            MyDevToolsPlugin.BranchesToMonitor[_settings] = string.Join(";", MyDevToolsPlugin.BranchesToMonitor[_settings].Split(';').Where(x => !string.IsNullOrWhiteSpace(x)).Where(x => x != _currentItem.LocalName).ToList());
             foreach (var form in Application.OpenForms)
             {
-                var pluginForm = form as TalentsoftToolsForm;
+                var pluginForm = form as MyDevToolsForm;
                 if (pluginForm != null)
                 {
                     pluginForm.InitNotifications();

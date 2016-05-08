@@ -1,4 +1,4 @@
-﻿namespace TalentsoftTools.Helpers
+﻿namespace MyDevTools.Helpers
 {
     public class SettingsHelper
     {

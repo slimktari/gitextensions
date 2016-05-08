@@ -1,4 +1,4 @@
-﻿namespace TalentsoftTools
+﻿namespace MyDevTools
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@
     using GitUIPluginInterfaces;
     using Helpers;
 
-    public partial class TalentsoftToolsForm
+    public partial class MyDevToolsForm
     {
         void DashboardProcess(bool isEnabled)
         {
@@ -210,9 +210,9 @@
             {
                 string errorMessages = string.Empty;
                 if (DatabaseHelper.RestoreDatabase(database.DatabaseName, database.BackupFilePath,
-                    TalentsoftToolsPlugin.DatabaseServerName[_settings],
-                    TalentsoftToolsPlugin.DatabaseRelocateFile[_settings],
-                    TalentsoftToolsPlugin.DatabaseRelocateFile[_settings],
+                    MyDevToolsPlugin.DatabaseServerName[_settings],
+                    MyDevToolsPlugin.DatabaseRelocateFile[_settings],
+                    MyDevToolsPlugin.DatabaseRelocateFile[_settings],
                     ref errorMessages))
                 {
                     message.Append(string.Format("\r\nSuccess of the restoration {0} database.", database.DatabaseName));

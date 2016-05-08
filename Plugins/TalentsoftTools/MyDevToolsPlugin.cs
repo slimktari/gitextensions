@@ -1,4 +1,4 @@
-﻿namespace TalentsoftTools
+﻿namespace MyDevTools
 {
     using System;
     using System.Collections.Generic;
@@ -11,7 +11,7 @@
     using ResourceManager;
     using Helpers;
 
-    public class TalentsoftToolsPlugin : GitPluginBase, IGitPluginForRepository
+    public class MyDevToolsPlugin : GitPluginBase, IGitPluginForRepository
     {
         #region Settings
 
@@ -50,7 +50,7 @@
         /// <summary>
         /// Constructor of plugin.
         /// </summary>
-        public TalentsoftToolsPlugin()
+        public MyDevToolsPlugin()
         {
             Description = Generic.PluginName;
             //Translate();
@@ -78,7 +78,7 @@
         {
             GitUiCommands = gitUiCommands;
             PluginSettings = Settings;
-            using (var frm = new TalentsoftToolsForm(Settings, this))
+            using (var frm = new MyDevToolsForm(Settings, this))
             {
                 frm.ShowDialog(gitUiCommands.OwnerForm);
                 return true;

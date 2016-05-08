@@ -1,4 +1,4 @@
-﻿namespace TalentsoftTools
+﻿namespace MyDevTools
 {
     using System.Windows.Forms;
     using System.Collections.Generic;

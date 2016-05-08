@@ -1,4 +1,4 @@
-﻿namespace TalentsoftTools
+﻿namespace MyDevTools
 {
     using System.IO;
     using System;
@@ -12,7 +12,7 @@
     using Helpers;
     using Dto;
 
-    public partial class TalentsoftToolsForm
+    public partial class MyDevToolsForm
     {
         #region Fields & Properties
 
@@ -53,11 +53,11 @@
 
             CblSolutions.DataSource = SolutionDictionary.Select(x => x.Key).ToList();
             CblDsbSolutions.DataSource = SolutionDictionary.Select(x => x.Key).ToList();
-            if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.DefaultSolutionFileName[_settings]) && CblSolutions.Items.Count > 1)
+            if (!string.IsNullOrWhiteSpace(MyDevToolsPlugin.DefaultSolutionFileName[_settings]) && CblSolutions.Items.Count > 1)
             {
                 foreach (var item in CblSolutions.Items)
                 {
-                    if (item.ToString().EndsWith(TalentsoftToolsPlugin.DefaultSolutionFileName[_settings], StringComparison.InvariantCultureIgnoreCase))
+                    if (item.ToString().EndsWith(MyDevToolsPlugin.DefaultSolutionFileName[_settings], StringComparison.InvariantCultureIgnoreCase))
                     {
                         CblSolutions.SelectedItem = item;
                         break;
@@ -65,7 +65,7 @@
                 }
                 foreach (var item in CblDsbSolutions.Items)
                 {
-                    if (item.ToString().EndsWith(TalentsoftToolsPlugin.DefaultSolutionFileName[_settings], StringComparison.InvariantCultureIgnoreCase))
+                    if (item.ToString().EndsWith(MyDevToolsPlugin.DefaultSolutionFileName[_settings], StringComparison.InvariantCultureIgnoreCase))
                     {
                         CblDsbSolutions.SelectedItem = item;
                         break;
@@ -241,9 +241,9 @@
             {
                 Invoke((MethodInvoker)(() => { CbxIsGitClean.BackColor = Generic.ColorProcessTaskInProgress; }));
                 string excludeCommand = string.Empty;
-                if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]))
+                if (!string.IsNullOrWhiteSpace(MyDevToolsPlugin.ExcludePatternGitClean[_settings]))
                 {
-                    excludeCommand = $"{TalentsoftToolsPlugin.ExcludePatternGitClean[_settings]}";
+                    excludeCommand = $"{MyDevToolsPlugin.ExcludePatternGitClean[_settings]}";
                 }
                 Invoke((MethodInvoker)(() =>
                 {
@@ -355,9 +355,9 @@
                     }));
                     string errorMessages = string.Empty;
                     if (DatabaseHelper.RestoreDatabase(database.DatabaseName, database.BackupFilePath,
-                        TalentsoftToolsPlugin.DatabaseServerName[_settings],
-                        TalentsoftToolsPlugin.DatabaseRelocateFile[_settings],
-                        TalentsoftToolsPlugin.DatabaseRelocateFile[_settings], ref errorMessages))
+                        MyDevToolsPlugin.DatabaseServerName[_settings],
+                        MyDevToolsPlugin.DatabaseRelocateFile[_settings],
+                        MyDevToolsPlugin.DatabaseRelocateFile[_settings], ref errorMessages))
                     {
                         isRestore = true;
                         Invoke((MethodInvoker)(() =>
@@ -654,9 +654,9 @@
             if (CbxIsCreateNewBranch.Checked)
             {
                 TxbNewBranchName.Enabled = true;
-                if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.NewBranchPrefix[_settings]))
+                if (!string.IsNullOrWhiteSpace(MyDevToolsPlugin.NewBranchPrefix[_settings]))
                 {
-                    TxbNewBranchName.Text = TalentsoftToolsPlugin.NewBranchPrefix[_settings];
+                    TxbNewBranchName.Text = MyDevToolsPlugin.NewBranchPrefix[_settings];
                 }
             }
             else

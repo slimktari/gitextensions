@@ -1,4 +1,4 @@
-﻿namespace TalentsoftTools.Helpers
+﻿namespace MyDevTools.Helpers
 {
     using System;
     using System.Collections.Generic;

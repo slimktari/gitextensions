@@ -1,6 +1,6 @@
-﻿using TalentsoftTools.Dto;
+﻿using MyDevTools.Dto;
 
-namespace TalentsoftTools
+namespace MyDevTools
 {
     using System;
     using System.ComponentModel;
@@ -10,7 +10,7 @@ namespace TalentsoftTools
     using GitUIPluginInterfaces;
     using Helpers;
 
-    public partial class TalentsoftToolsForm
+    public partial class MyDevToolsForm
     {
         #region Methods
         

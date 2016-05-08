@@ -1,4 +1,4 @@
-﻿namespace TalentsoftTools.Helpers
+﻿namespace MyDevTools.Helpers
 {
     using System;
     using System.Collections.Generic;
@@ -22,9 +22,9 @@
         {
             if (!string.IsNullOrWhiteSpace(remoteBranchName))
             {
-                return TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout -B {0} {1}", localBranchName, remoteBranchName));
+                return MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout -B {0} {1}", localBranchName, remoteBranchName));
             }
-            return TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout {0}", localBranchName));
+            return MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout {0}", localBranchName));
         }
 
         /// <summary>
@@ -34,7 +34,7 @@
         /// <returns>The <see cref="CmdResult"/>.</returns>
         public static CmdResult CreateAndCheckoutBranch(string newBranchName)
         {
-            return TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout -b {0}", newBranchName));
+            return MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("checkout -b {0}", newBranchName));
         }
 
         /// <summary>
@@ -44,7 +44,7 @@
         /// <returns>The <see cref="CmdResult"/>.</returns>
         public static CmdResult Clean(string excludePattern)
         {
-            return TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult($"clean -d -x -f {excludePattern}");
+            return MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult($"clean -d -x -f {excludePattern}");
         }
 
         /// <summary>
@@ -53,7 +53,7 @@
         /// <returns>The <see cref="CmdResult"/>.</returns>
         public static CmdResult StashPop()
         {
-            return TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("stash pop");
+            return MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("stash pop");
         }
 
         /// <summary>
@@ -62,7 +62,7 @@
         /// <returns>The <see cref="CmdResult"/>.</returns>
         public static CmdResult StashChanges()
         {
-            return TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("stash --include-untracked");
+            return MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("stash --include-untracked");
         }
 
         /// <summary>
@@ -71,7 +71,7 @@
         /// <returns>Name of selected branch in current repository.</returns>
         public static string GetSelectedBranch()
         {
-            return TalentsoftToolsPlugin.GitUiCommands.GitModule.GetSelectedBranch();
+            return MyDevToolsPlugin.GitUiCommands.GitModule.GetSelectedBranch();
         }
 
         /// <summary>
@@ -80,7 +80,7 @@
         /// <returns>Path of current repository.</returns>
         public static string GetWorkingDirectory()
         {
-            return TalentsoftToolsPlugin.GitUiCommands.GitModule.WorkingDir;
+            return MyDevToolsPlugin.GitUiCommands.GitModule.WorkingDir;
         }
 
         /// <summary>
@@ -88,7 +88,7 @@
         /// </summary>
         public static void NotifyGitExtensions()
         {
-            TalentsoftToolsPlugin.GitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
+            MyDevToolsPlugin.GitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
         }
 
         /// <summary>
@@ -98,7 +98,7 @@
         /// <returns>List of branch informations.</returns>
         public static string[] GetBranchInfo(string branchName)
         {
-            CmdResult result = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("log -n 1 --pretty=format:\" % an;% cr\" {0}", branchName));
+            CmdResult result = MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("log -n 1 --pretty=format:\" % an;% cr\" {0}", branchName));
             if (result.ExitCode == 0 && !string.IsNullOrWhiteSpace(result.StdOutput) && result.StdOutput.Contains(";"))
             {
                 return result.StdOutput.Split(';');
@@ -113,7 +113,7 @@
         /// <returns>List of branch informations.</returns>
         public static string[] GetBranchInfoFromRemote(GitRef localBranch)
         {
-            CmdResult result = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("log -n 1 --pretty=format:\" % an;% cr\" {0}/{1}", localBranch.TrackingRemote, localBranch.LocalName));
+            CmdResult result = MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("log -n 1 --pretty=format:\" % an;% cr\" {0}/{1}", localBranch.TrackingRemote, localBranch.LocalName));
             if (result.ExitCode == 0 && !string.IsNullOrWhiteSpace(result.StdOutput) && result.StdOutput.Contains(";"))
             {
                 return result.StdOutput.Split(';');
@@ -130,7 +130,7 @@
         {
             if (iGitUiCommands == null)
             {
-                return GetTreeRefs(TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmd("show-ref --dereference")).ToList();
+                return GetTreeRefs(MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmd("show-ref --dereference")).ToList();
             }
             return GetTreeRefs(iGitUiCommands.GitModule.RunGitCmd("show-ref --dereference"), iGitUiCommands).ToList();
         }
@@ -153,8 +153,8 @@
             GitModule gitModule = null;
             if (iGitUiCommands == null)
             {
-                gitModule = (GitModule)TalentsoftToolsPlugin.GitUiCommands.GitModule;
-                remotes = TalentsoftToolsPlugin.GitUiCommands.GitModule.GetRemotes(false);
+                gitModule = (GitModule)MyDevToolsPlugin.GitUiCommands.GitModule;
+                remotes = MyDevToolsPlugin.GitUiCommands.GitModule.GetRemotes(false);
             }
             else
             {
@@ -228,7 +228,7 @@
         /// <returns>List of not merged branches.</returns>
         public static string[] GetUnmergerBranches()
         {
-            CmdResult gitResult = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("branch --no-merged");
+            CmdResult gitResult = MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("branch --no-merged");
             if (gitResult.ExitCode == 0)
             {
                 return gitResult.StdOutput.Replace(" ", string.Empty).SplitLines();
@@ -247,7 +247,7 @@
             // Result format : <number>
             // The result is the commit count differences between the branch and the upstream.
             string command = "rev-list --count {1}..{0}/{1}";
-            CmdResult commandResult = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format(command, remote, branch));
+            CmdResult commandResult = MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format(command, remote, branch));
 
             return commandResult.ExitCode == 0 && commandResult.StdOutput[0] > '0';
         }
@@ -259,7 +259,7 @@
         /// <returns>True if branch exist.</returns>
         public static bool IsBranchExist(string branchName)
         {
-            CmdResult gitResult = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("rev-parse --verify " + branchName);
+            CmdResult gitResult = MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("rev-parse --verify " + branchName);
             if (gitResult.ExitCode == 0)
             {
                 return true;
@@ -274,7 +274,7 @@
         /// <returns>The <see cref="CmdResult"/>.</returns>
         public static CmdResult DeleteMergedLocalBranch(string branchToDelete)
         {
-            return TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("branch -d {0}", branchToDelete));
+            return MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("branch -d {0}", branchToDelete));
         }
 
         /// <summary>
@@ -284,7 +284,7 @@
         /// <returns>The <see cref="CmdResult"/>.</returns>
         public static CmdResult DeleteUnmergedLocalBranch(string branchToDelete)
         {
-            return TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("branch -D {0}", branchToDelete));
+            return MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult(string.Format("branch -D {0}", branchToDelete));
         }
 
         /// <summary>
@@ -299,8 +299,8 @@
             {
                 cmdIfPrune = "--prune";
             }
-            CmdResult results = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult($"fetch -q --all {cmdIfPrune}");
-            TalentsoftToolsPlugin.GitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
+            CmdResult results = MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult($"fetch -q --all {cmdIfPrune}");
+            MyDevToolsPlugin.GitUiCommands.GitUICommands.RepoChangedNotifier.Notify();
             return results;
         }
 
@@ -310,7 +310,7 @@
         /// <returns>The <see cref="CmdResult"/>.</returns>
         public static CmdResult FetchAll()
         {
-            CmdResult results = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("fetch -q --all");
+            CmdResult results = MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("fetch -q --all");
             return results;
         }
 
@@ -320,7 +320,7 @@
         /// <returns>List of stash objects.</returns>
         public static string[] GetStashs()
         {
-            CmdResult gitResult = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("stash list");
+            CmdResult gitResult = MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("stash list");
             if (gitResult.ExitCode == 0 && !string.IsNullOrWhiteSpace(gitResult.StdOutput))
             {
                 return gitResult.StdOutput.SplitLines();
@@ -334,7 +334,7 @@
         /// <returns>List of difference.</returns>
         public static string[] GetDiff()
         {
-            CmdResult gitResult = TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("diff");
+            CmdResult gitResult = MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmdResult("diff");
             if (gitResult.ExitCode == 0 && !string.IsNullOrWhiteSpace(gitResult.StdOutput))
             {
                 return gitResult.StdOutput.SplitLines();
@@ -348,7 +348,7 @@
         /// <returns>True if there are any changes, otherwise false.</returns>
         public static bool IfChangedFiles()
         {
-            return !string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.GitUiCommands.GitModule.RunGitCmd(GitCommandHelpers.GetAllChangedFilesCmd(true, UntrackedFilesMode.All)));
+            return !string.IsNullOrWhiteSpace(MyDevToolsPlugin.GitUiCommands.GitModule.RunGitCmd(GitCommandHelpers.GetAllChangedFilesCmd(true, UntrackedFilesMode.All)));
         }
     }
 }

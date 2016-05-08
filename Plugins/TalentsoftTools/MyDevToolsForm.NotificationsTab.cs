@@ -1,18 +1,18 @@
-﻿namespace TalentsoftTools
+﻿namespace MyDevTools
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
 
-    public partial class TalentsoftToolsForm
+    public partial class MyDevToolsForm
     {
         public void InitNotificationsTab()
         {
             string[] branchesMonitors = new string[0];
-            if (!string.IsNullOrWhiteSpace(TalentsoftToolsPlugin.BranchesToMonitor[_settings]))
+            if (!string.IsNullOrWhiteSpace(MyDevToolsPlugin.BranchesToMonitor[_settings]))
             {
-                branchesMonitors = TalentsoftToolsPlugin.BranchesToMonitor[_settings].Split(';');
+                branchesMonitors = MyDevToolsPlugin.BranchesToMonitor[_settings].Split(';');
             }
             DgvNtfNotifications.DataSource = LbrGridBranches;
             foreach (DataGridViewRow row in DgvNtfNotifications.Rows)
@@ -53,7 +53,7 @@
             {
                 var checkBoxCell = (DataGridViewCheckBoxCell)DgvNtfNotifications.Rows[DgvNtfNotifications.CurrentRow.Index].Cells[Convert.ToInt32(Generic.NotificationsColumn.IsNotificationWhenUpdate)];
                 bool isChecked = Convert.ToBoolean(checkBoxCell.EditingCellFormattedValue);
-                List<string> branchesMonitors = TalentsoftToolsPlugin.BranchesToMonitor[_settings].Split(';').ToList();
+                List<string> branchesMonitors = MyDevToolsPlugin.BranchesToMonitor[_settings].Split(';').ToList();
                 string branchName = DgvNtfNotifications[Convert.ToInt32(Generic.NotificationsColumn.BrancheName), e.RowIndex].Value.ToString();
                 if (isChecked && branchesMonitors.All(x => x != DgvNtfNotifications[Convert.ToInt32(Generic.NotificationsColumn.BrancheName), e.RowIndex].Value.ToString()))
                 {
@@ -63,8 +63,8 @@
                 {
                     branchesMonitors.Remove(branchName);
                 }
-                TalentsoftToolsPlugin.BranchesToMonitor[_settings] = string.Join(";", branchesMonitors.Where(x => !string.IsNullOrWhiteSpace(x)));
-                TxbSettingsNotificationsMonitorBranches.Text = TalentsoftToolsPlugin.BranchesToMonitor[_settings];
+                MyDevToolsPlugin.BranchesToMonitor[_settings] = string.Join(";", branchesMonitors.Where(x => !string.IsNullOrWhiteSpace(x)));
+                TxbSettingsNotificationsMonitorBranches.Text = MyDevToolsPlugin.BranchesToMonitor[_settings];
             }
         }
     }

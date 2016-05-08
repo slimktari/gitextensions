@@ -7,7 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace TalentsoftTools
+namespace MyDevTools
 {
     // The SplashScreen class definition.  AKO Form
     public partial class SplashScreen : Form
