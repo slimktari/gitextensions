@@ -125,8 +125,7 @@
                     GitHelper.GetSelectedBranch()));
                 if (CbxIsCheckoutBranch.Checked && TargetBranch != null)
                 {
-                    TbxLogInfo.AppendText(string.Format("\r\nTarget branch: {0}\r\nTarget solution: {1}\r\n",
-                        TargetBranch.Name, TargetSolutionName));
+                    TbxLogInfo.AppendText(string.Format("\r\nTarget branch: {0}\r\n", TargetBranch.Name));
                 }
                 if (CbxIsBuildSolution.Checked || CbxIsGitClean.Checked)
                 {
@@ -400,7 +399,7 @@
                     TbxLogInfo.AppendText($"\r\nBuilding solution: {TargetSolutionName}...");
                 }));
                 string errorResult = string.Empty;
-                if (GenericHelper.InvokeMsBuild(solutionFullPath, Generic.GenrateSolutionArguments.Build, ref errorResult))
+                if (!GenericHelper.InvokeMsBuild(solutionFullPath, Generic.GenrateSolutionArguments.Build, ref errorResult))
                 {
                     Invoke((MethodInvoker)(() =>
                     {
