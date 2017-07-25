@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace GitCommands.Settings
 {
     /// <summary>
     /// Settings that can be distributed with repository
-    /// they can be overriden for a particular repository
+    /// they can be overridden for a particular repository
     /// </summary>
     public class RepoDistSettings : SettingsContainer<RepoDistSettings, GitExtSettingsCache>
     {
@@ -19,6 +16,7 @@ namespace GitCommands.Settings
             : base(aLowerPriority, aSettingsCache)
         {
             BuildServer = new BuildServer(this);
+            Detailed = new DetailedGroup(this);
         }
 
         #region CreateXXX
@@ -32,7 +30,7 @@ namespace GitCommands.Settings
         {
             //if (aModule.IsBareRepository()
             return new RepoDistSettings(aLowerPriority,
-                GitExtSettingsCache.Create(Path.Combine(aModule.GetGitDirectory(), AppSettings.SettingsFileName), allowCache));
+                GitExtSettingsCache.Create(Path.Combine(aModule.GitCommonDirectory, AppSettings.SettingsFileName), allowCache));
         }
 
         public static RepoDistSettings CreateLocal(GitModule aModule, bool allowCache = true)
@@ -97,7 +95,8 @@ namespace GitCommands.Settings
         }
 
         public readonly BuildServer BuildServer;
-        
+        public readonly DetailedGroup Detailed;
+
         public bool NoFastForwardMerge
         {
             get { return this.GetBool("NoFastForwardMerge", false); }
@@ -131,9 +130,25 @@ namespace GitCommands.Settings
         {
             get
             {
-                return new SettingsPath(this, Type.Value);
+                return new SettingsPath(this, Type.ValueOrDefault);
             }
         }
+    }
+
+    public class DetailedGroup : SettingsPath
+    {
+        public readonly BoolNullableSetting GetRemoteBranchesDirectlyFromRemote;
+        public readonly BoolNullableSetting AddMergeLogMessages;
+        public readonly IntNullableSetting MergeLogMessagesCount;
+
+        public DetailedGroup(RepoDistSettings container)
+            : base(container, "Detailed")
+        {
+            GetRemoteBranchesDirectlyFromRemote = new BoolNullableSetting("GetRemoteBranchesDirectlyFromRemote", this, false);
+            AddMergeLogMessages = new BoolNullableSetting("AddMergeLogMessages", this, false);
+            MergeLogMessagesCount = new IntNullableSetting("MergeLogMessagesCount", this, 20);
+        }
+
     }
 
 }

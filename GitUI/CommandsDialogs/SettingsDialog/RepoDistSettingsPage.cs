@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GitCommands.Settings;
+﻿using GitCommands.Settings;
+using GitUIPluginInterfaces;
 
 namespace GitUI.CommandsDialogs.SettingsDialog
 {
@@ -16,6 +13,16 @@ namespace GitUI.CommandsDialogs.SettingsDialog
             base.Init(aPageHost);
 
             CurrentSettings = RepoDistSettingsSet.EffectiveSettings;
+        }
+
+        protected override bool AreEffectiveSettings
+        {
+            get { return CurrentSettings == RepoDistSettingsSet.EffectiveSettings; }
+        }
+
+        protected override ISettingsSource GetCurrentSettings()
+        {
+            return CurrentSettings;
         }
 
         public void SetEffectiveSettings()
@@ -52,5 +59,16 @@ namespace GitUI.CommandsDialogs.SettingsDialog
             LoadSettings();
         }
 
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // RepoDistSettingsPage
+            // 
+            this.Name = "RepoDistSettingsPage";
+            this.Size = new System.Drawing.Size(951, 518);
+            this.ResumeLayout(false);
+
+        }
     }
 }

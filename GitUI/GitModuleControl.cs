@@ -18,6 +18,7 @@ namespace GitUI
         /// <summary>Occurs after the <see cref="UICommandsSource"/> is changed.</summary>
         [Browsable(false)]
         public event EventHandler<GitUICommandsSourceEventArgs> GitUICommandsSourceSet;
+
         private IGitUICommandsSource _uiCommandsSource;
 
 
@@ -48,18 +49,22 @@ namespace GitUI
         [Browsable(false)]
         public GitUICommands UICommands
         {
-            get
-            {
-                return UICommandsSource.UICommands;
-            }
+            get { return UICommandsSource.UICommands; }
         }
 
-        /// <summary>true if <see cref="UICommands"/> has been initialzed.</summary>
+        /// <summary>true if <see cref="UICommands"/> has been initialized.</summary>
         public bool IsUICommandsInitialized
         {
             get
             {
-                return UICommandsSource != null;
+                try
+                {
+                    return UICommandsSource != null;
+                }
+                catch (InvalidOperationException)
+                {
+                    return false;
+                }
             }
         }
         /// <summary>Gets the <see cref="UICommands"/>' <see cref="GitModule"/> reference.</summary>
@@ -116,6 +121,8 @@ namespace GitUI
                         parent = parent.Parent;
                 }
 
+                if(cmdsSrc == null)
+                    throw new InvalidOperationException("The UI Command Source is not available for this control. Are you calling methods before adding it to the parent control?");
                 UICommandsSource = cmdsSrc;
             }
         }

@@ -10,7 +10,9 @@ namespace GitUI.Script
         AfterPull,
         BeforePush,
         AfterPush,
-        ShowInUserMenuBar
+        ShowInUserMenuBar,
+        BeforeCheckout,
+        AfterCheckout
     }
 
     public class ScriptInfo
@@ -38,6 +40,8 @@ namespace GitUI.Script
         public bool AskConfirmation { get; set; }
 
         public bool RunInBackground { get; set; }
+
+        public bool IsPowerShell { get; set; }
 
         public int HotkeyCommandIdentifier { get; set; }
         /// <summary>

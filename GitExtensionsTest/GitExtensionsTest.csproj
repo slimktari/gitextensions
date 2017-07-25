@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -22,8 +22,6 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <ConsolePause>False</ConsolePause>
-    <CodeAnalysisRuleSet>..\FxCopRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,24 +32,20 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <ConsolePause>False</ConsolePause>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\FxCopRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+    <Reference Include="FluentAssertions, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.19.2\lib\net40\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.Core, Version=4.19.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.19.2\lib\net40\FluentAssertions.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NSubstitute, Version=2.0.3.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\NSubstitute.2.0.3\lib\net40\NSubstitute.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.TextEditor, Version=4.0.2.6466, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FluentAssertions.3.3.0\lib\net40\FluentAssertions.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentAssertions.Core">
-      <HintPath>..\packages\FluentAssertions.3.3.0\lib\net40\FluentAssertions.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.core, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="nunit.core.interfaces, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.core.interfaces.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\Bin\ICSharpCode.TextEditor.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -60,14 +54,6 @@
     <Reference Include="nunit.mocks, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.Mocks.2.6.4\lib\nunit.mocks.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.util, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.util.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NUnit.VisualStudio.TestAdapter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4cb40d35494691ac, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\NUnit.VisualStudio.TestAdapter.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -79,6 +65,9 @@
   <ItemGroup>
     <Compile Include="GitCommands\CommitInformationTest.cs" />
     <Compile Include="GitCommands\Config\ConfigFileTest.cs" />
+    <Compile Include="GitCommands\GitExtLinks\GitExtLinksTests.cs" />
+    <Compile Include="GitCommands\Git\GitBranchNameNormaliserTest.cs" />
+    <Compile Include="GitCommands\Git\GitBranchNameOptionsTest.cs" />
     <Compile Include="GitCommands\Git\GitCommandHelpersTest.cs" />
     <Compile Include="GitCommands\Git\EncodingHelperTest.cs" />
     <Compile Include="GitCommands\Helpers\FileInfoExtensions.cs" />
@@ -87,9 +76,13 @@
     <Compile Include="GitCommands\Patch\PatchManagerTest.cs" />
     <Compile Include="GitCommands\Patch\PatchTest.cs" />
     <Compile Include="GitUI\AuthorEmailBasedRevisionHighlightingFixture.cs" />
-    <Compile Include="GitUI\FollowParentRewriterFixture.cs" />
+    <Compile Include="GitUI\ConsoleEmulatorOutputControlFixture.cs" />
+    <Compile Include="GitUI\Editor\Diff\DiffLineNumAnalyzerFixture.cs" />
+    <Compile Include="GitUI\Editor\Diff\LinePrefixHelperFixture.cs" />
     <Compile Include="GitUI\FormUpdateFixture.cs" />
     <Compile Include="GitUI\HotkeySettingsManagerFixture.cs" />
+    <Compile Include="GitUI\LinkFactoryFixture.cs" />
+    <Compile Include="GitCommands\Remote\GitRemoteControllerTests.cs" />
     <Compile Include="GitUI\SingleHtmlUserManualFixture.cs" />
     <Compile Include="GitUI\StandardHtmlUserManualFixture.cs" />
     <Compile Include="Plugins\ReleaseNotesGenerator\MainFixture.cs" />
@@ -103,11 +96,18 @@
     <Compile Include="GitCommands\Git\GitCommandCacheTest.cs" />
     <Compile Include="Translation\TranslationTest.cs" />
   </ItemGroup>
-
   <ItemGroup>
+    <ProjectReference Include="..\Externals\conemu-inside\ConEmuWinForms\ConEmuWinForms.csproj">
+      <Project>{1DC7D403-484B-43B4-B017-1356397A32CB}</Project>
+      <Name>ConEmuWinForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GitCommands\GitCommands.csproj">
       <Project>{BD6AA2A2-997D-4AFF-ACC7-B64F6E51D181}</Project>
       <Name>GitCommands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GitExtUtils\GitExtUtils.csproj">
+      <Project>{0f1f1168-a4b2-4fa2-b17b-735140d17f39}</Project>
+      <Name>GitExtUtils</Name>
     </ProjectReference>
     <ProjectReference Include="..\GitUI\GitUI.csproj">
       <Project>{CF5B22E7-230F-4E50-BE88-C4F7023CED2C}</Project>
@@ -140,8 +140,15 @@
     <None Include="GitCommands\Patch\testdata\rebase.diff">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="GitUI\Editor\Diff\SampleCombined.diff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="GitUI\Editor\Diff\Sample.diff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <Import Project="..\FxCop.targets" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

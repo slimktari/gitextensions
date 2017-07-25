@@ -8,13 +8,13 @@ namespace GitStatistics
     {
         public GitStatisticsPlugin()
         {
-            Description = "Statistics";
+            SetNameAndDescription("Statistics");
             Translate();
         }
 
         StringSetting CodeFiles = new StringSetting("Code files",
-                                "*.c;*.cpp;*.cc;*.h;*.hpp;*.inl;*.idl;*.asm;*.inc;*.cs;*.xsd;*.wsdl;*.xml;*.htm;*.html;*.css;" +
-                                "*.vbs;*.vb;*.sql;*.aspx;*.asp;*.php;*.nav;*.pas;*.py;*.rb;*.js");
+                                "*.c;*.cpp;*.cc;*.cxx;*.h;*.hpp;*.hxx;*.inl;*.idl;*.asm;*.inc;*.cs;*.xsd;*.wsdl;*.xml;*.htm;*.html;*.css;" +
+                                "*.vbs;*.vb;*.sql;*.aspx;*.asp;*.php;*.nav;*.pas;*.py;*.rb;*.js;*.mk;*.java");
         StringSetting IgnoreDirectories = new StringSetting("Directories to ignore (EndsWith)", "\\Debug;\\Release;\\obj;\\bin;\\lib");
         BoolSetting IgnoreSubmodules = new BoolSetting("Ignore submodules", true);
 
@@ -31,11 +31,11 @@ namespace GitStatistics
         {
             if (string.IsNullOrEmpty(gitUIEventArgs.GitModule.WorkingDir))
                 return false;
-            bool countSubmodule = IgnoreSubmodules[Settings].HasValue && !IgnoreSubmodules[Settings].Value;
+            bool countSubmodule = !IgnoreSubmodules.ValueOrDefault(Settings);
             using (var formGitStatistics =
-                new FormGitStatistics(gitUIEventArgs.GitModule, CodeFiles[Settings], countSubmodule)
+                new FormGitStatistics(gitUIEventArgs.GitModule, CodeFiles.ValueOrDefault(Settings), countSubmodule)
                     {
-                        DirectoriesToIgnore = IgnoreDirectories[Settings]
+                        DirectoriesToIgnore = IgnoreDirectories.ValueOrDefault(Settings)
                     })
             {
                 formGitStatistics.DirectoriesToIgnore = formGitStatistics.DirectoriesToIgnore.Replace("/", "\\");

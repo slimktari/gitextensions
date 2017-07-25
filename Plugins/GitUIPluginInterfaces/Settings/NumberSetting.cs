@@ -18,46 +18,76 @@ namespace GitUIPluginInterfaces
             Name = aName;
             Caption = aCaption;
             DefaultValue = aDefaultValue;
-            _controlBinding = new TextBoxBinding(this);
         }
 
         public string Name { get; private set; }
         public string Caption { get; private set; }
         public T DefaultValue { get; set; }
+        public TextBox CustomControl { get; set; }
 
-        private ISettingControlBinding _controlBinding;
-        public ISettingControlBinding ControlBinding
+        public ISettingControlBinding CreateControlBinding()
         {
-            get { return _controlBinding; }
-        }
+            return new TextBoxBinding(this, CustomControl);
+    }
 
-        private class TextBoxBinding : SettingControlBinding<TextBox>
+        private class TextBoxBinding : SettingControlBinding<NumberSetting<T>, TextBox>
         {
-            NumberSetting<T> Setting;
-
-            public TextBoxBinding(NumberSetting<T> aSetting)
-            {
-                Setting = aSetting;
-            }
+            public TextBoxBinding(NumberSetting<T> aSetting, TextBox aCustomControl)
+                : base(aSetting, aCustomControl)
+            { }
 
             public override TextBox CreateControl()
             {
                 return new TextBox();
             }
 
-            public override void LoadSetting(ISettingsSource settings, TextBox control)
+            public override void LoadSetting(ISettingsSource settings, bool areSettingsEffective, TextBox control)
             {
-                control.Text = Setting[settings].ToString();
+                object settingVal;
+                if (areSettingsEffective)
+                {
+                    settingVal = Setting.ValueOrDefault(settings);
+                }
+                else
+                {
+                    settingVal = Setting[settings];
+                }
+
+                control.Text = ConvertToString(settingVal);
             }
 
-            public override void SaveSetting(ISettingsSource settings, TextBox control)
+            public override void SaveSetting(ISettingsSource settings, bool areSettingsEffective, TextBox control)
             {
-                Setting[settings] = (T)ConvertFromString(control.Text);
+                var controlValue = control.Text;
+                if (areSettingsEffective)
+                {
+                    if (ConvertToString(Setting.ValueOrDefault(settings)).Equals(controlValue))
+                    {
+                        return;
+                    }
+                }
+
+                Setting[settings] = ConvertFromString(controlValue);
             }
+        }
+
+        private static string ConvertToString(object value)
+        {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
+            return value.ToString();
         }
 
         private static object ConvertFromString(string value)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                return null;
+            }
+
             var type = typeof (T);
             if (type == typeof (int))
                 return int.Parse(value);
@@ -70,20 +100,34 @@ namespace GitUIPluginInterfaces
             return null;
         }
 
-        public T this[ISettingsSource settings]
+        public object this[ISettingsSource settings]
         {
             get 
             {
-                return settings.GetValue(Name, DefaultValue, s =>
+                return settings.GetValue(Name, null, s =>
                     {
-                        return (T) ConvertFromString(s);
+                        return ConvertFromString(s);
                     });
             }
 
             set 
             {
-                settings.SetValue(Name, value, i => { return i.ToString(); });
+                settings.SetValue(Name, value, i => { return ConvertToString(i); });
             }
         }
+
+        public T ValueOrDefault(ISettingsSource settings)
+        {
+            object settingVal = this[settings];
+            if (settingVal == null)
+            {
+                return DefaultValue;
+            }
+            else
+            {
+                return (T)settingVal;
+            }            
+        }
+
     }
 }

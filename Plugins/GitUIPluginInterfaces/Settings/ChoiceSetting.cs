@@ -1,47 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace GitUIPluginInterfaces
 {
     public class ChoiceSetting: ISetting
     {
-        public ChoiceSetting(string aName, List<string> values, string aDefaultValue = null)
+        public ChoiceSetting(string aName, IList<string> values, string aDefaultValue = null)
             : this(aName, aName, values, aDefaultValue)
         {
         }
 
-        public ChoiceSetting(string aName, string aCaption, List<string> values, string aDefaultValue = null)
+        public ChoiceSetting(string aName, string aCaption, IList<string> values, string aDefaultValue = null)
         {
             Name = aName;
             Caption = aCaption;
             DefaultValue = aDefaultValue;
             Values = values;
-            if (DefaultValue == null && values.Count != 0)
-                DefaultValue = values[0];
-            _controlBinding = new ComboBoxBinding(this);
+            if (DefaultValue == null && values.Any())
+                DefaultValue = values.First();
         }
 
         public string Name { get; private set; }
         public string Caption { get; private set; }
         public string DefaultValue { get; set; }
-        public List<string> Values { get; set; }
+        public IList<string> Values { get; set; }
+        public ComboBox CustomControl { get; set; }
 
-        private ISettingControlBinding _controlBinding;
-        public ISettingControlBinding ControlBinding
+        public ISettingControlBinding CreateControlBinding()
         {
-            get { return _controlBinding; }
-        }
+            return new ComboBoxBinding(this, CustomControl);
+    }
 
-        private class ComboBoxBinding : SettingControlBinding<ComboBox>
+        private class ComboBoxBinding : SettingControlBinding<ChoiceSetting, ComboBox>
         {
 
-            ChoiceSetting Setting;
-
-            public ComboBoxBinding(ChoiceSetting aSetting)
-            {
-                Setting = aSetting;
-            }
+            public ComboBoxBinding(ChoiceSetting aSetting, ComboBox aCustomControl)
+                : base(aSetting, aCustomControl)
+            { }
 
             public override ComboBox CreateControl()
             {
@@ -50,32 +47,55 @@ namespace GitUIPluginInterfaces
                 return comboBox;
             }
 
-            public override void LoadSetting(ISettingsSource settings, ComboBox control)
+            public override void LoadSetting(ISettingsSource settings, bool areSettingsEffective, ComboBox control)
             {
-                control.SelectedIndex = Setting.Values.IndexOf(Setting[settings]);
+                string settingVal;
+                if (areSettingsEffective)
+                {
+                    settingVal = Setting.ValueOrDefault(settings);
+                }
+                else
+                {
+                    settingVal = Setting[settings];
+                }
+
+                control.SelectedIndex = Setting.Values.IndexOf(settingVal);
+                if (control.SelectedIndex == -1)
+                {
+                    control.Text = settingVal;
+                }
             }
 
-            public override void SaveSetting(ISettingsSource settings, ComboBox control)
+            public override void SaveSetting(ISettingsSource settings, bool areSettingsEffective, ComboBox control)
             {
-                Setting[settings] = control.SelectedItem.ToString();
+                var controlValue = control.SelectedItem?.ToString();
+                if (areSettingsEffective)
+                {
+                    if (Setting.ValueOrDefault(settings) == controlValue)
+                    {
+                        return;
+                    }
+                }
+
+                Setting[settings] = controlValue;
             }
+        }
+
+        public string ValueOrDefault(ISettingsSource settings)
+        {
+            return this[settings] ?? DefaultValue;
         }
 
         public string this[ISettingsSource settings]
         {
             get
             {
-                return settings.GetValue(Name, DefaultValue, s =>
-                {
-                    if (string.IsNullOrEmpty(s))
-                        return DefaultValue;
-                    return s;
-                });
+                return settings.GetString(Name, null);
             }
 
             set
             {
-                settings.SetValue(Name, value, s => { return s; });
+                settings.SetString(Name, value);
             }
         }
     }
