@@ -1470,7 +1470,7 @@ namespace MyDevTools
             // CbxSettingsProcessBuildFront
             // 
             this.CbxSettingsProcessBuildFront.AutoSize = true;
-            this.CbxSettingsProcessBuildFront.Location = new System.Drawing.Point(275, 47);
+            this.CbxSettingsProcessBuildFront.Location = new System.Drawing.Point(475, 45);
             this.CbxSettingsProcessBuildFront.Name = "CbxSettingsProcessBuildFront";
             this.CbxSettingsProcessBuildFront.Size = new System.Drawing.Size(75, 17);
             this.CbxSettingsProcessBuildFront.TabIndex = 27;
@@ -1480,7 +1480,7 @@ namespace MyDevTools
             // CbxSettingsProcessNugetRestore
             // 
             this.CbxSettingsProcessNugetRestore.AutoSize = true;
-            this.CbxSettingsProcessNugetRestore.Location = new System.Drawing.Point(785, 22);
+            this.CbxSettingsProcessNugetRestore.Location = new System.Drawing.Point(828, 22);
             this.CbxSettingsProcessNugetRestore.Name = "CbxSettingsProcessNugetRestore";
             this.CbxSettingsProcessNugetRestore.Size = new System.Drawing.Size(93, 17);
             this.CbxSettingsProcessNugetRestore.TabIndex = 20;
@@ -1490,7 +1490,7 @@ namespace MyDevTools
             // CbxSettingsProcessRestoreDatabases
             // 
             this.CbxSettingsProcessRestoreDatabases.AutoSize = true;
-            this.CbxSettingsProcessRestoreDatabases.Location = new System.Drawing.Point(899, 22);
+            this.CbxSettingsProcessRestoreDatabases.Location = new System.Drawing.Point(15, 45);
             this.CbxSettingsProcessRestoreDatabases.Name = "CbxSettingsProcessRestoreDatabases";
             this.CbxSettingsProcessRestoreDatabases.Size = new System.Drawing.Size(117, 17);
             this.CbxSettingsProcessRestoreDatabases.TabIndex = 24;
@@ -1500,7 +1500,7 @@ namespace MyDevTools
             // CbxSettingsProcessPostBuild
             // 
             this.CbxSettingsProcessPostBuild.AutoSize = true;
-            this.CbxSettingsProcessPostBuild.Location = new System.Drawing.Point(15, 47);
+            this.CbxSettingsProcessPostBuild.Location = new System.Drawing.Point(159, 45);
             this.CbxSettingsProcessPostBuild.Name = "CbxSettingsProcessPostBuild";
             this.CbxSettingsProcessPostBuild.Size = new System.Drawing.Size(125, 17);
             this.CbxSettingsProcessPostBuild.TabIndex = 23;
@@ -1510,7 +1510,7 @@ namespace MyDevTools
             // CbxSettingsProcessRunPreBuild
             // 
             this.CbxSettingsProcessRunPreBuild.AutoSize = true;
-            this.CbxSettingsProcessRunPreBuild.Location = new System.Drawing.Point(645, 22);
+            this.CbxSettingsProcessRunPreBuild.Location = new System.Drawing.Point(691, 22);
             this.CbxSettingsProcessRunPreBuild.Name = "CbxSettingsProcessRunPreBuild";
             this.CbxSettingsProcessRunPreBuild.Size = new System.Drawing.Size(120, 17);
             this.CbxSettingsProcessRunPreBuild.TabIndex = 21;
@@ -1520,7 +1520,7 @@ namespace MyDevTools
             // CbxSettingsProcessRunUris
             // 
             this.CbxSettingsProcessRunUris.AutoSize = true;
-            this.CbxSettingsProcessRunUris.Location = new System.Drawing.Point(641, 47);
+            this.CbxSettingsProcessRunUris.Location = new System.Drawing.Point(691, 45);
             this.CbxSettingsProcessRunUris.Name = "CbxSettingsProcessRunUris";
             this.CbxSettingsProcessRunUris.Size = new System.Drawing.Size(66, 17);
             this.CbxSettingsProcessRunUris.TabIndex = 26;
@@ -1530,7 +1530,7 @@ namespace MyDevTools
             // CbxSettingsProcessGitClean
             // 
             this.CbxSettingsProcessGitClean.AutoSize = true;
-            this.CbxSettingsProcessGitClean.Location = new System.Drawing.Point(458, 22);
+            this.CbxSettingsProcessGitClean.Location = new System.Drawing.Point(475, 22);
             this.CbxSettingsProcessGitClean.Name = "CbxSettingsProcessGitClean";
             this.CbxSettingsProcessGitClean.Size = new System.Drawing.Size(67, 17);
             this.CbxSettingsProcessGitClean.TabIndex = 18;
@@ -1540,7 +1540,7 @@ namespace MyDevTools
             // CbxSettingsProcessCheckout
             // 
             this.CbxSettingsProcessCheckout.AutoSize = true;
-            this.CbxSettingsProcessCheckout.Location = new System.Drawing.Point(275, 22);
+            this.CbxSettingsProcessCheckout.Location = new System.Drawing.Point(292, 22);
             this.CbxSettingsProcessCheckout.Name = "CbxSettingsProcessCheckout";
             this.CbxSettingsProcessCheckout.Size = new System.Drawing.Size(154, 17);
             this.CbxSettingsProcessCheckout.TabIndex = 17;
@@ -1550,7 +1550,7 @@ namespace MyDevTools
             // CbxSettingsProcessStashPop
             // 
             this.CbxSettingsProcessStashPop.AutoSize = true;
-            this.CbxSettingsProcessStashPop.Location = new System.Drawing.Point(551, 22);
+            this.CbxSettingsProcessStashPop.Location = new System.Drawing.Point(568, 22);
             this.CbxSettingsProcessStashPop.Name = "CbxSettingsProcessStashPop";
             this.CbxSettingsProcessStashPop.Size = new System.Drawing.Size(74, 17);
             this.CbxSettingsProcessStashPop.TabIndex = 19;
@@ -1570,7 +1570,7 @@ namespace MyDevTools
             // CbxSettingsProcessRunVisualStudio
             // 
             this.CbxSettingsProcessRunVisualStudio.AutoSize = true;
-            this.CbxSettingsProcessRunVisualStudio.Location = new System.Drawing.Point(458, 47);
+            this.CbxSettingsProcessRunVisualStudio.Location = new System.Drawing.Point(568, 45);
             this.CbxSettingsProcessRunVisualStudio.Name = "CbxSettingsProcessRunVisualStudio";
             this.CbxSettingsProcessRunVisualStudio.Size = new System.Drawing.Size(108, 17);
             this.CbxSettingsProcessRunVisualStudio.TabIndex = 25;
@@ -1590,7 +1590,7 @@ namespace MyDevTools
             // CbxSettingsProcessBuild
             // 
             this.CbxSettingsProcessBuild.AutoSize = true;
-            this.CbxSettingsProcessBuild.Location = new System.Drawing.Point(159, 47);
+            this.CbxSettingsProcessBuild.Location = new System.Drawing.Point(292, 45);
             this.CbxSettingsProcessBuild.Name = "CbxSettingsProcessBuild";
             this.CbxSettingsProcessBuild.Size = new System.Drawing.Size(73, 17);
             this.CbxSettingsProcessBuild.TabIndex = 22;

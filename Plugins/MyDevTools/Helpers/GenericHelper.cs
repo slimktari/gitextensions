@@ -282,7 +282,7 @@
         {
             string msBuildFile = "cmd.exe";
             string arguments = "yarn build-all";
-            RunCommandLine(msBuildFile, arguments, Directory.GetDirectoryRoot(solutionFileFullPath), ref errors);
+            RunCommandLine(msBuildFile, arguments, Path.GetDirectoryName(solutionFileFullPath), ref errors);
 
             if (!string.IsNullOrWhiteSpace(errors))
             {
