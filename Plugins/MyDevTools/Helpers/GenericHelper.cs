@@ -280,9 +280,7 @@
 
         public static bool InvokeYarn(string solutionFileFullPath, ref string errors)
         {
-            string msBuildFile = "cmd.exe";
-            string arguments = "yarn build-all";
-            RunCommandLine(msBuildFile, arguments, Path.GetDirectoryName(solutionFileFullPath), ref errors);
+            RunCommandLine(new List<string> { "yarn build-all" }, Path.GetDirectoryName(solutionFileFullPath), ref errors);
 
             if (!string.IsNullOrWhiteSpace(errors))
             {
